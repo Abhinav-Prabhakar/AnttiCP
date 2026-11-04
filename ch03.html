@@ -6,8 +6,22 @@
 <title>Chapter 03 — Efficiency · Guide to Competitive Programming</title>
 <meta name="description" content="How to estimate the running time of an algorithm before writing a line of code.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E03%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('cp-theme');
+    var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  } catch (error) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+<link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="chapters/ch03.css">
+<link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="03">
 
@@ -31,6 +45,8 @@
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></symbol>
 </svg>
 
 <div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
@@ -44,6 +60,10 @@
     <div class="topbar__meta">
       <span class="topbar__chapter">Chapter 03 <span>— Efficiency</span></span>
       <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn topbar__btn--theme" id="themeBtn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
       <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
         <span>Contents</span>
         <svg class="icon"><use href="#i-menu"/></svg>
@@ -90,11 +110,11 @@
             <svg viewBox="0 0 320 170" role="img" aria-label="Thirty-two small bars in one row">
               <defs>
                 <pattern id="ch03RowTicks" width="9" height="1" patternUnits="userSpaceOnUse">
-                  <rect width="5.5" height="46" fill="#2a2a2a"/>
+                  <rect width="5.5" height="46" fill="var(--c-2a2a2a)"/>
                 </pattern>
               </defs>
               <rect x="16" y="62" width="288" height="46" fill="url(#ch03RowTicks)"/>
-              <line x1="16" y1="116" x2="304" y2="116" stroke="#e7e7e1" stroke-width="1"/>
+              <line x1="16" y1="116" x2="304" y2="116" stroke="var(--c-e7e7e1)" stroke-width="1"/>
               <text x="16" y="142" class="ch03-hero-axis">each item touched once</text>
             </svg>
           </div>
@@ -112,7 +132,7 @@
             <svg viewBox="0 0 320 170" role="img" aria-label="A thirty-two by thirty-two grid of dots, one thousand and twenty-four pairs">
               <defs>
                 <pattern id="ch03PairDots" width="5" height="5" patternUnits="userSpaceOnUse">
-                  <circle cx="2.5" cy="2.5" r="1.15" fill="#6f6f68"/>
+                  <circle cx="2.5" cy="2.5" r="1.15" fill="var(--c-6f6f68)"/>
                 </pattern>
               </defs>
               <rect x="80" y="5" width="160" height="160" fill="url(#ch03PairDots)"/>
@@ -132,12 +152,12 @@
             <svg viewBox="0 0 320 170" role="img" aria-label="A dot field that fades away, representing 4.29 billion subsets">
               <defs>
                 <pattern id="ch03SubsetDots" width="5" height="5" patternUnits="userSpaceOnUse">
-                  <circle cx="2.5" cy="2.5" r="1.2" fill="#2a2a2a"/>
+                  <circle cx="2.5" cy="2.5" r="1.2" fill="var(--c-2a2a2a)"/>
                 </pattern>
                 <linearGradient id="ch03SubsetFade" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stop-color="#fff" stop-opacity="1"/>
-                  <stop offset=".55" stop-color="#fff" stop-opacity=".45"/>
-                  <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset="0" stop-color="var(--c-ffffff)" stop-opacity="1"/>
+                  <stop offset=".55" stop-color="var(--c-ffffff)" stop-opacity=".45"/>
+                  <stop offset="1" stop-color="var(--c-ffffff)" stop-opacity="0"/>
                 </linearGradient>
                 <mask id="ch03SubsetMask">
                   <rect width="320" height="170" fill="url(#ch03SubsetFade)"/>
@@ -674,14 +694,14 @@
     <figure class="figure ch03-formal" data-reveal>
       <div class="figure__frame">
         <svg class="ch03-formal-svg" viewBox="0 0 640 300" role="img" aria-label="A function T of n staying below c times f of n after the point n zero">
-          <rect x="300" y="30" width="300" height="220" fill="#f4f4ef"/>
+          <rect x="300" y="30" width="300" height="220" fill="var(--c-f4f4ef)"/>
           <g class="ch03-formal-axis">
             <line x1="60" y1="250" x2="610" y2="250"/>
             <line x1="60" y1="250" x2="60" y2="30"/>
             <text x="596" y="270">n</text>
             <text x="42" y="42">ops</text>
           </g>
-          <line x1="300" y1="30" x2="300" y2="250" stroke="#cfcfc7" stroke-width="1" stroke-dasharray="3 4"/>
+          <line x1="300" y1="30" x2="300" y2="250" stroke="var(--c-cfcfc7)" stroke-width="1" stroke-dasharray="3 4"/>
           <text x="300" y="268" class="ch03-formal-tick" text-anchor="middle">n₀</text>
           <line x1="60" y1="240" x2="600" y2="50" class="ch03-formal-bound"/>
           <path d="M60 120 C 96 92, 128 62, 158 70 C 188 78, 208 128, 250 150 C 300 170, 350 160, 400 175 C 450 190, 500 185, 560 200 L600 205" class="ch03-formal-t"/>

@@ -80,7 +80,21 @@ function render(chapter, idx) {
 <title>Chapter ${chapter.num} — ${escapeHtml(chapter.title)} · Guide to Competitive Programming</title>
 <meta name="description" content="${escapeHtml(chapter.lead)}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E${chapter.num}%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('cp-theme');
+    var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  } catch (error) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+<link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="styles.css">${cssLink}
+<link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="${chapter.num}">
 
@@ -97,6 +111,10 @@ ${iconSprite}
     <div class="topbar__meta">
       <span class="topbar__chapter">Chapter ${chapter.num} <span>— ${escapeHtml(chapter.title)}</span></span>
       <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn topbar__btn--theme" id="themeBtn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
       <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
         <span>Contents</span>
         <svg class="icon"><use href="#i-menu"/></svg>

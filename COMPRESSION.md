@@ -1,55 +1,54 @@
-# Compression pass — 15–19% fewer words per chapter
+# Compression pass — 15–20% fewer words, same human voice
 
-The words are right; there are too many of them. This pass tightens the existing
-text. It is not a rewrite.
+The text is too long, but the redundancy is not the problem. Repetition, asides
+and short human recaps are part of what makes the prose sound like Antti
+Laaksonen rather than a summary. **Do not strip them out.**
+
+This is a line-editing pass, not an outline pass.
 
 ## Target
 
 Use `python3 tools/wordcount.py --compare chNN` (baseline is already saved).
 
-- Aim for **17%** fewer words in each chapter.
-- Hard range: **15–19%**. Never exceed **20%**.
-- The whole book must land between 15% and 20% fewer words.
+- Aim for **16%** fewer words in each chapter.
+- Hard range: **15–18%**. Never exceed **20%**.
+- The whole book should land around 16%, inside the requested 15–20% band.
 
-If a chapter is under 15%, find more redundancy. If it is over 19%, put back the
-sentences that carry the most voice.
+## What to cut
 
-## What to cut, in order
-
-1. **Duplicate statements.** Two paragraphs saying the same thing, a caption
-   repeating the paragraph, a readout restating the heading.
-2. **Redundant added copy.** Designer transitions that explain what the next
-   visual obviously shows; closing lines that only summarise the section again;
-   meta commentary about the page ("this section will…", "as you can see…").
-3. **Over-explanation.** A sentence that unpacks a term the previous sentence
-   already defined; a second example doing the same job as the first.
-4. **Filler.** "It is possible to", "we can see that", "note that", "in fact",
-   "very", "quite", "really", "simply", "just", "basically".
-5. **Weak qualifiers and hedges** that do not change the technical claim.
-
-Remove whole sentences before trimming inside sentences. When trimming inside a
-sentence, delete words; do not replace the author's words with synonyms.
+1. **Filler and throat-clearing.** "It is possible to", "we can see that",
+   "note that", "in fact", "very", "quite", "really", "simply", "just",
+   "basically", "what this means is".
+2. **Overlong clauses.** Say the same thing with fewer words, in the same
+   sentence shape and the same order.
+3. **Repeated instructions.** A caption that repeats the paragraph above
+   word for word; two readouts that state the same number; an added line that
+   only announces the visual directly below it.
+4. **Purely mechanical added copy.** Designer transitions that exist only to
+   connect two blocks the reader can already see are connected.
+5. **Sentences with no information, emphasis or voice.** This is rare. Most
+   short sentences that look "useless" are doing rhythmic work; keep them.
 
 ## What must stay
 
+- The author's repetitions, rhetorical doubling, asides and recaps. If a
+  paragraph restates an idea to land it, that is voice, not waste.
 - Every definition, theorem, formula, complexity, proof step, caveat and
   technical distinction.
 - Every example that carries a different idea.
 - Every reference to a figure, lab or control the reader needs.
-- The author's voice: plain, direct, instructional, short declarative sentences.
-  Do not make it breezy, chatty, listy or dramatic.
-- Sentence order and paragraph order. Do not merge sections or turn prose into
-  bullets.
+- Sentence order and paragraph order. Do not merge sections, do not turn prose
+  into bullets, do not replace the author's words with synonyms.
 - All HTML structure, classes, ids, headings, code, formulas and inline markup.
 - Functional UI text: buttons, tabs, legends, readouts, tooltips, labels.
   Compress prose, not controls.
 
-## Test
+## The test
 
-Read the result aloud. It should sound like the same author saying the same
-thing in fewer words, not like an editor summarising him. If a sentence only
-exists to announce the next sentence, delete it. If deleting it loses a fact,
-keep it.
+Read the result aloud. It should sound like the same person talking, only
+slightly more compact. If a cut removes a beat, a repetition that lands a point,
+or a small aside that gives the page its character, put it back. A chapter at
+15% that still sounds human is better than a chapter at 18% that sounds edited.
 
 ## Finish
 

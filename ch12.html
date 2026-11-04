@@ -6,8 +6,22 @@
 <title>Chapter 12 — Advanced Graph Algorithms · Guide to Competitive Programming</title>
 <meta name="description" content="Strong connectivity, Eulerian and Hamiltonian paths, flows, and DFS trees.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E12%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('cp-theme');
+    var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  } catch (error) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+<link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="chapters/ch12.css">
+<link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="12">
 
@@ -31,6 +45,8 @@
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></symbol>
 </svg>
 
 <div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
@@ -44,6 +60,10 @@
     <div class="topbar__meta">
       <span class="topbar__chapter">Chapter 12 <span>— Advanced Graph Algorithms</span></span>
       <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn topbar__btn--theme" id="themeBtn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
       <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
         <span>Contents</span>
         <svg class="icon"><use href="#i-menu"/></svg>
@@ -95,10 +115,10 @@
         <svg viewBox="0 0 1200 300" role="img" aria-label="Seven nodes in four component boxes on the left; four component boxes in a DAG on the right">
           <defs>
             <marker id="ch12h-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+              <path d="M0 0 10 5 0 10z" fill="var(--c-a9a9a1)"/>
             </marker>
             <marker id="ch12h-arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              <path d="M0 0 10 5 0 10z" fill="var(--c-171717)"/>
             </marker>
           </defs>
 
@@ -158,7 +178,7 @@
       <svg class="ch12-hero-mobile" viewBox="0 0 360 360" role="img" aria-label="Top: seven nodes grouped into four strongly connected components. Bottom: those components contracted into a directed acyclic graph.">
         <defs>
           <marker id="ch12hm-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+            <path d="M0 0 10 5 0 10z" fill="var(--c-a9a9a1)"/>
           </marker>
         </defs>
         <text class="ch12-hm-kicker" x="14" y="16">directed graph</text>
@@ -250,7 +270,7 @@
         <svg viewBox="0 0 640 250" role="img" aria-label="Two four-node directed graphs. The left one is strongly connected; in the right one node 2 cannot reach node 1.">
           <defs>
             <marker id="ch12m-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-              <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+              <path d="M0 0 10 5 0 10z" fill="var(--c-8f8f88)"/>
             </marker>
           </defs>
           <g class="ch12-mini">
@@ -337,7 +357,7 @@
           <svg id="ch12KosSvg" viewBox="0 0 560 340" role="img" aria-label="The example graph with discovery and finish times, then reversed edges, then four coloured components">
             <defs>
               <marker id="ch12k-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#9d9d95"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-9d9d95)"/>
               </marker>
             </defs>
 
@@ -454,7 +474,7 @@
           <svg id="ch12TwoSvg" viewBox="0 0 640 260" role="img" aria-label="Component graph of formula L1: a chain A to B to C to D. Formula L2: all literals in one component.">
             <defs>
               <marker id="ch12t-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-8f8f88)"/>
               </marker>
             </defs>
 
@@ -516,7 +536,7 @@
         <svg viewBox="0 0 640 300" role="img" aria-label="Left: an Eulerian trail through six edges. Right: a Hamiltonian path through five nodes.">
           <defs>
             <marker id="ch12c-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-              <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+              <path d="M0 0 10 5 0 10z" fill="var(--c-8f8f88)"/>
             </marker>
           </defs>
           <g class="ch12-mini">
@@ -606,7 +626,7 @@
           <svg viewBox="0 0 520 320" role="img" aria-label="Hierholzer's example graph with a ten-edge Eulerian circuit numbered in order">
             <defs>
               <marker id="ch12e-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-a9a9a1)"/>
               </marker>
             </defs>
             <g class="ch12-euler-edges">
@@ -723,7 +743,7 @@
           <svg viewBox="0 0 560 300" role="img" aria-label="The De Bruijn graph for n=3 and k=2: four nodes labelled 00, 01, 10, 11 with eight edges labelled 0 or 1">
             <defs>
               <marker id="ch12d-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-8f8f88)"/>
               </marker>
             </defs>
             <g class="ch12-bruijn-edges">
@@ -822,13 +842,13 @@
           <svg id="ch12FlowSvg" viewBox="0 0 640 360" role="img" aria-label="A flow network with six nodes and eight edges; the current augmenting path is highlighted">
             <defs>
               <marker id="ch12f-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-a9a9a1)"/>
               </marker>
               <marker id="ch12f-arrow-hot" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-171717)"/>
               </marker>
               <marker id="ch12f-arrow-cut" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#a6402e"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-a6402e)"/>
               </marker>
             </defs>
 
@@ -1066,7 +1086,7 @@
           <svg viewBox="0 0 520 320" role="img" aria-label="A seven-node DAG covered by three node-disjoint paths: 1 to 5 to 6 to 7, 2 to 3, and 4 alone">
             <defs>
               <marker id="ch12p-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#b0b0a8"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b0b0a8)"/>
               </marker>
             </defs>
             <g class="ch12-cover-edges">
@@ -1130,10 +1150,10 @@
           <svg id="ch12DfsSvg" viewBox="0 0 640 380" role="img" aria-label="A depth-first search tree on eight nodes with three back edges. Low values are shown beneath each node.">
             <defs>
               <marker id="ch12dfs-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-a9a9a1)"/>
               </marker>
               <marker id="ch12dfs-arrow-back" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0 0 10 5 0 10z" fill="#c9c9c1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-c9c9c1)"/>
               </marker>
             </defs>
 

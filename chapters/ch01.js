@@ -754,7 +754,7 @@ $('#reportLoad').addEventListener('click', () => {
     state.geom = { W, H, left, right, top, bottom, plotW, plotH, xScale, yScale, steps, yMin, yMax };
 
     const showLimit = state.truePeak > INT_MAX;
-    let svg = `<defs><linearGradient id="labAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0f0ea"/><stop offset="1" stop-color="#fbfbf8"/></linearGradient></defs>`;
+    let svg = `<defs><linearGradient id="labAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--c-f0f0ea)"/><stop offset="1" stop-color="var(--c-fbfbf8)"/></linearGradient></defs>`;
 
     // horizontal grid + y labels
     let grid = '';
@@ -775,7 +775,7 @@ $('#reportLoad').addEventListener('click', () => {
       const x = xScale(idx);
       axis += `<text x="${x.toFixed(2)}" y="${H - 12}" text-anchor="middle">${idx}</text>`;
     }
-    axis += `<text x="${left - 10}" y="${top - 10}" text-anchor="end" fill="#b9b9b1">value</text>`;
+    axis += `<text x="${left - 10}" y="${top - 10}" text-anchor="end" fill="var(--c-b9b9b1)">value</text>`;
     svg += `<g class="chart-grid">${grid}</g>`;
     svg += `<g class="chart-axis">${axis}</g>`;
 
@@ -826,7 +826,7 @@ $('#reportLoad').addEventListener('click', () => {
       const yTrue = yScale(state.trueAtOverflow);
       const yWrap = yScale(values[oi]);
       svg += `<line class="chart-limit" x1="${x}" x2="${x}" y1="${yPrev}" y2="${yWrap}" style="stroke-dasharray:2 3"/>`;
-      svg += `<circle cx="${x}" cy="${yTrue}" r="4" fill="#fff" stroke="#a6402e" stroke-width="1.2"/>`;
+      svg += `<circle cx="${x}" cy="${yTrue}" r="4" fill="var(--c-ffffff)" stroke="var(--c-a6402e)" stroke-width="1.2"/>`;
       svg += `<text class="chart-limit-label" x="${x + 7}" y="${Math.max(top + 12, yTrue - 8)}">overflow</text>`;
     }
 

@@ -461,7 +461,7 @@
       svg.innerHTML = `
         <defs>
           <pattern id="ch08TernHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="6" stroke="#dcdcd5" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="var(--c-dcdcd5)" stroke-width="1"/>
           </pattern>
         </defs>
         <g class="ch08-tern__grid">${grid}</g>

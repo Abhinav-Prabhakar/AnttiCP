@@ -9,6 +9,49 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fmt = (n) => Number(n).toLocaleString('en-US');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---------- theme ---------- */
+const THEME_KEY = 'cp-theme';
+const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+const themeBtn = $('#themeBtn');
+let savedTheme = null;
+try {
+  const value = localStorage.getItem(THEME_KEY);
+  if (value === 'light' || value === 'dark') savedTheme = value;
+} catch (error) { /* storage can be unavailable */ }
+let themeTimer = null;
+
+function applyTheme(theme, animate) {
+  const root = document.documentElement;
+  if (animate && !reduceMotion) {
+    root.classList.add('theme-transition');
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(() => root.classList.remove('theme-transition'), 520);
+  }
+  root.dataset.theme = theme;
+  root.style.colorScheme = theme;
+  if (themeBtn) {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    themeBtn.setAttribute('aria-label', `Switch to ${next} mode`);
+    themeBtn.title = `Switch to ${next} mode`;
+    themeBtn.setAttribute('aria-pressed', String(theme === 'dark'));
+  }
+}
+
+applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light', false);
+
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    savedTheme = next;
+    try { localStorage.setItem(THEME_KEY, next); } catch (error) { /* ignore */ }
+    applyTheme(next, true);
+  });
+}
+
+themeMedia.addEventListener('change', (event) => {
+  if (!savedTheme) applyTheme(event.matches ? 'dark' : 'light', true);
+});
+
 /* ---------- reveal ---------- */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {

@@ -893,8 +893,8 @@
     makeRows(A, 'left', xL);
     makeRows(B, 'right', xR);
 
-    const targetBox = svgEl('rect', { x: 342, y: 126, width: 76, height: 50, rx: 2, fill: '#171717' }, svg);
-    const targetText = svgEl('text', { x: 380, y: 154, class: 'ch15-mitm-target', fill: '#fff' }, svg);
+    const targetBox = svgEl('rect', { x: 342, y: 126, width: 76, height: 50, rx: 2, fill: 'var(--c-171717)' }, svg);
+    const targetText = svgEl('text', { x: 380, y: 154, class: 'ch15-mitm-target', fill: 'var(--c-ffffff)' }, svg);
     targetText.textContent = '15';
     const targetLabel = svgEl('text', { x: 380, y: 114, class: 'ch15-mitm-target-label' }, svg);
     targetLabel.textContent = 'target';

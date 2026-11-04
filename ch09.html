@@ -6,8 +6,22 @@
 <title>Chapter 09 — Range Queries · Guide to Competitive Programming</title>
 <meta name="description" content="Prefix sums, sparse tables, segment trees, and Fenwick trees for static and dynamic ranges.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E09%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('cp-theme');
+    var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  } catch (error) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+<link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="chapters/ch09.css">
+<link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="09">
 
@@ -31,6 +45,8 @@
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></symbol>
 </svg>
 
 <div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
@@ -44,6 +60,10 @@
     <div class="topbar__meta">
       <span class="topbar__chapter">Chapter 09 <span>— Range Queries</span></span>
       <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn topbar__btn--theme" id="themeBtn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
       <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
         <span>Contents</span>
         <svg class="icon"><use href="#i-menu"/></svg>

@@ -6,8 +6,22 @@
 <title>Chapter 07 — Graph Algorithms · Guide to Competitive Programming</title>
 <meta name="description" content="Traversal, shortest paths, DAGs, successor graphs, and minimum spanning trees.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E07%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('cp-theme');
+    var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  } catch (error) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+<link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="chapters/ch07.css">
+<link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="07">
 
@@ -31,6 +45,8 @@
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></symbol>
 </svg>
 
 <div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
@@ -44,6 +60,10 @@
     <div class="topbar__meta">
       <span class="topbar__chapter">Chapter 07 <span>— Graph Algorithms</span></span>
       <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn topbar__btn--theme" id="themeBtn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
       <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
         <span>Contents</span>
         <svg class="icon"><use href="#i-menu"/></svg>
@@ -85,13 +105,13 @@
       <svg viewBox="0 0 1200 300" role="img" aria-hidden="true">
         <defs>
           <pattern id="ch07HeroDots" width="26" height="26" patternUnits="userSpaceOnUse">
-            <circle cx="1.2" cy="1.2" r="1.1" fill="#e7e7e1"/>
+            <circle cx="1.2" cy="1.2" r="1.1" fill="var(--c-e7e7e1)"/>
           </pattern>
           <linearGradient id="ch07HeroFade" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#fff"/>
-            <stop offset=".1" stop-color="#fff" stop-opacity="0"/>
-            <stop offset=".9" stop-color="#fff" stop-opacity="0"/>
-            <stop offset="1" stop-color="#fff"/>
+            <stop offset="0" stop-color="var(--c-ffffff)"/>
+            <stop offset=".1" stop-color="var(--c-ffffff)" stop-opacity="0"/>
+            <stop offset=".9" stop-color="var(--c-ffffff)" stop-opacity="0"/>
+            <stop offset="1" stop-color="var(--c-ffffff)"/>
           </linearGradient>
         </defs>
         <rect width="1200" height="300" fill="url(#ch07HeroDots)"/>
@@ -225,7 +245,7 @@
         <svg viewBox="40 40 390 200" class="ch07-svg ch07-rep__svg" role="img" aria-label="A directed graph with four nodes and five weighted edges">
           <defs>
             <marker id="ch07ArrowRep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
             </marker>
           </defs>
           <g class="ch07-edges">
@@ -312,7 +332,7 @@
           <svg viewBox="0 0 900 330" class="ch07-svg" role="img" aria-label="The same six-node graph traversed by depth-first search on the left and breadth-first search on the right">
             <defs>
               <marker id="ch07ArrowDfs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-171717)"/>
               </marker>
             </defs>
             <text class="ch07-panel-title" x="8" y="20">Depth-first · one path at a time</text>
@@ -486,7 +506,7 @@
             <svg viewBox="0 0 470 230" class="ch07-svg" role="img" aria-label="A directed graph with one negative edge and its distances">
               <defs>
                 <marker id="ch07ArrowBf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                  <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                  <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
                 </marker>
               </defs>
               <g class="ch07-edges">
@@ -551,7 +571,7 @@
           <svg viewBox="0 0 380 200" class="ch07-svg" role="img" aria-label="A four-node graph where the greedy route costs more than the route through a negative edge">
             <defs>
               <marker id="ch07ArrowNeg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
               </marker>
             </defs>
             <g class="ch07-edges">
@@ -585,9 +605,9 @@
       <div class="figure__frame">
         <div class="ch07-fw">
           <div class="ch07-fw__matrix"><span class="kicker">start</span><div id="ch07-fw-0"></div></div>
-          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="#b9b9b1" stroke-width="1.2"/></svg><span>k = 1, 2</span></div>
+          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="var(--c-b9b9b1)" stroke-width="1.2"/></svg><span>k = 1, 2</span></div>
           <div class="ch07-fw__matrix"><span class="kicker">after k = 2</span><div id="ch07-fw-2"></div></div>
-          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="#b9b9b1" stroke-width="1.2"/></svg><span>k = 3, 4, 5</span></div>
+          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="var(--c-b9b9b1)" stroke-width="1.2"/></svg><span>k = 3, 4, 5</span></div>
           <div class="ch07-fw__matrix"><span class="kicker">final</span><div id="ch07-fw-5"></div></div>
         </div>
       </div>
@@ -621,7 +641,7 @@
           <svg viewBox="0 0 620 290" class="ch07-svg" role="img" aria-label="A six-node directed acyclic graph and its DFS finish order">
             <defs>
               <marker id="ch07ArrowDag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
               </marker>
             </defs>
             <g class="ch07-edges">
@@ -673,7 +693,7 @@
           <svg viewBox="0 0 620 300" class="ch07-svg" role="img" aria-label="A DAG with the number of paths from node 1 to every node">
             <defs>
               <marker id="ch07ArrowPaths" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
               </marker>
             </defs>
             <g class="ch07-edges">
@@ -746,10 +766,10 @@
           <svg viewBox="0 0 640 350" class="ch07-svg" role="img" aria-label="A nine-node successor graph with two cycles and paths leading into them">
             <defs>
               <marker id="ch07ArrowSucc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
               </marker>
               <marker id="ch07ArrowSuccInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-171717)"/>
               </marker>
             </defs>
             <g class="ch07-edges">
@@ -821,10 +841,10 @@
           <svg viewBox="0 0 420 280" class="ch07-svg" role="img" aria-label="A path from node 1 leading into a cycle of nodes 4, 5 and 6">
             <defs>
               <marker id="ch07ArrowCycle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-b9b9b1)"/>
               </marker>
               <marker id="ch07ArrowCycleInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+                <path d="M0 0 10 5 0 10z" fill="var(--c-171717)"/>
               </marker>
             </defs>
             <g class="ch07-edges">
