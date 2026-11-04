@@ -102,12 +102,12 @@ Each chapter opens on a title spread, then settles into a reading column: number
     </td>
     <td width="50%" valign="top">
       <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="assets/readme/kosaraju-dark.jpg">
-        <img src="assets/readme/kosaraju.jpg" alt="Kosaraju's algorithm stepper" width="100%">
+        <source media="(prefers-color-scheme: dark)" srcset="assets/readme/fenwick-dark.jpg">
+        <img src="assets/readme/fenwick.jpg" alt="A Fenwick tree range query lab" width="100%">
       </picture>
       <br>
-      <b>12 · Strong connectivity</b><br>
-      <sub>Step Kosaraju’s algorithm and watch the components contract into a DAG.</sub>
+      <b>09 · Range queries</b><br>
+      <sub>Pick a range and the tree answers with a few bars instead of every value.</sub>
     </td>
   </tr>
   <tr>
@@ -133,6 +133,15 @@ Each chapter opens on a title spread, then settles into a reading column: number
   <tr>
     <td width="50%" valign="top">
       <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="assets/readme/kosaraju-dark.jpg">
+        <img src="assets/readme/kosaraju.jpg" alt="Kosaraju's algorithm stepper" width="100%">
+      </picture>
+      <br>
+      <b>12 · Strong connectivity</b><br>
+      <sub>Step Kosaraju’s algorithm and watch the components contract into a DAG.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <picture>
         <source media="(prefers-color-scheme: dark)" srcset="assets/readme/polygon-area-dark.jpg">
         <img src="assets/readme/polygon-area.jpg" alt="Shoelace and Pick's theorem side by side" width="100%">
       </picture>
@@ -140,6 +149,8 @@ Each chapter opens on a title spread, then settles into a reading column: number
       <b>13 · Two counts, one area</b><br>
       <sub>Shoelace and Pick’s theorem, computing the same polygon side by side.</sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="assets/readme/trie-dark.jpg">
@@ -148,17 +159,6 @@ Each chapter opens on a title spread, then settles into a reading column: number
       <br>
       <b>14 · Tries</b><br>
       <sub>Type a prefix and follow it down the tree, one character per step.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="assets/readme/treap-dark.jpg">
-        <img src="assets/readme/treap.jpg" alt="A treap split and merge lab" width="100%">
-      </picture>
-      <br>
-      <b>15 · Treaps</b><br>
-      <sub>Split and merge; the priorities keep the tree balanced without being asked.</sub>
     </td>
     <td width="50%" valign="top">
       <picture>
@@ -171,6 +171,13 @@ Each chapter opens on a title spread, then settles into a reading column: number
     </td>
   </tr>
 </table>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/treap-dark.jpg">
+  <img src="assets/readme/treap.jpg" alt="A treap split and merge lab" width="100%">
+</picture>
+
+<p align="center"><sub><b>15 · Treaps.</b> Split at 5 and merge the halves; the priorities keep the tree balanced without being asked.</sub></p>
 
 <br>
 

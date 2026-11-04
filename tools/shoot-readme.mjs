@@ -26,6 +26,7 @@ const shots = [
   { file: 'ch14.html', name: 'trie', sel: '#s1411 .ch14-split-trie' },
   { file: 'ch15.html', name: 'treap', sel: '.ch15-treap' },
   { file: 'ch15.html', name: 'sqrt-blocks', sel: '#s151 .ch15-lab' },
+  { file: 'ch09.html', name: 'fenwick', sel: '.ch09-fenwick' },
 ];
 
 for (const theme of ['light', 'dark']) {
