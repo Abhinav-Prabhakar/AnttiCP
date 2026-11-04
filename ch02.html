@@ -191,7 +191,7 @@
 
     <div class="split2 ch02-io-split">
       <div>
-        <p class="lead" data-reveal>The usual C++ starting point includes the entire standard library and puts its names in scope. A single compile command turns it into a binary, with warnings and optimisation enabled.</p>
+        <p class="lead" data-reveal>A typical C++ code template for competitive programming looks like this. The <code>#include</code> line at the beginning of the code is a feature of the g++ compiler that allows us to include the entire standard library. Thus, it is not needed to separately include libraries such as <code>iostream</code>, <code>vector</code>, and <code>algorithm</code>, but rather they are available automatically. The <code>using</code> line declares that the classes and functions of the standard library can be used directly in the code. Without the using line we would have to write, for example, <code>std::cout</code>, but now it suffices to write <code>cout</code>. The code can be compiled using the following command. This command produces a binary file <code>test</code> from the source code <code>test.cpp</code>. The compiler follows the C++11 standard (<code>-std=c++11</code>), optimizes the code (<code>-O2</code>), and shows warnings about possible errors (<code>-Wall</code>).</p>
         <ul class="chips" data-reveal aria-label="Compile flags">
           <li class="chip chip--static">-std=c++11</li>
           <li class="chip chip--static">-O2</li>
@@ -207,7 +207,7 @@
         <div class="ch02-io-note__row"><code>#include &lt;bits/stdc++.h&gt;</code><span>the whole standard library</span></div>
         <div class="ch02-io-note__row"><code>using namespace std;</code><span>write <b>cout</b>, not <code>std::cout</code></span></div>
         <div class="ch02-io-note__row"><code>int main() { … }</code><span>where the solution lives</span></div>
-        <p>The include is a g++ feature, not a portable C++ guarantee. In a contest it is available, and it saves a row of includes.</p>
+        <p>The <code>#include</code> line is a feature of the g++ compiler that allows us to include the entire standard library. Thus, it is not needed to separately include libraries such as <code>iostream</code>, <code>vector</code>, and <code>algorithm</code>, but rather they are available automatically.</p>
       </div>
     </div>
 
@@ -241,7 +241,7 @@
 
     <div class="split2 ch02-io">
       <div>
-        <p data-reveal>Most contests use the standard streams. In C++, <code>cin</code> reads and <code>cout</code> writes. Input is a sequence of numbers and strings separated by spaces or newlines; the stream does not care which.</p>
+        <p data-reveal>In most contests, standard streams are used for reading input and writing output. In C++, the standard streams are <code>cin</code> for input and <code>cout</code> for output. Also C functions, such as <code>scanf</code> and <code>printf</code>, can be used. The input for the program usually consists of numbers and strings separated with spaces and newlines.</p>
 
         <div class="ch02-token-demo" data-reveal aria-label="Three input tokens read into two integers and a string">
           <div class="ch02-token-demo__input">
@@ -254,14 +254,14 @@
           <p class="ch02-token-demo__note"><code>cin &gt;&gt; a &gt;&gt; b &gt;&gt; x;</code> works for both <span class="ch02-mono">123 456 monkey</span> and the same three tokens on three lines.</p>
         </div>
 
-        <p data-reveal>Output uses the same insertion style: <code>cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; "\n";</code>. Prefer <code>"\n"</code> to <code>endl</code>: <code>endl</code> always flushes the stream, which can be slow when the output is large.</p>
+        <p data-reveal>They can be read from the <code>cin</code> stream as follows. This kind of code always works, assuming that there is at least one space or newline between each element in the input. The <code>cout</code> stream is used for output as follows: <code>cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; " " &lt;&lt; x &lt;&lt; "\n";</code>. Input and output is sometimes a bottleneck in the program. Note that the newline <code>"\n"</code> works faster than <code>endl</code>, because <code>endl</code> always causes a flush operation, which can be slow when the output is large.</p>
 
         <details class="note" data-reveal>
           <summary><span class="note__label">When cin is too slow</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
-            <p>At the start of <code>main</code>, these two lines detach the C and C++ streams and stop <code>cin</code> from flushing <code>cout</code> before every read:</p>
+            <p>Input and output is sometimes a bottleneck in the program. The following lines at the beginning of the code make input and output more efficient:</p>
             <p><code>ios::sync_with_stdio(0);</code><br><code>cin.tie(0);</code></p>
-            <p>After that, <code>cin</code> and <code>cout</code> should not be mixed with <code>scanf</code> and <code>printf</code>. The C functions are still an alternative and are usually slightly faster, but they are more difficult to use.</p>
+            <p>After that, <code>cin</code> and <code>cout</code> should not be mixed with <code>scanf</code> and <code>printf</code>. The C functions are an alternative to the C++ standard streams; they are usually slightly faster, but also more difficult to use.</p>
           </div>
         </details>
       </div>
@@ -271,20 +271,20 @@
           <span class="kicker">Read a whole line</span>
           <pre><code>string s;
 getline(cin, s);</code></pre>
-          <p>Useful when the line itself matters, spaces included. The newline is consumed by <code>getline</code>, not left for the next read.</p>
+          <p>Sometimes the program should read a whole input line, possibly containing spaces. This can be accomplished by using the <code>getline</code> function. The newline is consumed by <code>getline</code>, not left for the next read.</p>
         </div>
         <div class="ch02-io-card">
           <span class="kicker">Read until the input ends</span>
           <pre><code>while (cin &gt;&gt; x) {
     // process x
 }</code></pre>
-          <p>The stream converts to false when no more data is available.</p>
+          <p>If the amount of data is unknown, the following loop is useful. It reads elements from the input one after another, until there is no more data available in the input.</p>
         </div>
         <div class="ch02-io-card">
           <span class="kicker">Files instead of streams</span>
           <pre><code>freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);</code></pre>
-          <p>Some contest systems expect file names. This redirects the standard streams without changing the rest of the code.</p>
+          <p>In some contest systems, files are used for input and output. An easy solution is to write the code as usual using standard streams, but add the following lines to the beginning of the code. After this, the program reads the input from the file “input.txt” and writes the output to the file “output.txt”.</p>
         </div>
       </div>
     </div>
@@ -375,16 +375,16 @@ freopen("output.txt", "w", stdout);</code></pre>
     <div class="split2 ch02-numbers">
       <div>
         <h3 data-reveal>Integers and modular arithmetic</h3>
-        <p data-reveal>The most used type is <code>int</code>, a signed 32-bit integer from −2<sup>31</sup> to 2<sup>31</sup> − 1. When that is not enough, <code>long long</code> is signed 64-bit, from −2<sup>63</sup> to 2<sup>63</sup> − 1. The suffix <code>LL</code> marks a literal as <code>long long</code>.</p>
+        <p data-reveal>The most used integer type in competitive programming is <code>int</code>, which is a 32-bit type with a value range of −2<sup>31</sup> … 2<sup>31</sup> − 1 (about −2 · 10<sup>9</sup> … 2 · 10<sup>9</sup>). If the type <code>int</code> is not enough, the 64-bit type <code>long long</code> can be used. It has a value range of −2<sup>63</sup> … 2<sup>63</sup> − 1 (about −9 · 10<sup>18</sup> … 9 · 10<sup>18</sup>). The suffix <code>LL</code> means that the type of the number is <code>long long</code>.</p>
         <div class="ch02-snippet" data-reveal><code>long long x = 123456789123456789LL;</code></div>
-        <p data-reveal>If even 64 bits are insufficient, g++ provides <code>__int128_t</code>, but it is not available in every contest system. Usually problems are set so that <code>long long</code> is enough.</p>
-        <p data-reveal>A large answer is often requested modulo <i>m</i>. Remainders can be taken after every operation, so the intermediate values never grow:</p>
+        <p data-reveal>A common mistake when using the type <code>long long</code> is that the type <code>int</code> is still used somewhere in the code. Even though the variable <code>b</code> is of type <code>long long</code>, both numbers in the expression <code>a*a</code> are of type <code>int</code>, and the result is also of type <code>int</code>. Because of this, the variable <code>b</code> will have a wrong result. The problem can be solved by changing the type of <code>a</code> to <code>long long</code> or by changing the expression to <code>(long long)a*a</code>. Usually contest problems are set so that the type <code>long long</code> is enough. Still, it is good to know that the g++ compiler also provides a 128-bit type <code>__int128_t</code> with a value range of −2<sup>127</sup> … 2<sup>127</sup> − 1 (about −10<sup>38</sup> … 10<sup>38</sup>). However, this type is not available in all contest systems.</p>
+        <p data-reveal>Sometimes, the answer to a problem is a very large number, but it is enough to output it “modulo <i>m</i>”, i.e., the remainder when the answer is divided by <i>m</i> (e.g., “modulo 10<sup>9</sup> + 7”). The idea is that even if the actual answer is very large, it suffices to use the types <code>int</code> and <code>long long</code>. We denote by <i>x</i> mod <i>m</i> the remainder when <i>x</i> is divided by <i>m</i>. For example, 17 mod 5 = 2, because 17 = 3 · 5 + 2. An important property of remainders is that the following formulas hold. Thus, we can take the remainder after every operation, and the numbers will never become too large.</p>
         <div class="ch02-formulas" data-reveal>
           <div><span>(a + b) mod m</span><span>=</span><span>((a mod m) + (b mod m)) mod m</span></div>
           <div><span>(a − b) mod m</span><span>=</span><span>((a mod m) − (b mod m)) mod m</span></div>
           <div><span>(a · b) mod m</span><span>=</span><span>((a mod m) · (b mod m)) mod m</span></div>
         </div>
-        <p data-reveal>For example, <code>x = (x * i) % m;</code> computes <i>n</i>! modulo <i>m</i> in one loop. In C++ the remainder of a negative number is zero or negative, so after a subtraction add <i>m</i> if the result is below zero.</p>
+        <p data-reveal>For example, the following code calculates <i>n</i>!, the factorial of <i>n</i>, modulo <i>m</i>: <code>x = (x * i) % m;</code>. Usually we want the remainder to always be between 0 … <i>m</i> − 1. However, in C++ and other languages, the remainder of a negative number is either zero or negative. An easy way to make sure there are no negative remainders is to first calculate the remainder as usual and then add <i>m</i> if the result is negative. However, this is only needed when there are subtractions in the code, and the remainder may become negative.</p>
       </div>
 
       <div class="ch02-numbers-side">
@@ -393,16 +393,16 @@ freopen("output.txt", "w", stdout);</code></pre>
           <pre><code>double x = 0.3 * 3 + 0.1;
 printf("%.20f\n", x);
 // 0.99999999999999988898</code></pre>
-          <p>The correct value is 1. Compare with a tolerance instead of <code>==</code>:</p>
+          <p>The value of <code>x</code> is slightly smaller than 1, while the correct value would be 1. It is risky to compare floating point numbers with the <code>==</code> operator, because it is possible that the values should be equal but they are not because of precision errors. A better way is to assume that two numbers are equal if the difference between them is less than ε, where ε is a small number:</p>
           <pre><code>if (abs(a - b) &lt; 1e-9) {
     // a and b are equal
 }</code></pre>
-          <p><code>double</code> is 64-bit; <code>long double</code> is an 80-bit g++ extension and is more accurate. Integers up to 2<sup>53</sup> are represented exactly by <code>double</code>.</p>
+          <p>The most useful floating point types in C++ are the 64-bit <code>double</code> and, as an extension in the g++ compiler, the 80-bit <code>long double</code>. In most cases, <code>double</code> is enough, but <code>long double</code> is more accurate. Using <code>double</code>, it is possible to accurately represent all integers whose absolute value is at most 2<sup>53</sup>.</p>
         </div>
         <div class="ch02-formula-note" data-reveal>
           <span class="kicker">Print with precision</span>
           <code>printf("%.9f\n", x);</code>
-          <p>The number of decimals belongs in the formatting string, not in the value.</p>
+          <p>The required precision of the answer is usually given in the problem statement. An easy way to output the answer is to use the <code>printf</code> function and give the number of decimal places in the formatting string.</p>
         </div>
       </div>
     </div>
@@ -421,14 +421,14 @@ printf("%.20f\n", x);
 
     <div class="split2 ch02-shorten">
       <div>
-        <p class="lead" data-reveal>Short names save typing, and in a contest typing is time. <code>typedef</code> gives a type a shorter name; a macro rewrites text before compilation.</p>
+        <p class="lead" data-reveal>The command <code>typedef</code> can be used to give a short name to a data type. For example, the name <code>long long</code> is long, so we can define a short name <code>ll</code>. Another way to shorten code is to define macros. A macro specifies that certain strings in the code will be changed before the compilation. In C++, macros are defined using the <code>#define</code> keyword.</p>
         <div class="ch02-snippet" data-reveal><code>typedef long long ll;<br>typedef vector&lt;int&gt; vi;<br>typedef pair&lt;int,int&gt; pi;</code></div>
-        <p data-reveal>After the first line, <code>ll a = 123456789;</code> means the same as <code>long long a = 123456789;</code>. The other two name a vector of integers and a pair of integers.</p>
+        <p data-reveal>After this, the code <code>long long a = 123456789;</code> can be shortened as <code>ll a = 123456789;</code>. The command <code>typedef</code> can also be used with more complex types. For example, the following code gives the name <code>vi</code> for a vector of integers, and the name <code>pi</code> for a pair that contains two integers.</p>
         <details class="note" data-reveal>
           <summary><span class="note__label">What a macro really does</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
-            <p><code>#define</code> performs textual substitution before the compiler sees the code. It is fast and blunt: there is no type checking, and a badly parenthesised macro can surprise you.</p>
-            <p>The book’s loop macro is <code>#define REP(i,a,b) for (int i = a; i &lt;= b; i++)</code>, so <code>REP(i,1,n)</code> expands to a normal counting loop.</p>
+            <p>A macro specifies that certain strings in the code will be changed before the compilation. It is fast and blunt: there is no type checking, and a badly parenthesised macro can surprise you.</p>
+            <p>A macro can also have parameters, which makes it possible to shorten loops and other structures. For example, we can define the macro <code>#define REP(i,a,b) for (int i = a; i &lt;= b; i++)</code>, so <code>REP(i,1,n)</code> expands to a normal counting loop.</p>
           </div>
         </details>
       </div>
@@ -546,8 +546,8 @@ printf("%.20f\n", x);
 
     <div class="split2 ch02-subset-intro">
       <div>
-        <p data-reveal>The subsets of <span class="ch02-mono">{1, 2, 3}</span> are <span class="ch02-mono">∅, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}</span>. A recursive function can generate them by deciding, for each element, whether to include it.</p>
-        <p data-reveal>The function keeps a vector <code>subset</code>. At level <i>k</i> it pushes <i>k</i>, recurses, pops, then recurses again without <i>k</i>. When <i>k</i> = <i>n</i> + 1, all elements have been decided and the vector is one subset.</p>
+        <p data-reveal>Our first application of recursion is generating all subsets of a set of <i>n</i> elements. For example, the subsets of <span class="ch02-mono">{1, 2, 3}</span> are <span class="ch02-mono">∅, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}</span>. The following recursive function <code>search</code> can be used to generate the subsets. The function maintains a vector <code>subset</code> that will contain the elements of each subset. The search begins when the function is called with parameter 1.</p>
+        <p data-reveal>When the function <code>search</code> is called with parameter <i>k</i>, it decides whether to include the element <i>k</i> in the subset or not, and in both cases, then calls itself with parameter <i>k</i> + 1. Then, if <i>k</i> = <i>n</i> + 1, the function notices that all elements have been processed and a subset has been generated.</p>
         <ul class="chips" data-reveal>
           <li class="chip chip--static">2<sup>n</sup> leaves</li>
           <li class="chip chip--static">include / exclude</li>
@@ -617,9 +617,9 @@ printf("%.20f\n", x);
 
     <div class="split2 ch02-perm-split">
       <div>
-        <p class="lead" data-reveal>A permutation is an ordering. For <span class="ch02-mono">{1, 2, 3}</span> there are six: <span class="ch02-mono">(1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1)</span>.</p>
-        <p data-reveal>The recursive search keeps a vector <code>permutation</code> and a boolean array <code>chosen</code>. At each call it appends every element that is not yet chosen, marks it, recurses, then unmarks it. When the vector length reaches <i>n</i>, a complete permutation has been found.</p>
-        <p data-reveal>The standard library can also do the work: <code>next_permutation</code> produces the next ordering in lexicographic order. Start from the sorted sequence and loop with <code>do … while</code>.</p>
+        <p class="lead" data-reveal>Next we consider the problem of generating all permutations of a set of <i>n</i> elements. For example, the permutations of <span class="ch02-mono">{1, 2, 3}</span> are <span class="ch02-mono">(1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1)</span>.</p>
+        <p data-reveal>Again, we can use recursion to perform the search. The following function <code>search</code> maintains a vector <code>permutation</code> that will contain each permutation, and an array <code>bool chosen[n+1]</code> which indicates for each element if it has been included in the permutation. The search begins when the function is called without parameters. Each function call appends a new element to <code>permutation</code> and records that it has been included in <code>chosen</code>. If the size of <code>permutation</code> equals the size of the set, a permutation has been generated.</p>
+        <p data-reveal>Note that the C++ standard library also has the function <code>next_permutation</code> that can be used to generate permutations. The function is given a permutation, and it produces the next permutation in lexicographic order. The following code goes through the permutations of {1, 2, …, <i>n</i>}:</p>
         <div class="ch02-inline-code" data-reveal>
           <code>do { <i>// process permutation</i> }</code>
           <code>while (next_permutation(p.begin(), p.end()));</code>
@@ -660,7 +660,7 @@ printf("%.20f\n", x);
 
     <p class="statement ch02-statement-sm" data-reveal>Backtracking builds a solution one step at a time and abandons a branch as soon as it cannot lead anywhere.</p>
 
-    <p class="lead" data-reveal>The <i>n</i>-queens problem asks how many ways <i>n</i> queens can be placed on an <i>n</i> × <i>n</i> board so that no two attack each other. Place exactly one queen per row; when a row has no safe column, return and try the next column above.</p>
+    <p class="lead" data-reveal>A backtracking algorithm begins with an empty solution and extends the solution step by step. The search recursively goes through all different ways how a solution can be constructed. As an example, consider the problem of calculating the number of ways <i>n</i> queens can be placed on an <i>n</i> × <i>n</i> chessboard so that no two queens attack each other.</p>
 
     <div class="ch02-queens" data-reveal>
       <div class="ch02-queens__boards" id="ch02Queens"></div>
@@ -683,8 +683,8 @@ printf("%.20f\n", x);
 
     <div class="split2 ch02-prune">
       <div>
-        <p data-reveal>The arrays <code>col</code>, <code>diag1</code>, and <code>diag2</code> remember the columns and diagonals that already contain a queen. A candidate square is rejected in constant time, before the recursion goes any deeper. This is <em>pruning</em>: the search never builds a partial board that is already illegal.</p>
-        <p data-reveal>On the 8 × 8 board the search finds 92 solutions. Its running time still grows exponentially; for 16 queens the count is 14,772,512, and the largest value known is for 27 queens. The 2016 computation used a cluster of computers.</p>
+        <p data-reveal>The problem can be solved using backtracking by placing queens on the board row by row. More precisely, exactly one queen will be placed on each row so that no queen attacks any of the queens placed before. A solution has been found when all <i>n</i> queens have been placed on the board. The array <code>col</code> keeps track of the columns that contain a queen, and the arrays <code>diag1</code> and <code>diag2</code> keep track of the diagonals. It is not allowed to add another queen to a column or diagonal that already contains a queen. This is <em>pruning</em>: the search never builds a partial board that is already illegal.</p>
+        <p data-reveal>The above backtracking algorithm tells us that there are 92 ways to place 8 queens on the 8 × 8 board. When <i>n</i> increases, the search quickly becomes slow, because the number of solutions grows exponentially. For example, it takes already about a minute on a modern computer to calculate that there are 14772512 ways to place 16 queens on the 16 × 16 board. In fact, nobody knows an efficient way to count the number of queen combinations for larger values of <i>n</i>. Currently, the largest value of <i>n</i> for which the result is known is 27: there are 234907967154122528 combinations in this case. This was discovered in 2016 by a group of researchers who used a cluster of computers to calculate the result.</p>
       </div>
       <div class="ch02-prune__viz" data-reveal style="--d:.08s">
         <span class="kicker">Why pruning matters</span>
@@ -726,9 +726,9 @@ printf("%.20f\n", x);
 
     <div class="split2 ch02-binary">
       <div>
-        <p class="lead" data-reveal>In C++ an <code>int</code> is 32 bits. The bits are indexed from right to left, and the value is <i>b<sub>k</sub></i>2<sup><i>k</i></sup> + … + <i>b</i><sub>2</sub>2<sup>2</sup> + <i>b</i><sub>1</sub>2<sup>1</sup> + <i>b</i><sub>0</sub>2<sup>0</sup>. For example, 43 is <span class="ch02-mono">00101011</span> in 8 bits.</p>
-        <p data-reveal>A signed <i>n</i>-bit value runs from −2<sup><i>n</i>−1</sup> to 2<sup><i>n</i>−1</sup> − 1; an unsigned one runs from 0 to 2<sup><i>n</i></sup> − 1. The first bit of a signed value is the sign. Negative numbers use two’s complement: invert every bit, then add one.</p>
-        <p data-reveal>Adding one past the largest signed value wraps to the smallest. In 32 bits, <code>2147483647 + 1</code> becomes <code>-2147483648</code>. The same bit pattern read as unsigned is a different number: signed −43 equals unsigned 2<sup>32</sup> − 43.</p>
+        <p class="lead" data-reveal>In programming, an <i>n</i>-bit integer is internally stored as a binary number that consists of <i>n</i> bits. For example, the C++ type <code>int</code> is a 32-bit type, which means that every <code>int</code> number consists of 32 bits. The bits in the representation are indexed from right to left. To convert a bit representation <i>b<sub>k</sub></i> … <i>b</i><sub>2</sub><i>b</i><sub>1</sub><i>b</i><sub>0</sub> into a number, the formula <i>b<sub>k</sub></i>2<sup><i>k</i></sup> + … + <i>b</i><sub>2</sub>2<sup>2</sup> + <i>b</i><sub>1</sub>2<sup>1</sup> + <i>b</i><sub>0</sub>2<sup>0</sup> can be used. For example, the bit representation of the <code>int</code> number 43 is <span class="ch02-mono">00000000000000000000000000101011</span>.</p>
+        <p data-reveal>The bit representation of a number is either signed or unsigned. Usually a signed representation is used, which means that both negative and positive numbers can be represented. A signed variable of <i>n</i> bits can contain any integer between −2<sup><i>n</i>−1</sup> and 2<sup><i>n</i>−1</sup> − 1. The first bit in a signed representation is the sign of the number (0 for nonnegative numbers and 1 for negative numbers), and the remaining <i>n</i> − 1 bits contain the magnitude of the number. Two’s complement is used, which means that the opposite number of a number is calculated by first inverting all the bits in the number and then increasing the number by one.</p>
+        <p data-reveal>In an unsigned representation, only nonnegative numbers can be used, but the upper bound for the values is larger. An unsigned variable of <i>n</i> bits can contain any integer between 0 and 2<sup><i>n</i></sup> − 1. There is a connection between the representations: a signed number −<i>x</i> equals an unsigned number 2<sup><i>n</i></sup> − <i>x</i>. For example, the signed number <i>x</i> = −43 equals the unsigned number <i>y</i> = 2<sup>32</sup> − 43. If a number is larger than the upper bound of the bit representation, the number will overflow. In a signed representation, the next number after 2<sup><i>n</i>−1</sup> − 1 is −2<sup><i>n</i>−1</sup>. Initially, the value of <i>x</i> is 2<sup>31</sup> − 1. This is the largest value that can be stored in an <code>int</code> variable, so the next number after 2<sup>31</sup> − 1 is −2<sup>31</sup>.</p>
       </div>
 
       <div class="ch02-twos" data-reveal style="--d:.08s">
@@ -781,9 +781,9 @@ printf("%.20f\n", x);
       </div>
 
       <div class="ch02-op-copy">
-        <p data-reveal><b>And</b> <code>x &amp; y</code> has a one where both inputs have a one. <b>Or</b> <code>x | y</code> has a one where at least one input does. <b>Xor</b> <code>x ^ y</code> has a one where exactly one input does.</p>
-        <p data-reveal><b>Not</b> <code>~x</code> inverts every bit. The identity <code>~x = −x − 1</code> holds, so <code>~29 = −30</code>; the printed result depends on the width of the type.</p>
-        <p data-reveal>A <b>left shift</b> <code>x &lt;&lt; k</code> appends <i>k</i> zero bits, multiplying by 2<sup><i>k</i></sup>. A <b>right shift</b> <code>x &gt;&gt; k</code> removes the last <i>k</i> bits, dividing by 2<sup><i>k</i></sup> and rounding down. Thus <code>14 &lt;&lt; 2 = 56</code>, and <code>49 &gt;&gt; 3 = 6</code>.</p>
+        <p data-reveal>The <b>and</b> operation <code>x &amp; y</code> produces a number that has one bits in positions where both <code>x</code> and <code>y</code> have one bits. Using the and operation, we can check if a number <code>x</code> is even because <code>x &amp; 1 = 0</code> if <code>x</code> is even, and <code>x &amp; 1 = 1</code> if <code>x</code> is odd. The <b>or</b> operation <code>x | y</code> produces a number that has one bits in positions where at least one of <code>x</code> and <code>y</code> have one bits. The <b>xor</b> operation <code>x ^ y</code> produces a number that has one bits in positions where exactly one of <code>x</code> and <code>y</code> have one bits.</p>
+        <p data-reveal>The <b>not</b> operation <code>~x</code> produces a number where all the bits of <code>x</code> have been inverted. The formula <code>~x = −x − 1</code> holds, for example, <code>~29 = −30</code>. The result of the not operation at the bit level depends on the length of the bit representation, because the operation inverts all bits.</p>
+        <p data-reveal>A <b>left bit shift</b> <code>x &lt;&lt; k</code> appends <i>k</i> zero bits to the number, and a <b>right bit shift</b> <code>x &gt;&gt; k</code> removes the <i>k</i> last bits from the number. For example, <code>14 &lt;&lt; 2 = 56</code>, because 14 and 56 correspond to <code>1110</code> and <code>111000</code>. Similarly, <code>49 &gt;&gt; 3 = 6</code>, because 49 and 6 correspond to <code>110001</code> and <code>110</code>. Note that <code>x &lt;&lt; k</code> corresponds to multiplying <code>x</code> by 2<sup><i>k</i></sup>, and <code>x &gt;&gt; k</code> corresponds to dividing <code>x</code> by 2<sup><i>k</i></sup> rounded down to an integer. A bit mask of the form <code>1 &lt;&lt; k</code> has a one bit in position <i>k</i>, and all other bits are zero, so we can use such masks to access single bits of numbers. In particular, the <i>k</i>th bit of a number is one exactly when <code>x &amp; (1 &lt;&lt; k)</code> is not zero. It is also possible to modify single bits of numbers using similar ideas.</p>
         <div class="ch02-shifts" data-reveal>
           <span><code>14 &lt;&lt; 2</code><b>1110 → 111000</b></span>
           <span><code>49 &gt;&gt; 3</code><b>110001 → 110</b></span>
@@ -809,14 +809,14 @@ printf("%.20f\n", x);
       <div class="ch02-builtins">
         <div class="ch02-builtins__copy">
           <span class="kicker">Counting bits with g++</span>
-          <p><code>__builtin_clz(x)</code> counts leading zeros, <code>__builtin_ctz(x)</code> trailing zeros, <code>__builtin_popcount(x)</code> the ones, and <code>__builtin_parity(x)</code> their parity. For <code>x = 5328</code> the answers are 19, 4, 5 and 1. Add the <code>ll</code> suffix for <code>long long</code> versions.</p>
+          <p><code>__builtin_clz(x)</code> gives the number of zeros at the beginning of the bit representation, <code>__builtin_ctz(x)</code> the number of zeros at the end, <code>__builtin_popcount(x)</code> the number of ones, and <code>__builtin_parity(x)</code> the parity (even or odd) of the number of ones. For <code>x = 5328</code> the answers are 19, 4, 5 and 1. The above functions only support <code>int</code> numbers, but there are also <code>long long</code> versions of the functions available with the suffix <code>ll</code>.</p>
         </div>
         <div class="ch02-builtins__viz" aria-label="5328 in binary with five one bits">
           <div class="ch02-builtins__bits"><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span></div>
           <span class="ch02-builtins__cap">5328 · 19 leading zeros · 5 ones · 4 trailing zeros</span>
         </div>
       </div>
-      <p class="ch02-masklab__pitfall" data-reveal><b>One pitfall.</b> <code>1 &lt;&lt; k</code> is always an <code>int</code> mask. For a <code>long long</code> mask, write <code>1LL &lt;&lt; k</code>.</p>
+      <p class="ch02-masklab__pitfall" data-reveal><b>One pitfall</b> when using bit masks is that <code>1 &lt;&lt; k</code> is always an <code>int</code> bit mask. An easy way to create a <code>long long</code> bit mask is <code>1LL &lt;&lt; k</code>.</p>
     </div>
   </div>
 </section>
@@ -833,7 +833,7 @@ printf("%.20f\n", x);
 
     <p class="statement ch02-statement-sm" data-reveal>Every subset of <span class="ch02-mono">{0, 1, …, n−1}</span> is an <i>n</i>-bit integer. One bit per element; one integer per set.</p>
 
-    <p class="lead" data-reveal>An <code>int</code> can represent any subset of <span class="ch02-mono">{0, 1, …, 31}</span>. The set <span class="ch02-mono">{1, 3, 4, 8}</span> is <span class="ch02-mono">00000000000000000000000100011010</span>, which is 2<sup>8</sup> + 2<sup>4</sup> + 2<sup>3</sup> + 2<sup>1</sup> = 282.</p>
+    <p class="lead" data-reveal>Every subset of a set <span class="ch02-mono">{0, 1, 2, …, <i>n</i> − 1}</span> can be represented as an <i>n</i> bit integer whose one bits indicate which elements belong to the subset. This is an efficient way to represent sets, because every element requires only one bit of memory, and set operations can be implemented as bit operations. For example, since <code>int</code> is a 32-bit type, an <code>int</code> number can represent any subset of the set <span class="ch02-mono">{0, 1, 2, …, 31}</span>. The bit representation of the set <span class="ch02-mono">{1, 3, 4, 8}</span> is <span class="ch02-mono">00000000000000000000000100011010</span>, which corresponds to the number 2<sup>8</sup> + 2<sup>4</sup> + 2<sup>3</sup> + 2<sup>1</sup> = 282.</p>
 
     <figure class="figure ch02-bits-figure" data-reveal>
       <div class="figure__frame ch02-bits">
@@ -886,7 +886,7 @@ printf("%.20f\n", x);
     <div class="split2 ch02-setops">
       <div>
         <h3 data-reveal>Set operations are bit operations</h3>
-        <p data-reveal>Intersection, union, complement, and difference all have a one-line bit equivalent. Every element costs one bit, and the whole set operation runs in a handful of machine instructions.</p>
+        <p data-reveal>Table 2.1 shows how set operations can be implemented as bit operations. For example, the sets <i>x</i> = {1, 3, 4, 8} and <i>y</i> = {3, 6, 8, 9} have the union <i>z</i> = <i>x</i> ∪ <i>y</i> = {1, 3, 4, 6, 8, 9}.</p>
         <div class="ch02-settable" data-reveal>
           <div class="ch02-settable__head"><span>operation</span><span>set</span><span>bits</span></div>
           <div><span>intersection</span><span>a ∩ b</span><code>a &amp; b</code></div>
@@ -897,11 +897,11 @@ printf("%.20f\n", x);
       </div>
       <div>
         <h3 data-reveal>Walking the subsets</h3>
-        <p data-reveal>If the universe is <span class="ch02-mono">{0, …, n−1}</span>, the masks 0 through 2<sup><i>n</i></sup> − 1 visit every subset. Filter with <code>__builtin_popcount(b) == k</code> to keep only the subsets of size <i>k</i>.</p>
-        <p data-reveal>To visit only the subsets of a set <i>x</i>, the expression <code>b = (b − x) &amp; x</code> steps through them without testing unrelated masks. It is a compact trick worth memorising.</p>
+        <p data-reveal>The following code goes through the subsets of <span class="ch02-mono">{0, 1, …, <i>n</i> − 1}</span>. Then, the following code goes through the subsets with exactly <i>k</i> elements, by testing <code>__builtin_popcount(b) == k</code> for each mask.</p>
+        <p data-reveal>Finally, the following code goes through the subsets of a set <i>x</i>. It is a compact trick worth memorising.</p>
         <div class="ch02-bitset" data-reveal>
           <span class="kicker">C++ bitset</span>
-          <p><code>bitset&lt;10&gt; s;</code> is an array of bits with <code>s[i]</code>, <code>s.count()</code>, and the same <code>&amp;</code>, <code>|</code>, <code>^</code> operators. It is another way to write the same idea when the width is fixed at compile time.</p>
+          <p>The C++ standard library also provides the <code>bitset</code> structure, which corresponds to an array whose each value is either 0 or 1. For example, the following code creates a bitset of 10 elements: <code>bitset&lt;10&gt; s;</code>. The function <code>count</code> returns the number of one bits in the bitset. Also bit operations can be directly used to manipulate bitsets.</p>
         </div>
       </div>
     </div>
