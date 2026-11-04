@@ -10,7 +10,7 @@
       <div class="hero__grid">
         <div class="hero__copy">
           <h1 id="heroTitle" class="ch15-hero-title" data-reveal>Additional Topics</h1>
-          <p class="hero__lead" data-reveal style="--d:.08s">A last selection of advanced techniques: square-root decomposition, segment trees with laziness, treaps, dynamic-programming optimisation, and a handful of clever reorganisations.</p>
+          <p class="hero__lead" data-reveal style="--d:.08s">A last selection of advanced techniques: square-root decomposition, lazy segment trees, treaps, dynamic-programming optimisation, and a handful of clever reorganisations.</p>
           <p class="hero__meta-line" data-reveal style="--d:.14s"><span>5 sections</span><span>30 pages</span><span>≈ 75 min</span></p>
         </div>
       </div>
@@ -87,15 +87,15 @@
 
     <p class="statement" data-reveal>A square root is a poor man’s logarithm: O(√<i>n</i>) is better than O(<i>n</i>) but worse than O(log <i>n</i>).</p>
 
-    <p class="lead" data-reveal>In any case, many data structures and algorithms involving square roots are fast and usable in practice. This section shows some examples of how square roots can be used in algorithm design.</p>
+    <p class="lead" data-reveal>In any case, many data structures and algorithms involving square roots are fast and usable in practice. This section shows some examples of how square roots are used in algorithm design.</p>
 
     <div class="ch15-sub" data-reveal>
       <div class="ch15-sub__head">
         <span class="ch15-sub__num">15.1.1</span>
         <h3>Data Structures</h3>
       </div>
-      <p>Sometimes we can create an efficient data structure by dividing an array into blocks of size √<i>n</i> and maintaining information about array values inside each block. For example, suppose that we should process two types of queries: modifying array values and finding minimum values in ranges. We have previously seen that a segment tree can support both operations in <i>O</i>(log <i>n</i>) time, but next we will solve the problem in another simpler way where the operations take <i>O</i>(√<i>n</i>) time.</p>
-      <p>We divide the array into blocks of √<i>n</i> elements, and maintain for each block the minimum value inside it. When an array value changes, the corresponding block needs to be updated. This can be done in <i>O</i>(√<i>n</i>) time by going through the values inside the block. Then, to calculate the minimum value in a range, we divide the range into three parts such that the range consists of single values and blocks between them. The answer to the query is either a single value or the minimum value inside a block. Since the number of single elements is <i>O</i>(√<i>n</i>) and the number of blocks is also <i>O</i>(√<i>n</i>), the query takes <i>O</i>(√<i>n</i>) time.</p>
+      <p>Sometimes we can create an efficient data structure by dividing an array into blocks of size √<i>n</i> and maintaining information inside each block. For example, suppose that we process two types of queries: modifying array values and finding minimum values in ranges. A segment tree supports both in <i>O</i>(log <i>n</i>) time, but next we solve the problem in a simpler way, with <i>O</i>(√<i>n</i>) operations.</p>
+      <p>We divide the array into blocks of √<i>n</i> elements and maintain the minimum inside each block. When a value changes, its block is updated in <i>O</i>(√<i>n</i>) time by going through the values inside it. To calculate the minimum in a range, we split it into single values at the ends and whole blocks between them. The answer is either a single value or a block minimum. Since there are <i>O</i>(√<i>n</i>) single elements and <i>O</i>(√<i>n</i>) blocks, the query takes <i>O</i>(√<i>n</i>) time.</p>
     </div>
 
     <!-- interactive: square-root range minimum -->
@@ -181,19 +181,19 @@
         <span class="ch15-sub__num">15.1.2</span>
         <h3>Subalgorithms</h3>
       </div>
-      <p>Next we discuss two problems that can be efficiently solved by creating two subalgorithms that are specialized for different kinds of situations during the algorithm. While either of the subalgorithms could be used to solve the problem without the other, we get an efficient algorithm by combining them.</p>
+      <p>Next we discuss two problems solved efficiently by creating two subalgorithms, each specialized for a different kind of situation during the algorithm. Either could solve the problem alone, but combining them gives an efficient algorithm.</p>
     </div>
 
     <div class="split2 ch15-split" data-reveal>
       <div>
         <h4 class="ch15-minor">Letter distances</h4>
-        <p>Our first problem is as follows: We are given an <i>n</i> × <i>n</i> grid whose each square is assigned a letter. What is the minimum Manhattan distance between two squares that have the same letter? For example, the minimum distance is 2 between the two squares with letter <b>D</b>. To solve the problem, we can go through all letters that appear in the grid, and for each letter <i>c</i>, determine the minimum distance between two squares with letter <i>c</i>. Consider two algorithms for processing a fixed letter <i>c</i>:</p>
+        <p>Our first problem is this: we are given an <i>n</i> × <i>n</i> grid where each square has a letter. What is the minimum Manhattan distance between two squares with the same letter? For example, the minimum distance is 2 between the two squares with letter <b>D</b>. We go through all letters and, for each letter <i>c</i>, find the minimum distance between two squares with <i>c</i>. Consider two algorithms for a fixed letter <i>c</i>:</p>
         <div class="ch15-subalgo">
           <article class="ch15-subalgo__item">
             <span class="ch15-subalgo__tag">Algorithm 1</span>
             <strong>All pairs</strong>
             <span class="ch15-subalgo__cost">O(<i>k</i><sup>2</sup>)</span>
-            <p>Go through all pairs of squares that contain the letter <i>c</i> and determine the minimum distance pair among them. This algorithm works in <i>O</i>(<i>k</i><sup>2</sup>) time, where <i>k</i> is the number of squares with letter <i>c</i>.</p>
+            <p>Go through all pairs of squares with letter <i>c</i> and find the closest pair. This works in <i>O</i>(<i>k</i><sup>2</sup>) time, where <i>k</i> is the number of squares with <i>c</i>.</p>
           </article>
           <article class="ch15-subalgo__item">
             <span class="ch15-subalgo__tag">Algorithm 2</span>
@@ -208,7 +208,7 @@
             <span class="ch15-rule__large">BFS</span>
           </div>
           <div class="ch15-rule__labels"><span><i>k</i> ≤ <i>x</i></span><span><i>k</i> &gt; <i>x</i></span></div>
-          <p>However, we can combine the algorithms so that they function as subalgorithms of a single algorithm. The idea is to decide for each color <i>c</i> separately which algorithm to use: Algorithm 1 works well if <i>k</i> is small, and Algorithm 2 is best suited for cases where <i>k</i> is large. Thus, we can fix a constant <i>x</i> and use Algorithm 1 if <i>k</i> is at most <i>x</i>, and otherwise use Algorithm 2. By choosing <i>x</i> = √<i>n</i><sup>2</sup> = <i>n</i>, we get an algorithm that works in <i>O</i>(<i>n</i><sup>3</sup>) time. First, each square that is processed using Algorithm 1 is compared with at most <i>n</i> other squares, so processing those squares takes <i>O</i>(<i>n</i><sup>3</sup>) time. Then, since there are at most <i>n</i> colors that appear in more than <i>n</i> squares, Algorithm 2 is performed at most <i>n</i> times, and its total running time is also <i>O</i>(<i>n</i><sup>3</sup>).</p>
+          <p>However, we can combine the two algorithms so that they function as subalgorithms of a single algorithm. For each color <i>c</i>, we decide which to use: Algorithm 1 works well if <i>k</i> is small, Algorithm 2 when <i>k</i> is large. Fix a constant <i>x</i> and use Algorithm 1 if <i>k</i> is at most <i>x</i>, otherwise Algorithm 2. Choosing <i>x</i> = √<i>n</i><sup>2</sup> = <i>n</i> gives an <i>O</i>(<i>n</i><sup>3</sup>) algorithm. Each square processed by Algorithm 1 is compared with at most <i>n</i> other squares, so those take <i>O</i>(<i>n</i><sup>3</sup>) time. And since at most <i>n</i> colors appear in more than <i>n</i> squares, Algorithm 2 is performed at most <i>n</i> times, with total running time also <i>O</i>(<i>n</i><sup>3</sup>).</p>
         </div>
       </div>
 
@@ -230,8 +230,8 @@
       <div class="ch15-black__copy">
         <span class="kicker">A second example</span>
         <h4>The black squares game</h4>
-        <p>As another example, consider the following game: We are given an <i>n</i> × <i>n</i> grid where exactly one square is black and all other squares are white. On each turn, one white square is chosen, and we should calculate the minimum Manhattan distance between this square and a black square. After this, the white square is painted black. This process continues for <i>n</i><sup>2</sup>−1 turns, after which all squares have been painted black.</p>
-        <p>We can solve the problem by processing the turns in batches of <i>k</i> turns. Before each batch, we calculate for each square of the grid the minimum distance to a black square. This can be done in <i>O</i>(<i>n</i><sup>2</sup>) time using breadth-first search. Then, when processing a batch, we keep a list of all squares that have been painted black during the current batch. Thus, the minimum distance to a black square is either the precalculated distance or a distance to one of the squares on the list. Since the list contains at most <i>k</i> values, it takes <i>O</i>(<i>k</i>) time to go through the list. By choosing <i>k</i> = √<i>n</i><sup>2</sup> = <i>n</i>, we get an algorithm that works in <i>O</i>(<i>n</i><sup>3</sup>) time.</p>
+        <p>As another example, consider this game: an <i>n</i> × <i>n</i> grid has exactly one black square and all others white. On each turn, a white square is chosen and we calculate the minimum Manhattan distance between it and a black square. The white square is then painted black. This continues for <i>n</i><sup>2</sup>−1 turns, after which all squares are black.</p>
+        <p>We process the turns in batches of <i>k</i>. Before each batch, we calculate for every square its minimum distance to a black square, in <i>O</i>(<i>n</i><sup>2</sup>) time using breadth-first search. While processing a batch, we keep a list of squares painted black during it. The minimum distance is then either the precalculated distance or a distance to one of those squares. The list has at most <i>k</i> values, so going through it takes <i>O</i>(<i>k</i>) time. Choosing <i>k</i> = √<i>n</i><sup>2</sup> = <i>n</i> gives an <i>O</i>(<i>n</i><sup>3</sup>) algorithm.</p>
       </div>
       <div class="ch15-turn" aria-label="One turn of the black squares game">
         <div class="ch15-turn__grid" id="ch15BlackGrid"></div>
@@ -256,7 +256,7 @@
         <span class="ch15-sub__num">15.1.3</span>
         <h3>Integer Partitions</h3>
       </div>
-      <p>Suppose that there is a stick whose length is <i>n</i>, and it is divided into some parts whose lengths are integers. What is the maximum number of distinct lengths in such a partition? It turns out that there are at most <i>O</i>(√<i>n</i>) distinct lengths. Namely an optimal way to produce as many distinct lengths as possible is to include lengths 1, 2, …, <i>k</i>. Then, since 1 + 2 + ⋯ + <i>k</i> = <i>k</i>(<i>k</i>+1)/2, we can conclude that <i>k</i> can be at most <i>O</i>(√<i>n</i>). Next, we will see how this observation can be used when designing algorithms.</p>
+      <p>Suppose a stick of length <i>n</i> is divided into parts of integer length. What is the maximum number of distinct lengths? It turns out that there are at most <i>O</i>(√<i>n</i>) distinct lengths. To produce as many distinct lengths as possible, include 1, 2, …, <i>k</i>. Since 1 + 2 + ⋯ + <i>k</i> = <i>k</i>(<i>k</i>+1)/2, <i>k</i> can be at most <i>O</i>(√<i>n</i>). Next we will see how this observation helps when designing algorithms.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -273,8 +273,8 @@
     <div class="split2 ch15-split" data-reveal>
       <div>
         <h4 class="ch15-minor">Knapsack with few distinct weights</h4>
-        <p>Consider a knapsack problem where we are given a list of integer weights [<i>w</i><sub>1</sub>, <i>w</i><sub>2</sub>, …, <i>w</i><sub><i>k</i></sub>] such that <i>w</i><sub>1</sub> + <i>w</i><sub>2</sub> + ⋯ + <i>w</i><sub><i>k</i></sub> = <i>n</i>, and our task is to determine all possible weight sums that can be created. Using a standard knapsack algorithm, we can solve the problem in <i>O</i>(<i>n</i><i>k</i>) time, so if <i>k</i> = <i>O</i>(<i>n</i>), the time complexity becomes <i>O</i>(<i>n</i><sup>2</sup>). However, since there are at most <i>O</i>(√<i>n</i>) distinct weights, we can actually solve the problem more efficiently by simultaneously processing all weights of a certain value.</p>
-        <p>For example, if the weights are [3, 3, 4], we first process the two weights of value 3 and then the weight of value 4. It is not difficult to modify the standard knapsack algorithm so that processing each group of equal weights only takes <i>O</i>(<i>n</i>) time, which yields an <i>O</i>(<i>n</i>√<i>n</i>) time algorithm.</p>
+        <p>Consider a knapsack problem with integer weights [<i>w</i><sub>1</sub>, <i>w</i><sub>2</sub>, …, <i>w</i><sub><i>k</i></sub>] such that <i>w</i><sub>1</sub> + <i>w</i><sub>2</sub> + ⋯ + <i>w</i><sub><i>k</i></sub> = <i>n</i>; we must determine all possible weight sums. A standard knapsack algorithm solves this in <i>O</i>(<i>n</i><i>k</i>) time, so if <i>k</i> = <i>O</i>(<i>n</i>), the time becomes <i>O</i>(<i>n</i><sup>2</sup>). Since there are at most <i>O</i>(√<i>n</i>) distinct weights, we can do better by processing all weights of a certain value together.</p>
+        <p>For example, with weights [3, 3, 4], we process the two 3s and then the 4. The standard algorithm is easily modified so that each group of equal weights takes <i>O</i>(<i>n</i>) time, which yields an <i>O</i>(<i>n</i>√<i>n</i>) algorithm.</p>
         <div class="ch15-chips-line">
           <span class="tag tag--mono">O(n√n)</span>
           <span class="tag">group equal weights</span>
@@ -292,7 +292,7 @@
     <div class="ch15-string" data-reveal>
       <div>
         <h4 class="ch15-minor">String construction</h4>
-        <p>As another example, suppose that we are given a string of length <i>n</i> and a dictionary of words whose total length is <i>m</i>. Our task is to count the number of ways we can construct the string using the words. Using dynamic programming, we can calculate for each <i>k</i> = 0, 1, …, <i>n</i> the number of ways to construct a prefix of length <i>k</i> of the string. One way to do this is to use a trie that contains reverses of all the words in the dictionary, which yields an <i>O</i>(<i>n</i><sup>2</sup> + <i>m</i>) time algorithm. However, another approach is to use string hashing and the fact that there are at most <i>O</i>(√<i>m</i>) distinct word lengths. Thus, we can restrict ourselves to word lengths that actually exist. This can be done by creating a set that contains all hash values of words, which results in an algorithm whose running time is <i>O</i>(<i>n</i>√<i>m</i> + <i>m</i>).</p>
+        <p>As another example, suppose we are given a string of length <i>n</i> and a dictionary of words with total length <i>m</i>. We must count the ways to construct the string using the words. Using dynamic programming, we calculate for each <i>k</i> = 0, 1, …, <i>n</i> the number of ways to construct the prefix of length <i>k</i>. One way is a trie containing the reverses of all words, which gives an <i>O</i>(<i>n</i><sup>2</sup> + <i>m</i>) algorithm. Another uses string hashing and the fact that there are at most <i>O</i>(√<i>m</i>) distinct word lengths, so we can restrict ourselves to lengths that exist. A set of all word hash values gives an <i>O</i>(<i>n</i>√<i>m</i> + <i>m</i>) algorithm.</p>
         <p>For example, there are four ways to construct the string ABAB using the words {A, B, AB}:</p>
         <div class="ch15-ways">
           <span>A + B + A + B</span>
@@ -314,8 +314,8 @@
         <span class="ch15-sub__num">15.1.4</span>
         <h3>Mo’s Algorithm</h3>
       </div>
-      <p>Mo’s algorithm processes a set of range queries on a static array (i.e., the array values do not change between the queries). Each query requires us to calculate something based on the array values in a range [<i>a</i>, <i>b</i>]. Since the array is static, the queries can be processed in any order, and the trick in Mo’s algorithm is to use a special order which guarantees that the algorithm works efficiently. The algorithm maintains an active range in the array, and the answer to a query concerning the active range is known at each moment. The algorithm processes the queries one by one and always moves the endpoints of the active range by inserting and removing elements.</p>
-      <p>The array is divided into blocks of <i>k</i> = <i>O</i>(√<i>n</i>) elements, and a query [<i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>] is always processed before a query [<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>] if ⌊<i>a</i><sub>1</sub>/<i>k</i>⌋ &lt; ⌊<i>a</i><sub>2</sub>/<i>k</i>⌋ or ⌊<i>a</i><sub>1</sub>/<i>k</i>⌋ = ⌊<i>a</i><sub>2</sub>/<i>k</i>⌋ and <i>b</i><sub>1</sub> &lt; <i>b</i><sub>2</sub>. Thus, all queries whose left endpoints are in a certain block are processed one after another sorted according to their right endpoints. Using this order, the algorithm only performs <i>O</i>(<i>n</i>√<i>n</i>) operations, because the left endpoint moves <i>O</i>(<i>n</i>) times <i>O</i>(√<i>n</i>) steps, and the right endpoint moves <i>O</i>(√<i>n</i>) times <i>O</i>(<i>n</i>) steps.</p>
+      <p>Mo’s algorithm processes range queries on a static array, whose values do not change between queries. Each query asks for something based on the values in a range [<i>a</i>, <i>b</i>]. Since the array is static, the queries can be processed in any order, and the trick is to use an order that keeps the work small. The algorithm maintains an active range, whose answer is known at each moment, and processes the queries one by one, moving the endpoints by inserting and removing elements.</p>
+      <p>The array is divided into blocks of <i>k</i> = <i>O</i>(√<i>n</i>) elements, and a query [<i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>] is always processed before a query [<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>] if ⌊<i>a</i><sub>1</sub>/<i>k</i>⌋ &lt; ⌊<i>a</i><sub>2</sub>/<i>k</i>⌋ or ⌊<i>a</i><sub>1</sub>/<i>k</i>⌋ = ⌊<i>a</i><sub>2</sub>/<i>k</i>⌋ and <i>b</i><sub>1</sub> &lt; <i>b</i><sub>2</sub>. Thus, all queries whose left endpoints fall in a block are processed one after another, sorted by their right endpoints. In this order the algorithm performs only <i>O</i>(<i>n</i>√<i>n</i>) operations: the left endpoint moves <i>O</i>(<i>n</i>) times <i>O</i>(√<i>n</i>) steps, and the right endpoint <i>O</i>(√<i>n</i>) times <i>O</i>(<i>n</i>) steps.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -332,12 +332,12 @@
       <figcaption class="figure__cap">From range [1, 4] to [2, 6]: the left endpoint steps right once, the right endpoint twice. Three updates to the <code>count</code> array, each O(1).</figcaption>
     </figure>
 
-    <p class="ch15-after" data-reveal>Consider a problem where we are given a set of array ranges, and we are asked to calculate the number of distinct values in each range. To solve the problem, we maintain an array <code>count</code> where <code>count[x]</code> indicates the number of times an element <i>x</i> occurs in the active range. After adding an element <i>x</i>, we increase the value of <code>count[x]</code> by 1, and if <code>count[x]</code> = 1 after this, we also increase the answer to the query by 1. Similarly, after removing an element <i>x</i>, we decrease the value of <code>count[x]</code> by 1, and if <code>count[x]</code> = 0 after this, we also decrease the answer to the query by 1. Since each step requires <i>O</i>(1) time, the algorithm works in <i>O</i>(<i>n</i>√<i>n</i>) time.</p>
+    <p class="ch15-after" data-reveal>Consider a problem where we are given a set of ranges and asked to count the distinct values in each. We maintain an array <code>count</code>, where <code>count[x]</code> is the number of times <i>x</i> occurs in the active range. After adding <i>x</i>, we increase <code>count[x]</code> by 1; if it becomes 1, we increase the answer by 1. After removing <i>x</i>, we decrease <code>count[x]</code> by 1; if it becomes 0, we decrease the answer by 1. Each step takes <i>O</i>(1) time, so the algorithm works in <i>O</i>(<i>n</i>√<i>n</i>) time.</p>
 
     <details class="note ch15-note" data-reveal>
       <summary><span class="note__label">Why the ordering helps</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Using this order, the algorithm only performs <i>O</i>(<i>n</i>√<i>n</i>) operations, because the left endpoint moves <i>O</i>(<i>n</i>) times <i>O</i>(√<i>n</i>) steps, and the right endpoint moves <i>O</i>(√<i>n</i>) times <i>O</i>(<i>n</i>) steps. Thus, both endpoints move a total of <i>O</i>(<i>n</i>√<i>n</i>) steps during the algorithm.</p>
+        <p>Thus, both endpoints move a total of <i>O</i>(<i>n</i>√<i>n</i>) steps during the algorithm.</p>
         <p>Mo’s algorithm is named after Mo Tao, a Chinese competitive programmer.<sup class="ref">[5]</sup></p>
       </div>
     </details>
@@ -356,14 +356,14 @@
 
     <p class="statement" data-reveal>Until now the segment tree has been walked from the bottom up. The advanced variants are easier to write from the top down.</p>
 
-    <p class="lead" data-reveal>A segment tree is a versatile data structure that can be used to solve a large number of problems. However, so far we have only seen a small part of the possibilities of segment trees. Now is time to discuss some more advanced variants of segment trees that allow us to solve more advanced problems.</p>
+    <p class="lead" data-reveal>A segment tree is a versatile data structure that solves a large number of problems. So far we have seen only a small part of its possibilities. Now we discuss more advanced variants that solve more advanced problems.</p>
 
     <div class="split2 ch15-split ch15-tree-intro" data-reveal>
       <div>
-        <p>Until now, we have implemented the operations of a segment tree by walking from bottom to top in the tree. For example, we have used the following function to calculate the sum of values in a range [<i>a</i>, <i>b</i>]:</p>
+        <p>Until now, we have implemented segment tree operations by walking from bottom to top. For example, we used the following function to calculate the sum in a range [<i>a</i>, <i>b</i>]:</p>
         <div class="ch15-inline-code"><code>a += n; b += n;</code><br><code>while (a &lt;= b) { … a /= 2; b /= 2; }</code></div>
-        <p>The parameter <code>k</code> indicates the current position in <code>tree</code>. Initially <code>k</code> equals 1, because we begin at the root of the tree. The range [<i>x</i>, <i>y</i>] corresponds to <code>k</code> and is initially [0, <i>n</i>−1]. When calculating the sum, if [<i>x</i>, <i>y</i>] is outside [<i>a</i>, <i>b</i>], the sum is 0, and if [<i>x</i>, <i>y</i>] is completely inside [<i>a</i>, <i>b</i>], the sum can be found in <code>tree</code>. If [<i>x</i>, <i>y</i>] is partially inside [<i>a</i>, <i>b</i>], the search continues recursively to the left and right half of [<i>x</i>, <i>y</i>].</p>
-        <p>Also in this implementation, operations take <i>O</i>(log <i>n</i>) time, because the total number of visited nodes is <i>O</i>(log <i>n</i>).</p>
+        <p>The parameter <code>k</code> indicates the current position in <code>tree</code>. Initially <code>k</code> equals 1, because we begin at the root. The range [<i>x</i>, <i>y</i>] corresponds to <code>k</code> and is initially [0, <i>n</i>−1]. When calculating the sum, if [<i>x</i>, <i>y</i>] is outside [<i>a</i>, <i>b</i>], the sum is 0; if it is completely inside, the sum is found in <code>tree</code>. If it is partially inside, the search continues recursively into the left and right halves of [<i>x</i>, <i>y</i>].</p>
+        <p>In this implementation too, operations take <i>O</i>(log <i>n</i>) time, because the number of visited nodes is <i>O</i>(log <i>n</i>).</p>
       </div>
       <div class="code-card" data-code-card id="cardTopDown">
         <div class="code-card__head">
@@ -385,9 +385,9 @@
         <span class="ch15-sub__num">15.2.1</span>
         <h3>Lazy Propagation</h3>
       </div>
-      <p>Using lazy propagation, we can build a segment tree that supports both range updates and range queries in <i>O</i>(log <i>n</i>) time. The idea is to perform updates and queries from top to bottom and perform updates lazily so that they are propagated down the tree only when it is necessary. The nodes of a lazy segment tree contain two types of information. Like in an ordinary segment tree, each node contains the sum, minimum value, or some other value related to the corresponding subarray. In addition, a node may contain information about a lazy update which has not been propagated to its children.</p>
-      <p>Let us consider an example where our goal is to construct a segment tree that supports two operations: increasing each value in [<i>a</i>, <i>b</i>] by a constant and calculating the sum of values in [<i>a</i>, <i>b</i>]. We construct a tree where each node has two values <i>s</i>/<i>z</i>: <i>s</i> denotes the sum of values in the range, and <i>z</i> denotes the value of a lazy update, which means that all values in the range should be increased by <i>z</i>.</p>
-      <p>To increase the values in a range [<i>a</i>, <i>b</i>] by <i>u</i>, we modify the nodes as follows: If the range [<i>x</i>, <i>y</i>] of a node is completely inside [<i>a</i>, <i>b</i>], we increase the <i>z</i> value of the node by <i>u</i> and stop. Then, if [<i>x</i>, <i>y</i>] partially belongs to [<i>a</i>, <i>b</i>], we continue our walk recursively in the tree, and after this calculate the new <i>s</i> value for the node. In both updates and queries, lazy updates are propagated downwards when we move in the tree. Always before accessing a node, we check if it has an ongoing lazy update. If it has, we update its <i>s</i> value, propagate the update to its children, and then clear its <i>z</i> value.</p>
+      <p>Using lazy propagation, we can build a segment tree that supports range updates and range queries in <i>O</i>(log <i>n</i>) time. Updates and queries run from top to bottom, and updates are performed lazily, propagated down only when necessary. The nodes contain two types of information. As in an ordinary segment tree, each node holds the sum, minimum, or some other value for its subarray. In addition, a node may hold a lazy update not yet propagated to its children.</p>
+      <p>Consider a segment tree supporting two operations: increasing each value in [<i>a</i>, <i>b</i>] by a constant and calculating the sum in [<i>a</i>, <i>b</i>]. Each node has two values <i>s</i>/<i>z</i>: <i>s</i> is the sum of the range, and <i>z</i> is a lazy update meaning that all values in the range should be increased by <i>z</i>.</p>
+      <p>To increase the values in [<i>a</i>, <i>b</i>] by <i>u</i>, we modify the nodes as follows. If the range [<i>x</i>, <i>y</i>] of a node is completely inside [<i>a</i>, <i>b</i>], we increase its <i>z</i> value by <i>u</i> and stop. If [<i>x</i>, <i>y</i>] only partially belongs to [<i>a</i>, <i>b</i>], we continue recursively and afterwards calculate the node’s new <i>s</i> value. In both updates and queries, lazy updates are propagated downwards as we move. Before accessing a node, we check for an ongoing lazy update; if there is one, we update its <i>s</i> value, propagate it to its children, and clear its <i>z</i> value.</p>
     </div>
 
     <!-- interactive: lazy tree -->
@@ -422,8 +422,8 @@
     <div class="split2 ch15-split ch15-lazy-code" data-reveal>
       <div>
         <h4 class="ch15-minor">One pattern, several updates</h4>
-        <p>We can generalize the above segment tree so that it is possible to update ranges using polynomials of the form <i>p</i>(<i>u</i>) = <i>t</i><sub><i>k</i></sub><i>u</i><sup><i>k</i></sup> + <i>t</i><sub><i>k</i>−1</sub><i>u</i><sup><i>k</i>−1</sup> + ⋯ + <i>t</i><sub>0</sub>. In this case, the update for a value at position <i>i</i> in [<i>a</i>, <i>b</i>] is <i>p</i>(<i>i</i>−<i>a</i>). To support polynomial updates, each node is assigned <i>k</i>+2 values, where <i>k</i> equals the degree of the polynomial. The value <i>s</i> is the sum of the elements in the range, and the values <i>z</i><sub>0</sub>, <i>z</i><sub>1</sub>, …, <i>z</i><sub><i>k</i></sub> are the coefficients of a polynomial that corresponds to a lazy update.</p>
-        <p>When propagating an update in the tree, the indices of <i>p</i>(<i>u</i>) change, because in each range [<i>x</i>, <i>y</i>], the values are calculated for <i>u</i> = 0, 1, …, <i>y</i>−<i>x</i>. However, we can easily handle this, because <i>p</i>′(<i>u</i>) = <i>p</i>(<i>u</i>+<i>h</i>) is a polynomial of equal degree as <i>p</i>(<i>u</i>).</p>
+        <p>We can generalize the tree to update ranges using polynomials <i>p</i>(<i>u</i>) = <i>t</i><sub><i>k</i></sub><i>u</i><sup><i>k</i></sup> + <i>t</i><sub><i>k</i>−1</sub><i>u</i><sup><i>k</i>−1</sup> + ⋯ + <i>t</i><sub>0</sub>. The update for a value at position <i>i</i> in [<i>a</i>, <i>b</i>] is then <i>p</i>(<i>i</i>−<i>a</i>). Each node is assigned <i>k</i>+2 values, where <i>k</i> is the degree. The value <i>s</i> is the sum of the range, and <i>z</i><sub>0</sub>, <i>z</i><sub>1</sub>, …, <i>z</i><sub><i>k</i></sub> are the coefficients of a polynomial lazy update.</p>
+        <p>When propagating an update, the indices of <i>p</i>(<i>u</i>) change, because in each range [<i>x</i>, <i>y</i>] the values are calculated for <i>u</i> = 0, 1, …, <i>y</i>−<i>x</i>. This is easy to handle, because <i>p</i>′(<i>u</i>) = <i>p</i>(<i>u</i>+<i>h</i>) is a polynomial of the same degree as <i>p</i>(<i>u</i>).</p>
         <details class="note">
           <summary><span class="note__label">The shift, written out</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
@@ -453,8 +453,8 @@
         <span class="ch15-sub__num">15.2.2</span>
         <h3>Dynamic Trees</h3>
       </div>
-      <p>An ordinary segment tree is static, which means that each node has a fixed position in the segment tree array and the structure requires a fixed amount of memory. In a dynamic segment tree, memory is allocated only for nodes that are actually accessed during the algorithm, which can save a large amount of memory.</p>
-      <p>The nodes of a dynamic tree can be represented as structs, where <code>value</code> is the value of the node, [<i>x</i>, <i>y</i>] is the corresponding range, and <code>left</code> and <code>right</code> point to the left and right subtree. A sparse segment tree initially has only one node [0, <i>n</i>−1] whose value is zero, which means that every array value is zero. After updates, new nodes are dynamically added to the tree. Any path from the root node to a leaf contains <i>O</i>(log <i>n</i>) nodes, so each segment tree operation adds at most <i>O</i>(log <i>n</i>) new nodes to the tree. Thus, after <i>k</i> operations, the tree contains <i>O</i>(<i>k</i> log <i>n</i>) nodes. Note that if we know all elements that will be updated during the algorithm beforehand, a dynamic segment tree is not necessary, because we can use an ordinary segment tree with index compression. However, this is not possible when the indices are generated during the algorithm.</p>
+      <p>An ordinary segment tree is static: each node has a fixed position in the tree array, and the structure requires a fixed amount of memory. In a dynamic segment tree, memory is allocated only for nodes actually accessed during the algorithm, which can save a large amount.</p>
+      <p>The nodes can be represented as structs, where <code>value</code> is the node’s value, [<i>x</i>, <i>y</i>] its range, and <code>left</code> and <code>right</code> point to the subtrees. A sparse segment tree initially has one node [0, <i>n</i>−1] with value zero, so every array value is zero. Updates add new nodes dynamically. Any root-to-leaf path contains <i>O</i>(log <i>n</i>) nodes, so each operation adds at most <i>O</i>(log <i>n</i>) nodes; after <i>k</i> operations the tree contains <i>O</i>(<i>k</i> log <i>n</i>) nodes. If all updated elements are known beforehand, a dynamic tree is unnecessary, because an ordinary tree with index compression works. That is not possible when the indices are generated during the algorithm.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -478,15 +478,15 @@
       <figcaption class="figure__cap">A sparse segment tree for <i>n</i> = 16 after modifying positions 3 and 10. Each modification walks one root-to-leaf path and creates O(log <i>n</i>) nodes.</figcaption>
     </figure>
 
-    <p class="ch15-after" data-reveal>Using a dynamic implementation, we can also create a persistent segment tree that stores the modification history of the tree. In such an implementation, we can efficiently access all versions of the tree that have existed during the algorithm. After each update, most nodes of the tree remain the same, so a compact way to store the modification history is to represent each historical tree as a combination of new nodes and subtrees of previous trees. Since each operation adds only <i>O</i>(log <i>n</i>) new nodes to the tree, it is possible to store the full modification history of the tree.</p>
+    <p class="ch15-after" data-reveal>A dynamic implementation also allows a persistent segment tree that stores the modification history. We can then access all versions of the tree that have existed. After each update most nodes remain the same, so each historical tree can be represented as new nodes plus subtrees of previous trees. Since each operation adds only <i>O</i>(log <i>n</i>) new nodes, the full history fits in memory.</p>
 
     <div class="ch15-sub" data-reveal>
       <div class="ch15-sub__head">
         <span class="ch15-sub__num">15.2.3</span>
         <h3>Data Structures in Nodes</h3>
       </div>
-      <p>Instead of single values, the nodes of a segment tree can also contain data structures that maintain information about the corresponding ranges. As an example, suppose that we should be able to efficiently count the number of occurrences of an element <i>x</i> in a range [<i>a</i>, <i>b</i>]. To do this, we can create a segment tree where each node is assigned a data structure that can be asked how many times any element <i>x</i> appears in the corresponding range. After this, the answer to a query can be calculated by combining the results from nodes that belong to the range.</p>
-      <p>The remaining task is to choose a suitable data structure for the problem. A good choice is a map structure whose keys are array elements and values indicate how many times each element occurs in a range. Each query works in <i>O</i>(log<sup>2</sup> <i>n</i>) time, because each node has a map structure whose operations take <i>O</i>(log <i>n</i>) time. The tree uses <i>O</i>(<i>n</i> log <i>n</i>) memory, because it has <i>O</i>(log <i>n</i>) levels, and each level contains <i>n</i> elements that have been distributed in the map structures.</p>
+      <p>Instead of single values, nodes can contain data structures that maintain information about their ranges. For example, suppose we want to count the occurrences of an element <i>x</i> in a range [<i>a</i>, <i>b</i>]. Each node can hold a structure that answers how many times <i>x</i> appears in its range. The answer to a query is then assembled from the results of the nodes covering the range.</p>
+      <p>The remaining task is to choose the structure. A good choice is a map whose keys are array elements and whose values count occurrences in a range. Each query works in <i>O</i>(log<sup>2</sup> <i>n</i>) time, because each node’s map takes <i>O</i>(log <i>n</i>) time. The tree uses <i>O</i>(<i>n</i> log <i>n</i>) memory: <i>O</i>(log <i>n</i>) levels, each holding <i>n</i> elements distributed among the maps.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -518,8 +518,8 @@
         <span class="ch15-sub__num">15.2.4</span>
         <h3>Two-Dimensional Trees</h3>
       </div>
-      <p>A two-dimensional segment tree allows us to process queries related to rectangular subarrays on a two-dimensional array. The idea is to create a segment tree that corresponds to the columns of the array and then assign each node of this structure a segment tree that corresponds to the rows of the array. Both the queries take <i>O</i>(log<sup>2</sup> <i>n</i>) time, because <i>O</i>(log <i>n</i>) nodes in the main segment tree are accessed, and processing each node takes <i>O</i>(log <i>n</i>) time.</p>
-      <p>The structure uses a total of <i>O</i>(<i>n</i><sup>2</sup>) memory, because the main segment tree has <i>O</i>(<i>n</i>) nodes, and each node has a segment tree of <i>O</i>(<i>n</i>) nodes.</p>
+      <p>A two-dimensional segment tree processes queries about rectangular subarrays. We build a segment tree over the columns, then give each node a segment tree over the rows. Queries take <i>O</i>(log<sup>2</sup> <i>n</i>) time: <i>O</i>(log <i>n</i>) nodes of the main tree are accessed, and each takes <i>O</i>(log <i>n</i>) time.</p>
+      <p>The structure uses <i>O</i>(<i>n</i><sup>2</sup>) memory: the main tree has <i>O</i>(<i>n</i>) nodes, each with a tree of <i>O</i>(<i>n</i>) nodes.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -550,10 +550,10 @@
 
     <p class="statement" data-reveal>A treap stores an array as a binary tree whose inorder walk is the array and whose weights form a heap.</p>
 
-    <p class="lead" data-reveal>A treap is a binary tree that can store the contents of an array in such a way that we can efficiently split an array into two arrays and merge two arrays into an array. Each node in a treap has two values: a weight and a value. Each node’s weight is smaller or equal than the weights of its children, and the node is located in the array after all nodes in its left subtree and before all nodes in its right subtree.</p>
+    <p class="lead" data-reveal>A treap is a binary tree that stores an array so that we can efficiently split it into two arrays and merge two arrays into one. Each node has a weight and a value. A node’s weight is no larger than its children’s weights, and the node lies after all nodes in its left subtree and before all nodes in its right subtree.</p>
 
     <div class="ch15-treap-intro" data-reveal>
-      <p>The root node has weight 1 and value <b>D</b>. Since its left subtree contains three nodes, this means that the array element at position 3 has value <b>D</b>. When a new node is added to the treap, it is assigned a random weight. This guarantees that the tree is balanced (its height is <i>O</i>(log <i>n</i>)) with high probability, and its operations can be performed efficiently.</p>
+      <p>The root has weight 1 and value <b>D</b>. Since its left subtree contains three nodes, the array element at position 3 has value <b>D</b>. A new node is assigned a random weight, which guarantees that the tree is balanced (height <i>O</i>(log <i>n</i>)) with high probability, so its operations stay efficient.</p>
     </div>
 
     <!-- interactive: treap split / merge -->
@@ -583,9 +583,9 @@
         <span class="ch15-sub__num">15.3.1</span>
         <h3>Splitting and Merging</h3>
       </div>
-      <p><b>Splitting</b> creates two treaps which divide the array into two arrays so that the first <i>k</i> elements belong to the first array and the rest of the elements belong to the second array. To do this, we create two new treaps that are initially empty and traverse the original treap starting at the root node. At each step, if the current node belongs to the left treap, the node and its left subtree are added to the left treap and we recursively process its right subtree. Similarly, if the current node belongs to the right treap, the node and its right subtree are added to the right treap and we recursively process its left subtree. Since the height of the treap is <i>O</i>(log <i>n</i>), this operation works in <i>O</i>(log <i>n</i>) time.</p>
-      <p><b>Merging</b> creates a single treap that concatenates the arrays. The two treaps are processed simultaneously, and at each step, the treap whose root has the smallest weight is selected. If the root of the left treap has the smallest weight, the root and its left subtree are moved to the new treap and its right subtree becomes the new root of the left treap. Similarly, if the root of the right treap has the smallest weight, the root and its right subtree are moved to the new treap and its left subtree becomes the new root of the right treap. Since the height of the treap is <i>O</i>(log <i>n</i>), this operation works in <i>O</i>(log <i>n</i>) time.</p>
-      <p>For example, splitting our example array so that the first array contains the first five elements: first, node D belongs to the left treap, so we add node D and its left subtree to the left treap. Then, node C belongs to the right treap, and we add node C and its right subtree to the right treap. Finally, we add node W to the left treap and node I to the right treap. We may now swap the order of the two arrays in our example scenario and then concatenate the arrays again.</p>
+      <p><b>Splitting</b> creates two treaps that divide the array so that the first <i>k</i> elements go to the first treap and the rest to the second. We create two empty treaps and traverse the original from the root. At each step, if the current node belongs to the left treap, the node and its left subtree are added there and we recurse on its right subtree. Similarly, if it belongs to the right treap, the node and its right subtree go there and we recurse on its left subtree. Since the height is <i>O</i>(log <i>n</i>), the operation works in <i>O</i>(log <i>n</i>) time.</p>
+      <p><b>Merging</b> creates one treap that concatenates the arrays. The two treaps are processed together, and at each step the root with the smallest weight is chosen. If that is the left root, the root and its left subtree move to the new treap, and its right subtree becomes the new root of the left treap. Similarly, if it is the right root, the root and its right subtree move, and its left subtree becomes the new root of the right treap. Since the height is <i>O</i>(log <i>n</i>), merging works in <i>O</i>(log <i>n</i>) time.</p>
+      <p>For example, split the example array so that the first array holds the first five elements. Node D belongs to the left treap, so D and its left subtree go left. Node C belongs to the right treap, so C and its right subtree go right. Then W goes left and I goes right. We may now swap the two arrays and concatenate them again.</p>
     </div>
 
     <div class="ch15-sub" data-reveal>
@@ -593,7 +593,7 @@
         <span class="ch15-sub__num">15.3.2</span>
         <h3>Implementation</h3>
       </div>
-      <p>Next we will learn a convenient way to implement a treap. The field <code>size</code> contains the size of the subtree of the node. Since a node can be <code>NULL</code>, a separate <code>size</code> function is useful. The function <code>split</code> implements the splitting operation: it recursively splits the treap into treaps <code>left</code> and <code>right</code> so that the left treap contains the first <i>k</i> nodes and the right treap contains the remaining nodes. Then, the function <code>merge</code> implements the merging operation.</p>
+      <p>Next we will learn a convenient way to implement a treap. The field <code>size</code> contains the size of the subtree of the node. Since a node can be <code>NULL</code>, a separate <code>size</code> function is useful. The function <code>split</code> recursively splits the treap into <code>left</code> and <code>right</code>, so that left contains the first <i>k</i> nodes and right the rest. The function <code>merge</code> implements merging.</p>
     </div>
 
     <div class="code-card ch15-code" data-code-card id="cardTreap" data-reveal>
@@ -610,15 +610,15 @@
       </div>
     </div>
 
-    <p class="ch15-after" data-reveal>For example, the example code creates a treap that corresponds to the array [1, 2, 3, 4]. Then it divides it into two treaps of size 2 and swaps their order to create a new treap that corresponds to the array [3, 4, 1, 2].</p>
+    <p class="ch15-after" data-reveal>For example, the code creates a treap for [1, 2, 3, 4], divides it into two treaps of size 2, and swaps them to create a treap for [3, 4, 1, 2].</p>
 
     <div class="ch15-sub" data-reveal>
       <div class="ch15-sub__head">
         <span class="ch15-sub__num">15.3.3</span>
         <h3>Additional Techniques</h3>
       </div>
-      <p>The splitting and merging operations of treaps are very powerful, because we can freely “cut and paste” arrays in logarithmic time using them. Treaps can be also extended so that they work almost like segment trees. For example, in addition to maintaining the size of each subtree, we can also maintain the sum of its values, the minimum value, and so on.</p>
-      <p>One special trick related to treaps is that we can efficiently reverse an array. This can be done by swapping the left and right child of each node in the treap. To do this efficiently, we can introduce a field that indicates if we should reverse the subtree of the node, and process swapping operations lazily.</p>
+      <p>Splitting and merging are powerful, because they let us “cut and paste” arrays in logarithmic time. Treaps can also be extended to work almost like segment trees: for example, in addition to the size of each subtree, we can also maintain the sum of its values, the minimum, and so on.</p>
+      <p>One special trick related to treaps is that we can efficiently reverse an array by swapping the left and right child of each node. To do this efficiently, we introduce a field indicating whether the subtree should be reversed, and process the swaps lazily.</p>
     </div>
 
     <div class="ch15-reverse" data-reveal>
@@ -648,15 +648,15 @@
 
     <p class="statement" data-reveal>The hard part of a dynamic program is often not the state — it is the transition that tries every previous state.</p>
 
-    <p class="lead" data-reveal>This section discusses techniques for optimizing dynamic programming solutions. First, we focus on the convex hull trick, which can be used to efficiently find minimum values of linear functions. After this, we discuss two other techniques that are based on properties of cost functions.</p>
+    <p class="lead" data-reveal>This section discusses techniques for optimizing dynamic programming. First, we focus on the convex hull trick, which finds minimum values of linear functions efficiently. After that, we discuss two other techniques based on properties of cost functions.</p>
 
     <div class="ch15-sub" data-reveal>
       <div class="ch15-sub__head">
         <span class="ch15-sub__num">15.4.1</span>
         <h3>Convex Hull Trick</h3>
       </div>
-      <p>The convex hull trick allows us to efficiently find the minimum function value at a given point <i>x</i> among a set of <i>n</i> linear functions of the form <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i>. The idea is to divide the <i>x</i>-axis into ranges where a certain function has the minimum value. It turns out that each function will have at most one range, and we can store the ranges in a sorted list that will contain at most <i>n</i> ranges. Given a list of ranges, we can find the minimum function value at point <i>x</i> in <i>O</i>(log <i>n</i>) time using binary search. Thus, we can process a set of <i>k</i> queries in <i>O</i>(<i>k</i> log <i>n</i>) time. Moreover, if the queries are given in increasing order, we can process them in <i>O</i>(<i>k</i>) time by just iterating through the ranges from left to right.</p>
-      <p>For example, the functions are <i>f</i><sub>1</sub>(<i>x</i>) = <i>x</i> + 2, <i>f</i><sub>2</sub>(<i>x</i>) = <i>x</i>/3 + 4, <i>f</i><sub>3</sub>(<i>x</i>) = <i>x</i>/6 + 5, and <i>f</i><sub>4</sub>(<i>x</i>) = −<i>x</i>/4 + 7. The minimum value at point <i>x</i> = 4 is <i>f</i><sub>2</sub>(4) = 16/3. First, <i>f</i><sub>1</sub> has the minimum value, then <i>f</i><sub>2</sub> has the minimum value, and finally <i>f</i><sub>4</sub> has the minimum value. Note that <i>f</i><sub>3</sub> never has the minimum value.</p>
+      <p>The convex hull trick finds the minimum value at a point <i>x</i> among <i>n</i> linear functions <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i>. The idea is to divide the <i>x</i>-axis into ranges where one function is minimal. Each function has at most one range, and the ranges fit in a sorted list of at most <i>n</i> entries. With that list, the minimum at <i>x</i> is found in <i>O</i>(log <i>n</i>) time by binary search, so <i>k</i> queries take <i>O</i>(<i>k</i> log <i>n</i>). If the queries come in increasing order, we can process them in <i>O</i>(<i>k</i>) time by walking the ranges from left to right.</p>
+      <p>For example, take <i>f</i><sub>1</sub>(<i>x</i>) = <i>x</i> + 2, <i>f</i><sub>2</sub>(<i>x</i>) = <i>x</i>/3 + 4, <i>f</i><sub>3</sub>(<i>x</i>) = <i>x</i>/6 + 5, and <i>f</i><sub>4</sub>(<i>x</i>) = −<i>x</i>/4 + 7. At <i>x</i> = 4 the minimum is <i>f</i><sub>2</sub>(4) = 16/3. First, <i>f</i><sub>1</sub> has the minimum value, then <i>f</i><sub>2</sub> has the minimum value, and finally <i>f</i><sub>4</sub> has the minimum value. Note that <i>f</i><sub>3</sub> is never minimal.</p>
     </div>
 
     <!-- interactive: convex hull trick -->
@@ -688,7 +688,7 @@
         <span class="ch15-cht__seg" data-cht-seg="4" style="flex:6.858"><b>f₄</b><i>36/7 – 12</i></span>
         <span class="ch15-cht__never">f₃ never wins</span>
       </div>
-      <p class="ch15-cht__foot">On [0, 3] the winner is <i>f</i><sub>1</sub>; on [3, 36/7] it is <i>f</i><sub>2</sub>; after that <i>f</i><sub>4</sub> wins; <i>f</i><sub>3</sub> is dominated everywhere.</p>
+      <p class="ch15-cht__foot">On [0, 3] the winner is <i>f</i><sub>1</sub>; on [3, 36/7] it is <i>f</i><sub>2</sub>; after that <i>f</i><sub>4</sub> wins. <i>f</i><sub>3</sub> is dominated everywhere.</p>
     </div>
 
     <div class="ch15-sub" data-reveal>
@@ -696,11 +696,11 @@
         <span class="ch15-sub__num">15.4.2</span>
         <h3>Divide and Conquer Optimization</h3>
       </div>
-      <p>The divide and conquer optimization can be applied to certain dynamic programming problems where a sequence <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, …, <i>s</i><sub><i>n</i></sub> of <i>n</i> elements has to be divided into <i>k</i> subsequences of consecutive elements. A cost function cost(<i>a</i>, <i>b</i>) is given, which determines the cost of creating a subsequence <i>s</i><sub><i>a</i></sub>, <i>s</i><sub><i>a</i>+1</sub>, …, <i>s</i><sub><i>b</i></sub>. The total cost of a division is the sum of the individual costs of the subsequences, and our task is to find a division that minimizes the total cost. We can solve the problem by defining a function solve(<i>i</i>, <i>j</i>) which gives the minimum total cost of dividing the first <i>i</i> elements into <i>j</i> subsequences. To calculate a value of solve(<i>i</i>, <i>j</i>), we have to find a position 1 ≤ <i>p</i> ≤ <i>i</i> that minimizes the value of</p>
+      <p>The divide and conquer optimization applies to dynamic programming problems where a sequence <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, …, <i>s</i><sub><i>n</i></sub> must be divided into <i>k</i> subsequences of consecutive elements. A cost function cost(<i>a</i>, <i>b</i>) gives the cost of the subsequence <i>s</i><sub><i>a</i></sub>, <i>s</i><sub><i>a</i>+1</sub>, …, <i>s</i><sub><i>b</i></sub>. The total cost is the sum of the individual costs, and we want the division that minimizes it. Define solve(<i>i</i>, <i>j</i>) as the minimum cost of dividing the first <i>i</i> elements into <i>j</i> subsequences. To calculate solve(<i>i</i>, <i>j</i>), we find a position 1 ≤ <i>p</i> ≤ <i>i</i> that minimizes</p>
       <p class="ch15-eq">solve(<i>i</i>, <i>j</i>) = min<sub>1 ≤ <i>p</i> ≤ <i>i</i></sub> [ solve(<i>p</i> − 1, <i>j</i> − 1) + cost(<i>p</i>, <i>i</i>) ].</p>
-      <p>A simple way to find an optimal position is to check all positions 1, 2, …, <i>i</i>, which takes <i>O</i>(<i>n</i>) time. By calculating all values of solve(<i>i</i>, <i>j</i>) like this, we get a dynamic programming algorithm that works in <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) time. However, using the divide and conquer optimization, we can improve the time complexity to <i>O</i>(<i>n</i><i>k</i> log <i>n</i>). The divide and conquer optimization can be used if the cost function satisfies the quadrangle inequality</p>
+      <p>Checking all positions 1, 2, …, <i>i</i> takes <i>O</i>(<i>n</i>) time. Calculating every solve(<i>i</i>, <i>j</i>) this way gives an <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) algorithm. The divide and conquer optimization improves this to <i>O</i>(<i>n</i><i>k</i> log <i>n</i>), provided the cost function satisfies the quadrangle inequality</p>
       <p class="ch15-eq">cost(<i>a</i>, <i>c</i>) + cost(<i>b</i>, <i>d</i>) ≤ cost(<i>a</i>, <i>d</i>) + cost(<i>b</i>, <i>c</i>) &nbsp; for <i>a</i> ≤ <i>b</i> ≤ <i>c</i> ≤ <i>d</i>,</p>
-      <p>Let pos(<i>i</i>, <i>j</i>) denote the smallest position <i>p</i> that minimizes the cost of a division for solve(<i>i</i>, <i>j</i>). If the above inequality holds, it is guaranteed that pos(<i>i</i>, <i>j</i>) ≤ pos(<i>i</i>+1, <i>j</i>) for all values of <i>i</i> and <i>j</i>. The idea is to create a function calc(<i>j</i>, <i>a</i>, <i>b</i>, <i>x</i>, <i>y</i>) that calculates all values of solve(<i>i</i>, <i>j</i>) for <i>a</i> ≤ <i>i</i> ≤ <i>b</i> and a fixed <i>j</i> using the information that <i>x</i> ≤ pos(<i>i</i>, <i>j</i>) ≤ <i>y</i>. The function first calculates the value of solve(<i>z</i>, <i>j</i>) where <i>z</i> = ⌊(<i>a</i>+<i>b</i>)/2⌋. Then it performs recursive calls calc(<i>j</i>, <i>a</i>, <i>z</i>−1, <i>x</i>, <i>p</i>) and calc(<i>j</i>, <i>z</i>+1, <i>b</i>, <i>p</i>, <i>y</i>) where <i>p</i> = pos(<i>z</i>, <i>j</i>). To calculate all values of solve(<i>i</i>, <i>j</i>), we perform a function call calc(<i>j</i>, 1, <i>n</i>, 1, <i>n</i>) for each <i>j</i> = 1, 2, …, <i>k</i>. Since each such function call takes <i>O</i>(<i>n</i> log <i>n</i>) time, the resulting algorithm works in <i>O</i>(<i>n</i><i>k</i> log <i>n</i>) time.</p>
+      <p>Let pos(<i>i</i>, <i>j</i>) be the smallest position <i>p</i> that minimizes the cost for solve(<i>i</i>, <i>j</i>). If the inequality holds, then pos(<i>i</i>, <i>j</i>) ≤ pos(<i>i</i>+1, <i>j</i>) for all <i>i</i> and <i>j</i>. Define calc(<i>j</i>, <i>a</i>, <i>b</i>, <i>x</i>, <i>y</i>) to calculate all solve(<i>i</i>, <i>j</i>) for <i>a</i> ≤ <i>i</i> ≤ <i>b</i> and a fixed <i>j</i>, knowing that <i>x</i> ≤ pos(<i>i</i>, <i>j</i>) ≤ <i>y</i>. It first calculates solve(<i>z</i>, <i>j</i>) with <i>z</i> = ⌊(<i>a</i>+<i>b</i>)/2⌋, then recurses into calc(<i>j</i>, <i>a</i>, <i>z</i>−1, <i>x</i>, <i>p</i>) and calc(<i>j</i>, <i>z</i>+1, <i>b</i>, <i>p</i>, <i>y</i>), where <i>p</i> = pos(<i>z</i>, <i>j</i>). To get all solve(<i>i</i>, <i>j</i>), call calc(<i>j</i>, 1, <i>n</i>, 1, <i>n</i>) for each <i>j</i> = 1, 2, …, <i>k</i>. Each call takes <i>O</i>(<i>n</i> log <i>n</i>) time, so the algorithm works in <i>O</i>(<i>n</i><i>k</i> log <i>n</i>) time.</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -733,9 +733,9 @@
         <span class="ch15-sub__num">15.4.3</span>
         <h3>Knuth’s Optimization</h3>
       </div>
-      <p>Knuth’s optimization can be used in certain dynamic programming problems where we are asked to divide a sequence <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, …, <i>s</i><sub><i>n</i></sub> of <i>n</i> elements into single elements using splitting operations. A cost function cost(<i>a</i>, <i>b</i>) gives the cost of processing a sequence <i>s</i><sub><i>a</i></sub>, <i>s</i><sub><i>a</i>+1</sub>, …, <i>s</i><sub><i>b</i></sub>, and our task is to find a solution that minimizes the total sum of the splitting costs. We can solve the problem by defining a function solve(<i>i</i>, <i>j</i>) which gives the minimum cost of dividing the sequence <i>s</i><sub><i>i</i></sub>, <i>s</i><sub><i>i</i>+1</sub>, …, <i>s</i><sub><i>j</i></sub> into single elements. Then, solve(1, <i>n</i>) gives the answer to the problem. To determine a value of solve(<i>i</i>, <i>j</i>), we have to find a position <i>i</i> ≤ <i>p</i> &lt; <i>j</i> that minimizes the value of</p>
+      <p>Knuth’s optimization applies to dynamic programming problems where a sequence <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, …, <i>s</i><sub><i>n</i></sub> is divided into single elements by splitting operations. A cost function cost(<i>a</i>, <i>b</i>) gives the cost of processing <i>s</i><sub><i>a</i></sub>, <i>s</i><sub><i>a</i>+1</sub>, …, <i>s</i><sub><i>b</i></sub>, and we want to minimize the total splitting cost. Define solve(<i>i</i>, <i>j</i>) as the minimum cost of dividing <i>s</i><sub><i>i</i></sub>, <i>s</i><sub><i>i</i>+1</sub>, …, <i>s</i><sub><i>j</i></sub> into single elements; then solve(1, <i>n</i>) is the answer. To determine solve(<i>i</i>, <i>j</i>), find a position <i>i</i> ≤ <i>p</i> &lt; <i>j</i> that minimizes</p>
       <p class="ch15-eq">solve(<i>i</i>, <i>j</i>) = cost(<i>i</i>, <i>j</i>) + min<sub><i>i</i> ≤ <i>p</i> &lt; <i>j</i></sub> [ solve(<i>i</i>, <i>p</i>) + solve(<i>p</i> + 1, <i>j</i>) ].</p>
-      <p>If we check all positions between <i>i</i> and <i>j</i>, we get a dynamic programming algorithm that works in <i>O</i>(<i>n</i><sup>3</sup>) time. However, using Knuth’s optimization, we can calculate the values of solve(<i>i</i>, <i>j</i>) more efficiently in <i>O</i>(<i>n</i><sup>2</sup>) time. Knuth’s optimization is applicable if cost(<i>b</i>, <i>c</i>) ≤ cost(<i>a</i>, <i>d</i>) and cost(<i>a</i>, <i>c</i>) + cost(<i>b</i>, <i>d</i>) ≤ cost(<i>a</i>, <i>d</i>) + cost(<i>b</i>, <i>c</i>) for all values of <i>a</i> ≤ <i>b</i> ≤ <i>c</i> ≤ <i>d</i>. Let pos(<i>i</i>, <i>j</i>) denote the smallest position <i>p</i> that minimizes the cost for solve(<i>i</i>, <i>j</i>). If the above inequalities hold, we know that pos(<i>i</i>, <i>j</i>−1) ≤ pos(<i>i</i>, <i>j</i>) ≤ pos(<i>i</i>+1, <i>j</i>). Now we can perform <i>n</i> rounds 1, 2, …, <i>n</i>, and on round <i>k</i> calculate the values of solve(<i>i</i>, <i>j</i>) where <i>j</i>−<i>i</i>+1 = <i>k</i>, i.e., we process the subsequences in increasing order of length. Since we know that pos(<i>i</i>, <i>j</i>) has to be between pos(<i>i</i>, <i>j</i>−1) and pos(<i>i</i>+1, <i>j</i>), we can perform each round in <i>O</i>(<i>n</i>) time, and the total time complexity of the algorithm becomes <i>O</i>(<i>n</i><sup>2</sup>).</p>
+      <p>Checking all positions between <i>i</i> and <i>j</i> gives an <i>O</i>(<i>n</i><sup>3</sup>) algorithm. Knuth’s optimization calculates the values in <i>O</i>(<i>n</i><sup>2</sup>) time. It applies if cost(<i>b</i>, <i>c</i>) ≤ cost(<i>a</i>, <i>d</i>) and cost(<i>a</i>, <i>c</i>) + cost(<i>b</i>, <i>d</i>) ≤ cost(<i>a</i>, <i>d</i>) + cost(<i>b</i>, <i>c</i>) for all <i>a</i> ≤ <i>b</i> ≤ <i>c</i> ≤ <i>d</i>. Let pos(<i>i</i>, <i>j</i>) be the smallest position <i>p</i> that minimizes the cost for solve(<i>i</i>, <i>j</i>). If the inequalities hold, pos(<i>i</i>, <i>j</i>−1) ≤ pos(<i>i</i>, <i>j</i>) ≤ pos(<i>i</i>+1, <i>j</i>). Now perform <i>n</i> rounds 1, 2, …, <i>n</i>, and on round <i>k</i> calculate solve(<i>i</i>, <i>j</i>) where <i>j</i>−<i>i</i>+1 = <i>k</i>: the subsequences in increasing order of length. Since pos(<i>i</i>, <i>j</i>) lies between pos(<i>i</i>, <i>j</i>−1) and pos(<i>i</i>+1, <i>j</i>), each round takes <i>O</i>(<i>n</i>) time, and the total complexity is <i>O</i>(<i>n</i><sup>2</sup>).</p>
     </div>
 
     <figure class="figure" data-reveal>
@@ -904,3 +904,4 @@
     <p class="closing ch15-closing" data-reveal>Every technique here is a trade: blocks for simplicity, tags for deferred work, random weights for balance, convexity for speed, and a second list whenever one search space is too large. The toolbox is complete; the problems are not.</p>
   </div>
 </section>
+

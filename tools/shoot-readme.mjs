@@ -61,7 +61,26 @@ for (const shot of shots) {
   }
 }
 
-// Mobile frame of the Chapter 1 opening.
+// Dark-mode spreads. The manual choice persists in localStorage.
+await page.setViewportSize({ width: 1440, height: 1080 });
+await page.goto(base, { waitUntil: 'networkidle' });
+await page.evaluate(() => localStorage.setItem('cp-theme', 'dark'));
+
+await page.goto(base + 'ch12.html', { waitUntil: 'networkidle' });
+await page.evaluate(() => document.fonts.ready);
+await page.waitForTimeout(500);
+await page.evaluate(() => scrollTo(0, 0));
+await page.waitForTimeout(500);
+await page.screenshot({
+  path: `${out}/dark-ch12.jpg`,
+  type: 'jpeg',
+  quality: 88,
+  clip: { x: 0, y: 0, width: 1440, height: 1110 },
+  animations: 'disabled',
+});
+console.log('dark-ch12.jpg  ch12.html  dark');
+
+// Mobile frame of the Chapter 1 opening, in dark mode.
 await page.setViewportSize({ width: 393, height: 852 });
 await page.goto(base, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);

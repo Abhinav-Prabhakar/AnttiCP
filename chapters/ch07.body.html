@@ -80,7 +80,7 @@
     </div>
 
     <p class="statement" data-reveal>A graph is a set of nodes, a set of edges, and a question about how they connect.</p>
-    <p class="lead" data-reveal>Many programming problems can be solved by considering the situation as a graph and using an appropriate graph algorithm. This section goes through the terminology used when discussing graphs and their properties, and the data structures used to represent graphs.</p>
+    <p class="lead" data-reveal>Many programming problems can be solved by considering the situation as a graph and using an appropriate graph algorithm. This section goes through the terminology of graphs and their properties, and the data structures that represent them.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.1</span><span>Graph Terminology</span></h3>
 
@@ -142,7 +142,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.2</span><span>Graph Representation</span></h3>
 
-    <p data-reveal>There are several ways to represent graphs in algorithms. The choice of a data structure depends on the size of the graph and the way the algorithm processes it.</p>
+    <p data-reveal>There are several ways to represent a graph. The choice depends on its size and on the way the algorithm processes it.</p>
 
     <div class="ch07-rep" id="ch07-rep" data-reveal>
       <div class="ch07-rep__head">
@@ -219,7 +219,7 @@
     </div>
 
     <p class="statement" data-reveal>Both traversals visit everything reachable. The difference is the order — and the order is the algorithm.</p>
-    <p class="lead" data-reveal>This section discusses two fundamental graph algorithms: depth-first search and breadth-first search. Both algorithms are given a starting node in the graph, and they visit all nodes that can be reached from it.</p>
+    <p class="lead" data-reveal>This section discusses two fundamental graph algorithms: depth-first search and breadth-first search. Both are given a starting node, and both visit every node reachable from it. The difference in the algorithms is the order in which they visit the nodes.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.1</span><span>Depth-First Search</span></h3>
 
@@ -239,7 +239,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.2</span><span>Breadth-First Search</span></h3>
 
-    <p data-reveal>Breadth-first search (BFS) visits the nodes of a graph in increasing order of their distance from the starting node. Thus, we can calculate the distance from the starting node to all other nodes using it. However, breadth-first search is more difficult to implement than depth-first search. The search goes one level after another: first the nodes whose distance from the starting node is 1, then the nodes whose distance is 2, and so on, until all nodes have been visited. A typical implementation uses a queue of nodes; at each step, the next node in the queue is processed.</p>
+    <p data-reveal>Breadth-first search (BFS) visits the nodes of a graph in increasing order of their distance from the starting node. Thus, we can calculate the distance from the starting node to all other nodes using it. However, breadth-first search is more difficult to implement than depth-first search. The search goes one level after another: first the nodes at distance 1, then those at distance 2, and so on, until all nodes have been visited. A typical implementation uses a queue of nodes; at each step, the next node in the queue is processed.</p>
 
     <figure class="figure ch07-figure ch07-figure--wide" data-reveal>
       <div class="figure__frame">
@@ -339,6 +339,8 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.3</span><span>Applications</span></h3>
 
+    <p data-reveal>Both traversals can answer these questions, but depth-first search is usually easier to implement. The applications below assume an undirected graph.</p>
+
     <div class="ch07-apps" data-reveal>
       <article class="ch07-app">
         <span class="ch07-app__num">01</span>
@@ -408,11 +410,11 @@
     </div>
 
     <p class="statement" data-reveal>Weights turn a graph into a cost model. The shortest path is the cheapest way through, not necessarily the one with the fewest edges.</p>
-    <p class="lead" data-reveal>Finding a shortest path between two nodes of a graph has many practical applications. For example, in a road network we may want the shortest route between two cities. In an unweighted graph, the length of a path equals the number of its edges, and we can use breadth-first search to find a shortest path. However, in this section we focus on weighted graphs where more sophisticated algorithms are needed for finding shortest paths.</p>
+    <p class="lead" data-reveal>Finding a shortest path between two nodes of a graph has many practical applications. For example, in a road network we may want the shortest route between two cities. In an unweighted graph, the length of a path equals the number of its edges, and we can use breadth-first search to find a shortest path. However, this section focuses on weighted graphs, where finding shortest paths needs more sophisticated algorithms.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.1</span><span>Bellman–Ford Algorithm</span></h3>
 
-    <p data-reveal>The Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of the graph. It can process any graph that does not contain a cycle with negative length, and it can detect such a cycle. It keeps track of distances from the starting node to all nodes: initially 0 to the starting node and infinite to any other node. It then reduces the distances by finding edges that shorten the paths until no distance can be reduced. It consists of <i>n</i> − 1 rounds, and on each round it goes through all edges and attempts to reduce the distances. The time complexity is <i>O</i>(<i>nm</i>), because there are <i>n</i> − 1 rounds, each iterating through all <i>m</i> edges. If there are no negative cycles, all distances are final after <i>n</i> − 1 rounds, because each shortest path can contain at most <i>n</i> − 1 edges.</p>
+    <p data-reveal>The Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of the graph. It can process any graph that does not contain a cycle with negative length, and it can detect such a cycle. It keeps track of distances from the starting node to all nodes: initially 0 to the starting node and infinite to any other node. It then reduces distances with edges that shorten the paths, until no distance can be reduced. It consists of <i>n</i> − 1 rounds, and on each round it goes through all edges and attempts to reduce the distances. The time complexity is <i>O</i>(<i>nm</i>), because there are <i>n</i> − 1 rounds, each iterating through all <i>m</i> edges. If there are no negative cycles, all distances are final after <i>n</i> − 1 rounds, because each shortest path can contain at most <i>n</i> − 1 edges.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -795,7 +797,7 @@
     </div>
 
     <p class="statement" data-reveal>A spanning tree keeps every node and just enough edges to connect them. The minimum spanning tree is the cheapest such skeleton.</p>
-    <p class="lead" data-reveal>A spanning tree contains all nodes of a graph and some edges so that there is a path between any two nodes. Spanning trees are connected and acyclic. The weight of a spanning tree is the sum of its edge weights. A minimum spanning tree is a spanning tree whose weight is as small as possible; a maximum spanning tree is one whose weight is as large as possible. A graph may have several minimum and maximum spanning trees, so the trees are not unique.</p>
+    <p class="lead" data-reveal>A spanning tree contains all nodes of a graph and some edges so that there is a path between any two nodes. Spanning trees are connected and acyclic. The weight of a spanning tree is the sum of its edge weights. A minimum spanning tree is a spanning tree whose weight is as small as possible; a maximum spanning tree is one whose weight is as large as possible. A graph may have several minimum and maximum spanning trees, so the trees are not unique. The same algorithms also find maximum spanning trees by processing the edges in reverse order.</p>
 
     <div class="ch07-mst" id="ch07-mst" data-reveal>
       <div class="ch07-mst__head">
@@ -853,7 +855,7 @@
     <details class="note ch07-note" data-reveal>
       <summary><span class="note__label">Why the greedy choice is safe</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Suppose that a minimum spanning tree would not contain the minimum weight edge 5–6. We do not know its exact structure, but it has to contain some edges. It cannot be a minimum spanning tree, because we can remove an edge from it and replace it with the minimum weight edge 5–6. This produces a spanning tree whose weight is smaller. For this reason, it is always optimal to include the minimum weight edge. Using a similar argument, it is also optimal to add the next edge in weight order, and so on. Hence, Kruskal’s algorithm always produces a minimum spanning tree.</p>
+        <p>It is a good question why Kruskal’s algorithm works. Why does the greedy strategy guarantee a minimum spanning tree? Suppose that a minimum spanning tree would not contain the minimum weight edge 5–6. We do not know its exact structure, but it has to contain some edges. It cannot be a minimum spanning tree, because we can remove an edge from it and replace it with the minimum weight edge 5–6. This produces a spanning tree whose weight is smaller. For this reason, it is always optimal to include the minimum weight edge. Using a similar argument, it is also optimal to add the next edge in weight order, and so on. Hence, Kruskal’s algorithm always produces a minimum spanning tree.</p>
       </div>
     </details>
 
@@ -882,7 +884,7 @@
       <div class="ch07-uf__walk">
         <span class="kicker">find(6)</span>
         <div class="ch07-uf__chain"><span>6</span><i>→</i><span>3</span><i>→</i><span class="is-rep">2</span></div>
-        <p>Always connect the representative of the smaller set to that of the larger set. Then the length of any path is <i>O</i>(log <i>n</i>), so we can find the representative of any element by following the corresponding path.</p>
+        <p>Always connect the representative of the smaller set to that of the larger set (if the sets are equal in size, either choice works). Then the length of any path is <i>O</i>(log <i>n</i>), so we can find the representative of any element by following the corresponding path.</p>
       </div>
     </div>
 

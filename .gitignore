@@ -7,3 +7,4 @@ source/
 # local QA artefacts
 .qa-*.png
 .qa/
+.qa-theme/

@@ -116,7 +116,7 @@
       <div class="hero__grid">
         <div class="hero__copy">
           <h1 id="heroTitle" data-reveal>Mathematics</h1>
-          <p class="hero__lead" data-reveal style="--d:.08s">Number theory, combinatorics, matrices, probability, and games — the mathematics that competitive programming uses every week, and the algorithms that make it fast.</p>
+          <p class="hero__lead" data-reveal style="--d:.08s">Number theory, combinatorics, matrices, probability, and games — the mathematics competitive programming uses every week, and the algorithms that make it fast.</p>
           <p class="hero__meta-line" data-reveal style="--d:.14s"><span>5 sections</span><span>41 pages</span><span>≈ 100 min</span></p>
         </div>
       </div>
@@ -235,20 +235,20 @@
 
     <p class="statement" data-reveal>Number theory is the study of the integers. In a contest it is usually four operations: deciding what divides what, filtering the primes, taking a greatest common divisor, and doing all of it modulo <i>m</i>.</p>
 
-    <p class="lead" data-reveal>Number theory is a branch of mathematics that studies integers. In this section, we will discuss a selection of number-theoretical topics and algorithms, such as finding prime numbers and factors, and solving integer equations.</p>
+    <p class="lead" data-reveal>Number theory studies the integers. In this section we discuss a selection of number-theoretical topics and algorithms, such as finding primes and factors, and solving integer equations.</p>
 
     <div class="ch11-defs" data-reveal>
       <div class="ch11-def">
         <span class="kicker">Divisibility</span>
-        <p>An integer <i>a</i> is called a <em>factor</em> or a <em>divisor</em> of an integer <i>b</i> if <i>a</i> divides <i>b</i>. If <i>a</i> is a factor of <i>b</i>, we write <i>a</i> | <i>b</i>, and otherwise we write <i>a</i> ∤ <i>b</i>. For example, the factors of 24 are 1, 2, 3, 4, 6, 8, 12, and 24.</p>
+        <p>An integer <i>a</i> is a <em>factor</em>, or <em>divisor</em>, of an integer <i>b</i> if <i>a</i> divides <i>b</i>. If <i>a</i> is a factor of <i>b</i>, we write <i>a</i> | <i>b</i>, otherwise <i>a</i> ∤ <i>b</i>. For example, the factors of 24 are 1, 2, 3, 4, 6, 8, 12, and 24.</p>
       </div>
       <div class="ch11-def">
         <span class="kicker">Primality</span>
-        <p>An integer <i>n</i> &gt; 1 is a <em>prime</em> if its only positive factors are 1 and <i>n</i>. For example, 7, 19, and 41 are primes, but 35 is not a prime, because 5 · 7 = 35.</p>
+        <p>An integer <i>n</i> &gt; 1 is a <em>prime</em> if its only positive factors are 1 and <i>n</i>. For example, 7, 19, and 41 are primes, but 35 is not, because 5 · 7 = 35.</p>
       </div>
       <div class="ch11-def">
         <span class="kicker">Factorisation</span>
-        <p>For every integer <i>n</i> &gt; 1, there is a unique prime factorization <i>n</i> = <i>p</i><sub>1</sub><sup>α<sub>1</sub></sup><i>p</i><sub>2</sub><sup>α<sub>2</sub></sup> ⋯ <i>p</i><sub><i>k</i></sub><sup>α<sub><i>k</i></sub></sup>, where <i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>k</i></sub> are distinct primes and α<sub>1</sub>, α<sub>2</sub>, …, α<sub><i>k</i></sub> are positive integers. For example, the prime factorization for 84 is 84 = 2<sup>2</sup> · 3<sup>1</sup> · 7<sup>1</sup>.</p>
+        <p>Every integer <i>n</i> &gt; 1 has a unique prime factorization <i>n</i> = <i>p</i><sub>1</sub><sup>α<sub>1</sub></sup><i>p</i><sub>2</sub><sup>α<sub>2</sub></sup> ⋯ <i>p</i><sub><i>k</i></sub><sup>α<sub><i>k</i></sub></sup>, where <i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>k</i></sub> are distinct primes and α<sub>1</sub>, α<sub>2</sub>, …, α<sub><i>k</i></sub> are positive integers. For example, 84 = 2<sup>2</sup> · 3<sup>1</sup> · 7<sup>1</sup>.</p>
       </div>
     </div>
   </div>
@@ -262,7 +262,7 @@
       <div class="section-head__body"><h2 id="h111">Primes and Factors</h2></div>
     </div>
 
-    <p data-reveal>Let τ(<i>n</i>) denote the number of factors of an integer <i>n</i>. For example, τ(12) = 6, because the factors of 12 are 1, 2, 3, 4, 6, and 12. Then, let σ(<i>n</i>) denote the sum of factors of an integer <i>n</i>. For example, σ(12) = 28, because 1 + 2 + 3 + 4 + 6 + 12 = 28. To calculate the values, we can use the formulas below.</p>
+    <p data-reveal>Let τ(<i>n</i>) denote the number of factors of <i>n</i>. For example, τ(12) = 6, because the factors of 12 are 1, 2, 3, 4, 6, and 12. Let σ(<i>n</i>) denote the sum of factors of <i>n</i>. For example, σ(12) = 28, because 1 + 2 + 3 + 4 + 6 + 12 = 28. To calculate them, we use the formulas below.</p>
 
     <div class="ch11-formula" data-reveal>
       <div class="ch11-formula__row">
@@ -301,7 +301,7 @@
       <figcaption class="figure__cap">A division ladder peels off one prime at a time. The exponents 2, 1, 1 then give τ(84) = 3 · 2 · 2 and σ(84) = (1 + 2 + 4)(1 + 3)(1 + 7) = 224.</figcaption>
     </figure>
 
-    <p data-reveal>If an integer <i>n</i> is not prime, it can be represented as a product <i>a</i> · <i>b</i>, where <i>a</i> ≤ √<i>n</i> or <i>b</i> ≤ √<i>n</i>, so it certainly has a factor between 2 and ⌊√<i>n</i>⌋. Using this observation, we can both test if an integer is prime and find its prime factorization in <i>O</i>(√<i>n</i>) time. The following function factors constructs a vector that contains the prime factorization of <i>n</i>. The function divides <i>n</i> by its prime factors and adds them to the vector.</p>
+    <p data-reveal>If <i>n</i> is not prime, it can be represented as a product <i>a</i> · <i>b</i>, where <i>a</i> ≤ √<i>n</i> or <i>b</i> ≤ √<i>n</i>, so it certainly has a factor between 2 and ⌊√<i>n</i>⌋. Using this observation, we can both test whether <i>n</i> is prime and find its prime factorization in <i>O</i>(√<i>n</i>) time. The following function constructs a vector that contains the prime factorization of <i>n</i>. It divides <i>n</i> by its prime factors and adds them to the vector.</p>
 
     <div class="ch11-card" data-code-card data-reveal>
       <div class="code-card__head">
@@ -318,8 +318,8 @@
     <div class="split2 ch11-primefacts" data-reveal>
       <div>
         <h3 class="ch11-h3">There are infinitely many primes</h3>
-        <p>It is easy to show that there is an infinite number of primes. If the number of primes would be finite, we could construct a set <i>P</i> = {<i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>n</i></sub>} that would contain all the primes. However, using such a set <i>P</i>, we could form a new prime <i>p</i><sub>1</sub><i>p</i><sub>2</sub> ⋯ <i>p</i><sub><i>n</i></sub> + 1 that would be larger than all elements in <i>P</i>. This is a contradiction, and the number of primes has to be infinite.</p>
-      <p>The prime-counting function π(<i>n</i>) gives the number of primes up to <i>n</i>. For example, π(10) = 4, because the primes up to 10 are 2, 3, 5, and 7. It is possible to show that π(<i>n</i>) ≈ <i>n</i> / ln <i>n</i>, which means that primes are quite frequent.</p>
+        <p>It is easy to show that there is an infinite number of primes. If there were finitely many, we could construct a set <i>P</i> = {<i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>n</i></sub>} containing all of them. Using such a set, we could form a new prime <i>p</i><sub>1</sub><i>p</i><sub>2</sub> ⋯ <i>p</i><sub><i>n</i></sub> + 1 larger than every element of <i>P</i>. This is a contradiction, and the number of primes has to be infinite.</p>
+      <p>The prime-counting function π(<i>n</i>) gives the number of primes up to <i>n</i>. For example, π(10) = 4, because the primes up to 10 are 2, 3, 5, and 7. One can show that π(<i>n</i>) ≈ <i>n</i> / ln <i>n</i>, so primes are quite frequent.</p>
       </div>
       <div class="ch11-pi" aria-label="Comparison of the exact and estimated prime count up to one million">
         <span class="kicker">π(10<sup>6</sup>)</span>
@@ -331,7 +331,7 @@
 
     <details class="note ch11-note" data-reveal>
       <summary><span class="note__label">Why α<sub>i</sub> + 1 choices</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
-      <div class="note__body"><p>For each prime <i>p</i><sub><i>i</i></sub>, there are α<sub><i>i</i></sub> + 1 ways to choose how many times it appears in the factor. The choices are independent, so the counts multiply. The sum formula is the same product applied to the geometric series 1 + <i>p</i> + ⋯ + <i>p</i><sup>α</sup>.</p></div>
+      <div class="note__body"><p>For each prime <i>p</i><sub><i>i</i></sub>, there are α<sub><i>i</i></sub> + 1 ways to choose how many times it appears. The choices are independent, so the counts multiply. The sum formula applies the same product to the geometric series 1 + <i>p</i> + ⋯ + <i>p</i><sup>α</sup>.</p></div>
     </details>
   </div>
 </section>
@@ -344,7 +344,7 @@
       <div class="section-head__body"><h2 id="h112">Sieve of Eratosthenes</h2></div>
     </div>
 
-    <p class="lead" data-reveal>The sieve of Eratosthenes is a preprocessing algorithm that constructs an array <code>sieve</code> from which we can efficiently check if any integer <i>x</i> between 2 … <i>n</i> is prime. If <i>x</i> is prime, then <code>sieve[x] = 0</code>, and otherwise <code>sieve[x] = 1</code>. To construct the array, the algorithm iterates through the integers 2 … <i>n</i> one by one. Always when a new prime <i>x</i> is found, the algorithm records that the numbers 2<i>x</i>, 3<i>x</i>, 4<i>x</i>, etc., are not primes.</p>
+    <p class="lead" data-reveal>The sieve of Eratosthenes is a preprocessing algorithm that constructs an array <code>sieve</code> for checking efficiently whether any integer <i>x</i> between 2 … <i>n</i> is prime. If <i>x</i> is prime, <code>sieve[x] = 0</code>; otherwise <code>sieve[x] = 1</code>. To construct the array, the algorithm iterates through the integers 2 … <i>n</i> one by one. Whenever a new prime <i>x</i> is found, it records that 2<i>x</i>, 3<i>x</i>, 4<i>x</i>, etc., are not primes.</p>
 
     <div class="ch11-lab ch11-sieve" id="ch11Sieve" data-reveal>
       <div class="ch11-lab__head">
@@ -367,14 +367,14 @@
 
     <figure class="figure ch11-sievecode" data-reveal>
       <pre class="code"><code><span class="code-line">for (int x = 2; x &lt;= n; x++) {</span><span class="code-line">    if (sieve[x]) continue;</span><span class="code-line">    for (int u = 2*x; u &lt;= n; u += x) {</span><span class="code-line">        sieve[u] = 1;</span><span class="code-line">    }</span><span class="code-line">}</span></code></pre>
-      <figcaption class="figure__cap">The inner loop runs ⌊<i>n</i>/<i>x</i>⌋ times for each <i>x</i>, so the harmonic sum ⌊<i>n</i>/2⌋ + ⌊<i>n</i>/3⌋ + ⋯ gives an <i>O</i>(<i>n</i> log <i>n</i>) upper bound. Because only primes enter the inner loop, the real bound is <i>O</i>(<i>n</i> log log <i>n</i>).</figcaption>
+      <figcaption class="figure__cap">The inner loop runs ⌊<i>n</i>/<i>x</i>⌋ times for each <i>x</i>, so the harmonic sum ⌊<i>n</i>/2⌋ + ⌊<i>n</i>/3⌋ + ⋯ gives an <i>O</i>(<i>n</i> log <i>n</i>) bound. Only primes enter the inner loop, so the real bound is <i>O</i>(<i>n</i> log log <i>n</i>).</figcaption>
     </figure>
 
     <div class="split2 ch11-sieveextra" data-reveal>
       <div>
         <h3 class="ch11-h3">An extended sieve</h3>
-        <p>There are several ways to extend the sieve of Eratosthenes. For example, we can calculate for each number <i>k</i> its smallest prime factor. After this, we can efficiently factorize any number between 2 … <i>n</i> using the sieve. (Note that a number <i>n</i> has <i>O</i>(log <i>n</i>) prime factors.)</p>
-        <p>In practice, the sieve of Eratosthenes is very efficient; Table 11.1 shows some real running times.</p>
+        <p>There are several ways to extend the sieve. For example, we can calculate the smallest prime factor of each number <i>k</i>, after which we can efficiently factorize any number between 2 … <i>n</i> using the sieve. (A number <i>n</i> has <i>O</i>(log <i>n</i>) prime factors.)</p>
+        <p>In practice, the sieve is very efficient; Table 11.1 shows some real running times.</p>
       </div>
       <div class="ch11-timings">
         <div class="ch11-timings__head"><span>upper bound <i>n</i></span><span>time</span></div>
@@ -399,14 +399,14 @@
       <div class="section-head__body"><h2 id="h113">Euclid’s Algorithm</h2></div>
     </div>
 
-    <p data-reveal>The greatest common divisor of integers <i>a</i> and <i>b</i>, denoted gcd(<i>a</i>, <i>b</i>), is the largest integer that divides both <i>a</i> and <i>b</i>. For example, gcd(30, 12) = 6. A related concept is the lowest common multiple, denoted lcm(<i>a</i>, <i>b</i>), which is the smallest integer that is divisible by both <i>a</i> and <i>b</i>. The formula</p>
+    <p data-reveal>The greatest common divisor of integers <i>a</i> and <i>b</i>, denoted gcd(<i>a</i>, <i>b</i>), is the largest integer that divides both. For example, gcd(30, 12) = 6. The lowest common multiple, denoted lcm(<i>a</i>, <i>b</i>), is the smallest integer divisible by both <i>a</i> and <i>b</i>. The formula</p>
 
     <div class="ch11-formula ch11-formula--inline" data-reveal>
       <span class="ch11-math">lcm(<i>a</i>, <i>b</i>) = <span class="ch11-frac"><span class="ch11-frac__n"><i>a</i><i>b</i></span><span class="ch11-frac__d">gcd(<i>a</i>, <i>b</i>)</span></span></span>
       <span class="ch11-formula__aside">lcm(30, 12) = 360 / 6 = 60</span>
     </div>
 
-    <p data-reveal>One way to find gcd(<i>a</i>, <i>b</i>) is to divide <i>a</i> and <i>b</i> into prime factors, and then choose for each prime the largest power that appears in both factorizations. However, this technique is not efficient if <i>a</i> and <i>b</i> are large numbers. Euclid’s algorithm provides an efficient way to calculate the value of gcd(<i>a</i>, <i>b</i>). The algorithm is based on the formula</p>
+    <p data-reveal>One way to find gcd(<i>a</i>, <i>b</i>) is to factor <i>a</i> and <i>b</i> into primes, then choose for each prime the largest power that appears in both factorizations. However, this is not efficient if <i>a</i> and <i>b</i> are large. Euclid’s algorithm calculates gcd(<i>a</i>, <i>b</i>) efficiently. It is based on the formula</p>
 
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math">gcd(<i>a</i>, <i>b</i>) = <span class="ch11-cases"><span><i>a</i><em>if</em> <i>b</i> = 0</span><span>gcd(<i>b</i>, <i>a</i> mod <i>b</i>)<em>if</em> <i>b</i> ≠ 0</span></span></span>
@@ -431,10 +431,10 @@
           </g>
         </svg>
       </div>
-      <figcaption class="figure__cap">Any common divisor of <i>a</i> and <i>b</i> also divides <i>a</i> mod <i>b</i>, so the pair can be replaced by (<i>b</i>, <i>a</i> mod <i>b</i>) without losing information. Here the common unit is 6, and the rectangle is exactly ten of them.</figcaption>
+      <figcaption class="figure__cap">Any common divisor of <i>a</i> and <i>b</i> also divides <i>a</i> mod <i>b</i>, so the pair can be replaced by (<i>b</i>, <i>a</i> mod <i>b</i>) without losing information. Here the common unit is 6, and the rectangle holds exactly ten.</figcaption>
     </figure>
 
-    <p data-reveal>It can be proved that Euclid’s algorithm works in <i>O</i>(log <i>n</i>) time, where <i>n</i> = min(<i>a</i>, <i>b</i>). Euclid’s algorithm can also be extended so that it gives integers <i>x</i> and <i>y</i> for which <i>a</i><i>x</i> + <i>b</i><i>y</i> = gcd(<i>a</i>, <i>b</i>). For example, when <i>a</i> = 30 and <i>b</i> = 12, 30 · 1 + 12 · (−2) = 6.</p>
+    <p data-reveal>Euclid’s algorithm works in <i>O</i>(log <i>n</i>) time, where <i>n</i> = min(<i>a</i>, <i>b</i>). It can also be extended to give integers <i>x</i> and <i>y</i> for which <i>a</i><i>x</i> + <i>b</i><i>y</i> = gcd(<i>a</i>, <i>b</i>). For example, when <i>a</i> = 30 and <i>b</i> = 12, 30 · 1 + 12 · (−2) = 6.</p>
 
     <div class="ch11-lab ch11-euclid" id="ch11Euclid" data-reveal>
       <div class="ch11-lab__head">
@@ -484,13 +484,13 @@
       <div class="section-head__body"><h2 id="h114">Modular Exponentiation</h2></div>
     </div>
 
-    <p data-reveal>There is often a need to efficiently calculate the value of <i>x</i><sup><i>n</i></sup> mod <i>m</i>. This can be done in <i>O</i>(log <i>n</i>) time using the following recursive formula:</p>
+    <p data-reveal>We often need to calculate <i>x</i><sup><i>n</i></sup> mod <i>m</i> efficiently. This can be done in <i>O</i>(log <i>n</i>) time using the following recursive formula:</p>
 
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>x</i><sup><i>n</i></sup> = <span class="ch11-cases"><span>1<em><i>n</i> = 0</em></span><span><i>x</i><sup><i>n</i>/2</sup> · <i>x</i><sup><i>n</i>/2</sup><em><i>n</i> even</em></span><span><i>x</i><sup><i>n</i>−1</sup> · <i>x</i><em><i>n</i> odd</em></span></span></span>
     </div>
 
-    <p data-reveal>For example, to calculate the value of <i>x</i><sup>100</sup>, we first calculate the value of <i>x</i><sup>50</sup> and then use the formula <i>x</i><sup>100</sup> = <i>x</i><sup>50</sup> · <i>x</i><sup>50</sup>. Then, to calculate the value of <i>x</i><sup>50</sup>, we first calculate the value of <i>x</i><sup>25</sup> and so on. Since <i>n</i> always halves when it is even, the calculation takes only <i>O</i>(log <i>n</i>) time.</p>
+    <p data-reveal>For example, to calculate <i>x</i><sup>100</sup>, we first calculate <i>x</i><sup>50</sup> and then use <i>x</i><sup>100</sup> = <i>x</i><sup>50</sup> · <i>x</i><sup>50</sup>. To calculate <i>x</i><sup>50</sup>, we first calculate <i>x</i><sup>25</sup>, and so on. Since <i>n</i> halves whenever it is even, the calculation takes <i>O</i>(log <i>n</i>) time.</p>
 
     <div class="ch11-lab ch11-pow" id="ch11Pow" data-reveal>
       <div class="ch11-lab__head">
@@ -542,7 +542,7 @@
       <div class="section-head__body"><h2 id="h115">Euler’s Theorem</h2></div>
     </div>
 
-    <p data-reveal>Two integers <i>a</i> and <i>b</i> are called <em>coprime</em> if gcd(<i>a</i>, <i>b</i>) = 1. Euler’s totient function φ(<i>n</i>) gives the number of integers between 1 … <i>n</i> that are coprime to <i>n</i>. For example, φ(10) = 4, because 1, 3, 7, and 9 are coprime to 10.</p>
+    <p data-reveal>Two integers <i>a</i> and <i>b</i> are <em>coprime</em> if gcd(<i>a</i>, <i>b</i>) = 1. Euler’s totient function φ(<i>n</i>) gives the number of integers between 1 … <i>n</i> that are coprime to <i>n</i>. For example, φ(10) = 4, because 1, 3, 7, and 9 are coprime to 10.</p>
 
     <div class="split2 ch11-totient" data-reveal>
       <figure class="figure ch11-totient__fig">
@@ -592,19 +592,19 @@
 
     <p class="statement ch11-statement-tight" data-reveal>Euler’s theorem: if <i>x</i> and <i>m</i> are coprime, then <i>x</i><sup>φ(<i>m</i>)</sup> mod <i>m</i> = 1.</p>
 
-    <p data-reveal>For example, Euler’s theorem tells us that 7<sup>4</sup> mod 10 = 1, because 7 and 10 are coprime and φ(10) = 4. If <i>m</i> is prime, φ(<i>m</i>) = <i>m</i> − 1, so the formula becomes <i>x</i><sup><i>m</i>−1</sup> mod <i>m</i> = 1, which is known as Fermat’s little theorem. This also implies that <i>x</i><sup><i>n</i></sup> mod <i>m</i> = <i>x</i><sup><i>n</i> mod (<i>m</i>−1)</sup> mod <i>m</i>, which can be used to calculate values of <i>x</i><sup><i>n</i></sup> if <i>n</i> is very large.</p>
+    <p data-reveal>For example, Euler’s theorem tells us that 7<sup>4</sup> mod 10 = 1, because 7 and 10 are coprime and φ(10) = 4. If <i>m</i> is prime, φ(<i>m</i>) = <i>m</i> − 1, so the formula becomes <i>x</i><sup><i>m</i>−1</sup> mod <i>m</i> = 1, known as Fermat’s little theorem. This also implies <i>x</i><sup><i>n</i></sup> mod <i>m</i> = <i>x</i><sup><i>n</i> mod (<i>m</i>−1)</sup> mod <i>m</i>, which lets us calculate <i>x</i><sup><i>n</i></sup> when <i>n</i> is very large.</p>
 
     <div class="ch11-inverse" data-reveal>
       <div class="ch11-inverse__copy">
         <span class="kicker">Modular multiplicative inverse</span>
-        <p>The modular multiplicative inverse of <i>x</i> with respect to <i>m</i> is a value inv<sub><i>m</i></sub>(<i>x</i>) such that <i>x</i> · inv<sub><i>m</i></sub>(<i>x</i>) mod <i>m</i> = 1. A modular multiplicative inverse exists exactly when <i>x</i> and <i>m</i> are coprime. In this case, it can be calculated using the formula</p>
+        <p>The modular multiplicative inverse of <i>x</i> with respect to <i>m</i> is a value inv<sub><i>m</i></sub>(<i>x</i>) such that <i>x</i> · inv<sub><i>m</i></sub>(<i>x</i>) mod <i>m</i> = 1. It exists exactly when <i>x</i> and <i>m</i> are coprime, and can then be calculated using the formula</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">inv<sub><i>m</i></sub>(<i>x</i>) = <i>x</i><sup>φ(<i>m</i>)−1</sup> mod <i>m</i></span></div>
-        <p>In particular, if <i>m</i> is prime, φ(<i>m</i>) = <i>m</i> − 1 and the formula becomes <i>x</i><sup><i>m</i>−2</sup> mod <i>m</i>. Using modular multiplicative inverses, we can divide numbers modulo <i>m</i>, because division by <i>x</i> corresponds to multiplication by inv<sub><i>m</i></sub>(<i>x</i>). For example, since we know that inv<sub>17</sub>(6) = 3, we can calculate the value of 36/6 mod 17 in another way using the formula 36 · 3 mod 17.</p>
+        <p>In particular, if <i>m</i> is prime, φ(<i>m</i>) = <i>m</i> − 1 and the formula becomes <i>x</i><sup><i>m</i>−2</sup> mod <i>m</i>. Modular inverses let us divide modulo <i>m</i>, because division by <i>x</i> is multiplication by inv<sub><i>m</i></sub>(<i>x</i>). For example, since inv<sub>17</sub>(6) = 3, we can calculate 36/6 mod 17 as 36 · 3 mod 17.</p>
       </div>
       <div class="ch11-inverse__calc" aria-label="Verification of the inverse of six modulo seventeen">
         <span class="ch11-inverse__tag">6 · 3 mod 17</span>
         <div class="ch11-inverse__value">1</div>
-        <p>Since inv<sub>17</sub>(6) mod 17 = 6<sup>17−2</sup> mod 17 = 3, the above formula allows us to efficiently calculate modular multiplicative inverses using the modular exponentiation algorithm.</p>
+        <p>Since inv<sub>17</sub>(6) mod 17 = 6<sup>17−2</sup> mod 17 = 3, the formula lets us calculate modular inverses efficiently with the modular exponentiation algorithm.</p>
       </div>
     </div>
 
@@ -623,7 +623,7 @@
       <div class="section-head__body"><h2 id="h116">Solving Equations</h2></div>
     </div>
 
-    <p data-reveal>A Diophantine equation is an equation of the form <i>a</i><i>x</i> + <i>b</i><i>y</i> = <i>c</i>, where <i>a</i>, <i>b</i>, and <i>c</i> are constants and the values of <i>x</i> and <i>y</i> should be found. Each number in the equation has to be an integer. For example, one solution to the equation 5<i>x</i> + 2<i>y</i> = 11 is <i>x</i> = 3 and <i>y</i> = −2. We can efficiently solve a Diophantine equation by using the extended Euclid’s algorithm, which gives integers <i>x</i> and <i>y</i> that satisfy the equation <i>a</i><i>x</i> + <i>b</i><i>y</i> = gcd(<i>a</i>, <i>b</i>). A Diophantine equation can be solved exactly when <i>c</i> is divisible by gcd(<i>a</i>, <i>b</i>).</p>
+    <p data-reveal>A Diophantine equation has the form <i>a</i><i>x</i> + <i>b</i><i>y</i> = <i>c</i>, where <i>a</i>, <i>b</i>, and <i>c</i> are constants and <i>x</i> and <i>y</i> are the unknowns. Each number in the equation has to be an integer. For example, one solution to 5<i>x</i> + 2<i>y</i> = 11 is <i>x</i> = 3 and <i>y</i> = −2. We can solve a Diophantine equation efficiently using the extended Euclid’s algorithm, which gives integers <i>x</i> and <i>y</i> satisfying <i>a</i><i>x</i> + <i>b</i><i>y</i> = gcd(<i>a</i>, <i>b</i>). The equation can be solved exactly when <i>c</i> is divisible by gcd(<i>a</i>, <i>b</i>).</p>
 
     <figure class="figure ch11-lattice" data-reveal>
       <div class="figure__frame">
@@ -652,7 +652,7 @@
     <div class="split2 ch11-diophant" data-reveal>
       <div>
         <h3 class="ch11-h3">A worked equation</h3>
-        <p>As an example, let us find integers <i>x</i> and <i>y</i> that satisfy the equation 39<i>x</i> + 15<i>y</i> = 12. The equation can be solved, because gcd(39, 15) = 3 and 3 | 12. The extended Euclid’s algorithm gives us 39 · 2 + 15 · (−5) = 3, and by multiplying this by 4, the equation becomes 39 · 8 + 15 · (−20) = 12, so a solution to the equation is <i>x</i> = 8 and <i>y</i> = −20.</p>
+        <p>As an example, let us find integers <i>x</i> and <i>y</i> that satisfy 39<i>x</i> + 15<i>y</i> = 12. The equation can be solved, because gcd(39, 15) = 3 and 3 | 12. The extended Euclid’s algorithm gives 39 · 2 + 15 · (−5) = 3, and multiplying by 4 gives 39 · 8 + 15 · (−20) = 12, so <i>x</i> = 8 and <i>y</i> = −20.</p>
         <div class="ch11-formula ch11-formula--compact">
           <span class="ch11-math">(<i>x</i>, <i>y</i>) → (<i>x</i> + <span class="ch11-frac"><span class="ch11-frac__n"><i>k</i><i>b</i></span><span class="ch11-frac__d">g</span></span>, <i>y</i> − <span class="ch11-frac"><span class="ch11-frac__n"><i>k</i><i>a</i></span><span class="ch11-frac__d">g</span></span>)</span>
         </div>
@@ -660,7 +660,7 @@
       </div>
       <div class="ch11-crt">
         <span class="kicker">Chinese remainder theorem</span>
-        <p>The Chinese remainder theorem solves a group of equations of the form <i>x</i> ≡ <i>a</i><sub><i>i</i></sub> (mod <i>m</i><sub><i>i</i></sub>), where all pairs of <i>m</i><sub>1</sub>, <i>m</i><sub>2</sub>, …, <i>m</i><sub><i>n</i></sub> are coprime. It turns out that a solution to the equations is</p>
+        <p>The Chinese remainder theorem solves a group of equations <i>x</i> ≡ <i>a</i><sub><i>i</i></sub> (mod <i>m</i><sub><i>i</i></sub>), where all pairs of <i>m</i><sub>1</sub>, <i>m</i><sub>2</sub>, …, <i>m</i><sub><i>n</i></sub> are coprime. A solution is</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>x</i> = Σ <i>a</i><sub><i>k</i></sub><i>X</i><sub><i>k</i></sub> inv<sub><i>m</i><sub><i>k</i></sub></sub>(<i>X</i><sub><i>k</i></sub>), <i>X</i><sub><i>k</i></sub> = <span class="ch11-frac"><span class="ch11-frac__n"><i>m</i><sub>1</sub><i>m</i><sub>2</sub> ⋯ <i>m</i><sub><i>n</i></sub></span><span class="ch11-frac__d"><i>m</i><sub><i>k</i></sub></span></span></span></div>
         <div class="ch11-crt__table">
           <div class="ch11-crt__row ch11-crt__row--head"><span><i>k</i></span><span><i>a</i><sub><i>k</i></sub></span><span><i>m</i><sub><i>k</i></sub></span><span><i>X</i><sub><i>k</i></sub></span><span>term</span></div>
@@ -669,7 +669,7 @@
           <div class="ch11-crt__row"><span>3</span><span>2</span><span>3</span><span>35</span><span>140</span></div>
         </div>
         <p class="ch11-crt__sum"><span>3 · 21 · 1 + 4 · 15 · 1 + 2 · 35 · 2</span><b>263</b></p>
-        <p class="ch11-small">Once we have found a solution <i>x</i>, we can create an infinite number of other solutions, because all numbers of the form <i>x</i> + <i>m</i><sub>1</sub><i>m</i><sub>2</sub> ⋯ <i>m</i><sub><i>n</i></sub> are solutions. Here 5 · 7 · 3 = 105.</p>
+        <p class="ch11-small">Once we have a solution <i>x</i>, we can create infinitely many others, because all numbers of the form <i>x</i> + <i>m</i><sub>1</sub><i>m</i><sub>2</sub> ⋯ <i>m</i><sub><i>n</i></sub> are solutions. Here 5 · 7 · 3 = 105.</p>
       </div>
     </div>
   </div>
@@ -685,7 +685,7 @@
 
     <p class="statement" data-reveal>Combinatorics counts combinations without generating them. The whole subject is a set of shortcuts for a question that would otherwise need a list.</p>
 
-    <p class="lead" data-reveal>Combinatorics studies methods for counting combinations of objects. Usually, the goal is to find a way to count the combinations efficiently without generating each combination separately. In this section, we discuss a selection of combinatorial techniques that can be applied to a large number of problems.</p>
+    <p class="lead" data-reveal>Combinatorics studies methods for counting combinations of objects. Usually the goal is to count them efficiently without generating each combination separately. In this section we discuss combinatorial techniques that apply to a large number of problems.</p>
   </div>
 </section>
 
@@ -697,7 +697,7 @@
       <div class="section-head__body"><h2 id="h121">Binomial Coefficients</h2></div>
     </div>
 
-    <p data-reveal>The binomial coefficient <span class="ch11-binom-inline">C(<i>n</i>, <i>k</i>)</span> gives the number of ways we can choose a subset of <i>k</i> elements from a set of <i>n</i> elements. For example, <span class="ch11-binom-inline">C(5, 3) = 10</span>, because the set {1, 2, 3, 4, 5} has 10 subsets of 3 elements:</p>
+    <p data-reveal>The binomial coefficient <span class="ch11-binom-inline">C(<i>n</i>, <i>k</i>)</span> gives the number of ways to choose a subset of <i>k</i> elements from a set of <i>n</i> elements. For example, <span class="ch11-binom-inline">C(5, 3) = 10</span>, because {1, 2, 3, 4, 5} has 10 subsets of 3 elements:</p>
 
     <div class="ch11-subsets" data-reveal>
       <span class="ch11-subsets__lead"><span class="ch11-binom-inline">C(5, 3) = 10</span></span>
@@ -710,12 +710,12 @@
       <div class="ch11-binomials__item">
         <span class="kicker">Recursion</span>
         <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i>−1</span><span><i>k</i>−1</span></span><span class="ch11-binom__p">)</span></span> + <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i>−1</span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span></span>
-        <p>If we decide to include the element <i>x</i> in our subset, the remaining task is to choose <i>k</i> − 1 elements from <i>n</i> − 1 elements. If we do not include <i>x</i>, we have to choose <i>k</i> elements from <i>n</i> − 1 elements.</p>
+        <p>If we include <i>x</i> in our subset, we must choose <i>k</i> − 1 elements from the remaining <i>n</i> − 1. If we do not include <i>x</i>, we choose <i>k</i> elements from <i>n</i> − 1.</p>
       </div>
       <div class="ch11-binomials__item">
         <span class="kicker">Factorials</span>
         <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>!</span><span class="ch11-frac__d"><i>k</i>!(<i>n</i>−<i>k</i>)!</span></span></span>
-        <p>There are <i>n</i>! permutations of <i>n</i> elements. We go through all permutations and always include the first <i>k</i> elements of the permutation in the subset; since the order of the elements in the subset and outside the subset does not matter, the result is divided by <i>k</i>! and (<i>n</i>−<i>k</i>)!.</p>
+        <p>There are <i>n</i>! permutations of <i>n</i> elements. We go through all permutations, include the first <i>k</i> elements in the subset, and since order inside and outside the subset does not matter, divide by <i>k</i>! and (<i>n</i>−<i>k</i>)!.</p>
       </div>
       <div class="ch11-binomials__item">
         <span class="kicker">Symmetry and sum</span>
@@ -754,7 +754,7 @@
     </div>
 
     <h3 class="ch11-h3" data-reveal>Boxes and balls</h3>
-    <p data-reveal>“Boxes and balls” is a useful model, where we count the ways to place <i>k</i> balls in <i>n</i> boxes. Let us consider three scenarios. When <i>n</i> = 5 and <i>k</i> = 2, there are 10, 15, and 6 combinations.</p>
+    <p data-reveal>“Boxes and balls” is a useful model for counting the ways to place <i>k</i> balls in <i>n</i> boxes. Consider three scenarios. When <i>n</i> = 5 and <i>k</i> = 2, there are 10, 15, and 6 combinations.</p>
 
     <figure class="figure ch11-boxes" data-reveal>
       <div class="figure__frame">
@@ -781,10 +781,10 @@
           <span class="ch11-boxes__formula"><span class="ch11-binom-inline">C(4, 2) = 6</span></span>
         </div>
       </div>
-      <figcaption class="figure__cap">Scenario 2 encodes a placement as a string of <i>k</i> balls <code>o</code> and <i>n</i>−1 moves <code>→</code>: length <i>k</i>+<i>n</i>−1, choose the balls. Scenario 3 reserves a gap after each ball, leaving <span class="ch11-binom-inline">C(<i>n</i>−<i>k</i>+1, <i>n</i>−2<i>k</i>+1)</span> positions.</figcaption>
+      <figcaption class="figure__cap">Scenario 2 encodes a placement as <i>k</i> balls <code>o</code> and <i>n</i>−1 moves <code>→</code>: length <i>k</i>+<i>n</i>−1, choose the balls. Scenario 3 reserves a gap after each ball, leaving <span class="ch11-binom-inline">C(<i>n</i>−<i>k</i>+1, <i>n</i>−2<i>k</i>+1)</span> positions.</figcaption>
     </figure>
 
-    <p data-reveal>The multinomial coefficient gives the number of ways a set of <i>n</i> elements can be divided into subsets of sizes <i>k</i><sub>1</sub>, <i>k</i><sub>2</sub>, …, <i>k</i><sub><i>m</i></sub>, where <i>k</i><sub>1</sub> + <i>k</i><sub>2</sub> + ⋯ + <i>k</i><sub><i>m</i></sub> = <i>n</i>. Multinomial coefficients can be seen as a generalization of binomial coefficients; if <i>m</i> = 2, the above formula corresponds to the binomial coefficient formula:</p>
+    <p data-reveal>The multinomial coefficient gives the number of ways to divide a set of <i>n</i> elements into subsets of sizes <i>k</i><sub>1</sub>, <i>k</i><sub>2</sub>, …, <i>k</i><sub><i>m</i></sub>, where <i>k</i><sub>1</sub> + <i>k</i><sub>2</sub> + ⋯ + <i>k</i><sub><i>m</i></sub> = <i>n</i>. It generalizes the binomial coefficient; if <i>m</i> = 2, the formula above corresponds to the binomial coefficient formula:</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i><sub>1</sub>, <i>k</i><sub>2</sub>, …, <i>k</i><sub><i>m</i></sub></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>!</span><span class="ch11-frac__d"><i>k</i><sub>1</sub>!<i>k</i><sub>2</sub>! ⋯ <i>k</i><sub><i>m</i></sub>!</span></span></span>
     </div>
@@ -799,7 +799,7 @@
       <div class="section-head__body"><h2 id="h122">Catalan Numbers</h2></div>
     </div>
 
-    <p data-reveal>The Catalan number <i>C</i><sub><i>n</i></sub> gives the number of valid parenthesis expressions that consist of <i>n</i> left parentheses and <i>n</i> right parentheses. For example, <i>C</i><sub>3</sub> = 5, because we can construct a total of five parenthesis expressions using three left parentheses and three right parentheses:</p>
+    <p data-reveal>The Catalan number <i>C</i><sub><i>n</i></sub> gives the number of valid parenthesis expressions with <i>n</i> left and <i>n</i> right parentheses. For example, <i>C</i><sub>3</sub> = 5, because there are five such expressions using three of each:</p>
 
     <figure class="figure ch11-catalan" data-reveal>
       <div class="figure__frame">
@@ -815,23 +815,23 @@
         </svg>
         <p class="ch11-catalan__cap"><span>five valid expressions</span><span class="ch11-catalan__rule"></span><span>five binary trees of three nodes</span></p>
       </div>
-      <figcaption class="figure__cap">A parenthesis expression is valid if every prefix has at least as many left as right parentheses, and the whole expression has equal numbers of each. The trees are counted with left and right children distinguished.</figcaption>
+      <figcaption class="figure__cap">A parenthesis expression is valid if every prefix has at least as many left as right parentheses and the whole expression has equal numbers. The trees are counted with left and right children distinguished.</figcaption>
     </figure>
 
     <div class="split2 ch11-catalan__math" data-reveal>
       <div>
         <span class="kicker">Recurrence</span>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>C</i><sub><i>n</i></sub> = Σ<sub><i>i</i>=0</sub><sup><i>n</i>−1</sup> <i>C</i><sub><i>i</i></sub> <i>C</i><sub><i>n</i>−<i>i</i>−1</sub></span></div>
-        <p>We consider the ways to divide the parenthesis expression into two parts that are both valid parenthesis expressions, and the first part is as short as possible but not empty. For each <i>i</i>, the first part contains <i>i</i>+1 pairs of parentheses and the number of valid expressions is <i>C</i><sub><i>i</i></sub> <i>C</i><sub><i>n</i>−<i>i</i>−1</sub>. The base case is <i>C</i><sub>0</sub> = 1, because we can construct an empty parenthesis expression using zero pairs of parentheses.</p>
+        <p>We divide the expression into two parts that are both valid, with the first part as short as possible but not empty. For each <i>i</i>, the first part contains <i>i</i>+1 pairs and the number of valid expressions is <i>C</i><sub><i>i</i></sub> <i>C</i><sub><i>n</i>−<i>i</i>−1</sub>. The base case is <i>C</i><sub>0</sub> = 1, the empty expression with zero pairs.</p>
       </div>
       <div>
         <span class="kicker">Closed form</span>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>C</i><sub><i>n</i></sub> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i>+1</span></span> <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span>2<i>n</i></span><span><i>n</i></span></span><span class="ch11-binom__p">)</span></span></span></div>
-        <p>There are a total of <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>)</span> ways to construct a (not necessarily valid) parenthesis expression that contains <i>n</i> left parentheses and <i>n</i> right parentheses. If a parenthesis expression is not valid, it has to contain a prefix where the number of right parentheses exceeds the number of left parentheses. The idea is to pick the shortest such prefix and reverse each parenthesis in the prefix. The resulting expression consists of <i>n</i>+1 left and <i>n</i>−1 right parentheses, and the number of such expressions is <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>+1)</span>, which equals the number of nonvalid parenthesis expressions.</p>
+        <p>There are <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>)</span> ways to construct a (not necessarily valid) expression with <i>n</i> left and <i>n</i> right parentheses. A nonvalid expression contains a prefix where right parentheses outnumber left. Pick the shortest such prefix and reverse each parenthesis in it. The result has <i>n</i>+1 left and <i>n</i>−1 right parentheses, and there are <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>+1)</span> such expressions, which equals the number of nonvalid ones.</p>
       </div>
     </div>
 
-    <p data-reveal>We can also count certain tree structures using Catalan numbers. First, <i>C</i><sub><i>n</i></sub> equals the number of binary trees of <i>n</i> nodes, assuming that left and right children are distinguished. For example, since <i>C</i><sub>3</sub> = 5, there are 5 binary trees of 3 nodes. Then, <i>C</i><sub><i>n</i></sub> also equals the number of general rooted trees of <i>n</i>+1 nodes. For example, there are 5 rooted trees of 4 nodes.</p>
+    <p data-reveal>Catalan numbers also count certain tree structures. First, <i>C</i><sub><i>n</i></sub> equals the number of binary trees of <i>n</i> nodes when left and right children are distinguished. For example, since <i>C</i><sub>3</sub> = 5, there are 5 binary trees of 3 nodes. Then, <i>C</i><sub><i>n</i></sub> also equals the number of general rooted trees of <i>n</i>+1 nodes; for example, there are 5 rooted trees of 4 nodes.</p>
   </div>
 </section>
 
@@ -843,7 +843,7 @@
       <div class="section-head__body"><h2 id="h123">Inclusion–Exclusion</h2></div>
     </div>
 
-    <p data-reveal>Inclusion-exclusion is a technique that can be used for counting the size of a union of sets when the sizes of the intersections are known, and vice versa. A simple example of the technique is the formula</p>
+    <p data-reveal>Inclusion-exclusion counts the size of a union of sets when the sizes of the intersections are known, and vice versa. A simple example is the formula</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math">|<i>A</i> ∪ <i>B</i>| = |<i>A</i>| + |<i>B</i>| − |<i>A</i> ∩ <i>B</i>|</span>
     </div>
@@ -864,7 +864,7 @@
             <div class="ch11-venn__line is-plus"><span>+</span><span>|<i>A</i>| + |<i>B</i>| + |<i>C</i>|</span></div>
             <div class="ch11-venn__line is-minus"><span>−</span><span>|<i>A</i>∩<i>B</i>| + |<i>A</i>∩<i>C</i>| + |<i>B</i>∩<i>C</i>|</span></div>
             <div class="ch11-venn__line is-plus"><span>+</span><span>|<i>A</i>∩<i>B</i>∩<i>C</i>|</span></div>
-            <p>If an intersection contains an odd number of sets, its size is added to the answer, and otherwise its size is subtracted from the answer. In the general case, the size of the union <i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ ⋯ ∪ <i>X</i><sub><i>n</i></sub> can be calculated by going through all possible intersections.</p>
+            <p>If an intersection contains an odd number of sets, its size is added to the answer; otherwise it is subtracted. In general, the size of the union <i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ ⋯ ∪ <i>X</i><sub><i>n</i></sub> is calculated by going through all possible intersections.</p>
           </div>
         </div>
       </div>
@@ -872,7 +872,7 @@
     </figure>
 
     <h3 class="ch11-h3" data-reveal>Counting derangements</h3>
-    <p data-reveal>As an example, let us count the number of derangements of {1, 2, …, <i>n</i>}, i.e., permutations where no element remains in its original place. For example, when <i>n</i> = 3, there are two derangements: (2, 3, 1) and (3, 1, 2). One approach for solving the problem is to use inclusion-exclusion. Let <i>X</i><sub><i>k</i></sub> be the set of permutations that contain the element <i>k</i> at position <i>k</i>. The number of derangements equals <i>n</i>! − |<i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ ⋯ ∪ <i>X</i><sub><i>n</i></sub>|.</p>
+    <p data-reveal>As an example, let us count the derangements of {1, 2, …, <i>n</i>}: permutations where no element remains in its original place. When <i>n</i> = 3, there are two: (2, 3, 1) and (3, 1, 2). One approach is inclusion-exclusion. Let <i>X</i><sub><i>k</i></sub> be the set of permutations with element <i>k</i> at position <i>k</i>. The number of derangements equals <i>n</i>! − |<i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ ⋯ ∪ <i>X</i><sub><i>n</i></sub>|.</p>
 
     <div class="ch11-derange" data-reveal>
       <div class="ch11-derange__sets">
@@ -884,11 +884,11 @@
       <div class="ch11-derange__calc">
         <div class="ch11-derange__line"><span>|<i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ <i>X</i><sub>3</sub>|</span><span>= 2 + 2 + 2 − 1 − 1 − 1 + 1 = <b>4</b></span></div>
         <div class="ch11-derange__line"><span>derangements</span><span>= 3! − 4 = <b>2</b></span></div>
-        <p>An intersection of <i>c</i> distinct sets <i>X</i><sub><i>k</i></sub> has (<i>n</i>−<i>c</i>)! elements, because such an intersection consists of all permutations that contain <i>c</i> elements in their original places.</p>
+        <p>An intersection of <i>c</i> distinct sets <i>X</i><sub><i>k</i></sub> has (<i>n</i>−<i>c</i>)! elements, because it consists of all permutations with <i>c</i> elements in their original places.</p>
       </div>
     </div>
 
-    <p data-reveal>It turns out that the problem can also be solved without using inclusion-exclusion. Let <i>f</i>(<i>n</i>) denote the number of derangements for {1, 2, …, <i>n</i>}. We can use the following recursive formula: <i>f</i>(1) = 0, <i>f</i>(2) = 1, and for <i>n</i> &gt; 2,</p>
+    <p data-reveal>It turns out that the problem can also be solved without inclusion-exclusion. Let <i>f</i>(<i>n</i>) denote the number of derangements of {1, 2, …, <i>n</i>}. Then <i>f</i>(1) = 0, <i>f</i>(2) = 1, and for <i>n</i> &gt; 2,</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>f</i>(<i>n</i>) = (<i>n</i>−1)(<i>f</i>(<i>n</i>−2) + <i>f</i>(<i>n</i>−1))</span>
       <span class="ch11-formula__aside">choose what replaces 1: swap with 1, or continue without it</span>
@@ -904,7 +904,7 @@
       <div class="section-head__body"><h2 id="h124">Burnside’s Lemma</h2></div>
     </div>
 
-    <p data-reveal>Burnside’s lemma can be used to count the number of distinct combinations so that symmetric combinations are counted only once. Burnside’s lemma states that the number of combinations is</p>
+    <p data-reveal>Burnside’s lemma counts distinct combinations so that symmetric ones are counted only once. It states that the number of combinations is</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i></span></span> Σ<sub><i>k</i>=1</sub><sup><i>n</i></sup> <i>c</i>(<i>k</i>)</span>
     </div>
@@ -926,7 +926,7 @@
         <figcaption class="figure__cap">Rotating the necklace does not create a new combination. With four pearls and three colours, the count is (3<sup>4</sup> + 3 + 3<sup>2</sup> + 3) / 4 = 24.</figcaption>
       </figure>
       <div class="ch11-burnside__copy">
-        <p>Here there are <i>n</i> ways to change the position of a combination, and there are <i>c</i>(<i>k</i>) combinations that remain unchanged when the <i>k</i>th way is applied. As an example, let us calculate the number of necklaces of <i>n</i> pearls, where each pearl has <i>m</i> possible colors. Two necklaces are symmetric if they are similar after rotating them. There are <i>n</i> ways to change the position of a necklace, because it can be rotated <i>k</i> = 0, 1, …, <i>n</i>−1 steps clockwise. In the general case, a total of <i>m</i><sup>gcd(<i>k</i>,<i>n</i>)</sup> necklaces remain the same, because blocks of pearls of size gcd(<i>k</i>, <i>n</i>) will replace each other. Thus, according to Burnside’s lemma, the number of distinct necklaces is</p>
+        <p>Here there are <i>n</i> ways to change the position of a combination, and <i>c</i>(<i>k</i>) combinations remain unchanged when the <i>k</i>th way is applied. As an example, let us count the necklaces of <i>n</i> pearls, each with <i>m</i> possible colors. Two necklaces are symmetric if they are similar after rotation. There are <i>n</i> ways to change a necklace’s position, because it can be rotated <i>k</i> = 0, 1, …, <i>n</i>−1 steps clockwise. A total of <i>m</i><sup>gcd(<i>k</i>,<i>n</i>)</sup> necklaces remain the same, because blocks of pearls of size gcd(<i>k</i>, <i>n</i>) replace each other. Thus, by Burnside’s lemma, the number of distinct necklaces is</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i></span></span> Σ<sub><i>k</i>=0</sub><sup><i>n</i>−1</sup> <i>m</i><sup>gcd(<i>k</i>,<i>n</i>)</sup></span></div>
         <p>For example, the number of distinct necklaces of 4 pearls and 3 colors is (3<sup>4</sup> + 3 + 3<sup>2</sup> + 3) / 4 = 24.</p>
       </div>
@@ -942,7 +942,7 @@
       <div class="section-head__body"><h2 id="h125">Cayley’s Formula</h2></div>
     </div>
 
-    <p data-reveal>Cayley’s formula states that there are a total of <i>n</i><sup><i>n</i>−2</sup> distinct labeled trees of <i>n</i> nodes. The nodes are labeled 1, 2, …, <i>n</i>, and two trees are considered distinct if either their structure or labeling is different. For example, when <i>n</i> = 4, there are 4<sup>4−2</sup> = 16 labeled trees. Cayley’s formula can be proved using Prüfer codes.</p>
+    <p data-reveal>Cayley’s formula states that there are <i>n</i><sup><i>n</i>−2</sup> distinct labeled trees of <i>n</i> nodes. The nodes are labeled 1, 2, …, <i>n</i>, and two trees are distinct if their structure or labeling differs. For example, when <i>n</i> = 4, there are 4<sup>4−2</sup> = 16 labeled trees. The formula can be proved using Prüfer codes.</p>
 
     <div class="split2 ch11-prufer" data-reveal>
       <figure class="figure">
@@ -972,8 +972,8 @@
         <figcaption class="figure__cap">Repeatedly remove the smallest leaf and write down its only neighbour. The leaves go in the order 1, 3, 4, producing [4, 4, 2].</figcaption>
       </figure>
       <div class="ch11-prufer__copy">
-        <p>The code is constructed by following a process that removes <i>n</i>−2 leaves from the tree. At each step, the leaf with the smallest label is removed, and the label of its only neighbor is added to the code. For example, the Prüfer code of the tree above is [4, 4, 2], because we remove leaves 1, 3, and 4.</p>
-        <p>We can construct a Prüfer code for any tree, and more importantly, the original tree can be reconstructed from a Prüfer code. Hence, the number of labeled trees of <i>n</i> nodes equals <i>n</i><sup><i>n</i>−2</sup>, the number of Prüfer codes of length <i>n</i>.</p>
+        <p>The code is constructed by a process that removes <i>n</i>−2 leaves from the tree. At each step, the leaf with the smallest label is removed, and the label of its only neighbor is added to the code. For example, the Prüfer code of the tree above is [4, 4, 2], because we remove leaves 1, 3, and 4.</p>
+        <p>Every tree has a Prüfer code, and more importantly, the original tree can be reconstructed from it. Hence the number of labeled trees of <i>n</i> nodes equals <i>n</i><sup><i>n</i>−2</sup>, the number of Prüfer codes of length <i>n</i>.</p>
         <div class="ch11-prufer__count"><span><i>n</i> = 4</span><b>4<sup>4−2</sup> = 16</b></div>
       </div>
     </div>
@@ -988,12 +988,12 @@
       <div class="section-head__body"><h2 id="h13">Matrices</h2></div>
     </div>
 
-    <p class="statement" data-reveal>A matrix is a two-dimensional array with arithmetic. In a contest, its real power is compression: one matrix multiplication can advance a whole recurrence by one step.</p>
+    <p class="statement" data-reveal>A matrix is a two-dimensional array with arithmetic. Its real power in a contest is compression: one multiplication can advance a whole recurrence by one step.</p>
 
     <div class="split2 ch11-matintro" data-reveal>
       <div>
-        <p>A matrix corresponds to a two-dimensional array in programming. A matrix of size <i>a</i> × <i>b</i> has <i>a</i> rows and <i>b</i> columns. The notation <i>A</i>[<i>i</i>, <i>j</i>] refers to the element in row <i>i</i> and column <i>j</i> in a matrix. A special case of a matrix is a vector that is a one-dimensional matrix of size <i>n</i> × 1. A matrix is a square matrix if it has the same number of rows and columns.</p>
-        <p>The transpose <i>A</i><sup>T</sup> of a matrix <i>A</i> is obtained when the rows and columns of a matrix are swapped, i.e., <i>A</i><sup>T</sup>[<i>i</i>, <i>j</i>] = <i>A</i>[<i>j</i>, <i>i</i>].</p>
+        <p>A matrix corresponds to a two-dimensional array in programming. A matrix of size <i>a</i> × <i>b</i> has <i>a</i> rows and <i>b</i> columns. The notation <i>A</i>[<i>i</i>, <i>j</i>] refers to the element in row <i>i</i> and column <i>j</i>. A special case is a vector, a one-dimensional matrix of size <i>n</i> × 1. A square matrix has the same number of rows and columns.</p>
+        <p>The transpose <i>A</i><sup>T</sup> of a matrix <i>A</i> is obtained by swapping rows and columns, i.e., <i>A</i><sup>T</sup>[<i>i</i>, <i>j</i>] = <i>A</i>[<i>j</i>, <i>i</i>].</p>
       </div>
       <div class="ch11-matintro__mats">
         <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>A</i> · 3 × 4</span>
@@ -1015,7 +1015,7 @@
       <div class="section-head__body"><h2 id="h131">Matrix Operations</h2></div>
     </div>
 
-    <p data-reveal>The sum <i>A</i> + <i>B</i> of matrices <i>A</i> and <i>B</i> is defined if the matrices are of the same size. The result is a matrix where each element has the sum of the corresponding elements. Multiplying a matrix <i>A</i> by a value <i>x</i> means that each element of <i>A</i> is multiplied by <i>x</i>. The product <i>AB</i> of matrices <i>A</i> and <i>B</i> is defined if <i>A</i> is of size <i>a</i> × <i>n</i> and <i>B</i> is of size <i>n</i> × <i>b</i>, i.e., the width of <i>A</i> equals the height of <i>B</i>. The result is a matrix of size <i>a</i> × <i>b</i> whose elements are calculated using the formula</p>
+    <p data-reveal>The sum <i>A</i> + <i>B</i> is defined if <i>A</i> and <i>B</i> have the same size. The result is a matrix whose elements are the sums of the corresponding elements. Multiplying <i>A</i> by a value <i>x</i> multiplies each element of <i>A</i> by <i>x</i>. The product <i>AB</i> is defined if <i>A</i> is <i>a</i> × <i>n</i> and <i>B</i> is <i>n</i> × <i>b</i>, i.e., the width of <i>A</i> equals the height of <i>B</i>. The result is an <i>a</i> × <i>b</i> matrix whose elements are calculated by the formula</p>
 
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>AB</i>[<i>i</i>, <i>j</i>] = Σ<sub><i>k</i>=1</sub><sup><i>n</i></sup> <i>A</i>[<i>i</i>, <i>k</i>] · <i>B</i>[<i>k</i>, <i>j</i>]</span>
@@ -1038,19 +1038,19 @@
         </div>
         <p class="ch11-matmul__sum"><span class="ch11-matmul__tag">row 2 · column 1</span><span>3 · 1 + 9 · 2 = <b>21</b></span></p>
       </div>
-      <figcaption class="figure__cap">The element <i>C</i>[2, 1] is the dot product of row 2 of <i>A</i> and column 1 of <i>B</i>. Computing every element this way takes <i>O</i>(<i>n</i><sup>3</sup>) time for two <i>n</i> × <i>n</i> matrices.</figcaption>
+      <figcaption class="figure__cap"><i>C</i>[2, 1] is the dot product of row 2 of <i>A</i> and column 1 of <i>B</i>. Computing every element this way takes <i>O</i>(<i>n</i><sup>3</sup>) time for two <i>n</i> × <i>n</i> matrices.</figcaption>
     </figure>
 
     <div class="split2 ch11-matprops" data-reveal>
       <div>
         <h3 class="ch11-h3">Associative, not commutative</h3>
-        <p>Matrix multiplication is associative, so <i>A</i>(<i>BC</i>) = (<i>AB</i>)<i>C</i> holds, but it is not commutative, so usually <i>AB</i> ≠ <i>BA</i>.</p>
-        <p>An identity matrix is a square matrix where each element on the diagonal is 1 and all other elements are 0. Multiplying a matrix by an identity matrix does not change it: <i>AI</i> = <i>IA</i> = <i>A</i>.</p>
+        <p>Matrix multiplication is associative, so <i>A</i>(<i>BC</i>) = (<i>AB</i>)<i>C</i>, but not commutative, so usually <i>AB</i> ≠ <i>BA</i>.</p>
+        <p>An identity matrix is a square matrix with 1 on the diagonal and 0 elsewhere. Multiplying by it does not change a matrix: <i>AI</i> = <i>IA</i> = <i>A</i>.</p>
       </div>
       <div class="ch11-identity" aria-label="The three by three identity matrix">
         <span class="kicker"><i>I</i><sub>3</sub></span>
         <div class="ch11-mat" style="--cols:3"><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span></div>
-        <p>The power <i>A</i><sup><i>k</i></sup> of a matrix <i>A</i> is defined if <i>A</i> is a square matrix. The definition is based on matrix multiplication: <i>A</i><sup><i>k</i></sup> = <i>A</i> · <i>A</i> · <i>A</i> ⋯ <i>A</i> (<i>k</i> times). In addition, <i>A</i><sup>0</sup> is an identity matrix.</p>
+        <p>The power <i>A</i><sup><i>k</i></sup> is defined if <i>A</i> is square. It is based on matrix multiplication: <i>A</i><sup><i>k</i></sup> = <i>A</i> · <i>A</i> · <i>A</i> ⋯ <i>A</i> (<i>k</i> times). In addition, <i>A</i><sup>0</sup> is an identity matrix.</p>
       </div>
     </div>
   </div>
@@ -1064,21 +1064,21 @@
       <div class="section-head__body"><h2 id="h132">Linear Recurrences</h2></div>
     </div>
 
-    <p data-reveal>A linear recurrence is a function <i>f</i>(<i>n</i>) whose initial values are <i>f</i>(0), <i>f</i>(1), …, <i>f</i>(<i>k</i>−1) and larger values are calculated recursively using the formula</p>
+    <p data-reveal>A linear recurrence is a function <i>f</i>(<i>n</i>) with initial values <i>f</i>(0), <i>f</i>(1), …, <i>f</i>(<i>k</i>−1) whose larger values are calculated recursively by</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>f</i>(<i>n</i>) = <i>c</i><sub>1</sub><i>f</i>(<i>n</i>−1) + <i>c</i><sub>2</sub><i>f</i>(<i>n</i>−2) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<i>n</i>−<i>k</i>)</span>
     </div>
 
-    <p data-reveal>Dynamic programming can be used to calculate any value of <i>f</i>(<i>n</i>) in <i>O</i>(<i>k</i><i>n</i>) time by calculating all values of <i>f</i>(0), <i>f</i>(1), …, <i>f</i>(<i>n</i>) one after another. However, we can also calculate the value of <i>f</i>(<i>n</i>) in <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>) time using matrix operations. This is an important improvement if <i>k</i> is small and <i>n</i> is large.</p>
+    <p data-reveal>Dynamic programming calculates any <i>f</i>(<i>n</i>) in <i>O</i>(<i>k</i><i>n</i>) time by computing <i>f</i>(0), <i>f</i>(1), …, <i>f</i>(<i>n</i>) one after another. We can also calculate <i>f</i>(<i>n</i>) in <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>) time using matrix operations. This is an important improvement if <i>k</i> is small and <i>n</i> is large.</p>
 
     <div class="split2 ch11-fibintro" data-reveal>
       <div>
         <h3 class="ch11-h3">Fibonacci numbers</h3>
-        <p>A simple example of a linear recurrence is the following function that defines the Fibonacci numbers: <i>f</i>(0) = 0, <i>f</i>(1) = 1, and <i>f</i>(<i>n</i>) = <i>f</i>(<i>n</i>−1) + <i>f</i>(<i>n</i>−2). In this case, <i>k</i> = 2 and <i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = 1. To efficiently calculate Fibonacci numbers, we represent the Fibonacci formula as a square matrix <i>X</i> of size 2 × 2, for which <i>X</i> · [<i>f</i>(<i>i</i>), <i>f</i>(<i>i</i>+1)]<sup>T</sup> = [<i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+2)]<sup>T</sup> holds. It turns out that such a matrix is</p>
+        <p>A simple example is the Fibonacci recurrence: <i>f</i>(0) = 0, <i>f</i>(1) = 1, and <i>f</i>(<i>n</i>) = <i>f</i>(<i>n</i>−1) + <i>f</i>(<i>n</i>−2). Here <i>k</i> = 2 and <i>c</i><sub>1</sub> = <i>c</i><sub>2</sub> = 1. To calculate Fibonacci numbers efficiently, we represent the formula as a 2 × 2 square matrix <i>X</i> for which <i>X</i> · [<i>f</i>(<i>i</i>), <i>f</i>(<i>i</i>+1)]<sup>T</sup> = [<i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+2)]<sup>T</sup>. It turns out that such a matrix is</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>X</i> = <span class="ch11-mat ch11-mat--inline" style="--cols:2"><span>0</span><span>1</span><span>1</span><span>1</span></span></span></div>
-        <p>Thus, values <i>f</i>(<i>i</i>) and <i>f</i>(<i>i</i>+1) are given as “input” for <i>X</i>, and <i>X</i> calculates values <i>f</i>(<i>i</i>+1) and <i>f</i>(<i>i</i>+2) from them. Thus, we can calculate <i>f</i>(<i>n</i>) using the formula</p>
+        <p>Thus <i>f</i>(<i>i</i>) and <i>f</i>(<i>i</i>+1) are the “input” for <i>X</i>, which calculates <i>f</i>(<i>i</i>+1) and <i>f</i>(<i>i</i>+2). Thus we can calculate <i>f</i>(<i>n</i>) using the formula</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">[<i>f</i>(<i>n</i>), <i>f</i>(<i>n</i>+1)]<sup>T</sup> = <i>X</i><sup><i>n</i></sup> · [0, 1]<sup>T</sup></span></div>
-        <p class="ch11-small">The value of <i>X</i><sup><i>n</i></sup> can be calculated in <i>O</i>(log <i>n</i>) time, so the value of <i>f</i>(<i>n</i>) can also be calculated in <i>O</i>(log <i>n</i>) time.</p>
+        <p class="ch11-small">Since <i>X</i><sup><i>n</i></sup> can be calculated in <i>O</i>(log <i>n</i>) time, so can <i>f</i>(<i>n</i>).</p>
       </div>
       <div class="ch11-fibintro__vec">
         <span class="kicker">One step, exactly</span>
@@ -1122,11 +1122,11 @@
     </div>
 
     <h3 class="ch11-h3" data-reveal>The general case</h3>
-    <p data-reveal>Let us now consider the general case where <i>f</i>(<i>n</i>) is any linear recurrence. Again, our goal is to construct a matrix <i>X</i> for which <i>X</i> · [<i>f</i>(<i>i</i>), <i>f</i>(<i>i</i>+1), …, <i>f</i>(<i>i</i>+<i>k</i>−1)]<sup>T</sup> = [<i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+2), …, <i>f</i>(<i>i</i>+<i>k</i>)]<sup>T</sup>. Such a matrix is</p>
+    <p data-reveal>Let us now consider the general case, where <i>f</i>(<i>n</i>) is any linear recurrence. Again, our goal is a matrix <i>X</i> for which <i>X</i> · [<i>f</i>(<i>i</i>), <i>f</i>(<i>i</i>+1), …, <i>f</i>(<i>i</i>+<i>k</i>−1)]<sup>T</sup> = [<i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+2), …, <i>f</i>(<i>i</i>+<i>k</i>)]<sup>T</sup>. Such a matrix is</p>
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>X</i> = <span class="ch11-mat ch11-mat--inline" style="--cols:4"><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span><i>c</i><sub><i>k</i></sub></span><span><i>c</i><sub><i>k</i>−1</sub></span><span><i>c</i><sub><i>k</i>−2</sub></span><span><i>c</i><sub>1</sub></span></span></span>
     </div>
-    <p data-reveal class="ch11-small">In the first <i>k</i>−1 rows, each element is 0 except that one element is 1. These rows replace <i>f</i>(<i>i</i>) with <i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+1) with <i>f</i>(<i>i</i>+2), and so on. Then, the last row contains the coefficients of the recurrence to calculate the new value <i>f</i>(<i>i</i>+<i>k</i>). Now, <i>f</i>(<i>n</i>) can be calculated in <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>) time.</p>
+    <p data-reveal class="ch11-small">In the first <i>k</i>−1 rows, each element is 0 except one 1. These rows replace <i>f</i>(<i>i</i>) with <i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+1) with <i>f</i>(<i>i</i>+2), and so on. The last row contains the recurrence coefficients for the new value <i>f</i>(<i>i</i>+<i>k</i>). Now <i>f</i>(<i>n</i>) can be calculated in <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>) time.</p>
 
     <div class="ch11-card" data-code-card data-reveal>
       <div class="code-card__head">
@@ -1150,7 +1150,7 @@
       <div class="section-head__body"><h2 id="h133">Graphs and Matrices</h2></div>
     </div>
 
-    <p data-reveal>The powers of adjacency matrices of graphs have interesting properties. When <i>M</i> is an adjacency matrix of an unweighted graph, the matrix <i>M</i><sup><i>n</i></sup> gives for each node pair (<i>a</i>, <i>b</i>) the number of paths that begin at node <i>a</i>, end at node <i>b</i>, and contain exactly <i>n</i> edges. It is allowed that a node appears on a path several times.</p>
+    <p data-reveal>Powers of adjacency matrices have interesting properties. When <i>M</i> is the adjacency matrix of an unweighted graph, <i>M</i><sup><i>n</i></sup> gives, for each node pair (<i>a</i>, <i>b</i>), the number of paths from <i>a</i> to <i>b</i> with exactly <i>n</i> edges. A node may appear on a path several times.</p>
 
     <figure class="figure ch11-paths" data-reveal>
       <div class="figure__frame">
@@ -1201,13 +1201,13 @@
     <div class="split2 ch11-pathnote" data-reveal>
       <div>
         <h3 class="ch11-h3">Weighted graphs</h3>
-        <p>Using a similar idea in a weighted graph, we can calculate for each node pair (<i>a</i>, <i>b</i>) the shortest length of a path that goes from <i>a</i> to <i>b</i> and contains exactly <i>n</i> edges. Instead of the usual formula for matrix multiplication, we calculate minima instead of sums, and sums of elements instead of products:</p>
+        <p>In a weighted graph, a similar idea gives, for each node pair (<i>a</i>, <i>b</i>), the shortest length of a path from <i>a</i> to <i>b</i> with exactly <i>n</i> edges. Instead of the usual matrix product, we take minima instead of sums and sums instead of products:</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>AB</i>[<i>i</i>, <i>j</i>] = min<sub><i>k</i></sub> (<i>A</i>[<i>i</i>, <i>k</i>] + <i>B</i>[<i>k</i>, <i>j</i>])</span></div>
-        <p>After this modification, matrix powers minimize path lengths in the graph. For example, the minimum length of a path of 4 edges from node 2 to node 5 is 8. Such a path is 2 → 1 → 4 → 2 → 5.</p>
+        <p>After this modification, matrix powers minimize path lengths. For example, the minimum length of a 4-edge path from node 2 to node 5 is 8; such a path is 2 → 1 → 4 → 2 → 5.</p>
       </div>
       <div class="ch11-pathnote__fact">
         <span class="kicker">From the book’s example</span>
-        <p>The minimum length of a path of 4 edges from node 2 to node 5 is 8. Such a path is 2 → 1 → 4 → 2 → 5.</p>
+        <p>4 edges, minimum 8: 2 → 1 → 4 → 2 → 5.</p>
         <span class="ch11-pathnote__value"><i>M</i><sup>4</sup>[2, 5] = 2</span>
         <span class="ch11-pathnote__label">unweighted · number of walks</span>
       </div>
@@ -1223,7 +1223,7 @@
       <div class="section-head__body"><h2 id="h134">Gaussian Elimination</h2></div>
     </div>
 
-    <p data-reveal>Gaussian elimination is a systematic way to solve a group of linear equations. The idea is to represent the equations as a matrix and then apply a sequence of simple matrix row operations that both preserve the information of the equations and determine a value for each variable. To do this, we use three types of matrix row operations: swap the values of two rows, multiply each value in a row by a nonnegative constant, and add a row, multiplied by a constant, to another row. Each above operation preserves the information of the equations, which guarantees that the final solution agrees with the original equations. To solve the equations, we want to transform the matrix so that the last column tells us that the solution is <i>x</i><sub>1</sub> = <i>c</i><sub>1</sub>, <i>x</i><sub>2</sub> = <i>c</i><sub>2</sub>, …, <i>x</i><sub><i>n</i></sub> = <i>c</i><sub><i>n</i></sub>.</p>
+    <p data-reveal>Gaussian elimination systematically solves a group of linear equations. The idea is to represent the equations as a matrix and apply simple row operations that preserve the information and determine each variable. We use three types: swap two rows, multiply a row by a nonnegative constant, and add a row multiplied by a constant to another row. Each operation preserves the equations, so the final solution agrees with the original. To solve them, we transform the matrix so that the last column reads <i>x</i><sub>1</sub> = <i>c</i><sub>1</sub>, <i>x</i><sub>2</sub> = <i>c</i><sub>2</sub>, …, <i>x</i><sub><i>n</i></sub> = <i>c</i><sub><i>n</i></sub>.</p>
 
     <div class="ch11-gauss" data-reveal>
       <div class="ch11-gauss__scroll">
@@ -1255,7 +1255,7 @@
       <p class="ch11-gauss__answer"><span><i>x</i><sub>1</sub> = 1</span><span><i>x</i><sub>2</sub> = 3</span><span><i>x</i><sub>3</sub> = 2</span></p>
     </div>
 
-    <p data-reveal>We process the matrix column by column. At each step, we make sure that the current column has a one in the correct position and all other values are zeros. We can systematically process each matrix column so that the resulting algorithm works in <i>O</i>(<i>n</i><sup>3</sup>) time. Note that Gaussian elimination only works if the group of equations has a unique solution. For example, the group <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 2 and 2<i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> = 4 has an infinite number of solutions, because both the equations contain the same information. On the other hand, the group <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 5 and <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 7 cannot be solved, because the equations are contradictory. If there is no unique solution, we will notice this during the algorithm, because at some point we will not be able to successfully process a column.</p>
+    <p data-reveal>We process the matrix column by column. At each step, the current column gets a one in the correct position and zeros elsewhere, which makes the algorithm run in <i>O</i>(<i>n</i><sup>3</sup>) time. Gaussian elimination only works if the equations have a unique solution. For example, <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 2 and 2<i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> = 4 has infinitely many solutions, because both equations contain the same information. On the other hand, <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 5 and <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 7 cannot be solved, because they are contradictory. If there is no unique solution, we notice during the algorithm, when we cannot process a column.</p>
   </div>
 </section>
 
@@ -1274,7 +1274,7 @@
     <div class="split2 ch11-cards" data-reveal>
       <div>
         <h3 class="ch11-h3">Three cards, one value</h3>
-        <p>As an example, consider an experiment where we draw the three top cards from a shuffled deck of cards. What is the probability that each card has the same value? One way to calculate the probability is to use the formula number of desired outcomes / total number of outcomes. In our example, the desired outcomes are those in which the value of each card is the same. There are 13 <span class="ch11-binom-inline">C(4,3)</span> such outcomes, because there are 13 possibilities for the value of the cards and <span class="ch11-binom-inline">C(4,3)</span> ways to choose 3 suits from 4 possible suits. Then, there are a total of <span class="ch11-binom-inline">C(52,3)</span> outcomes, because we choose 3 cards from 52 cards.</p>
+        <p>As an example, consider an experiment where we draw the three top cards from a shuffled deck. What is the probability that each card has the same value? One way is to use the formula number of desired outcomes / total number of outcomes. The desired outcomes are those in which the value of each card is the same. There are 13 <span class="ch11-binom-inline">C(4,3)</span> such outcomes, because there are 13 possible values and <span class="ch11-binom-inline">C(4,3)</span> ways to choose 3 suits from 4. There are <span class="ch11-binom-inline">C(52,3)</span> outcomes in total, because we choose 3 cards from 52.</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">13 · <span class="ch11-binom-inline">C(4,3)</span></span><span class="ch11-frac__d"><span class="ch11-binom-inline">C(52,3)</span></span></span> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d">425</span></span></span></div>
       </div>
       <div class="ch11-cards__process">
@@ -1285,7 +1285,7 @@
           <div><span>third matches</span><b>2/50</b></div>
         </div>
         <p class="ch11-cards__product">1 · <span class="ch11-frac"><span class="ch11-frac__n">3</span><span class="ch11-frac__d">51</span></span> · <span class="ch11-frac"><span class="ch11-frac__n">2</span><span class="ch11-frac__d">50</span></span> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d">425</span></span></p>
-        <p class="ch11-small">Drawing the first card certainly succeeds, because any card is fine. The second step succeeds with probability 3/51, because there are 51 cards left and 3 of them have the same value as the first card. In a similar way, the third step succeeds with probability 2/50.</p>
+        <p class="ch11-small">The first card certainly succeeds, because any card is fine. The second step succeeds with probability 3/51, because 3 of the 51 remaining cards share the first card’s value. Similarly, the third step succeeds with probability 2/50.</p>
       </div>
     </div>
   </div>
@@ -1299,7 +1299,7 @@
       <div class="section-head__body"><h2 id="h141">Working with Events</h2></div>
     </div>
 
-    <p data-reveal>A convenient way to represent events is to use sets. For example, the possible outcomes when throwing a dice are {1, 2, 3, 4, 5, 6}, and any subset of this set is an event. The event “the outcome is even” corresponds to the set <i>A</i> = {2, 4, 6}. Each outcome <i>x</i> is assigned a probability <i>p</i>(<i>x</i>), and the probability <i>P</i>(<i>A</i>) of an event can be calculated as the sum of the probabilities of its outcomes.</p>
+    <p data-reveal>A convenient way to represent events is with sets. For example, the possible outcomes when throwing a die are {1, 2, 3, 4, 5, 6}, and any subset is an event. The event “the outcome is even” is the set <i>A</i> = {2, 4, 6}. Each outcome <i>x</i> has a probability <i>p</i>(<i>x</i>), and <i>P</i>(<i>A</i>) is the sum of the probabilities of its outcomes.</p>
 
     <figure class="figure ch11-events" data-reveal>
       <div class="figure__frame">
@@ -1334,8 +1334,8 @@
 
     <div class="ch11-eventrules" data-reveal>
       <div class="ch11-eventrule"><span class="ch11-eventrule__k">complement</span><span class="ch11-math"><i>P</i>(<i>Ā</i>) = 1 − <i>P</i>(<i>A</i>)</span><p>At least one six in ten throws: 1 − (5/6)<sup>10</sup>.</p></div>
-      <div class="ch11-eventrule"><span class="ch11-eventrule__k">union</span><span class="ch11-math"><i>P</i>(<i>A</i> ∪ <i>B</i>) = <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>) − <i>P</i>(<i>A</i> ∩ <i>B</i>)</span><p>If the events <i>A</i> and <i>B</i> are disjoint, i.e., <i>A</i> ∩ <i>B</i> is empty, the probability of the event <i>A</i> ∪ <i>B</i> is simply <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>).</p></div>
-      <div class="ch11-eventrule"><span class="ch11-eventrule__k">intersection</span><span class="ch11-math"><i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i> | <i>A</i>)</span><p>Events <i>A</i> and <i>B</i> are independent if <i>P</i>(<i>A</i>|<i>B</i>) = <i>P</i>(<i>A</i>) and <i>P</i>(<i>B</i>|<i>A</i>) = <i>P</i>(<i>B</i>). In this case, the probability of the intersection is <i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i>).</p></div>
+      <div class="ch11-eventrule"><span class="ch11-eventrule__k">union</span><span class="ch11-math"><i>P</i>(<i>A</i> ∪ <i>B</i>) = <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>) − <i>P</i>(<i>A</i> ∩ <i>B</i>)</span><p>If <i>A</i> and <i>B</i> are disjoint, i.e., <i>A</i> ∩ <i>B</i> is empty, then <i>P</i>(<i>A</i> ∪ <i>B</i>) = <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>).</p></div>
+      <div class="ch11-eventrule"><span class="ch11-eventrule__k">intersection</span><span class="ch11-math"><i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i> | <i>A</i>)</span><p>Events <i>A</i> and <i>B</i> are independent if <i>P</i>(<i>A</i>|<i>B</i>) = <i>P</i>(<i>A</i>) and <i>P</i>(<i>B</i>|<i>A</i>) = <i>P</i>(<i>B</i>). Then <i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i>).</p></div>
     </div>
   </div>
 </section>
@@ -1348,7 +1348,7 @@
       <div class="section-head__body"><h2 id="h142">Random Variables</h2></div>
     </div>
 
-    <p data-reveal>A random variable is a value that is generated by a random process. For example, when throwing two dice, a possible random variable is <i>X</i> = “the sum of the outcomes”. We denote by <i>P</i>(<i>X</i> = <i>x</i>) the probability that the value of a random variable <i>X</i> is <i>x</i>. For example, when throwing two dice, <i>P</i>(<i>X</i> = 10) = 3/36, because the total number of outcomes is 36 and there are three possible ways to obtain the sum 10: [4, 6], [5, 5], and [6, 4]. The expected value <i>E</i>[<i>X</i>] indicates the average value of a random variable <i>X</i>. The expected value can be calculated as a sum</p>
+    <p data-reveal>A random variable is a value generated by a random process. For example, when throwing two dice, a possible random variable is <i>X</i> = “the sum of the outcomes”. We denote by <i>P</i>(<i>X</i> = <i>x</i>) the probability that <i>X</i> takes the value <i>x</i>. For example, <i>P</i>(<i>X</i> = 10) = 3/36, because there are 36 outcomes and three ways to obtain 10: [4, 6], [5, 5], and [6, 4]. The expected value <i>E</i>[<i>X</i>] is the average value of <i>X</i>, calculated as a sum</p>
 
     <div class="ch11-formula ch11-formula--display" data-reveal>
       <span class="ch11-math"><i>E</i>[<i>X</i>] = Σ<sub><i>x</i></sub> <i>P</i>(<i>X</i> = <i>x</i>) · <i>x</i></span>
@@ -1369,8 +1369,8 @@
     <div class="split2 ch11-empty" data-reveal>
       <div>
         <h3 class="ch11-h3">Empty boxes</h3>
-        <p>Let us now consider a problem where <i>n</i> balls are randomly placed in <i>n</i> boxes, and our task is to calculate the expected number of empty boxes. Each ball has an equal probability to be placed in any of the boxes. For example, when <i>n</i> = 2, the possibilities give 0, 0, 1, and 1 empty boxes. In this case, the expected number of empty boxes is (0 + 0 + 1 + 1)/4 = 1/2.</p>
-        <p>Then, in the general case, the probability that a single box is empty is ((<i>n</i>−1)/<i>n</i>)<sup><i>n</i></sup>, because no ball should be placed in it. Hence, using linearity, the expected number of empty boxes is</p>
+        <p>Let us now consider <i>n</i> balls placed randomly in <i>n</i> boxes, and calculate the expected number of empty boxes. Each ball is equally likely to land in any box. For example, when <i>n</i> = 2, the possibilities give 0, 0, 1, and 1 empty boxes, so the expected number is (0 + 0 + 1 + 1)/4 = 1/2.</p>
+        <p>In the general case, the probability that a single box is empty is ((<i>n</i>−1)/<i>n</i>)<sup><i>n</i></sup>, because no ball may be placed in it. By linearity, the expected number of empty boxes is</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>E</i> = <i>n</i> · (<span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>−1</span><span class="ch11-frac__d"><i>n</i></span></span>)<sup><i>n</i></sup></span></div>
       </div>
       <div class="ch11-empty__table">
@@ -1397,7 +1397,7 @@
       <div class="section-head__body"><h2 id="h143">Markov Chains</h2></div>
     </div>
 
-    <p data-reveal>A Markov chain is a random process that consists of states and transitions between them. For each state, we know the probabilities of moving to other states. A Markov chain can be represented as a graph whose nodes correspond to the states and edges describe the transitions. As an example, consider a problem where we are in floor 1 in an <i>n</i> floor building. At each step, we randomly walk either one floor up or one floor down, except that we always walk one floor up from floor 1 and one floor down from floor <i>n</i>. What is the probability of being in floor <i>m</i> after <i>k</i> steps? For example, when <i>n</i> = 5, each floor of the building corresponds to a state in a Markov chain.</p>
+    <p data-reveal>A Markov chain is a random process consisting of states and transitions between them. For each state, we know the probabilities of moving to other states. It can be represented as a graph whose nodes are states and whose edges are transitions. As an example, consider an <i>n</i>-floor building where we start on floor 1. At each step, we walk either one floor up or one floor down, except that we always walk up from floor 1 and down from floor <i>n</i>. What is the probability of being on floor <i>m</i> after <i>k</i> steps? For <i>n</i> = 5, each floor corresponds to a state in a Markov chain.</p>
 
     <figure class="figure ch11-markov" data-reveal>
       <div class="figure__frame">
@@ -1430,8 +1430,8 @@
 
     <div class="split2 ch11-markov__body" data-reveal>
       <div>
-        <p>The probability distribution of a Markov chain is a vector [<i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>n</i></sub>], where <i>p</i><sub><i>k</i></sub> is the probability that the current state is <i>k</i>. The formula <i>p</i><sub>1</sub> + <i>p</i><sub>2</sub> + ⋯ + <i>p</i><sub><i>n</i></sub> = 1 always holds. In the above scenario, the initial distribution is [1, 0, 0, 0, 0], because we always begin in floor 1. The next distribution is [0, 1, 0, 0, 0], because we can only move from floor 1 to floor 2. After this, we can either move one floor up or one floor down, so the next distribution is [1/2, 0, 1/2, 0, 0], and so on.</p>
-        <p>An efficient way to simulate the walk in a Markov chain is to use dynamic programming. The idea is to maintain the probability distribution, and at each step go through all possibilities how we can move. Using this method, we can simulate a walk of <i>m</i> steps in <i>O</i>(<i>n</i><sup>2</sup><i>m</i>) time. The transitions can also be represented as a matrix that updates the distribution. By calculating matrix powers efficiently, we can calculate the distribution after <i>m</i> steps in <i>O</i>(<i>n</i><sup>3</sup> log <i>m</i>) time.</p>
+        <p>The probability distribution of a Markov chain is a vector [<i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>n</i></sub>], where <i>p</i><sub><i>k</i></sub> is the probability that the current state is <i>k</i>. The sum <i>p</i><sub>1</sub> + <i>p</i><sub>2</sub> + ⋯ + <i>p</i><sub><i>n</i></sub> = 1 always holds. In the scenario above, the initial distribution is [1, 0, 0, 0, 0], because we begin on floor 1. The next is [0, 1, 0, 0, 0], because we can only move to floor 2. Then we can move one floor up or down, so the next distribution is [1/2, 0, 1/2, 0, 0], and so on.</p>
+        <p>An efficient way to simulate the walk is dynamic programming. The idea is to maintain the probability distribution, and at each step go through all possible moves. This simulates <i>m</i> steps in <i>O</i>(<i>n</i><sup>2</sup><i>m</i>) time. The transitions can also be a matrix that updates the distribution; calculating matrix powers efficiently gives the distribution after <i>m</i> steps in <i>O</i>(<i>n</i><sup>3</sup> log <i>m</i>) time.</p>
         <div class="ch11-markov__vec">
           <span class="kicker">Step by step</span>
           <div><span>0</span><code>[1, 0, 0, 0, 0]</code></div>
@@ -1465,7 +1465,7 @@
       <div class="section-head__body"><h2 id="h144">Randomized Algorithms</h2></div>
     </div>
 
-    <p data-reveal>Sometimes we can use randomness for solving a problem, even if the problem is not related to probabilities. A randomized algorithm is an algorithm that is based on randomness. There are two popular types of randomized algorithms:</p>
+    <p data-reveal>Sometimes randomness solves a problem even when the problem is not about probabilities. A randomized algorithm is based on randomness. There are two popular types:</p>
 
     <div class="ch11-randomtypes" data-reveal>
       <article class="ch11-randomtype">
@@ -1485,17 +1485,17 @@
     <div class="ch11-randomlist" data-reveal>
       <div class="ch11-randomlist__item">
         <span class="ch11-randomlist__num">01</span>
-        <div><h4>Order statistics</h4><p>The <i>k</i>th order statistic of an array is the element at position <i>k</i> after sorting the array in increasing order. It is easy to calculate any order statistic in <i>O</i>(<i>n</i> log <i>n</i>) time by first sorting the array, but is it really needed to sort the entire array just to find one element? It turns out that we can find order statistics using a Las Vegas algorithm, whose expected running time is <i>O</i>(<i>n</i>). The algorithm chooses a random element <i>x</i> from the array and moves elements smaller than <i>x</i> to the left part of the array, and all other elements to the right part of the array. This takes <i>O</i>(<i>n</i>) time when there are <i>n</i> elements. Assume that the left part contains <i>a</i> elements and the right part contains <i>b</i> elements. If <i>a</i> = <i>k</i>, element <i>x</i> is the <i>k</i>th order statistic. Otherwise, if <i>a</i> &gt; <i>k</i>, we recursively find the <i>k</i>th order statistic for the left part, and if <i>a</i> &lt; <i>k</i>, we recursively find the <i>r</i>th order statistic for the right part where <i>r</i> = <i>k</i> − <i>a</i> − 1. When each element <i>x</i> is randomly chosen, the size of the array about halves at each step, so the time complexity for finding the <i>k</i>th order statistic is about <i>n</i> + <i>n</i>/2 + <i>n</i>/4 + <i>n</i>/8 + ⋯ = <i>O</i>(<i>n</i>). Note that the worst case of the algorithm requires <i>O</i>(<i>n</i><sup>2</sup>) time, because it is possible that <i>x</i> is always chosen in such a way that it is one of the smallest or largest elements in the array and <i>O</i>(<i>n</i>) steps are needed. However, the probability of this is so small that we may assume that this never happens in practice.</p></div>
+        <div><h4>Order statistics</h4><p>The <i>k</i>th order statistic of an array is the element at position <i>k</i> after sorting in increasing order. Any order statistic is easy to calculate in <i>O</i>(<i>n</i> log <i>n</i>) time by sorting, but is it really needed to sort the entire array just to find one element? We can find order statistics with a Las Vegas algorithm whose expected running time is <i>O</i>(<i>n</i>). It chooses a random element <i>x</i> and moves elements smaller than <i>x</i> to the left part of the array, and all others to the right part. This takes <i>O</i>(<i>n</i>) time with <i>n</i> elements. Assume the left part contains <i>a</i> elements and the right part <i>b</i> elements. If <i>a</i> = <i>k</i>, <i>x</i> is the <i>k</i>th order statistic. If <i>a</i> &gt; <i>k</i>, we recursively find the <i>k</i>th order statistic in the left part; if <i>a</i> &lt; <i>k</i>, we find the <i>r</i>th order statistic in the right part, where <i>r</i> = <i>k</i> − <i>a</i> − 1. When <i>x</i> is chosen randomly, the array about halves at each step, so the time complexity is about <i>n</i> + <i>n</i>/2 + <i>n</i>/4 + <i>n</i>/8 + ⋯ = <i>O</i>(<i>n</i>). The worst case requires <i>O</i>(<i>n</i><sup>2</sup>) time, if <i>x</i> is always chosen as one of the smallest or largest elements and <i>O</i>(<i>n</i>) steps are needed. However, the probability of this is so small that we may assume it never happens in practice.</p></div>
         <span class="ch11-randomlist__tag">Las Vegas</span>
       </div>
       <div class="ch11-randomlist__item">
         <span class="ch11-randomlist__num">02</span>
-        <div><h4>Verifying a matrix product</h4><p>Given matrices <i>A</i>, <i>B</i>, and <i>C</i>, each of size <i>n</i> × <i>n</i>, our next problem is to verify if <i>AB</i> = <i>C</i> holds. Of course, we can solve the problem by just calculating the product <i>AB</i> in <i>O</i>(<i>n</i><sup>3</sup>) time, but one could hope that verifying the answer would be easier than to calculate it from scratch. It turns out that we can solve the problem using a Monte Carlo algorithm whose time complexity is only <i>O</i>(<i>n</i><sup>2</sup>). The idea is simple: we choose a random vector <i>X</i> of <i>n</i> elements and calculate the matrices <i>ABX</i> and <i>CX</i>. If <i>ABX</i> = <i>CX</i>, we report that <i>AB</i> = <i>C</i>, and otherwise we report that <i>AB</i> ≠ <i>C</i>. The time complexity of the algorithm is <i>O</i>(<i>n</i><sup>2</sup>), because we can calculate the matrices <i>ABX</i> and <i>CX</i> in <i>O</i>(<i>n</i><sup>2</sup>) time. We can calculate the matrix <i>ABX</i> efficiently by using the representation <i>A</i>(<i>BX</i>), so only two multiplications of <i>n</i> × <i>n</i> and <i>n</i> × 1 size matrices are needed. The drawback of the algorithm is that there is a small chance that the algorithm makes a mistake when it reports that <i>AB</i> = <i>C</i>. However, in practice, the probability that the algorithm makes a mistake is small, and we can decrease the probability by verifying the result using multiple random vectors <i>X</i> before reporting that <i>AB</i> = <i>C</i>.</p></div>
+        <div><h4>Verifying a matrix product</h4><p>Given <i>n</i> × <i>n</i> matrices <i>A</i>, <i>B</i>, and <i>C</i>, our next problem is to verify whether <i>AB</i> = <i>C</i>. We can of course calculate <i>AB</i> in <i>O</i>(<i>n</i><sup>3</sup>) time, but one could hope that verifying the answer is easier than calculating it from scratch. A Monte Carlo algorithm solves the problem in only <i>O</i>(<i>n</i><sup>2</sup>) time. The idea is simple: choose a random vector <i>X</i> of <i>n</i> elements and calculate <i>ABX</i> and <i>CX</i>. If <i>ABX</i> = <i>CX</i>, we report <i>AB</i> = <i>C</i>; otherwise <i>AB</i> ≠ <i>C</i>. The time complexity is <i>O</i>(<i>n</i><sup>2</sup>), because both products take <i>O</i>(<i>n</i><sup>2</sup>) time. We calculate <i>ABX</i> efficiently as <i>A</i>(<i>BX</i>), so only two multiplications of <i>n</i> × <i>n</i> and <i>n</i> × 1 matrices are needed. The drawback is the small chance of a mistake when reporting <i>AB</i> = <i>C</i>. In practice that probability is small, and we can decrease it by verifying with multiple random vectors <i>X</i> before reporting <i>AB</i> = <i>C</i>.</p></div>
         <span class="ch11-randomlist__tag">Monte Carlo</span>
       </div>
       <div class="ch11-randomlist__item">
         <span class="ch11-randomlist__num">03</span>
-        <div><h4>Graph colouring</h4><p>Given a graph that contains <i>n</i> nodes and <i>m</i> edges, find a way to color the nodes using two colors so that for at least <i>m</i>/2 edges, the endpoints have different colors. A Las Vegas algorithm generates random colorings until a valid coloring has been found. In a random coloring, the color of each node is independently chosen so that the probability of both colors is 1/2. Hence, the expected number of edges whose endpoints have different colors is <i>m</i>/2, so we will quickly find a valid coloring in practice.</p></div>
+        <div><h4>Graph colouring</h4><p>Given a graph with <i>n</i> nodes and <i>m</i> edges, find a two-coloring so that at least <i>m</i>/2 edges have endpoints of different colors. A Las Vegas algorithm generates random colorings until a valid one is found. In a random coloring, each node’s color is chosen independently, with probability 1/2 for each color. Hence the expected number of edges with different-colored endpoints is <i>m</i>/2, so a valid coloring appears quickly in practice.</p></div>
         <span class="ch11-randomlist__tag">Las Vegas</span>
       </div>
     </div>
@@ -1512,7 +1512,7 @@
         <span class="ch11-matrixcheck__op">×</span>
         <span class="ch11-matrixcheck__box is-vec"><i>X</i> · <i>n</i>×1</span>
       </div>
-      <p>We can calculate the matrix <i>ABX</i> efficiently by using the representation <i>A</i>(<i>BX</i>), so only two multiplications of <i>n</i> × <i>n</i> and <i>n</i> × 1 size matrices are needed. The probability of a mistake can be decreased by verifying the result using multiple random vectors <i>X</i>.</p>
+      <p>Compute <i>A</i>(<i>BX</i>): two multiplications, <i>n</i> × <i>n</i> by <i>n</i> × 1. More random vectors <i>X</i> reduce the chance of a mistake.</p>
     </div>
   </div>
 </section>
@@ -1527,7 +1527,7 @@
 
     <p class="statement" data-reveal>Two players, alternating moves, no randomness, complete information. A position is winning if some move hands the opponent a losing position; otherwise it is losing.</p>
 
-    <p class="lead" data-reveal>We focus on two-player games where the players move alternately and have the same set of moves available, and there are no random elements. Our goal is to find a strategy that we can follow to win the game no matter what the opponent does, if such a strategy exists. It turns out that there is a general strategy for such games, and we can analyze the games using nim theory.</p>
+    <p class="lead" data-reveal>We focus on two-player games where the players move alternately, have the same set of moves, and face no randomness. Our goal is a strategy that wins no matter what the opponent does, if such a strategy exists. It turns out that there is a general strategy for such games, and we can analyze them using nim theory.</p>
   </div>
 </section>
 
@@ -1539,7 +1539,7 @@
       <div class="section-head__body"><h2 id="h151">Game States</h2></div>
     </div>
 
-    <p data-reveal>Let us consider a game that starts with a heap of <i>n</i> sticks. Two players move alternately, and on each move, the player has to remove 1, 2, or 3 sticks from the heap. Finally, the player who removes the last stick wins the game. The game consists of states 0, 1, 2, …, <i>n</i>, where the number of the state corresponds to the number of sticks left. State 0 is clearly a losing state, because the player cannot make any moves. States 1, 2, and 3 are winning states, because the player can remove 1, 2, or 3 sticks and win the game. State 4, in turn, is a losing state, because any move leads to a state that is a winning state for the opponent.</p>
+    <p data-reveal>Consider a game that starts with a heap of <i>n</i> sticks. Two players move alternately, and each move removes 1, 2, or 3 sticks. The player who removes the last stick wins. The game consists of states 0, 1, 2, …, <i>n</i>, where the state number is the number of sticks left. State 0 is clearly losing, because the player cannot move. States 1, 2, and 3 are winning, because the player can remove 1, 2, or 3 sticks and win. State 4, in turn, is losing, because any move leads to a winning state for the opponent.</p>
 
     <figure class="figure ch11-states" data-reveal>
       <div class="figure__frame">
@@ -1555,7 +1555,7 @@
     <div class="split2 ch11-divgame" data-reveal>
       <div>
         <h3 class="ch11-h3">A divisibility game</h3>
-        <p>Let us then consider another stick game, where in each state <i>k</i>, it is allowed to remove any number <i>x</i> of sticks such that <i>x</i> is smaller than <i>k</i> and divides <i>k</i>. For example, in state 8 we may remove 1, 2, or 4 sticks, but in state 7 the only allowed move is to remove 1 stick. The final state is always state 1, which is a losing state, because there are no valid moves. It turns out that all even-numbered states are winning states, and all odd-numbered states are losing states.</p>
+        <p>Let us consider another stick game, where in state <i>k</i> we may remove any number <i>x</i> of sticks such that <i>x</i> is smaller than <i>k</i> and divides <i>k</i>. For example, in state 8 we may remove 1, 2, or 4 sticks, but in state 7 the only move is to remove 1. The final state is always state 1, which is losing, because there are no valid moves. It turns out that all even states are winning and all odd states are losing.</p>
         <p>Why? An even state can remove 1 to reach an odd state; every move from an odd state removes an odd divisor (since all divisors of an odd number are odd) and therefore lands on an even state. Induction from 1 finishes the argument.</p>
       </div>
       <figure class="figure ch11-divgraph">
@@ -1598,14 +1598,14 @@
       <div class="section-head__body"><h2 id="h152">Nim Game</h2></div>
     </div>
 
-    <p data-reveal>There are <i>n</i> heaps in nim, and each heap contains some number of sticks. The players move alternately, and on each turn, the player chooses a heap that still contains sticks and removes any number of sticks from it. The winner is the player who removes the last stick. The states are of the form [<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x</i><sub><i>n</i></sub>], where <i>x</i><sub><i>i</i></sub> denotes the number of sticks in heap <i>i</i>. For example, [10, 12, 5] is a state where there are three heaps with 10, 12, and 5 sticks. The state [0, 0, …, 0] is a losing state, because it is not possible to remove any sticks, and this is always the final state.</p>
+    <p data-reveal>There are <i>n</i> heaps in nim, each containing some number of sticks. The players move alternately; on each turn, a player chooses a nonempty heap and removes any number of sticks from it. The winner removes the last stick. The states are [<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x</i><sub><i>n</i></sub>], where <i>x</i><sub><i>i</i></sub> is the number of sticks in heap <i>i</i>. For example, [10, 12, 5] has three heaps of 10, 12, and 5 sticks. The state [0, 0, …, 0] is losing, because no sticks can be removed, and it is always the final state.</p>
 
     <div class="split2 ch11-nimintro" data-reveal>
       <div>
         <p>It turns out that we can easily classify any nim state by calculating the nim sum</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>s</i> = <i>x</i><sub>1</sub> ⊕ <i>x</i><sub>2</sub> ⊕ ⋯ ⊕ <i>x</i><sub><i>n</i></sub></span></div>
-        <p>The states whose nim sum is 0 are losing states, and all other states are winning states. For example, the nim sum of [10, 12, 5] is 10 ⊕ 12 ⊕ 5 = 3, so the state is a winning state. The final state [0, 0, …, 0] is a losing state, and its nim sum is 0, as expected. In other losing states, any move leads to a winning state, because when a single value <i>x</i><sub><i>i</i></sub> changes, the nim sum also changes, so the nim sum is different from 0 after the move.</p>
-        <p>We can move to a losing state if there is any heap <i>i</i> for which <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i> &lt; <i>x</i><sub><i>i</i></sub>. In this case, we can remove sticks from heap <i>i</i> so that it will contain <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i> sticks, which will lead to a losing state. There is always such a heap, where <i>x</i><sub><i>i</i></sub> has a one bit at the position of the leftmost one bit of <i>s</i>.</p>
+        <p>States with nim sum 0 are losing; all others are winning. For example, the nim sum of [10, 12, 5] is 10 ⊕ 12 ⊕ 5 = 3, so the state is winning. The final state [0, 0, …, 0] is losing, and its nim sum is 0, as expected. From any other losing state, any move leads to a winning state, because changing a single <i>x</i><sub><i>i</i></sub> changes the nim sum, so it is nonzero after the move.</p>
+        <p>We can move to a losing state if some heap <i>i</i> has <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i> &lt; <i>x</i><sub><i>i</i></sub>. Then we remove sticks from heap <i>i</i> until it contains <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i>, which leads to a losing state. There is always such a heap: one where <i>x</i><sub><i>i</i></sub> has a one bit at the position of the leftmost one bit of <i>s</i>.</p>
       </div>
       <div class="ch11-nimbits" aria-label="Binary nim sum of 10, 12 and 5">
         <div class="ch11-nimbits__row ch11-nimbits__row--head"><span></span><span>8</span><span>4</span><span>2</span><span>1</span></div>
@@ -1645,7 +1645,7 @@
 
     <div class="ch11-misere" data-reveal>
       <span class="kicker">Misère nim</span>
-      <p>In a misère nim game, the goal of the game is opposite, so the player who removes the last stick loses the game. It turns out that the misère nim game can be played almost like the standard game. The idea is to first play the misère game like the standard game, but change the strategy at the end of the game. The new strategy is introduced in a situation where each heap would contain at most one stick after the next move. In the standard game, we should choose a move after which there is an even number of heaps with one stick. However, in the misère game, we choose a move so that there is an odd number of heaps with one stick. This strategy works because a state where the strategy changes always appears in the game, and this state is a winning state, because it contains exactly one heap that has more than one stick so the nim sum is not 0.</p>
+      <p>In a misère nim game, the goal is opposite: the player who removes the last stick loses. It turns out that the game can be played almost like standard nim. Play it like the standard game, but change strategy at the end, in a situation where each heap would contain at most one stick after the next move. In the standard game, we choose a move that leaves an even number of one-stick heaps. In misère nim, we leave an odd number. This works because such a state always appears, and it is winning, since it contains exactly one heap with more than one stick, so the nim sum is not 0.</p>
     </div>
   </div>
 </section>
@@ -1658,15 +1658,15 @@
       <div class="section-head__body"><h2 id="h153">Sprague–Grundy Theorem</h2></div>
     </div>
 
-    <p data-reveal>The Sprague–Grundy theorem generalizes the strategy used in nim to all games that fulfill the following requirements: there are two players who move alternately; the game consists of states, and the possible moves in a state do not depend on whose turn it is; the game ends when a player cannot make a move; the game surely ends sooner or later; the players have complete information about the states and allowed moves, and there is no randomness in the game.</p>
+    <p data-reveal>The Sprague–Grundy theorem generalizes the nim strategy to all games that fulfill these requirements: two players move alternately; the possible moves in a state do not depend on whose turn it is; the game ends when a player cannot move; it surely ends sooner or later; the players have complete information about states and moves; and there is no randomness.</p>
 
     <div class="split2 ch11-grundyintro" data-reveal>
       <div>
         <h3 class="ch11-h3">The mex rule</h3>
-        <p>The idea is to calculate for each game state a Grundy number that corresponds to the number of sticks in a nim heap. When we know the Grundy numbers of all states, we can play the game like the nim game. The Grundy number of a game state is calculated using the formula</p>
+        <p>The idea is to calculate for each state a Grundy number corresponding to the number of sticks in a nim heap. Knowing all Grundy numbers, we can play the game like nim. The Grundy number of a state is calculated by</p>
         <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">g = mex({<i>g</i><sub>1</sub>, <i>g</i><sub>2</sub>, …, <i>g</i><sub><i>n</i></sub>})</span></div>
-        <p>where <i>g</i><sub>1</sub>, <i>g</i><sub>2</sub>, …, <i>g</i><sub><i>n</i></sub> are the Grundy numbers of the states to which we can move from the state, and the mex function gives the smallest nonnegative number that is not in the set. For example, mex({0, 1, 3}) = 2. If a state has no possible moves, its Grundy number is 0, because mex(∅) = 0. The Grundy number of a losing state is 0, and the Grundy number of a winning state is a positive number.</p>
-        <p>Assume that our game consists of subgames, and on each turn, the player first chooses a subgame and then a move in the subgame. The game ends when it is not possible to make any move in any subgame. In this case, the Grundy number of a game equals the nim sum of the Grundy numbers of the subgames.</p>
+        <p>where <i>g</i><sub>1</sub>, <i>g</i><sub>2</sub>, …, <i>g</i><sub><i>n</i></sub> are the Grundy numbers of the states reachable from it, and mex gives the smallest nonnegative number not in the set. For example, mex({0, 1, 3}) = 2. A state with no possible moves has Grundy number 0, because mex(∅) = 0. A losing state has Grundy number 0, and a winning state has a positive Grundy number.</p>
+        <p>Assume the game consists of subgames, and on each turn the player chooses a subgame and then a move in it. The game ends when no subgame has a move. Then the Grundy number of the whole game equals the nim sum of the subgames’ Grundy numbers.</p>
       </div>
       <div class="ch11-grundyintro__rules">
         <span class="kicker">The theorem asks for</span>
@@ -1678,7 +1678,7 @@
           <li class="chip chip--static">complete information</li>
           <li class="chip chip--static">guaranteed end</li>
         </ul>
-        <p class="ch11-small">Consider a state whose Grundy number is <i>x</i>. We can think that it corresponds to a nim heap that has <i>x</i> sticks. In particular, if <i>x</i> &gt; 0, we can move to states whose Grundy numbers are 0, 1, …, <i>x</i> − 1. There is one difference: it may be possible to move to a state whose Grundy number is larger than <i>x</i> and “add” sticks to a heap. However, the opponent can always cancel any such move, so this does not change the strategy.</p>
+        <p class="ch11-small">A state with Grundy number <i>x</i> corresponds to a nim heap of <i>x</i> sticks. In particular, if <i>x</i> &gt; 0, we can move to states with Grundy numbers 0, 1, …, <i>x</i> − 1. One difference: we may be able to move to a state whose Grundy number is larger than <i>x</i>, “adding” sticks to a heap. The opponent can always cancel such a move, so the strategy does not change.</p>
       </div>
     </div>
 
@@ -1700,7 +1700,7 @@
       <figcaption class="figure__cap">Grundy’s game: split one heap into two nonempty heaps of different sizes; the last move wins. The values g(1) = 0, g(2) = 0, g(3) = 1, g(5) = 2, g(6) = 1, g(7) = 0 give the three options above. Since mex is 2, the winning move is 1 + 7.</figcaption>
     </figure>
 
-    <p data-reveal>As an example, consider a game that consists of three mazes. On each turn, the player chooses one of the mazes and then moves the figure in the maze. In this configuration, the nim sum of the Grundy numbers is 2 ⊕ 3 ⊕ 3 = 2, so the first player can win the game. One optimal move is to move two steps up in the first maze, which produces the nim sum 0 ⊕ 3 ⊕ 3 = 0.</p>
+    <p data-reveal>As an example, consider a game with three mazes. On each turn, the player chooses a maze and moves the figure in it. Here the nim sum of the Grundy numbers is 2 ⊕ 3 ⊕ 3 = 2, so the first player can win. One optimal move is two steps up in the first maze, producing the nim sum 0 ⊕ 3 ⊕ 3 = 0.</p>
 
     <p class="closing ch11-closing" data-reveal>Primes, binomial coefficients, matrix powers, distributions, and Grundy numbers are all compressions: each one replaces a large explicit object with a small invariant that is enough to answer the question. The next chapter returns to graphs and asks which parts of a directed graph can reach each other.</p>
   </div>

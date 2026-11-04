@@ -23,9 +23,9 @@
             <circle cx="1.2" cy="1.2" r="1.1" fill="var(--c-e9e9e4)"/>
           </pattern>
           <linearGradient id="ch14HeroFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0"/>
-            <stop offset=".7" stop-color="white" stop-opacity="0"/>
-            <stop offset="1" stop-color="white"/>
+            <stop offset="0" stop-color="var(--c-ffffff)" stop-opacity="0"/>
+            <stop offset=".7" stop-color="var(--c-ffffff)" stop-opacity="0"/>
+            <stop offset="1" stop-color="var(--c-ffffff)"/>
           </linearGradient>
         </defs>
         <rect width="1200" height="330" fill="url(#ch14HeroDots)"/>
@@ -83,7 +83,7 @@
           <path d="M254 224h692"/>
         </g>
       </svg>
-      <figcaption><span class="hero-map__hint">One string, three instruments: a hash window slides, a Z-box measures a repeated prefix, a suffix array keeps every ending in order.</span></figcaption>
+      <figcaption><span class="hero-map__hint">One string, three instruments: a hash window slides, a Z-box measures a repeated prefix, a suffix array orders every ending.</span></figcaption>
     </figure>
 
     <div class="chapter-index" data-reveal style="--d:.1s">
@@ -140,7 +140,7 @@
 
     <p class="statement" data-reveal>Almost every string algorithm is a way of not comparing more characters than necessary.</p>
 
-    <p class="lead" data-reveal>Throughout the chapter, we assume that all strings are zero indexed. For example, a string <i>s</i> of length <i>n</i> consists of characters <i>s</i>[0], <i>s</i>[1], …, <i>s</i>[<i>n</i>−1]. A substring is a sequence of consecutive characters in a string. We use the notation <i>s</i>[<i>a</i>…<i>b</i>] to refer to a substring of <i>s</i> that starts at position <i>a</i> and ends at position <i>b</i>. A <em>prefix</em> is a substring that contains the first character of a string, and a <em>suffix</em> is a substring that contains the last character of a string. A <em>subsequence</em> is any sequence of characters in a string in their original order.</p>
+    <p class="lead" data-reveal>Throughout the chapter, we assume that all strings are zero indexed. For example, a string <i>s</i> of length <i>n</i> consists of characters <i>s</i>[0], <i>s</i>[1], …, <i>s</i>[<i>n</i>−1]. A substring is a sequence of consecutive characters in a string. We use the notation <i>s</i>[<i>a</i>…<i>b</i>] for the substring from position <i>a</i> to position <i>b</i>. A <em>prefix</em> is a substring that contains the first character of a string, and a <em>suffix</em> one that contains the last. A <em>subsequence</em> is any sequence of characters in a string in their original order.</p>
 
     <div class="ch14-anatomy" id="anatomy" data-reveal>
       <div class="ch14-anatomy__head">
@@ -173,7 +173,7 @@
       </div>
     </div>
 
-    <p class="ch14-aside" data-reveal>All substrings are subsequences, but the converse is not true: <b>NVELO</b> is a substring, <b>NEP</b> is a subsequence. Comparing two strings of length <i>n</i> costs <i>O</i>(<i>n</i>) in the worst case — the rest of the chapter is about paying less.</p>
+    <p class="ch14-aside" data-reveal>All substrings are subsequences, but not the reverse: <b>NVELO</b> is a substring, <b>NEP</b> a subsequence. Comparing two length-<i>n</i> strings costs <i>O</i>(<i>n</i>) in the worst case — the rest of the chapter is about paying less.</p>
   </div>
 </section>
 
@@ -189,8 +189,8 @@
 
     <div class="split2 ch14-split-trie">
       <div data-reveal>
-        <p>A <em>trie</em> is a rooted tree that maintains a set of strings. Each string in the set is stored as a character chain that starts at the root node. If two strings have a common prefix, they also have a common chain in the tree. As an example, the trie corresponds to the set {<b>CANAL</b>, <b>CANDY</b>, <b>THE</b>, <b>THERE</b>}. The four words need only eleven edges — the second <b>A</b> in CANAL and the <b>Y</b> in CANDY branch from the same <b>CAN</b>.</p>
-        <p>A circle in a node means that a string in the set ends at the node. After constructing a trie, we can easily check whether it contains a given string by following the chain that starts at the root node. We can also add a new string to the trie by first following the chain and then adding new nodes if necessary. Both the operations work in <i>O</i>(<i>n</i>) time where <i>n</i> is the length of the string.</p>
+        <p>A <em>trie</em> is a rooted tree that maintains a set of strings. Each string is stored as a chain of characters from the root. Strings with a common prefix share a chain in the tree. For example, this trie holds the set {<b>CANAL</b>, <b>CANDY</b>, <b>THE</b>, <b>THERE</b>}. The four words need only eleven edges — the second <b>A</b> in CANAL and the <b>Y</b> in CANDY branch from the same <b>CAN</b>.</p>
+        <p>A circle marks a node where a string ends. After building a trie, we can check whether it contains a given string by following its chain from the root. We can also add a string by following its chain and adding nodes where it runs out. Both operations work in <i>O</i>(<i>n</i>) time, where <i>n</i> is the length of the string.</p>
         <div class="ch14-trie__controls" role="group" aria-label="Search the trie">
           <button class="ch14-word" data-word="CANAL">CANAL</button>
           <button class="ch14-word" data-word="CANDY">CANDY</button>
@@ -236,15 +236,15 @@
             </g>
           </svg>
         </div>
-        <figcaption class="figure__cap">A double ring ends a word. <b>CAN</b> stops at a node that is a prefix but not a word; <b>CAR</b> leaves the tree at <b>CA</b>.</figcaption>
+        <figcaption class="figure__cap">A double ring ends a word. <b>CAN</b> stops at a prefix node that is not a word; <b>CAR</b> leaves the tree at <b>CA</b>.</figcaption>
       </figure>
     </div>
 
     <details class="note ch14-note" data-reveal>
       <summary><span class="note__label">Storing a trie</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>A trie can be stored in an array <code>int trie[N][A]</code>, where <i>N</i> is the maximum number of nodes (the maximum total length of the strings in the set) and <i>A</i> is the size of the alphabet. The trie nodes are numbered 0, 1, 2, … in such a way that the number of the root is 0, and <code>trie[s][c]</code> specifies the next node in the chain when we move from node <i>s</i> using character <i>c</i>.</p>
-        <p>There are several ways how we can extend the trie structure. For example, suppose that we are given queries that require us to calculate the number of strings in the set that have a certain prefix. We can do this efficiently by storing for each trie node the number of strings whose chain goes through the node.</p>
+        <p>A trie can be stored in an array <code>int trie[N][A]</code>, where <i>N</i> is the maximum number of nodes (the maximum total length of the strings) and <i>A</i> is the alphabet size. Nodes are numbered 0, 1, 2, … with the root at 0, and <code>trie[s][c]</code> gives the next node when we move from node <i>s</i> by character <i>c</i>.</p>
+        <p>We can extend the trie structure in several ways. For example, suppose queries ask for the number of strings with a certain prefix. We can answer efficiently by storing at each node the number of strings whose chain goes through it.</p>
       </div>
     </details>
   </div>
@@ -260,13 +260,13 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Dynamic programming can be used to solve many string problems. Next we will discuss two examples of such problems.</p>
+    <p class="lead" data-reveal>Dynamic programming solves many string problems. Next we will discuss two examples of such problems.</p>
 
     <div class="split2 ch14-split-dp">
       <div class="ch14-dp-copy" data-reveal>
         <article>
           <span class="kicker">Longest common subsequence</span>
-          <p>The longest common subsequence of two strings is the longest string that appears as a subsequence in both strings. For example, the longest common subsequence of <b>TOUR</b> and <b>OPERA</b> is <b>OR</b>. Using dynamic programming, we can determine the longest common subsequence of two strings <i>x</i> and <i>y</i> in <i>O</i>(<i>n</i><i>m</i>) time, where <i>n</i> and <i>m</i> denote the lengths of the strings. To do this, we define a function <i>lcs</i>(<i>i</i>, <i>j</i>) that gives the length of the longest common subsequence of the prefixes <i>x</i>[0…<i>i</i>] and <i>y</i>[0…<i>j</i>]. Then, we can use the recurrence</p>
+          <p>The longest common subsequence of two strings is the longest string that appears as a subsequence in both strings. For example, the longest common subsequence of <b>TOUR</b> and <b>OPERA</b> is <b>OR</b>. Using dynamic programming, we can find the longest common subsequence of two strings <i>x</i> and <i>y</i> in <i>O</i>(<i>n</i><i>m</i>) time, where <i>n</i> and <i>m</i> are their lengths. To do this, define <i>lcs</i>(<i>i</i>, <i>j</i>) as the length of the longest common subsequence of the prefixes <i>x</i>[0…<i>i</i>] and <i>y</i>[0…<i>j</i>]. Then, we can use the recurrence</p>
           <div class="ch14-recur">
             <p><i>lcs</i>(<i>i</i>, <i>j</i>) = <i>lcs</i>(<i>i</i>−1, <i>j</i>−1) + 1 &nbsp; if <i>x</i>[<i>i</i>] = <i>y</i>[<i>j</i>]</p>
             <p><i>lcs</i>(<i>i</i>, <i>j</i>) = max(<i>lcs</i>(<i>i</i>, <i>j</i>−1), <i>lcs</i>(<i>i</i>−1, <i>j</i>)) &nbsp; otherwise</p>
@@ -276,7 +276,7 @@
 
         <article>
           <span class="kicker">Edit distance</span>
-          <p>The edit distance (or Levenshtein distance) between two strings denotes the minimum number of editing operations that transform the first string into the second string. The allowed editing operations are to insert a character, remove a character, or modify a character. For example, the edit distance between <b>LOVE</b> and <b>MOVIE</b> is 2, because we can first perform the operation LOVE → MOVE (modify) and then the operation MOVE → MOVIE (insert).</p>
+          <p>The edit distance (or Levenshtein distance) between two strings is the minimum number of operations that turn the first string into the second. The allowed operations are to insert, remove, or modify a character. For example, the edit distance between <b>LOVE</b> and <b>MOVIE</b> is 2, because we can first perform the operation LOVE → MOVE (modify) and then the operation MOVE → MOVIE (insert).</p>
           <div class="ch14-recur">
             <p><i>edit</i>(<i>a</i>, <i>b</i>) = min( <i>edit</i>(<i>a</i>, <i>b</i>−1) + 1, <i>edit</i>(<i>a</i>−1, <i>b</i>) + 1, <i>edit</i>(<i>a</i>−1, <i>b</i>−1) + cost )</p>
           </div>
@@ -310,7 +310,7 @@
 
     <p class="statement" data-reveal>A hash value is a fingerprint: one integer that stands in for a whole string.</p>
 
-    <p class="lead" data-reveal>Using string hashing we can efficiently check whether two strings are equal by comparing their hash values. A hash value is an integer that is calculated from the characters of the string. If two strings are equal, their hash values are also equal, which makes it possible to compare strings based on their hash values.</p>
+    <p class="lead" data-reveal>Using string hashing we can check whether two strings are equal by comparing their hash values. A hash value is an integer calculated from the characters of the string. Equal strings have equal hash values, so we can compare strings by their hashes.</p>
 
     <div class="ch14-hashflow" data-reveal aria-label="A string is reduced to a single integer">
       <span class="ch14-hashflow__str">A B A C B</span>
@@ -332,11 +332,11 @@
 
     <div class="split2 ch14-split-hash">
       <div data-reveal>
-        <p>A usual way to implement string hashing is <em>polynomial hashing</em>, which means that the hash value of a string <i>s</i> of length <i>n</i> is</p>
+        <p>A usual implementation of string hashing is <em>polynomial hashing</em>: the hash value of a string <i>s</i> of length <i>n</i> is</p>
         <div class="ch14-formula">
           <p>(<i>s</i>[0]<i>A</i><sup><i>n</i>−1</sup> + <i>s</i>[1]<i>A</i><sup><i>n</i>−2</sup> + ⋯ + <i>s</i>[<i>n</i>−1]<i>A</i><sup>0</sup>) mod <i>B</i></p>
         </div>
-        <p>For example, let us calculate the hash value of the string <b>ABACB</b>. The character codes of <b>A</b>, <b>B</b>, and <b>C</b> are 65, 66, and 67. Then, we need to fix the constants; suppose that <i>A</i> = 3 and <i>B</i> = 97. Thus, the hash value is <b>40</b>.</p>
+        <p>For example, let us calculate the hash value of <b>ABACB</b>. The character codes of <b>A</b>, <b>B</b>, and <b>C</b> are 65, 66, and 67. Then, we need to fix the constants; suppose that <i>A</i> = 3 and <i>B</i> = 97. Thus, the hash value is <b>40</b>.</p>
       </div>
 
       <div class="ch14-hashbuild" data-reveal style="--d:.08s">
@@ -350,7 +350,7 @@
       </div>
     </div>
 
-    <p class="lead ch14-hash-lead" data-reveal>When polynomial hashing is used, we can calculate the hash value of any substring of a string <i>s</i> in <i>O</i>(1) time after an <i>O</i>(<i>n</i>) time preprocessing. The idea is to construct an array <i>h</i> such that <i>h</i>[<i>k</i>] contains the hash value of the prefix <i>s</i>[0…<i>k</i>], and an array <i>p</i> where <i>p</i>[<i>k</i>] = <i>A</i><sup><i>k</i></sup> mod <i>B</i>.</p>
+    <p class="lead ch14-hash-lead" data-reveal>With polynomial hashing, we can calculate the hash value of any substring of <i>s</i> in <i>O</i>(1) time after <i>O</i>(<i>n</i>) preprocessing. Construct an array <i>h</i> where <i>h</i>[<i>k</i>] is the hash value of the prefix <i>s</i>[0…<i>k</i>], and an array <i>p</i> where <i>p</i>[<i>k</i>] = <i>A</i><sup><i>k</i></sup> mod <i>B</i>.</p>
 
     <div class="ch14-hashlab" id="hashLab" data-reveal>
       <div class="ch14-lab__head">
@@ -389,7 +389,7 @@
     </div>
 
     <div class="ch14-code-note" data-reveal>
-      <p>Two arrays, one subtraction. The code below builds the pair and answers substring hashes in constant time.</p>
+      <p>Two arrays, one subtraction. The code below builds them and answers substring hashes in constant time.</p>
       <div class="code-card" data-code-card>
         <div class="code-card__head">
           <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
@@ -419,14 +419,14 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>We can efficiently solve many string problems using hashing, because it allows us to compare arbitrary substrings of strings in <i>O</i>(1) time. In fact, we can often simply take a brute force algorithm and make it efficient by using hashing.</p>
+    <p class="lead" data-reveal>Hashing solves many string problems because it compares arbitrary substrings in <i>O</i>(1) time. Often we can take a brute force algorithm and make it efficient with hashing.</p>
 
     <div class="ch14-apps">
       <article class="ch14-app" data-reveal>
         <span class="kicker">01 · Pattern matching</span>
         <h3>Find every occurrence</h3>
         <div class="ch14-strip" id="matchStrip" aria-label="The pattern ABC occurs at positions 0 and 5 in ABCABABCA"></div>
-        <p>A fundamental string problem is the pattern matching problem: given a string <i>s</i> and a pattern <i>p</i>, find the positions where <i>p</i> occurs in <i>s</i>. The pattern <b>ABC</b> occurs at positions <b>0</b> and <b>5</b> in the string <b>ABCABABCA</b>. We can solve the problem in <i>O</i>(<i>n</i><sup>2</sup>) time using a brute force algorithm that goes through all positions where <i>p</i> may occur in <i>s</i> and compares strings character by character. Then, we can make the brute force algorithm efficient using hashing, because each comparison of strings then only takes <i>O</i>(1) time. This results in an <i>O</i>(<i>n</i>) time algorithm.</p>
+        <p>A fundamental string problem is the pattern matching problem: given a string <i>s</i> and a pattern <i>p</i>, we find the positions where <i>p</i> occurs in <i>s</i>. The pattern <b>ABC</b> occurs at positions <b>0</b> and <b>5</b> in the string <b>ABCABABCA</b>. A brute force algorithm checks every position where <i>p</i> may occur in <i>s</i> and compares character by character, in <i>O</i>(<i>n</i><sup>2</sup>) time. Hashing makes each comparison <i>O</i>(1), which brings the algorithm down to <i>O</i>(<i>n</i>).</p>
         <p class="ch14-app__cost">Brute force <i>O</i>(<i>n</i><sup>2</sup>) → hashing <i>O</i>(<i>n</i>)</p>
       </article>
 
@@ -434,7 +434,7 @@
         <span class="kicker">02 · Distinct substrings</span>
         <h3>Count what repeats</h3>
         <div class="ch14-distinct" id="distinctBox" aria-label="Four windows of length three reduce to two distinct values"></div>
-        <p>Consider the problem of counting the number of distinct substrings of length <i>k</i> in a string. For example, the string <b>ABABAB</b> has two distinct substrings of length 3: <b>ABA</b> and <b>BAB</b>. Using hashing, we can calculate the hash value of each substring and reduce the problem to counting the number of distinct integers in a list, which can be done in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+        <p>Consider counting the distinct substrings of length <i>k</i> in a string. For example, the string <b>ABABAB</b> has two distinct substrings of length 3: <b>ABA</b> and <b>BAB</b>. With hashing, we hash each substring and reduce the problem to counting distinct integers in a list, which takes <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
         <p class="ch14-app__cost"><i>O</i>(<i>n</i> log <i>n</i>) after <i>O</i>(<i>n</i>) preprocessing</p>
       </article>
 
@@ -442,7 +442,7 @@
         <span class="kicker">03 · Minimal rotation</span>
         <h3>Start at the best place</h3>
         <div class="ch14-rotations" id="rotationList" aria-label="The five rotations of ATLAS; ASATL is lexicographically smallest"></div>
-        <p>A rotation of a string can be created by repeatedly moving the first character of the string to the end of the string. For example, the rotations of <b>ATLAS</b> are ATLAS, TLASA, LASAT, ASATL, and SATLA, and the minimal rotation is <b>ASATL</b>. We can efficiently solve the problem by combining string hashing and binary search. First, we calculate the length of the common prefix of the strings using binary search, which allows us to find out the lexicographic order of two strings in logarithmic time. After this, we check the next character after the common prefix, which determines the order of the strings. Then we construct a string that contains two copies of the original string (e.g., ATLASATLAS) and go through its substrings of length <i>n</i> maintaining the minimal substring. Since each comparison can be done in <i>O</i>(log <i>n</i>) time, the algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+        <p>A rotation is created by repeatedly moving the first character to the end of the string. For example, the rotations of <b>ATLAS</b> are ATLAS, TLASA, LASAT, ASATL, and SATLA, and the minimal rotation is <b>ASATL</b>. We can solve it by combining string hashing and binary search. First, binary search finds the length of their common prefix, which gives the lexicographic order of two strings in logarithmic time. Then the next character after the common prefix determines the order. Then we build a string with two copies of the original (e.g., ATLASATLAS) and scan its length-<i>n</i> substrings, keeping the minimal one. Since each comparison can be done in <i>O</i>(log <i>n</i>) time, the algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
         <p class="ch14-app__cost"><i>O</i>(<i>n</i> log <i>n</i>) overall</p>
       </article>
     </div>
@@ -461,7 +461,7 @@
 
     <div class="split2 ch14-split-coll">
       <div data-reveal>
-        <p>An evident risk when comparing hash values is a <em>collision</em>, which means that two strings have different contents but equal hash values. In this case, an algorithm that relies on the hash values concludes that the strings are equal, but in reality they are not, and the algorithm may give incorrect results. Collisions are always possible, because the number of different strings is larger than the number of different hash values. However, the probability of a collision is small if the constants <i>A</i> and <i>B</i> are carefully chosen.</p>
+        <p>An evident risk when comparing hash values is a <em>collision</em>: two strings with different contents but equal hash values. An algorithm that relies on hashes then concludes the strings are equal, though they are not, and may give incorrect results. Collisions are always possible, because there are more different strings than different hash values. However, the probability is small if <i>A</i> and <i>B</i> are carefully chosen.</p>
         <div class="ch14-scenarios">
           <div class="ch14-scenario"><span class="ch14-scenario__num">1</span><p><i>x</i> is compared with <i>y</i>. The probability of a collision is <b>1/<i>B</i></b> assuming that all hash values are equally probable.</p></div>
           <div class="ch14-scenario"><span class="ch14-scenario__num">2</span><p><i>x</i> is compared with strings <i>y</i><sub>1</sub>, <i>y</i><sub>2</sub>, …, <i>y</i><sub><i>n</i></sub>. The probability of one or more collisions is <b>1 − (1 − 1/<i>B</i>)<sup><i>n</i></sup></b>.</p></div>
@@ -493,10 +493,10 @@
       <details class="note ch14-note" data-reveal>
         <summary><span class="note__label">Making collisions negligible</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
         <div class="note__body">
-          <p>We can make the probability of a collision smaller by calculating multiple hash values using different parameters. It is unlikely that a collision would occur in all hash values at the same time. For example, two hash values with parameter <i>B</i> ≈ 10<sup>9</sup> correspond to one hash value with parameter <i>B</i> ≈ 10<sup>18</sup>, which makes the probability of a collision very small. Some people use constants <i>B</i> = 2<sup>32</sup> and <i>B</i> = 2<sup>64</sup>, which is convenient, because operations with 32- and 64-bit integers are calculated modulo 2<sup>32</sup> and 2<sup>64</sup>. However, this is not a good choice, because it is possible to construct inputs that always generate collisions when constants of the form 2<sup><i>x</i></sup> are used.</p>
+          <p>We can make collisions less likely by calculating several hash values with different parameters. It is unlikely that a collision would occur in all hash values at the same time. For example, two hash values with <i>B</i> ≈ 10<sup>9</sup> correspond to one with <i>B</i> ≈ 10<sup>18</sup>, which makes the probability of a collision very small. Some people use constants <i>B</i> = 2<sup>32</sup> and <i>B</i> = 2<sup>64</sup>, which is convenient because 32- and 64-bit integer operations are calculated modulo 2<sup>32</sup> and 2<sup>64</sup>. However, this is a bad choice: one can construct inputs that always collide when constants of the form 2<sup><i>x</i></sup> are used.</p>
         </div>
       </details>
-      <p class="ch14-coll-verdict" data-reveal>The table shows that in Scenarios 1 and 2, the probability of a collision is negligible when <i>B</i> ≈ 10<sup>9</sup>. However, in Scenario 3 the situation is very different: a collision will almost always happen when <i>B</i> ≈ 10<sup>9</sup>.</p>
+      <p class="ch14-coll-verdict" data-reveal>The table shows that in Scenarios 1 and 2, the probability of a collision is negligible when <i>B</i> ≈ 10<sup>9</sup>. In Scenario 3 the situation is very different: a collision will almost always happen when <i>B</i> ≈ 10<sup>9</sup>.</p>
     </div>
   </div>
 </section>
@@ -513,7 +513,7 @@
 
     <p class="statement" data-reveal>The Z-array records, at every position, how much of the string's own beginning repeats there.</p>
 
-    <p class="lead" data-reveal>The Z-array <i>z</i> of a string <i>s</i> of length <i>n</i> contains for each <i>k</i> = 0, 1, …, <i>n</i>−1 the length of the longest substring of <i>s</i> that begins at position <i>k</i> and is a prefix of <i>s</i>. Thus, <i>z</i>[<i>k</i>] = <i>p</i> tells us that <i>s</i>[0…<i>p</i>−1] equals <i>s</i>[<i>k</i>…<i>k</i>+<i>p</i>−1], but <i>s</i>[<i>p</i>] and <i>s</i>[<i>k</i>+<i>p</i>] are different characters (or the length of the string is <i>k</i>+<i>p</i>).</p>
+    <p class="lead" data-reveal>The Z-array <i>z</i> of a string <i>s</i> of length <i>n</i> contains for each <i>k</i> = 0, 1, …, <i>n</i>−1 the length of the longest substring of <i>s</i> that begins at position <i>k</i> and is a prefix of <i>s</i>. Thus <i>z</i>[<i>k</i>] = <i>p</i> means <i>s</i>[0…<i>p</i>−1] equals <i>s</i>[<i>k</i>…<i>k</i>+<i>p</i>−1], but <i>s</i>[<i>p</i>] and <i>s</i>[<i>k</i>+<i>p</i>] differ (or the string ends at <i>k</i>+<i>p</i>).</p>
 
     <figure class="figure ch14-zfig" data-reveal>
       <div class="figure__frame">
@@ -538,13 +538,13 @@
 
     <div class="split2 ch14-split-z">
       <div data-reveal>
-        <p>Next we describe an algorithm, called the Z-algorithm, which efficiently constructs the Z-array in <i>O</i>(<i>n</i>) time. The algorithm calculates the Z-array values from left to right by both using information already stored in the array and by comparing substrings character by character. To efficiently calculate the Z-array values, the algorithm maintains a range [<i>x</i>, <i>y</i>] such that <i>s</i>[<i>x</i>…<i>y</i>] is a prefix of <i>s</i>, the value of <i>z</i>[<i>x</i>] has been determined, and <i>y</i> is as large as possible.</p>
+        <p>Next we describe an algorithm, called the Z-algorithm, which constructs the Z-array in <i>O</i>(<i>n</i>) time. It calculates values from left to right, using information already stored in the array and comparing characters when needed. To do this efficiently, it maintains a range [<i>x</i>, <i>y</i>] such that <i>s</i>[<i>x</i>…<i>y</i>] is a prefix of <i>s</i>, <i>z</i>[<i>x</i>] is known, and <i>y</i> is as large as possible.</p>
         <ol class="ch14-scenarios ch14-scenarios--z">
-          <li class="ch14-scenario"><span class="ch14-scenario__num">1</span><p><b><i>y</i> &lt; <i>k</i>.</b> In this case, we do not have information about the position <i>k</i>, so we calculate the value of <i>z</i>[<i>k</i>] by comparing substrings character by character.</p></li>
-          <li class="ch14-scenario"><span class="ch14-scenario__num">2</span><p><b><i>y</i> ≥ <i>k</i> and <i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] ≤ <i>y</i>.</b> In this case we know that <i>z</i>[<i>k</i>] = <i>z</i>[<i>k</i>−<i>x</i>], because <i>s</i>[0…<i>y</i>−<i>x</i>] and <i>s</i>[<i>x</i>…<i>y</i>] are equal and we stay inside the [<i>x</i>, <i>y</i>] range.</p></li>
-          <li class="ch14-scenario"><span class="ch14-scenario__num">3</span><p><b><i>y</i> ≥ <i>k</i> and <i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] &gt; <i>y</i>.</b> In this case we know that <i>z</i>[<i>k</i>] ≥ <i>y</i>−<i>k</i>+1. However, since we do not have information after the position <i>y</i>, we have to compare substrings character by character starting at positions <i>y</i>−<i>k</i>+1 and <i>y</i>+1.</p></li>
+          <li class="ch14-scenario"><span class="ch14-scenario__num">1</span><p><b><i>y</i> &lt; <i>k</i>.</b> We have no information about position <i>k</i>, so we compute <i>z</i>[<i>k</i>] character by character.</p></li>
+          <li class="ch14-scenario"><span class="ch14-scenario__num">2</span><p><b><i>y</i> ≥ <i>k</i> and <i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] ≤ <i>y</i>.</b> Here <i>z</i>[<i>k</i>] = <i>z</i>[<i>k</i>−<i>x</i>], because <i>s</i>[0…<i>y</i>−<i>x</i>] equals <i>s</i>[<i>x</i>…<i>y</i>] and we stay inside the [<i>x</i>, <i>y</i>] range.</p></li>
+          <li class="ch14-scenario"><span class="ch14-scenario__num">3</span><p><b><i>y</i> ≥ <i>k</i> and <i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] &gt; <i>y</i>.</b> Here <i>z</i>[<i>k</i>] ≥ <i>y</i>−<i>k</i>+1. But we know nothing after <i>y</i>, so we compare characters starting at <i>y</i>−<i>k</i>+1 and <i>y</i>+1.</p></li>
         </ol>
-        <p class="ch14-z-total">The resulting algorithm works in <i>O</i>(<i>n</i>) time, because always when two characters match when comparing substrings character by character, the value of <i>y</i> increases. Thus, the total work needed for comparing substrings is only <i>O</i>(<i>n</i>).</p>
+        <p class="ch14-z-total">The algorithm works in <i>O</i>(<i>n</i>) time: whenever two characters match in a comparison, <i>y</i> increases. Thus the total work needed for comparing substrings is only <i>O</i>(<i>n</i>).</p>
       </div>
 
       <div class="ch14-zlab" id="zLab" data-reveal style="--d:.08s">
@@ -608,7 +608,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The Z-algorithm provides an alternative way to solve many string problems that can be also solved using hashing. However, unlike hashing, the Z-algorithm always works and there is no risk of collisions. In practice, it is often a matter of taste whether to use hashing or the Z-algorithm.</p>
+    <p class="lead" data-reveal>The Z-algorithm provides an alternative way to solve many string problems also solvable with hashing. Unlike hashing, it always works, with no risk of collisions. In practice, choosing between them is often a matter of taste.</p>
 
     <div class="split2 ch14-split-zapps">
       <figure class="figure ch14-zapp" data-reveal>
@@ -620,7 +620,7 @@
             <span><i class="ch14-dot"></i>other positions</span>
           </div>
         </div>
-        <figcaption class="figure__cap">Build <b>ABC#ABCABABCA</b> with a separator that occurs in neither string. Every <i>z</i> value equal to the pattern length is an occurrence. Positions 4 and 9 give 3, so <b>ABC</b> starts at 0 and 5 in the original string.</figcaption>
+        <figcaption class="figure__cap">Build <b>ABC#ABCABABCA</b> with a separator in neither string. Every <i>z</i> value equal to the pattern length is an occurrence. Positions 4 and 9 give 3, so <b>ABC</b> starts at 0 and 5 in the original.</figcaption>
       </figure>
 
       <figure class="figure ch14-zapp" data-reveal style="--d:.08s">
@@ -628,11 +628,11 @@
           <span class="kicker">Borders</span>
           <div class="ch14-borders-wrap" id="borders" aria-label="The borders of ABACABACABA"></div>
         </div>
-        <figcaption class="figure__cap">A border is both a prefix and a suffix, but not the whole string. <b>ABACABACABA</b> has three: <b>A</b>, <b>ABA</b>, and <b>ABACABA</b>. A suffix at <i>k</i> is a border exactly when <i>k</i> + <i>z</i>[<i>k</i>] = <i>n</i>.</figcaption>
+        <figcaption class="figure__cap">The borders of <b>ABACABACABA</b>: <b>A</b>, <b>ABA</b>, and <b>ABACABA</b>.</figcaption>
       </figure>
     </div>
 
-    <p class="ch14-aside" data-reveal>A border is a string that is both a prefix and a suffix of a string, but not the entire string. For example, the borders of <b>ABACABACABA</b> are <b>A</b>, <b>ABA</b>, and <b>ABACABA</b>. All borders of a string can be efficiently found using the Z-algorithm, because a suffix at position <i>k</i> is a border exactly when <i>k</i> + <i>z</i>[<i>k</i>] = <i>n</i> where <i>n</i> is the length of the string.</p>
+    <p class="ch14-aside" data-reveal>A border is a string that is both a prefix and a suffix of a string, but not the entire string. All borders can be found efficiently using the Z-algorithm, because a suffix at position <i>k</i> is a border exactly when <i>k</i> + <i>z</i>[<i>k</i>] = <i>n</i>, where <i>n</i> is the length of the string.</p>
   </div>
 </section>
 
@@ -648,7 +648,7 @@
 
     <p class="statement" data-reveal>The suffix array is the string's table of contents: every suffix, listed in lexicographic order.</p>
 
-    <p class="lead" data-reveal>The suffix array of a string describes the lexicographic order of its suffixes. Each value in the suffix array is a starting position of a suffix. For example, the suffix array of the string <b>ABAACBAB</b> is <b>[2, 6, 0, 3, 7, 1, 5, 4]</b>. It is often convenient to represent the suffix array vertically and also show the corresponding suffixes. However, note that the suffix array itself only contains the starting positions of the suffixes and not their characters.</p>
+    <p class="lead" data-reveal>The suffix array of a string describes the lexicographic order of its suffixes. Each value in the suffix array is a starting position of a suffix. For example, the suffix array of the string <b>ABAACBAB</b> is <b>[2, 6, 0, 3, 7, 1, 5, 4]</b>. It is often convenient to represent the suffix array vertically and also show the corresponding suffixes. However, the suffix array itself contains only starting positions, not characters.</p>
 
     <div class="split2 ch14-split-sa">
       <figure class="figure ch14-sa-fig" data-reveal>
@@ -658,12 +658,12 @@
             <div id="saTable"></div>
           </div>
         </div>
-        <figcaption class="figure__cap">The array itself is only the middle column. The suffixes are shown for orientation; they are not stored.</figcaption>
+        <figcaption class="figure__cap">The array itself is only the middle column; the suffixes are shown for orientation, not stored.</figcaption>
       </figure>
 
       <div data-reveal style="--d:.08s">
-        <p>Sorting the suffixes of an <i>n</i>-character string by comparing them directly takes <i>O</i>(<i>n</i><sup>2</sup> log <i>n</i>) in the worst case, since each comparison can scan <i>O</i>(<i>n</i>) characters. A simple and efficient way to create the suffix array of a string is to use a prefix doubling construction, which works in <i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>) time, depending on the implementation.</p>
-        <p>Compared to string hashing and the Z-algorithm, the advantage of the suffix array is that we can efficiently process several queries that are related to different patterns, and it is not necessary to know the patterns beforehand when constructing the suffix array.</p>
+        <p>Sorting the suffixes of an <i>n</i>-character string by comparing them directly takes <i>O</i>(<i>n</i><sup>2</sup> log <i>n</i>) in the worst case, since each comparison can scan <i>O</i>(<i>n</i>) characters. A simple and efficient way to create the suffix array of a string is prefix doubling, which works in <i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>) time depending on the implementation.</p>
+        <p>Compared to hashing and the Z-algorithm, the suffix array can answer several queries about different patterns, and the patterns need not be known when it is built.</p>
         <div class="ch14-sa-facts">
           <div><span class="kicker">Build</span><b><i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>)</b></div>
           <div><span class="kicker">Search</span><b><i>O</i>(<i>k</i> log <i>n</i>)</b></div>
@@ -684,7 +684,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The algorithm consists of rounds numbered 0, 1, …, ⌈log<sub>2</sub> <i>n</i>⌉, and round <i>i</i> goes through substrings whose length is 2<sup><i>i</i></sup>. During a round, each substring <i>x</i> of length 2<sup><i>i</i></sup> is given an integer label <i>l</i>(<i>x</i>) such that <i>l</i>(<i>a</i>) = <i>l</i>(<i>b</i>) exactly when <i>a</i> = <i>b</i> and <i>l</i>(<i>a</i>) &lt; <i>l</i>(<i>b</i>) exactly when <i>a</i> &lt; <i>b</i>.</p>
+    <p class="lead" data-reveal>The algorithm consists of rounds numbered 0, 1, …, ⌈log<sub>2</sub> <i>n</i>⌉, and round <i>i</i> goes through substrings whose length is 2<sup><i>i</i></sup>. During a round, each substring <i>x</i> of length 2<sup><i>i</i></sup> gets an integer label <i>l</i>(<i>x</i>), with <i>l</i>(<i>a</i>) = <i>l</i>(<i>b</i>) exactly when <i>a</i> = <i>b</i>, and <i>l</i>(<i>a</i>) &lt; <i>l</i>(<i>b</i>) exactly when <i>a</i> &lt; <i>b</i>.</p>
 
     <div class="ch14-sa-builder" id="saBuilder" data-reveal>
       <div class="ch14-lab__head">
@@ -715,16 +715,16 @@
     <div class="ch14-sa-explain" data-reveal>
       <div>
         <span class="kicker">How a pair becomes a label</span>
-        <p>Then, on round <i>i</i>, where <i>i</i> > 0, we use the labels for substrings of length 2<sup><i>i</i>−1</sup> to construct labels for substrings of length 2<sup><i>i</i></sup>. To give a label <i>l</i>(<i>x</i>) for a substring <i>x</i> of length 2<sup><i>i</i></sup>, we divide <i>x</i> into two halves <i>a</i> and <i>b</i> of length 2<sup><i>i</i>−1</sup> whose labels are <i>l</i>(<i>a</i>) and <i>l</i>(<i>b</i>). If the second half begins outside the string, we assume that its label is 0. First, we give <i>x</i> an initial label that is a pair (<i>l</i>(<i>a</i>), <i>l</i>(<i>b</i>)). Then, after all substrings of length 2<sup><i>i</i></sup> have been given initial labels, we sort the initial labels and give final labels that are consecutive integers 1, 2, 3, etc.</p>
+        <p>On round <i>i</i> > 0, we use the labels for substrings of length 2<sup><i>i</i>−1</sup> to construct labels for length 2<sup><i>i</i></sup>. To label a substring <i>x</i> of length 2<sup><i>i</i></sup>, we divide it into halves <i>a</i> and <i>b</i> of length 2<sup><i>i</i>−1</sup> with labels <i>l</i>(<i>a</i>) and <i>l</i>(<i>b</i>). If the second half begins outside the string, its label is 0. First we give <i>x</i> the initial label (<i>l</i>(<i>a</i>), <i>l</i>(<i>b</i>)). After all substrings of length 2<sup><i>i</i></sup> have initial labels, we sort them and assign final labels 1, 2, 3, etc.</p>
       </div>
       <div class="ch14-sa-example">
         <span class="kicker">Round 2 · ABAA</span>
         <div class="ch14-sa-example__pairs"><span>AB</span><b>2</b><span>AA</span><b>1</b></div>
-        <p>After round 1, we know that <i>l</i>(AB) = 2 and <i>l</i>(AA) = 1. Then, on round 2, the initial label for ABAA is <b>(2, 1)</b>. Since there are two smaller initial labels ((1, 6) and (2, 0)), the final label is <i>l</i>(ABAA) = <b>3</b>.</p>
+        <p>After round 1, <i>l</i>(AB) = 2 and <i>l</i>(AA) = 1. On round 2, the initial label for ABAA is <b>(2, 1)</b>. Two initial labels are smaller ((1, 6) and (2, 0)), so the final label is <i>l</i>(ABAA) = <b>3</b>.</p>
       </div>
     </div>
 
-    <p class="ch14-aside" data-reveal>Note that in this example, each label is unique already after round 2, because the first four characters of the substrings completely determine their lexicographical order. The resulting algorithm works in <i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>) time, because there are <i>O</i>(log <i>n</i>) rounds and we sort a list of <i>n</i> pairs on each round. The final labels read in position order are <b>3 6 1 4 8 7 2 5</b> — which is exactly the inverse of the suffix array.</p>
+    <p class="ch14-aside" data-reveal>In this example, each label is already unique after round 2, because the first four characters of the substrings completely determine their lexicographical order. The algorithm works in <i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>) time: <i>O</i>(log <i>n</i>) rounds, each sorting <i>n</i> pairs. The final labels read in position order are <b>3 6 1 4 8 7 2 5</b> — which is exactly the inverse of the suffix array.</p>
   </div>
 </section>
 
@@ -738,7 +738,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>After constructing the suffix array, we can efficiently find the occurrences of any given pattern in the string. This can be done in <i>O</i>(<i>k</i> log <i>n</i>) time, where <i>n</i> is the length of the string and <i>k</i> is the length of the pattern. The idea is to process the pattern character by character and maintain a range in the suffix array that corresponds to the prefix of the pattern processed so far. Using binary search, we can efficiently update the range after each new character.</p>
+    <p class="lead" data-reveal>After building the suffix array, we can find the occurrences of any pattern in <i>O</i>(<i>k</i> log <i>n</i>) time, where <i>n</i> is the string length and <i>k</i> the pattern length. The idea is to process the pattern character by character, maintaining a range in the suffix array for the prefix processed so far. Binary search updates the range after each new character.</p>
 
     <div class="ch14-search" id="saSearch" data-reveal>
       <div class="ch14-lab__head">
@@ -772,9 +772,9 @@
 
     <div class="split2 ch14-split-lcp">
       <div data-reveal>
-        <p>The LCP array of a string gives for each suffix a LCP value: the length of the longest common prefix of the suffix and the next suffix in the suffix array. Note that the last suffix in the suffix array does not have a LCP value.</p>
-        <p>Next we present an efficient algorithm, due to Kasai et al., for constructing the LCP array of a string, provided that we have already constructed its suffix array. The algorithm is based on the following observation: Consider a suffix whose LCP value is <i>x</i>. If we remove the first character from the suffix and get another suffix, we immediately know that its LCP value has to be at least <i>x</i>−1. For example, the LCP value of the suffix <b>BAACBAB</b> is 2, so we know that the LCP value of the suffix <b>AACBAB</b> has to be at least 1. In fact, it happens to be exactly 1.</p>
-        <p>We can use the above observation to efficiently construct the LCP array by calculating the LCP values in decreasing order of suffix length. At each suffix, we calculate its LCP value by comparing the suffix and the next suffix in the suffix array character by character, and we do not need to compare the first <i>x</i>−1 characters of the suffixes. The resulting algorithm works in <i>O</i>(<i>n</i>) time, because only <i>O</i>(<i>n</i>) comparisons are done during the algorithm.</p>
+        <p>The LCP array of a string gives for each suffix a LCP value: the length of the longest common prefix of the suffix and the next suffix in the suffix array. The last suffix has no LCP value.</p>
+        <p>Next we present an efficient algorithm, due to Kasai et al., for constructing the LCP array of a string once its suffix array is built. It is based on one observation: consider a suffix whose LCP value is <i>x</i>. If we remove its first character, the resulting suffix has LCP value at least <i>x</i>−1. For example, the LCP value of the suffix <b>BAACBAB</b> is 2, so we know that the LCP value of the suffix <b>AACBAB</b> has to be at least 1. In fact, it happens to be exactly 1.</p>
+        <p>We can use this to construct the LCP array by calculating values in decreasing order of suffix length. For each suffix, we compare it with the next suffix character by character, skipping the first <i>x</i>−1 characters. The algorithm works in <i>O</i>(<i>n</i>) time, because only <i>O</i>(<i>n</i>) comparisons are made.</p>
       </div>
 
       <figure class="figure ch14-lcp-fig" data-reveal style="--d:.08s">
@@ -785,14 +785,14 @@
             <span>sum of LCP</span><b>7</b>
           </div>
         </div>
-        <figcaption class="figure__cap">Read the bars between neighbouring suffixes. The one after <b>B</b> is 0: <b>B</b> and <b>BAACBAB</b> share nothing beyond the first character.</figcaption>
+        <figcaption class="figure__cap">Read the bars between neighbouring suffixes. The one after <b>B</b> is 0: <b>B</b> and <b>BAACBAB</b> share only the first character.</figcaption>
       </figure>
     </div>
 
     <div class="ch14-distinct-calc" data-reveal>
       <div class="ch14-distinct-calc__copy">
         <span class="kicker">Counting distinct substrings</span>
-        <p>Using the LCP array, we can efficiently solve some advanced string problems. For example, to calculate the number of distinct substrings in a string, we can simply subtract the sum of all values in the LCP array from the total number of substrings:</p>
+        <p>The LCP array also solves some advanced string problems. For example, the number of distinct substrings is the total number of substrings minus the sum of the LCP array:</p>
       </div>
       <div class="ch14-distinct-calc__math">
         <span class="ch14-distinct-calc__frac"><i>n</i>(<i>n</i>+1)/2</span>

@@ -244,8 +244,8 @@
 
     <div class="split2 ch04-intro">
       <div>
-        <p class="lead" data-reveal>The basic problem in sorting is as follows: Given an array that contains <i>n</i> elements, sort the elements in increasing order. It is easy to design an <i>O</i>(<i>n</i><sup>2</sup>) time sorting algorithm, but there are also more efficient algorithms.</p>
-        <p data-reveal>In this section we will go through some fundamental sorting algorithms and examine their properties. After discussing the theory of sorting, we will focus on using sorting in practice in C++.</p>
+        <p class="lead" data-reveal>The basic problem is: given an array of <i>n</i> elements, sort them in increasing order. An <i>O</i>(<i>n</i><sup>2</sup>) algorithm is easy to design, but there are more efficient ones.</p>
+        <p data-reveal>In this section we go through some fundamental sorting algorithms and examine their properties. Then we focus on using sorting in practice in C++.</p>
       </div>
       <div class="ch04-facts" data-reveal>
         <div class="statline">
@@ -253,16 +253,16 @@
           <div><span class="statline__value"><i>O</i>(<i>n</i> log <i>n</i>)</span><span class="statline__label">merge sort</span></div>
           <div><span class="statline__value"><i>O</i>(<i>n</i>)</span><span class="statline__label">counting sort</span></div>
         </div>
-        <p class="ch04-aside">Counting sort sorts an array in <i>O</i>(<i>n</i>) time assuming that every element in the array is an integer between <span class="ch04-mono">0 … c</span> and <i>c</i> = <i>O</i>(<i>n</i>).</p>
+        <p class="ch04-aside">Counting sort sorts in <i>O</i>(<i>n</i>) time assuming every element is an integer between <span class="ch04-mono">0 … c</span> and <i>c</i> = <i>O</i>(<i>n</i>).</p>
       </div>
     </div>
 
     <h3 class="ch04-h3" data-reveal>Bubble sort, and what an inversion costs</h3>
-    <p data-reveal>Bubble sort is a simple sorting algorithm that works in <i>O</i>(<i>n</i><sup>2</sup>) time. The algorithm consists of <i>n</i> rounds, and on each round, it iterates through the elements of the array. Whenever two consecutive elements are found that are in wrong order, the algorithm swaps them. After the first round of bubble sort, the largest element will be in the correct position, and more generally, after <i>k</i> rounds, the <i>k</i> largest elements will be in the correct positions. Thus, after <i>n</i> rounds, the whole array will be sorted.</p>
-    <p data-reveal>A useful concept when analyzing sorting algorithms is an <em>inversion</em>: a pair of array indices (<i>a</i>, <i>b</i>) such that <i>a</i> &lt; <i>b</i> and <span class="ch04-mono">array[<i>a</i>] &gt; array[<i>b</i>]</span>, i.e., the elements are in wrong order. The number of inversions indicates how much work is needed to sort the array. An array is completely sorted when there are no inversions. On the other hand, if the array elements are in the reverse order, the number of inversions is 1 + 2 + ⋯ + (<i>n</i> − 1) = <i>n</i>(<i>n</i> − 1)/2 = <i>O</i>(<i>n</i><sup>2</sup>), which is the largest possible. Swapping a pair of consecutive elements that are in the wrong order removes exactly one inversion from the array. Hence, if a sorting algorithm can only swap consecutive elements, each swap removes at most one inversion, and the time complexity of the algorithm is at least <i>O</i>(<i>n</i><sup>2</sup>).</p>
+    <p data-reveal>Bubble sort is a simple sorting algorithm that works in <i>O</i>(<i>n</i><sup>2</sup>) time. The algorithm consists of <i>n</i> rounds, and on each round it iterates through the elements of the array. Whenever two consecutive elements are in the wrong order, the algorithm swaps them. After the first round, the largest element will be in the correct position; after <i>k</i> rounds, the <i>k</i> largest elements will be. Thus, after <i>n</i> rounds, the whole array will be sorted.</p>
+    <p data-reveal>A useful concept when analyzing sorting algorithms is an <em>inversion</em>: a pair of array indices (<i>a</i>, <i>b</i>) such that <i>a</i> &lt; <i>b</i> and <span class="ch04-mono">array[<i>a</i>] &gt; array[<i>b</i>]</span>, i.e., the elements are in the wrong order. The number of inversions indicates how much work is needed to sort the array. An array is completely sorted when there are no inversions. On the other hand, if the elements are in reverse order, the number is 1 + 2 + ⋯ + (<i>n</i> − 1) = <i>n</i>(<i>n</i> − 1)/2 = <i>O</i>(<i>n</i><sup>2</sup>), which is the largest possible. Swapping a pair of consecutive elements that are in the wrong order removes exactly one inversion. Hence, if an algorithm can only swap consecutive elements, each swap removes at most one inversion, and its time complexity is at least <i>O</i>(<i>n</i><sup>2</sup>).</p>
 
     <h3 class="ch04-h3" data-reveal>Merge sort: divide, then merge</h3>
-    <p data-reveal>If we want to create an efficient sorting algorithm, we have to be able to reorder elements that are in different parts of the array. There are several such sorting algorithms that work in <i>O</i>(<i>n</i> log <i>n</i>) time. One of them is merge sort, which is based on recursion. Merge sort is an efficient algorithm, because it halves the size of the subarray at each step. Then, merging the sorted subarrays is possible in linear time, because they are already sorted. Since there are <i>O</i>(log <i>n</i>) recursive levels, and processing each level takes a total of <i>O</i>(<i>n</i>) time, the algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+    <p data-reveal>If we want an efficient sorting algorithm, we have to be able to reorder elements that are in different parts of the array. There are several such algorithms that work in <i>O</i>(<i>n</i> log <i>n</i>) time. One of them is merge sort, which is based on recursion. It halves the size of the subarray at each step, and merging the sorted subarrays takes linear time because they are already sorted. Since there are <i>O</i>(log <i>n</i>) recursive levels, and each level takes <i>O</i>(<i>n</i>) time in total, the algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
 
     <figure class="figure ch04-figure" data-reveal>
       <div class="figure__frame">
@@ -303,10 +303,10 @@
     <div class="split2 ch04-lower-split">
       <div>
         <h3 class="ch04-h3" data-reveal>The comparison lower bound</h3>
-        <p data-reveal>Is it possible to sort an array faster than in <i>O</i>(<i>n</i> log <i>n</i>) time? It turns out that this is not possible when we restrict ourselves to sorting algorithms that are based on comparing array elements. The lower bound for the time complexity can be proved by considering sorting as a process where each comparison of two elements gives more information about the contents of the array.</p>
-        <p data-reveal>The results of the process are the possible ways to sort the array, a total of <i>n</i>! ways. For this reason, the height of the tree must be at least log<sub>2</sub>(<i>n</i>!) = log<sub>2</sub>(1) + log<sub>2</sub>(2) + ⋯ + log<sub>2</sub>(<i>n</i>). We get a lower bound for this sum by choosing the last <i>n</i>/2 elements and changing the value of each element to log<sub>2</sub>(<i>n</i>/2). This yields an estimate</p>
+        <p data-reveal>Is it possible to sort an array faster than in <i>O</i>(<i>n</i> log <i>n</i>) time? It is not possible when we restrict ourselves to algorithms that compare array elements. The lower bound can be proved by treating sorting as a process where each comparison gives more information about the array's contents.</p>
+        <p data-reveal>The results are the possible sorted orders, <i>n</i>! in total. For this reason the tree's height must be at least log<sub>2</sub>(<i>n</i>!) = log<sub>2</sub>(1) + log<sub>2</sub>(2) + ⋯ + log<sub>2</sub>(<i>n</i>). A lower bound for the sum comes from taking the last <i>n</i>/2 terms and replacing each with log<sub>2</sub>(<i>n</i>/2). This yields</p>
         <p class="ch04-formula" data-reveal>log<sub>2</sub>(<i>n</i>!) ≥ (<i>n</i>/2) · log<sub>2</sub>(<i>n</i>/2),</p>
-        <p data-reveal>so the height of the tree and the worst-case number of steps in a sorting algorithm is Ω(<i>n</i> log <i>n</i>). The lower bound Ω(<i>n</i> log <i>n</i>) does not apply to algorithms that do not compare array elements but use some other information.</p>
+        <p data-reveal>so the tree's height, and the worst-case number of steps, is Ω(<i>n</i> log <i>n</i>). The bound does not apply to algorithms that do not compare array elements but use other information.</p>
       </div>
       <figure class="figure ch04-tree-fig" data-reveal>
         <div class="figure__frame">
@@ -334,7 +334,7 @@
     </div>
 
     <h3 class="ch04-h3" data-reveal>Counting sort: use the value as an index</h3>
-    <p data-reveal>An example of such an algorithm is counting sort that sorts an array in <i>O</i>(<i>n</i>) time assuming that every element in the array is an integer between 0 … <i>c</i> and <i>c</i> = <i>O</i>(<i>n</i>). The algorithm creates a bookkeeping array, whose indices are elements of the original array. The algorithm iterates through the original array and calculates how many times each element appears in the array. The construction of the bookkeeping array takes <i>O</i>(<i>n</i>) time. After this, the sorted array can be created in <i>O</i>(<i>n</i>) time, because the number of occurrences of each element can be retrieved from the bookkeeping array. Thus, the total time complexity of counting sort is <i>O</i>(<i>n</i>). Counting sort is a very efficient algorithm but it can only be used when the constant <i>c</i> is small enough, so that the array elements can be used as indices in the bookkeeping array.</p>
+    <p data-reveal>An example is counting sort, which sorts in <i>O</i>(<i>n</i>) time assuming every element is an integer between 0 … <i>c</i> and <i>c</i> = <i>O</i>(<i>n</i>). It creates a bookkeeping array, whose indices are elements of the original array. The algorithm iterates through the array and counts how many times each element appears. Building the bookkeeping array takes <i>O</i>(<i>n</i>) time. The sorted array can then be created in <i>O</i>(<i>n</i>) time, because the occurrences of each element can be retrieved from it. Thus the total complexity is <i>O</i>(<i>n</i>). Counting sort is a very efficient algorithm, but it can only be used when <i>c</i> is small enough that the values can serve as indices.</p>
 
     <figure class="figure ch04-figure" data-reveal>
       <div class="figure__frame">
@@ -372,7 +372,7 @@
     </figure>
 
     <h3 class="ch04-h3" data-reveal>Sorting in practice</h3>
-    <p data-reveal>In practice, it is almost never a good idea to implement a home-made sorting algorithm, because all modern programming languages have good sorting algorithms in their standard libraries. There are many reasons to use a library function: it is certainly correct and efficient, and also easy to use. In C++, the function <span class="ch04-mono">sort</span> efficiently sorts the contents of a data structure; the C++11 standard requires that the <span class="ch04-mono">sort</span> function works in <i>O</i>(<i>n</i> log <i>n</i>) time. For example, the following code sorts the elements of a vector in increasing order:</p>
+    <p data-reveal>In practice, it is almost never a good idea to implement a home-made sorting algorithm, because all modern programming languages have good sorting algorithms in their standard libraries. There are many reasons to use a library function: it is correct, efficient, and easy to use. In C++, the function <span class="ch04-mono">sort</span> efficiently sorts the contents of a data structure; the C++11 standard requires that it works in <i>O</i>(<i>n</i> log <i>n</i>) time. For example, the following code sorts the elements of a vector in increasing order:</p>
 
     <div class="ch04-snippet" data-reveal>
       <div class="ch04-snippet-head">
@@ -393,8 +393,8 @@ sort(s.begin(), s.end());          <span class="ch04-comment">// "ekmnoy"</span>
     <details class="note ch04-note" data-reveal>
       <summary><span class="note__label">How sort decides the order</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Most C++ data types have a built-in comparison operator, and elements of those types can be sorted automatically. Numbers are sorted according to their values, and strings are sorted in alphabetical order. Pairs are sorted primarily according to their first elements and secondarily according to their second elements. In a similar way, tuples are sorted primarily by the first element, secondarily by the second element, etc.</p>
-        <p>User-defined structs do not have a comparison operator automatically. The operator should be defined inside the struct as a function <span class="ch04-mono">operator&lt;</span>, whose parameter is another element of the same type. The operator should return <span class="ch04-mono">true</span> if the element is smaller than the parameter, and <span class="ch04-mono">false</span> otherwise. It is also possible to give an external comparison function to the <span class="ch04-mono">sort</span> function as a callback function.</p>
+        <p>Most C++ data types have a built-in comparison operator, and their elements can be sorted automatically. Numbers are sorted by value, and strings in alphabetical order. Pairs are sorted primarily by first element and secondarily by second element. Tuples likewise: primarily by the first element, secondarily by the second, etc.</p>
+        <p>User-defined structs do not have a comparison operator automatically. The operator should be defined inside the struct as a function <span class="ch04-mono">operator&lt;</span>, whose parameter is another element of the same type. It returns <span class="ch04-mono">true</span> if the element is smaller than the parameter, and <span class="ch04-mono">false</span> otherwise. It is also possible to give an external comparison function to <span class="ch04-mono">sort</span> as a callback function.</p>
         <pre class="ch04-jump"><code>struct point {
     int x, y;
     bool operator&lt;(const point &amp;p) {
@@ -425,12 +425,12 @@ sort(v.begin(), v.end(), comp);</code></pre>
 
     <p class="statement" data-reveal>A sorted order turns a global question into a local one.</p>
 
-    <p class="lead" data-reveal>Often, we can easily solve a problem in <i>O</i>(<i>n</i><sup>2</sup>) time using a brute force algorithm, but such an algorithm is too slow if the input size is large. In fact, a frequent goal in algorithm design is to find <i>O</i>(<i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>) time algorithms for problems that can be trivially solved in <i>O</i>(<i>n</i><sup>2</sup>) time. Sorting is one way to achieve this goal.</p>
+    <p class="lead" data-reveal>Often a problem is easy to solve in <i>O</i>(<i>n</i><sup>2</sup>) time with brute force, but that is too slow for large inputs. A frequent goal in algorithm design is to find <i>O</i>(<i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>) algorithms for problems trivially solved in <i>O</i>(<i>n</i><sup>2</sup>). Sorting is one way to get there.</p>
 
     <div class="split2 ch04-unique">
       <div data-reveal>
         <h3 class="ch04-h3">Duplicates become neighbours</h3>
-        <p>For example, suppose that we want to check if all elements in an array are unique. A brute force algorithm goes through all pairs of elements in <i>O</i>(<i>n</i><sup>2</sup>) time. However, we can solve the problem in <i>O</i>(<i>n</i> log <i>n</i>) time by first sorting the array. Then, if there are equal elements, they are next to each other in the sorted array, so they are easy to find in <i>O</i>(<i>n</i>) time. Several other problems can be solved in a similar way, such as counting the number of distinct elements, finding the most frequent element, and finding two elements whose difference is minimum.</p>
+        <p>For example, suppose we want to check if all elements in an array are unique. A brute force algorithm goes through all pairs in <i>O</i>(<i>n</i><sup>2</sup>) time. However, we can solve the problem in <i>O</i>(<i>n</i> log <i>n</i>) time by first sorting the array. Then, if there are equal elements, they are next to each other, so they are easy to find in <i>O</i>(<i>n</i>) time. Several other problems can be solved in a similar way, such as counting the number of distinct elements, finding the most frequent element, and finding two elements whose difference is minimum.</p>
       </div>
       <div class="ch04-unique-viz" data-reveal aria-label="Unsorted array with duplicates, then sorted with the duplicate pair adjacent">
         <div class="ch04-unique-row">
@@ -446,7 +446,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
     </div>
 
     <h3 class="ch04-h3" data-reveal>Sweep line: give every change a time</h3>
-    <p data-reveal>A sweep line algorithm models a problem as a set of events that are processed in a sorted order. For example, suppose that there is a restaurant and we know the arriving and leaving times of all customers on a certain day. Our task is to find out the maximum number of customers who visited the restaurant at the same time. To solve the problem, we create two events for each customer: one event for arrival and another event for leaving. Then, we sort the events and go through them according to their times. To find the maximum number of customers, we maintain a counter whose value increases when a customer arrives and decreases when a customer leaves. The largest value of the counter is the answer to the problem. The resulting algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time, because sorting the events takes <i>O</i>(<i>n</i> log <i>n</i>) time and the sweep line part takes <i>O</i>(<i>n</i>) time.</p>
+    <p data-reveal>A sweep line algorithm models a problem as a set of events that are processed in a sorted order. For example, suppose we know the arrival and leaving times of all customers at a restaurant on a given day. Our task is to find the maximum number of customers present at the same time. Create two events per customer: one for arrival and one for leaving. Then sort the events and go through them in time order. Keep a counter that increases when a customer arrives and decreases when one leaves; its largest value is the answer. The algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time, because sorting the events takes <i>O</i>(<i>n</i> log <i>n</i>) and the sweep takes <i>O</i>(<i>n</i>).</p>
 
     <figure class="figure ch04-figure" data-reveal>
       <div class="figure__frame">
@@ -472,7 +472,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
     </figure>
 
     <h3 class="ch04-h3" data-reveal>Scheduling: choose the event that ends first</h3>
-    <p data-reveal>Many scheduling problems can be solved by sorting the input data and then using a greedy strategy to construct a solution. A greedy algorithm always makes a choice that looks the best at the moment and never takes back its choices. As an example, consider the following problem: Given <i>n</i> events with their starting and ending times, find a schedule that includes as many events as possible. One strategy is to sort the events according to their lengths and select as short events as possible. However, this strategy does not always work. Then, another idea is to sort the events according to their starting times and always select the next possible event that begins as early as possible. However, we can find a counterexample also for this strategy. A third idea is to sort the events according to their ending times and always select the next possible event that ends as early as possible. It turns out that this algorithm always produces an optimal solution.</p>
+    <p data-reveal>Many scheduling problems can be solved by sorting the input and then using a greedy strategy. A greedy algorithm always makes a choice that looks the best at the moment and never takes back its choices. As an example, given <i>n</i> events with start and end times, find a schedule that includes as many events as possible. One strategy is to sort by length and select the shortest events. However, this does not always work. Another is to sort by start time and always select the next event that begins earliest. However, we can find a counterexample for this strategy too. A third is to sort by end time and always select the next event that ends earliest. It turns out that this algorithm always produces an optimal solution.</p>
 
     <figure class="figure ch04-figure" data-reveal>
       <div class="figure__frame">
@@ -518,10 +518,10 @@ sort(v.begin(), v.end(), comp);</code></pre>
       <figcaption class="figure__cap">Three greedy rules on three small instances. Only the last rule is safe for every input.</figcaption>
     </figure>
 
-    <p data-reveal>To justify this, consider what happens if we first select an event that ends later than the event that ends as early as possible. Now, we will have at most an equal number of choices left how we can select the next event. Hence, selecting an event that ends later can never yield a better solution, and the greedy algorithm is correct.</p>
+    <p data-reveal>To justify this, suppose we first select an event that ends later than the one that ends earliest. We then have at most as many choices for the next event. Hence selecting a later-ending event can never yield a better solution, and the greedy algorithm is correct.</p>
 
     <h3 class="ch04-h3" data-reveal>Tasks and deadlines: sort by duration</h3>
-    <p data-reveal>Finally, consider a problem where we are given <i>n</i> tasks with durations and deadlines and our task is to choose an order to perform the tasks. For each task, we earn <i>d</i> − <i>x</i> points where <i>d</i> is the task’s deadline and <i>x</i> is the moment when we finish the task. What is the largest possible total score we can obtain? It turns out that the optimal solution to the problem does not depend on the deadlines at all, but a correct greedy strategy is to simply perform the tasks sorted by their durations in increasing order.</p>
+    <p data-reveal>Finally, consider a problem where we are given <i>n</i> tasks with durations and deadlines, and must choose an order to perform them. For each task we earn <i>d</i> − <i>x</i> points, where <i>d</i> is the task’s deadline and <i>x</i> is the moment we finish it. What is the largest possible total score we can obtain? It turns out that the optimal solution does not depend on the deadlines at all: a correct greedy strategy is to perform the tasks in increasing order of duration.</p>
 
     <div class="ch04-tasks" data-reveal>
       <div class="ch04-task-table-wrap">
@@ -554,7 +554,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
     <details class="note ch04-note" data-reveal>
       <summary><span class="note__label">Why swapping two tasks always helps</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>The reason for this is that if we ever perform two tasks one after another such that the first task takes longer than the second task, we can obtain a better solution if we swap the tasks. For example, there are two tasks X and Y with durations <i>a</i> and <i>b</i>. Initially, X is scheduled before Y. However, since <i>a</i> &gt; <i>b</i>, the tasks should be swapped. Now X gives <i>b</i> points less and Y gives <i>a</i> points more, so the total score increases by <i>a</i> − <i>b</i> &gt; 0. Thus, in an optimal solution, a shorter task must always come before a longer task, and the tasks must be sorted by their durations.</p>
+        <p>If we ever perform two tasks one after another such that the first takes longer than the second, we can do better by swapping them. For example, take tasks X and Y with durations <i>a</i> and <i>b</i>, with X scheduled before Y. Since <i>a</i> &gt; <i>b</i>, they should be swapped. X then gives <i>b</i> points less and Y gives <i>a</i> points more, so the total increases by <i>a</i> − <i>b</i> &gt; 0. Thus, in an optimal solution, a shorter task must always come before a longer one, and the tasks must be sorted by duration.</p>
       </div>
     </details>
   </div>
@@ -572,10 +572,10 @@ sort(v.begin(), v.end(), comp);</code></pre>
 
     <p class="statement" data-reveal>If the data is already ordered, a search should not look at all of it.</p>
 
-    <p class="lead" data-reveal>Binary search is an <i>O</i>(log <i>n</i>) time algorithm that can be used, for example, to efficiently check whether a sorted array contains a given element. In this section, we first focus on the implementation of binary search, and after that, we will see how binary search can be used to find optimal solutions for problems.</p>
+    <p class="lead" data-reveal>Binary search is an <i>O</i>(log <i>n</i>) algorithm that can, for example, check efficiently whether a sorted array contains a given element. We first focus on its implementation, then see how it finds optimal solutions to problems.</p>
 
     <h3 class="ch04-h3" data-reveal>The classic search</h3>
-    <p data-reveal>Suppose that we are given a sorted array of <i>n</i> elements and we want to check if the array contains an element with a target value <i>x</i>. The most common way to implement binary search resembles looking for a word in a dictionary. The search maintains an active subarray in the array, which initially contains all array elements. Then, a number of steps are performed, each of which halves the search range. At each step, the search checks the middle element of the active subarray. If the middle element has the target value, the search terminates. Otherwise, the search recursively continues to the left or right half of the subarray, depending on the value of the middle element.</p>
+    <p data-reveal>Suppose we have a sorted array of <i>n</i> elements and want to check whether it contains a target value <i>x</i>. The most common way to implement binary search resembles looking for a word in a dictionary. The search maintains an active subarray, which initially contains all array elements. Each step halves the search range. At each step the search checks the middle element. If the middle element has the target value, the search terminates. Otherwise it continues into the left or right half, depending on the value of the middle element.</p>
 
     <figure class="figure ch04-figure ch04-bs-fig" data-reveal>
       <div class="figure__frame">
@@ -607,7 +607,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
     </figure>
 
     <h3 class="ch04-h3" data-reveal>Searching an answer space</h3>
-    <p data-reveal>Suppose that we are solving a problem and have a function <span class="ch04-mono">valid(x)</span> that returns <span class="ch04-mono">true</span> if <i>x</i> is a valid solution and <span class="ch04-mono">false</span> otherwise. In addition, we know that <span class="ch04-mono">valid(x)</span> is false when <i>x</i> &lt; <i>k</i> and true when <i>x</i> ≥ <i>k</i>. In this situation, we can use binary search to efficiently find the value of <i>k</i>. The idea is to binary search for the largest value of <i>x</i> for which <span class="ch04-mono">valid(x)</span> is false. Thus, the next value <i>k</i> = <i>x</i> + 1 is the smallest possible value for which <span class="ch04-mono">valid(k)</span> is true.</p>
+    <p data-reveal>Suppose we have a function <span class="ch04-mono">valid(x)</span> that returns <span class="ch04-mono">true</span> if <i>x</i> is a valid solution and <span class="ch04-mono">false</span> otherwise. In addition, we know <span class="ch04-mono">valid(x)</span> is false when <i>x</i> &lt; <i>k</i> and true when <i>x</i> ≥ <i>k</i>. In this situation, binary search can find <i>k</i> efficiently: search for the largest <i>x</i> for which <span class="ch04-mono">valid(x)</span> is false. Then <i>k</i> = <i>x</i> + 1 is the smallest value for which <span class="ch04-mono">valid(k)</span> is true.</p>
 
     <figure class="figure ch04-figure ch04-answer-fig" data-reveal>
       <div class="figure__frame">
@@ -628,7 +628,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
       <figcaption class="figure__cap">Eight jobs, three machines with times 2, 3 and 7. The predicate flips once, at 9; binary search probes only a few values to find it.</figcaption>
     </figure>
 
-    <p data-reveal>Consider a problem where our task is to process <i>k</i> jobs using <i>n</i> machines. Each machine <i>i</i> is assigned an integer <i>p<sub>i</sub></i>: the time to process a single job. What is the minimum time to process all the jobs? Calculating the value of <span class="ch04-mono">valid(x)</span> is easy, because each machine <i>i</i> can process at most ⌊<i>x</i>/<i>p<sub>i</sub></i>⌋ jobs in <i>x</i> units of time. Thus, if the sum of all ⌊<i>x</i>/<i>p<sub>i</sub></i>⌋ values is <i>k</i> or more, <i>x</i> is a valid solution. Then, we can use binary search to find the minimum value of <i>x</i> for which <span class="ch04-mono">valid(x)</span> is true. The function <span class="ch04-mono">valid</span> takes <i>O</i>(<i>n</i>) time, so the algorithm works in <i>O</i>(<i>n</i> log <i>z</i>) time, where <i>z</i> is an upper bound for the answer.</p>
+    <p data-reveal>Consider a problem where we must process <i>k</i> jobs using <i>n</i> machines. Each machine <i>i</i> has an integer <i>p<sub>i</sub></i>, the time to process one job. What is the minimum time to process all the jobs? Calculating <span class="ch04-mono">valid(x)</span> is easy: machine <i>i</i> can process at most ⌊<i>x</i>/<i>p<sub>i</sub></i>⌋ jobs in <i>x</i> units of time. If the sum of all ⌊<i>x</i>/<i>p<sub>i</sub></i>⌋ is <i>k</i> or more, <i>x</i> is valid. Binary search then finds the minimum <i>x</i> for which <span class="ch04-mono">valid(x)</span> is true. Since <span class="ch04-mono">valid</span> takes <i>O</i>(<i>n</i>) time, the algorithm is <i>O</i>(<i>n</i> log <i>z</i>), where <i>z</i> is an upper bound on the answer.</p>
 
     <div class="code-card ch04-code-card" data-code-card data-reveal>
       <div class="code-card__head">
@@ -649,7 +649,7 @@ sort(v.begin(), v.end(), comp);</code></pre>
     <details class="note ch04-note" data-reveal>
       <summary><span class="note__label">The jump method</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Another way to implement binary search is to go through the array from left to right making jumps. The initial jump length is <i>n</i>/2, and the jump length is halved on each round: first <i>n</i>/4, then <i>n</i>/8, then <i>n</i>/16, etc., until finally the length is 1. On each round, we make jumps until we would end up outside the array or in an element whose value exceeds the target value. After the jumps, either the desired element has been found or we know that it does not appear in the array. The time complexity of the algorithm is <i>O</i>(log <i>n</i>), because the code in the while loop is performed at most twice for each jump length.</p>
+        <p>Another way to implement binary search is to go through the array from left to right making jumps. The initial jump length is <i>n</i>/2, and the length is halved on each round: first <i>n</i>/4, then <i>n</i>/8, <i>n</i>/16, and so on, until finally the length is 1. On each round we jump until we would end up outside the array or in an element whose value exceeds the target. After the jumps, either the desired element has been found or we know it does not appear in the array. The complexity is <i>O</i>(log <i>n</i>), because the while loop runs at most twice for each jump length.</p>
         <pre class="ch04-jump"><code>int k = 0;
 for (int b = n/2; b &gt;= 1; b /= 2) {
     while (k+b &lt; n &amp;&amp; array[k+b] &lt;= x) k += b;

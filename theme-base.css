@@ -14,6 +14,40 @@ html[data-theme="dark"] .topbar {
   background: #0e0e0d;
 }
 
+/* A scrim should dim the page, not wash it out. */
+html[data-theme="dark"] .drawer__scrim {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+/* Inverted paper cards stay cream in dark mode, so their muted ink must
+   stay dark too instead of following the page's light-on-dark tokens. */
+html[data-theme="dark"] .end__next .kicker,
+html[data-theme="dark"] .end__next p,
+html[data-theme="dark"] .end__lock,
+html[data-theme="dark"] .bookmap__detail p,
+html[data-theme="dark"] .bookmap__note {
+  color: #45453e;
+}
+
+html[data-theme="dark"] .end__lock {
+  border-color: #b9b9b0;
+}
+
+html[data-theme="dark"] .bookmap__detail .chip {
+  border-color: #b9b9b0;
+  color: #3a3a34;
+}
+
+/* The odd-degree card is a warm tint, not a mid-brown block. */
+html[data-theme="dark"] .ch12-degree--odd {
+  background: #3a2521;
+}
+
+html[data-theme="dark"] .ch12-degree--odd .ch12-degree__node,
+html[data-theme="dark"] .ch12-degree--odd em {
+  color: #d9b6a9;
+}
+
 html[data-theme="dark"] h1,
 html[data-theme="dark"] h2,
 html[data-theme="dark"] h3,

@@ -241,7 +241,7 @@
     <p class="statement" data-reveal>Time complexity is a prediction, not a measurement.</p>
 
     <div class="ch03-copy" data-reveal>
-      <p>The time complexity of an algorithm estimates how much time the algorithm will use for a given input. By calculating the time complexity, we can often find out whether the algorithm is fast enough for solving a problem—without implementing it. A time complexity is denoted <span class="ch03-math"><i>O</i>(· · ·)</span> where the three dots represent some function. Usually, the variable <i>n</i> denotes the input size. For example, if the input is an array of numbers, <i>n</i> will be the size of the array, and if the input is a string, <i>n</i> will be the length of the string.</p>
+      <p>The time complexity of an algorithm estimates how much time it will use for a given input. By calculating it, we can often find out whether the algorithm is fast enough to solve a problem—without implementing it. Time complexity is denoted <span class="ch03-math"><i>O</i>(· · ·)</span>, where the three dots represent some function. Usually the variable <i>n</i> denotes the input size. For an array of numbers, <i>n</i> is the size of the array; for a string, <i>n</i> is its length.</p>
       <p>The point of the notation is that it lets us reject a slow idea <em>before</em> implementing it. If we know the input can be as large as <i>n</i> = 10<sup>5</sup>, and our idea needs <i>n</i><sup>2</sup> steps, we can already tell that it will not fit a one-second limit. No compiler required.</p>
     </div>
   </div>
@@ -257,14 +257,14 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Complexity is read from the shape of the code. Four rules cover most of what appears in a contest solution.</p>
+    <p class="lead" data-reveal>Complexity is read from the shape of the code. Four rules cover most of a contest solution.</p>
 
     <div class="ch03-rules" data-reveal>
       <div class="ch03-rule">
         <span class="ch03-rule__num">01</span>
         <div class="ch03-rule__body">
           <h3>Straight-line code is constant</h3>
-          <p>If a code consists of single commands, its time complexity is <i>O</i>(1). For example, the time complexity of the following code is <i>O</i>(1).</p>
+          <p>If code consists of single commands, its time complexity is <i>O</i>(1). For example, the following code is <i>O</i>(1).</p>
         </div>
         <code class="ch03-rule__code">a++; b++; c = a + b;</code>
         <span class="ch03-rule__res"><i>O</i>(1)</span>
@@ -273,7 +273,7 @@
         <span class="ch03-rule__num">02</span>
         <div class="ch03-rule__body">
           <h3>A loop repeats its body</h3>
-          <p>The time complexity of a loop estimates the number of times the code inside the loop is executed. For example, the time complexity of the following code is <i>O</i>(<i>n</i>), because the code inside the loop is executed <i>n</i> times. In general, if there are <i>k</i> nested loops and each loop goes through <i>n</i> values, the time complexity is <i>O</i>(<i>n</i><sup><i>k</i></sup>).</p>
+          <p>The time complexity of a loop estimates how many times the code inside it is executed. For example, the following code is <i>O</i>(<i>n</i>), because the body runs <i>n</i> times. In general, with <i>k</i> nested loops each going through <i>n</i> values, the time complexity is <i>O</i>(<i>n</i><sup><i>k</i></sup>).</p>
         </div>
         <code class="ch03-rule__code">for (int i = 1; i &lt;= n; i++)</code>
         <span class="ch03-rule__res"><i>O</i>(<i>n</i>)</span>
@@ -282,7 +282,7 @@
         <span class="ch03-rule__num">03</span>
         <div class="ch03-rule__body">
           <h3>Constants disappear</h3>
-          <p>A time complexity does not tell us the exact number of times the code inside a loop is executed, because it only shows the order of growth and ignores the constant factors. In the following examples, the code inside the loop is executed 3<i>n</i>, <i>n</i> + 5, and ⌈<i>n</i>/2⌉ times, but the time complexity of each code is <i>O</i>(<i>n</i>).</p>
+          <p>A time complexity does not give the exact number of executions, because it shows only the order of growth and ignores constant factors. In the following examples the loop body runs 3<i>n</i>, <i>n</i> + 5, and ⌈<i>n</i>/2⌉ times, but each code is <i>O</i>(<i>n</i>).</p>
         </div>
         <code class="ch03-rule__code">3n &nbsp;·&nbsp; n + 5 &nbsp;·&nbsp; ⌈n/2⌉</code>
         <span class="ch03-rule__res"><i>O</i>(<i>n</i>)</span>
@@ -291,7 +291,7 @@
         <span class="ch03-rule__num">04</span>
         <div class="ch03-rule__body">
           <h3>Recursion is calls × cost</h3>
-          <p>The time complexity of a recursive function depends on the number of times the function is called and the time complexity of a single call. The total time complexity is the product of these values. The call <code>f(n)</code> causes <i>n</i> function calls, and the time complexity of each call is <i>O</i>(1), so the total time complexity is <i>O</i>(<i>n</i>). Two calls per level can change everything.</p>
+          <p>The time complexity of a recursive function depends on how many times it is called and the cost of a single call. The total is the product of these values. The call <code>f(n)</code> causes <i>n</i> function calls, each <i>O</i>(1), so the total is <i>O</i>(<i>n</i>). Two calls per level can change everything.</p>
         </div>
         <code class="ch03-rule__code">f(n-1)&nbsp;&nbsp;·&nbsp;&nbsp;g(n-1); g(n-1);</code>
         <span class="ch03-rule__res"><i>O</i>(<i>n</i>) · <i>O</i>(2<sup><i>n</i></sup>)</span>
@@ -333,11 +333,11 @@
         <span class="ch03-phases__op">=</span>
         <strong class="ch03-phases__eq"><i>O</i>(<i>n</i><sup>2</sup>)</strong>
       </span>
-      <p>If an algorithm consists of consecutive phases, the total time complexity is the largest time complexity of a single phase. The reason for this is that the slowest phase is the bottleneck of the algorithm. For example, the following code consists of three phases with time complexities <i>O</i>(<i>n</i>), <i>O</i>(<i>n</i><sup>2</sup>), and <i>O</i>(<i>n</i>). Thus, the total time complexity is <i>O</i>(<i>n</i><sup>2</sup>).</p>
+      <p>If an algorithm has consecutive phases, the total time complexity is that of the largest single phase, because the slowest phase is the bottleneck. For example, the following code has three phases with complexities <i>O</i>(<i>n</i>), <i>O</i>(<i>n</i><sup>2</sup>), and <i>O</i>(<i>n</i>), so the total is <i>O</i>(<i>n</i><sup>2</sup>).</p>
     </div>
 
     <div class="ch03-copy ch03-copy--narrow" data-reveal>
-      <p>Sometimes the time complexity depends on several factors, and the time complexity formula contains several variables. For example, the time complexity of a loop over <i>n</i> containing a loop over <i>m</i> is <i>O</i>(<i>nm</i>). This is a different statement from <i>O</i>(<i>n</i><sup>2</sup>) unless <i>n</i> and <i>m</i> are known to be the same size.</p>
+      <p>Sometimes the time complexity depends on several factors, and the formula contains several variables. For example, a loop over <i>n</i> containing a loop over <i>m</i> is <i>O</i>(<i>nm</i>). That is different from <i>O</i>(<i>n</i><sup>2</sup>) unless <i>n</i> and <i>m</i> are known to be the same size.</p>
     </div>
 
     <div class="split2 ch03-split">
@@ -432,44 +432,44 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The following list contains common time complexities of algorithms.</p>
+    <p class="lead" data-reveal>These are the common time complexities.</p>
 
     <div class="ch03-ladder" data-reveal>
       <div class="ch03-ladder__group">
         <span class="ch03-ladder__label">Polynomial · at most <i>O</i>(<i>n</i><sup><i>k</i></sup>)</span>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(1)</span>
-          <p class="ch03-classrow__desc"><b>Constant.</b> The running time of a constant-time algorithm does not depend on the input size. A typical constant-time algorithm is a direct formula that calculates the answer.</p>
+          <p class="ch03-classrow__desc"><b>Constant.</b> The running time does not depend on the input size. A typical constant-time algorithm is a direct formula that calculates the answer.</p>
           <span class="ch03-classrow__sign">direct formula</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(log <i>n</i>)</span>
-          <p class="ch03-classrow__desc"><b>Logarithmic.</b> A logarithmic algorithm often halves the input size at each step. The running time of such an algorithm is logarithmic, because log<sub>2</sub> <i>n</i> equals the number of times <i>n</i> must be divided by 2 to get 1. Note that the base of the logarithm is not shown in the time complexity.</p>
+          <p class="ch03-classrow__desc"><b>Logarithmic.</b> A logarithmic algorithm often halves the input size at each step. Its running time is logarithmic, because log<sub>2</sub> <i>n</i> is the number of times <i>n</i> must be halved to reach 1. The base of the logarithm is not shown in the time complexity.</p>
           <span class="ch03-classrow__sign">binary search</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(√<i>n</i>)</span>
-          <p class="ch03-classrow__desc"><b>Square root.</b> A square root algorithm is slower than <i>O</i>(log <i>n</i>) but faster than <i>O</i>(<i>n</i>). A special property of square roots is that √<i>n</i> = <i>n</i>/√<i>n</i>, so <i>n</i> elements can be divided into <i>O</i>(√<i>n</i>) blocks of <i>O</i>(√<i>n</i>) elements.</p>
+          <p class="ch03-classrow__desc"><b>Square root.</b> A square root algorithm is slower than <i>O</i>(log <i>n</i>) but faster than <i>O</i>(<i>n</i>). Since √<i>n</i> = <i>n</i>/√<i>n</i>, <i>n</i> elements can be divided into <i>O</i>(√<i>n</i>) blocks of <i>O</i>(√<i>n</i>) elements.</p>
           <span class="ch03-classrow__sign">blocks</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(<i>n</i>)</span>
-          <p class="ch03-classrow__desc"><b>Linear.</b> A linear algorithm goes through the input a constant number of times. This is often the best possible time complexity, because it is usually necessary to access each input element at least once before reporting the answer.</p>
+          <p class="ch03-classrow__desc"><b>Linear.</b> A linear algorithm goes through the input a constant number of times. This is often the best possible complexity, since each input element usually has to be accessed at least once.</p>
           <span class="ch03-classrow__sign">one pass</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(<i>n</i> log <i>n</i>)</span>
-          <p class="ch03-classrow__desc"><b>Linearithmic.</b> This time complexity often indicates that the algorithm sorts the input, because the time complexity of efficient sorting algorithms is <i>O</i>(<i>n</i> log <i>n</i>). Another possibility is that the algorithm uses a data structure where each operation takes <i>O</i>(log <i>n</i>) time.</p>
+          <p class="ch03-classrow__desc"><b>Linearithmic.</b> This often indicates that the algorithm sorts the input, because efficient sorting is <i>O</i>(<i>n</i> log <i>n</i>). Another possibility is a data structure where each operation takes <i>O</i>(log <i>n</i>) time.</p>
           <span class="ch03-classrow__sign">sorting</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(<i>n</i><sup>2</sup>)</span>
-          <p class="ch03-classrow__desc"><b>Quadratic.</b> A quadratic algorithm often contains two nested loops. It is possible to go through all pairs of the input elements in <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
+          <p class="ch03-classrow__desc"><b>Quadratic.</b> A quadratic algorithm often contains two nested loops. All pairs of input elements can be visited in <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
           <span class="ch03-classrow__sign">pairs</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(<i>n</i><sup>3</sup>)</span>
-          <p class="ch03-classrow__desc"><b>Cubic.</b> A cubic algorithm often contains three nested loops. It is possible to go through all triplets of the input elements in <i>O</i>(<i>n</i><sup>3</sup>) time.</p>
+          <p class="ch03-classrow__desc"><b>Cubic.</b> A cubic algorithm often contains three nested loops. All triplets can be visited in <i>O</i>(<i>n</i><sup>3</sup>) time.</p>
           <span class="ch03-classrow__sign">triplets</span>
         </div>
       </div>
@@ -477,18 +477,18 @@
         <span class="ch03-ladder__label">Beyond polynomial</span>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(2<sup><i>n</i></sup>)</span>
-          <p class="ch03-classrow__desc"><b>Exponential.</b> This time complexity often indicates that the algorithm iterates through all subsets of the input elements. For example, the subsets of {1, 2, 3} are ∅, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, and {1, 2, 3}.</p>
+          <p class="ch03-classrow__desc"><b>Exponential.</b> This often indicates that the algorithm iterates through all subsets of the input. For example, the subsets of {1, 2, 3} are ∅, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, and {1, 2, 3}.</p>
           <span class="ch03-classrow__sign">subsets</span>
         </div>
         <div class="ch03-classrow">
           <span class="ch03-classrow__sym"><i>O</i>(<i>n</i>!)</span>
-          <p class="ch03-classrow__desc"><b>Factorial.</b> This time complexity often indicates that the algorithm iterates through all permutations of the input elements. For example, the permutations of {1, 2, 3} are (1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), and (3, 2, 1).</p>
+          <p class="ch03-classrow__desc"><b>Factorial.</b> This often indicates that the algorithm iterates through all permutations of the input. For example, the permutations of {1, 2, 3} are (1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), and (3, 2, 1).</p>
           <span class="ch03-classrow__sign">permutations</span>
         </div>
       </div>
     </div>
 
-    <p class="ch03-copy ch03-copy--narrow" data-reveal>An algorithm is polynomial if its time complexity is at most <i>O</i>(<i>n</i><sup><i>k</i></sup>) where <i>k</i> is a constant. All the above time complexities except <i>O</i>(2<sup><i>n</i></sup>) and <i>O</i>(<i>n</i>!) are polynomial. In practice, the constant <i>k</i> is usually small, and therefore a polynomial time complexity roughly means that the algorithm can process large inputs. Most algorithms in this book are polynomial. Still, there are many important problems for which no polynomial algorithm is known, i.e., nobody knows how to solve them efficiently. NP-hard problems are an important set of problems, for which no polynomial algorithm is known.</p>
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>An algorithm is polynomial if its time complexity is at most <i>O</i>(<i>n</i><sup><i>k</i></sup>) for a constant <i>k</i>. All the above complexities except <i>O</i>(2<sup><i>n</i></sup>) and <i>O</i>(<i>n</i>!) are polynomial. In practice <i>k</i> is usually small, so a polynomial complexity roughly means the algorithm can process large inputs. Most algorithms in this book are polynomial. Still, many important problems have no known polynomial algorithm—nobody knows how to solve them efficiently. NP-hard problems are an important set of such problems.</p>
 
     <div class="ch03-lab" id="growthLab" data-reveal>
       <div class="ch03-lab__head">
@@ -566,11 +566,11 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>By calculating the time complexity of an algorithm, it is possible to check, before implementing the algorithm, that it is efficient enough for solving a problem. The starting point for estimations is the fact that a modern computer can perform some hundreds of millions of simple operations in a second.</p>
+    <p class="lead" data-reveal>By calculating an algorithm's time complexity, we can check before implementing it that it is efficient enough. The starting point is that a modern computer performs some hundreds of millions of simple operations in a second.</p>
 
     <div class="ch03-copy" data-reveal>
-      <p>For example, assume that the time limit for a problem is one second and the input size is <i>n</i> = 10<sup>5</sup>. If the time complexity is <i>O</i>(<i>n</i><sup>2</sup>), the algorithm will perform about (10<sup>5</sup>)<sup>2</sup> = 10<sup>10</sup> operations. This should take at least some tens of seconds, so the algorithm seems to be too slow for solving the problem. However, if the time complexity is <i>O</i>(<i>n</i> log <i>n</i>), there will be only about 10<sup>5</sup> log 10<sup>5</sup> ≈ 1.6 · 10<sup>6</sup> operations, and the algorithm will surely fit the time limit.</p>
-      <p>On the other hand, given the input size, we can try to guess the required time complexity of the algorithm that solves the problem. Table 3.1 contains some useful estimates assuming a time limit of one second. For example, if the input size is <i>n</i> = 10<sup>5</sup>, it is probably expected that the time complexity of the algorithm is <i>O</i>(<i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>). This information makes it easier to design the algorithm, because it rules out approaches that would yield an algorithm with a worse time complexity.</p>
+      <p>For example, assume a one-second limit and input size <i>n</i> = 10<sup>5</sup>. If the complexity is <i>O</i>(<i>n</i><sup>2</sup>), the algorithm performs about (10<sup>5</sup>)<sup>2</sup> = 10<sup>10</sup> operations. That should take at least some tens of seconds, so it seems too slow. However, with <i>O</i>(<i>n</i> log <i>n</i>) there are only about 10<sup>5</sup> log 10<sup>5</sup> ≈ 1.6 · 10<sup>6</sup> operations, and the algorithm will surely fit the limit.</p>
+      <p>Given the input size, we can also guess the complexity the solution is expected to have. Table 3.1 lists useful estimates for a one-second limit. If <i>n</i> = 10<sup>5</sup>, for example, the expected complexity is probably <i>O</i>(<i>n</i>) or <i>O</i>(<i>n</i> log <i>n</i>). That makes the algorithm easier to design, because it rules out worse approaches.</p>
     </div>
 
     <div class="ch03-estimate">
@@ -649,7 +649,7 @@
       </div>
     </div>
 
-    <p class="ch03-copy ch03-copy--narrow" data-reveal>Still, it is important to remember that a time complexity is only an estimate of efficiency, because it hides <span class="ch03-inline-ref" tabindex="0" data-tip="An O(n) algorithm may perform n/2 or 5n operations. The class is the same; the running time is not.">constant factors</span>. For example, an algorithm that runs in <i>O</i>(<i>n</i>) time may perform <i>n</i>/2 or 5<i>n</i> operations, which has an important effect on the actual running time of the algorithm. Use the class to rule out the impossible; use the constants to choose between the survivors.</p>
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>Still, a time complexity is only an estimate of efficiency, because it hides <span class="ch03-inline-ref" tabindex="0" data-tip="An O(n) algorithm may perform n/2 or 5n operations. The class is the same; the running time is not.">constant factors</span>. An <i>O</i>(<i>n</i>) algorithm may perform <i>n</i>/2 or 5<i>n</i> operations, which matters for the actual running time. Use the class to rule out the impossible; use the constants to choose between the survivors.</p>
 
     <p class="ch03-closing-line" data-reveal>Match the input size to the class, then let the constants decide the rest.</p>
   </div>
@@ -672,21 +672,21 @@
         <span class="ch03-def__sym"><i>O</i></span>
         <div class="ch03-def__body">
           <h3>Upper bound</h3>
-          <p>It means that there are constants <i>c</i> and <i>n</i><sub>0</sub> such that the algorithm performs at most <i>c</i> · <i>f</i>(<i>n</i>) operations for all inputs where <i>n</i> ≥ <i>n</i><sub>0</sub>. Thus, the <i>O</i> notation gives an upper bound for the running time of the algorithm for sufficiently large inputs.</p>
+          <p>It means there are constants <i>c</i> and <i>n</i><sub>0</sub> such that the algorithm performs at most <i>c</i> · <i>f</i>(<i>n</i>) operations for all inputs with <i>n</i> ≥ <i>n</i><sub>0</sub>. Thus <i>O</i> gives an upper bound on the running time for sufficiently large inputs.</p>
         </div>
       </div>
       <div class="ch03-def">
         <span class="ch03-def__sym"><i>Ω</i></span>
         <div class="ch03-def__body">
           <h3>Lower bound</h3>
-          <p>The <i>Ω</i> notation gives a lower bound for the running time of an algorithm. The time complexity of an algorithm is <i>Ω</i>(<i>f</i>(<i>n</i>)), if there are constants <i>c</i> and <i>n</i><sub>0</sub> such that the algorithm performs at least <i>c</i> · <i>f</i>(<i>n</i>) operations for all inputs where <i>n</i> ≥ <i>n</i><sub>0</sub>.</p>
+          <p>The <i>Ω</i> notation gives a lower bound on the running time. An algorithm is <i>Ω</i>(<i>f</i>(<i>n</i>)) if there are constants <i>c</i> and <i>n</i><sub>0</sub> such that it performs at least <i>c</i> · <i>f</i>(<i>n</i>) operations for all inputs with <i>n</i> ≥ <i>n</i><sub>0</sub>.</p>
         </div>
       </div>
       <div class="ch03-def">
         <span class="ch03-def__sym"><i>Θ</i></span>
         <div class="ch03-def__body">
           <h3>Exact bound</h3>
-          <p>Finally, the <i>Θ</i> notation gives an exact bound: the time complexity of an algorithm is <i>Θ</i>(<i>f</i>(<i>n</i>)) if it is both <i>O</i>(<i>f</i>(<i>n</i>)) and <i>Ω</i>(<i>f</i>(<i>n</i>)). The growth is bounded on both sides.</p>
+          <p>Finally, <i>Θ</i> gives an exact bound: an algorithm is <i>Θ</i>(<i>f</i>(<i>n</i>)) if it is both <i>O</i>(<i>f</i>(<i>n</i>)) and <i>Ω</i>(<i>f</i>(<i>n</i>)). The growth is bounded on both sides.</p>
         </div>
       </div>
     </div>
@@ -717,11 +717,11 @@
     <details class="note ch03-note" data-reveal>
       <summary><span class="note__label">Technically true, practically misleading</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>For example, a single loop over <i>n</i> values is technically <i>O</i>(<i>n</i><sup>2</sup>). The definition only asks for an upper bound, and <i>n</i> ≤ <i>n</i><sup>2</sup> for large <i>n</i>. However, a better bound is <i>O</i>(<i>n</i>), and it would be very misleading to give the bound <i>O</i>(<i>n</i><sup>2</sup>), because everybody actually assumes that the <i>O</i> notation is used to give an accurate estimate of the time complexity. Since the time complexity of the algorithm is both <i>O</i>(<i>n</i>) and <i>Ω</i>(<i>n</i>), it is also <i>Θ</i>(<i>n</i>).</p>
+        <p>For example, a single loop over <i>n</i> values is technically <i>O</i>(<i>n</i><sup>2</sup>). The definition only asks for an upper bound, and <i>n</i> ≤ <i>n</i><sup>2</sup> for large <i>n</i>. But a better bound is <i>O</i>(<i>n</i>), and giving <i>O</i>(<i>n</i><sup>2</sup>) would be very misleading, because everybody assumes <i>O</i> is used to give an accurate estimate. Since the algorithm is both <i>O</i>(<i>n</i>) and <i>Ω</i>(<i>n</i>), it is also <i>Θ</i>(<i>n</i>).</p>
       </div>
     </details>
 
-    <p class="ch03-copy ch03-copy--narrow" data-reveal>We can use the above notations in many situations, not only for referring to time complexities of algorithms. For example, we might say that an array contains <i>O</i>(<i>n</i>) values, or that an algorithm consists of <i>O</i>(log <i>n</i>) rounds. The same order-of-growth language applies whenever a quantity depends on an input size.</p>
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>These notations apply in many situations, not only to time complexities. We might say an array contains <i>O</i>(<i>n</i>) values, or that an algorithm consists of <i>O</i>(log <i>n</i>) rounds. The same language applies whenever a quantity depends on an input size.</p>
   </div>
 </section>
 
@@ -737,7 +737,7 @@
 
     <p class="statement" data-reveal>Two problems. Each begins with the obvious slow solution and ends somewhere much better.</p>
 
-    <p class="lead" data-reveal>In this section we discuss two algorithm design problems that can be solved in several different ways. We start with simple brute force algorithms, and then create more efficient solutions by using various algorithm design ideas.</p>
+    <p class="lead" data-reveal>In this section we discuss two problems that can be solved in several different ways. We start with simple brute force algorithms, then create more efficient solutions using various design ideas.</p>
 
     <div class="ch03-motif" data-reveal aria-label="The chapter's recurring move: from enumerating cases to counting them in groups">
       <div class="ch03-motif__side">
@@ -763,7 +763,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Given an array of <i>n</i> numbers, our first task is to calculate the maximum subarray sum, i.e., the largest possible sum of a sequence of consecutive values in the array.</p>
+    <p class="lead" data-reveal>Given an array of <i>n</i> numbers, our first task is to calculate the maximum subarray sum: the largest possible sum of a sequence of consecutive values.</p>
 
     <div class="ch03-copy" data-reveal>
       <p>The problem is interesting when there may be negative values in the array. Otherwise the whole array would always be the answer. For example, the maximum-sum subarray of the array below is [2, 4, −3, 5, 2], whose sum is 10.</p>
@@ -789,8 +789,8 @@
     </div>
 
     <div class="ch03-copy" data-reveal>
-      <p>A straightforward way to solve the problem is to go through all possible subarrays, calculate the sum of values in each subarray and maintain the maximum sum. The time complexity of the algorithm is <i>O</i>(<i>n</i><sup>3</sup>), because it consists of three nested loops that go through the input. It is easy to make the algorithm more efficient by removing one loop from it. This is possible by calculating the sum at the same time when the right end of the subarray moves. After this change, the time complexity is <i>O</i>(<i>n</i><sup>2</sup>).</p>
-      <p>It turns out that it is possible to solve the problem in <i>O</i>(<i>n</i>) time, which means that just one loop is enough. The idea is to calculate, for each array position, the maximum sum of a subarray that ends at that position. After this, the answer to the problem is the maximum of those sums. Consider the subproblem of finding the maximum-sum subarray that ends at position <i>k</i>. There are two possibilities: the subarray only contains the element at position <i>k</i>, or the subarray consists of a subarray that ends at position <i>k</i> − 1, followed by the element at position <i>k</i>. In the latter case, since we want to find a subarray with maximum sum, the subarray that ends at position <i>k</i> − 1 should also have the maximum sum. Thus, we can solve the problem efficiently by calculating the maximum subarray sum for each ending position from left to right.</p>
+      <p>A straightforward way is to go through all possible subarrays, calculate the sum of each and keep the maximum. That algorithm is <i>O</i>(<i>n</i><sup>3</sup>), because it has three nested loops. One loop is easy to remove: calculate the sum as the right end of the subarray moves. After this change the complexity is <i>O</i>(<i>n</i><sup>2</sup>).</p>
+      <p>It turns out that <i>O</i>(<i>n</i>) is possible, which means one loop is enough. The idea is to calculate, for each position, the maximum sum of a subarray ending there; the answer is the maximum of those sums. Consider the subproblem ending at position <i>k</i>. There are two possibilities: the subarray contains only the element at <i>k</i>, or it consists of a subarray ending at <i>k</i> − 1 followed by the element at <i>k</i>. In the latter case, the part ending at <i>k</i> − 1 should itself have the maximum sum. Thus we can solve the problem by calculating the maximum subarray sum for each ending position from left to right.</p>
     </div>
 
     <div class="code-card" data-code-card data-reveal>
@@ -816,7 +816,7 @@
       </div>
     </details>
 
-    <p class="ch03-table-intro" data-reveal>How efficient are the above algorithms in practice? Table 3.2 shows the running times of the above algorithms for different values of <i>n</i> on a modern computer. In each test, the input was generated randomly, and the time needed for reading the input was not measured.</p>
+    <p class="ch03-table-intro" data-reveal>How efficient are these algorithms in practice? Table 3.2 shows their running times for different values of <i>n</i> on a modern computer. In each test the input was generated randomly, and the time for reading it was not measured.</p>
 
     <div class="ch03-times" data-reveal>
       <table class="ch03-table ch03-table--times">
@@ -833,7 +833,7 @@
           <tr><td>10<sup>7</sup></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-zero">0.0</span></td></tr>
         </tbody>
       </table>
-      <p class="ch03-times__note">The comparison shows that all algorithms work quickly when the input size is small, but larger inputs bring out remarkable differences in the running times. The <i>O</i>(<i>n</i><sup>3</sup>) algorithm becomes slow when <i>n</i> = 10<sup>4</sup>, and the <i>O</i>(<i>n</i><sup>2</sup>) algorithm becomes slow when 10<sup>5</sup>. Only the <i>O</i>(<i>n</i>) algorithm is able to process even the largest inputs instantly.</p>
+      <p class="ch03-times__note">All algorithms work quickly when the input is small, but larger inputs bring out remarkable differences. The <i>O</i>(<i>n</i><sup>3</sup>) algorithm becomes slow at <i>n</i> = 10<sup>4</sup>, and the <i>O</i>(<i>n</i><sup>2</sup>) algorithm at 10<sup>5</sup>. Only the <i>O</i>(<i>n</i>) algorithm processes even the largest inputs instantly.</p>
     </div>
 
     <p class="ch03-closing-line" data-reveal>The linear algorithm is also the best possible time complexity, because any algorithm for the problem has to examine all array elements at least once.</p>
@@ -850,10 +850,10 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Given an <i>n</i> × <i>n</i> chessboard, our next problem is to count the number of ways we can place two queens on the board in such a way that they do not attack each other.</p>
+    <p class="lead" data-reveal>Given an <i>n</i> × <i>n</i> chessboard, our next problem is to count the ways to place two queens on the board so that they do not attack each other.</p>
 
     <div class="ch03-copy" data-reveal>
-      <p>For example, there are eight ways to place two queens on the 3 × 3 board. Let <i>q</i>(<i>n</i>) denote the number of valid combinations for an <i>n</i> × <i>n</i> board. For example, <i>q</i>(3) = 8, and Table 3.3 shows the values of <i>q</i>(<i>n</i>) for 1 ≤ <i>n</i> ≤ 10.</p>
+      <p>There are eight ways to place two queens on the 3 × 3 board. Let <i>q</i>(<i>n</i>) denote the number of valid combinations for an <i>n</i> × <i>n</i> board. For example, <i>q</i>(3) = 8, and Table 3.3 shows <i>q</i>(<i>n</i>) for 1 ≤ <i>n</i> ≤ 10.</p>
     </div>
 
     <figure class="figure ch03-figure ch03-queens8-figure" data-reveal>
@@ -897,8 +897,8 @@
     </figure>
 
     <div class="ch03-copy" data-reveal>
-      <p>To start with, a simple way to solve the problem is to go through all possible ways to place two queens on the board and count the combinations where the queens do not attack each other. Such an algorithm works in <i>O</i>(<i>n</i><sup>4</sup>) time, because there are <i>n</i><sup>2</sup> ways to choose the position of the first queen, and for each such position, there are <i>n</i><sup>2</sup> − 1 ways to choose the position of the second queen.</p>
-      <p>Since the number of combinations grows fast, an algorithm that counts combinations one by one will certainly be too slow for processing larger values of <i>n</i>. Thus, to create an efficient algorithm, we need to find a way to count combinations in groups. One useful observation is that it is quite easy to calculate the number of squares that a single queen attacks. First, it always attacks <i>n</i> − 1 squares horizontally and <i>n</i> − 1 squares vertically. Then, for both diagonals, it attacks <i>d</i> − 1 squares where <i>d</i> is the number of squares on the diagonal. Using this information, we can calculate in <i>O</i>(1) time the number of squares where the other queen can be placed, which yields an <i>O</i>(<i>n</i><sup>2</sup>) time algorithm.</p>
+      <p>A simple way is to go through all possible placements of two queens and count the combinations where they do not attack each other. Such an algorithm works in <i>O</i>(<i>n</i><sup>4</sup>) time: there are <i>n</i><sup>2</sup> positions for the first queen, and for each, <i>n</i><sup>2</sup> − 1 for the second.</p>
+      <p>Since the number of combinations grows fast, counting them one by one is too slow for larger <i>n</i>. To be efficient, we need to count combinations in groups. One useful observation is that the number of squares a single queen attacks is easy to calculate. It always attacks <i>n</i> − 1 squares horizontally and <i>n</i> − 1 vertically. For both diagonals, it attacks <i>d</i> − 1 squares, where <i>d</i> is the number of squares on the diagonal. With this, the number of squares for the other queen can be calculated in <i>O</i>(1) time, which yields an <i>O</i>(<i>n</i><sup>2</sup>) algorithm.</p>
     </div>
 
     <div class="split2 ch03-split ch03-boards">
@@ -937,7 +937,7 @@
     </div>
 
     <div class="ch03-copy" data-reveal>
-      <p>Another way to approach the problem is to try to formulate a recursive function that counts the number of combinations. The question is: if we know the value of <i>q</i>(<i>n</i>), how can we use it to calculate the value of <i>q</i>(<i>n</i> + 1)? To get a recursive solution, we may focus on the last row and last column of the <i>n</i> × <i>n</i> board. First, if there are no queens on the last row or column, the number of combinations is simply <i>q</i>(<i>n</i> − 1). Then, there are 2<i>n</i> − 1 positions for a queen on the last row or column. It attacks 3(<i>n</i> − 1) squares, so there are <i>n</i><sup>2</sup> − 3(<i>n</i> − 1) − 1 positions for the other queen. Finally, there are (<i>n</i> − 1)(<i>n</i> − 2) combinations where both queens are on the last row or column. Since we counted those combinations twice, we have to remove this number from the result. By combining all this, we get a recursive formula</p>
+      <p>Another approach is a recursive function that counts combinations. The question is: given <i>q</i>(<i>n</i>), how do we calculate <i>q</i>(<i>n</i> + 1)? To get a recursion, focus on the last row and last column of the <i>n</i> × <i>n</i> board. First, if there are no queens there, the number of combinations is simply <i>q</i>(<i>n</i> − 1). Then there are 2<i>n</i> − 1 positions for a queen on the last row or column. It attacks 3(<i>n</i> − 1) squares, so there are <i>n</i><sup>2</sup> − 3(<i>n</i> − 1) − 1 positions for the other queen. Finally, there are (<i>n</i> − 1)(<i>n</i> − 2) combinations where both queens are on the last row or column. Since we counted those twice, we remove this number from the result. Combining all this gives a recursive formula</p>
     </div>
 
     <div class="ch03-formula ch03-formula--rec" data-reveal>
@@ -948,7 +948,7 @@
     </div>
 
     <div class="ch03-copy" data-reveal>
-      <p>This provides an <i>O</i>(<i>n</i>) solution to the problem. Finally, it turns out that there is also a closed-form formula, which can be proved using induction and the recursive formula. Using this formula, we can solve the problem in <i>O</i>(1) time:</p>
+      <p>This provides an <i>O</i>(<i>n</i>) solution. Finally, there is also a closed-form formula, which can be proved by induction from the recursive formula. With it, the problem is solvable in <i>O</i>(1) time:</p>
     </div>
 
     <div class="ch03-formula ch03-formula--closed" data-reveal>
@@ -964,7 +964,7 @@
     <div class="ch03-ways" data-reveal>
       <div class="ch03-way">
         <span class="ch03-way__c"><i>O</i>(<i>n</i><sup>4</sup>)</span>
-        <div class="ch03-way__body"><strong>Every pair</strong><p>A simple way is to go through all possible ways to place two queens and count the combinations where the queens do not attack each other.</p></div>
+        <div class="ch03-way__body"><strong>Every pair</strong><p>Go through all possible placements of two queens and count those where they do not attack each other.</p></div>
         <span class="ch03-way__tag">brute force</span>
       </div>
       <div class="ch03-way">

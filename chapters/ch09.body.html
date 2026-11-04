@@ -100,12 +100,12 @@
 
     <p class="statement" data-reveal>If the array never changes, a query can be answered from a table instead of from the array itself.</p>
 
-    <p class="lead" data-reveal>In this section, we focus on a situation where the array is static, i.e., the array values are never updated between the queries. In this case, it suffices to preprocess the array so that we can efficiently answer range queries.</p>
+    <p class="lead" data-reveal>In this section, the array is static: its values are never updated between the queries. Then it suffices to preprocess the array so that range queries are efficient.</p>
 
     <div class="split2 ch09-static-split">
       <div data-reveal>
-        <p>In this chapter, we discuss data structures for efficiently processing range queries on arrays. Typical queries are range sum queries (calculating the sum of values) and range minimum queries (finding the minimum value).</p>
-        <p>First we will discuss a simple way to process sum queries using a prefix sum array, which can also be generalized to higher dimensions. After this, we will learn the sparse table algorithm for processing minimum queries, which is somewhat more difficult. Note that while we focus on processing minimum queries, we can always also process maximum queries using similar methods.</p>
+        <p>This chapter discusses data structures for range queries on arrays. Typical queries are range sum queries (the sum of values) and range minimum queries (the smallest value).</p>
+        <p>First, a simple way to process sum queries uses a prefix sum array, which also generalizes to higher dimensions. Then the sparse table algorithm for minimum queries, which is somewhat more difficult. While we focus on minimum queries, maximum queries work the same way.</p>
       </div>
 
       <div class="ch09-qcard" data-reveal style="--d:.08s" aria-label="Two range queries on the same range from three to six">
@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Let <span class="ch09-mono">sumq(a, b)</span> ("range sum query") denote the sum of array values in a range [<i>a</i>, <i>b</i>]. We can efficiently process any sum query by first constructing a prefix sum array. Each value in the prefix sum array equals the sum of values in the original array up to the corresponding position, i.e., the value at position <i>k</i> is <span class="ch09-mono">sumq(0, k)</span>. The prefix sum array can be constructed in <i>O</i>(<i>n</i>) time. Then, since the prefix sum array contains all values of <span class="ch09-mono">sumq(0, k)</span>, we can calculate any value of <span class="ch09-mono">sumq(a, b)</span> in <i>O</i>(1) time using the formula <span class="ch09-mono">sumq(a, b) = sumq(0, b) − sumq(0, a − 1)</span>.</p>
+    <p class="lead" data-reveal>Let <span class="ch09-mono">sumq(a, b)</span> ("range sum query") denote the sum of array values in a range [<i>a</i>, <i>b</i>]. Any sum query can be processed by first constructing a prefix sum array. Each value equals the sum of the original array's values up to the corresponding position: position <i>k</i> holds <span class="ch09-mono">sumq(0, k)</span>. The array can be constructed in <i>O</i>(<i>n</i>) time. Then, since it contains all values of <span class="ch09-mono">sumq(0, k)</span>, any <span class="ch09-mono">sumq(a, b)</span> follows in <i>O</i>(1) time from the formula <span class="ch09-mono">sumq(a, b) = sumq(0, b) − sumq(0, a − 1)</span>.</p>
 
     <div class="ch09-lab" data-ch09-prefix data-reveal>
       <div class="ch09-lab__head">
@@ -167,7 +167,7 @@
         <p class="ch09-lab__formula" id="ch09PrefixFormula" aria-live="polite"></p>
         <p class="ch09-lab__values" id="ch09PrefixValues"></p>
       </div>
-      <p class="ch09-foothint">Click one cell, then another, to set the range. Drag across the array if you prefer. The two numbers in the prefix row are the only values the query reads.</p>
+      <p class="ch09-foothint">Click one cell, then another to set the range. Drag across the array if you prefer. The prefix row's two numbers are the only values the query reads.</p>
     </div>
 
     <div class="split2 ch09-2d-split">
@@ -200,17 +200,16 @@
       <div class="ch09-2d-copy" data-reveal style="--d:.08s">
         <span class="kicker">Higher dimensions</span>
         <h3>One rectangle, four corners</h3>
-        <p>It is also possible to generalize this idea to higher dimensions. Each sum in the two-dimensional prefix sum array corresponds to a subarray that begins at the upper-left corner of the array. The sum of the desired subarray can be calculated using the formula:</p>
+        <p>The idea also generalizes to higher dimensions. Each sum in the two-dimensional prefix sum array corresponds to a subarray that begins at the upper-left corner. The desired subarray follows from the formula:</p>
         <p class="ch09-formula-block"><i>S</i>(<i>A</i>) − <i>S</i>(<i>B</i>) − <i>S</i>(<i>C</i>) + <i>S</i>(<i>D</i>)</p>
-        <p class="ch09-small">Here <i>S</i>(<i>X</i>) denotes the sum of values in a rectangular subarray from the upper-left corner to the position of <i>X</i>.</p>
+        <p class="ch09-small">Here <i>S</i>(<i>X</i>) is the sum of a rectangular subarray from the upper-left corner to <i>X</i>.</p>
       </div>
     </div>
 
     <details class="note ch09-note" data-reveal>
       <summary><span class="note__label">Why sumq(0, −1) is defined as zero</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>By defining <span class="ch09-mono">sumq(0, −1) = 0</span>, the formula <span class="ch09-mono">sumq(a, b) = sumq(0, b) − sumq(0, a − 1)</span> also holds when <i>a</i> = 0.</p>
-        <p>The prefix sum array can be constructed in <i>O</i>(<i>n</i>) time.</p>
+        <p>With <span class="ch09-mono">sumq(0, −1) = 0</span>, the formula <span class="ch09-mono">sumq(a, b) = sumq(0, b) − sumq(0, a − 1)</span> also holds when <i>a</i> = 0.</p>
       </div>
     </details>
   </div>
@@ -226,7 +225,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Let <span class="ch09-mono">minq(a, b)</span> ("range minimum query") denote the minimum array value in a range [<i>a</i>, <i>b</i>]. We will next discuss a technique using which we can process any minimum query in <i>O</i>(1) time after an <i>O</i>(<i>n</i> log <i>n</i>) time preprocessing. The method is due to Bender and Farach-Colton and often called the sparse table algorithm. The idea is to precalculate all values of <span class="ch09-mono">minq(a, b)</span> where <i>b</i> − <i>a</i> + 1 (the length of the range) is a power of two.</p>
+    <p class="lead" data-reveal>Let <span class="ch09-mono">minq(a, b)</span> ("range minimum query") denote the minimum array value in a range [<i>a</i>, <i>b</i>]. Next we discuss a technique that processes any minimum query in <i>O</i>(1) time after <i>O</i>(<i>n</i> log <i>n</i>) preprocessing. The method is due to Bender and Farach-Colton and often called the sparse table algorithm. The idea is to precalculate all values of <span class="ch09-mono">minq(a, b)</span> where <i>b</i> − <i>a</i> + 1 (the length of the range) is a power of two.</p>
 
     <div class="ch09-sparse" data-ch09-sparse data-reveal>
       <div class="ch09-sparse__head">
@@ -256,15 +255,15 @@
     <div class="split2 ch09-sparse-notes">
       <div data-reveal>
         <h3>Why two windows are enough</h3>
-        <p>After this, any value of <span class="ch09-mono">minq(a, b)</span> can be calculated in <i>O</i>(1) time as a minimum of two precalculated values. Let <i>k</i> be the largest power of two that does not exceed <i>b</i> − <i>a</i> + 1. In the formula above, the range [<i>a</i>, <i>b</i>] is represented as the union of the ranges [<i>a</i>, <i>a</i> + <i>k</i> − 1] and [<i>b</i> − <i>k</i> + 1, <i>b</i>], both of length <i>k</i>.</p>
-        <p>We can calculate the value of <span class="ch09-mono">minq(a, b)</span> using the formula <span class="ch09-mono">minq(a, b) = min(minq(a, a + k − 1), minq(b − k + 1, b))</span>.</p>
+        <p>After this, any <span class="ch09-mono">minq(a, b)</span> is the minimum of two precalculated values. Let <i>k</i> be the largest power of two that does not exceed <i>b</i> − <i>a</i> + 1. The range [<i>a</i>, <i>b</i>] is the union of [<i>a</i>, <i>a</i> + <i>k</i> − 1] and [<i>b</i> − <i>k</i> + 1, <i>b</i>], both of length <i>k</i>.</p>
+        <p>The value of <span class="ch09-mono">minq(a, b)</span> is <span class="ch09-mono">min(minq(a, a + k − 1), minq(b − k + 1, b))</span>.</p>
       </div>
       <div class="ch09-sparse-side" data-reveal style="--d:.08s">
         <span class="kicker">Table size</span>
         <div class="ch09-sparse-side__row"><span>levels</span><b>log<sub>2</sub> n + 1</b></div>
         <div class="ch09-sparse-side__row"><span>values</span><b>O(n log n)</b></div>
         <div class="ch09-sparse-side__row"><span>query</span><b>O(1)</b></div>
-        <p>There are also sophisticated techniques using which we can process range minimum queries in <i>O</i>(1) time after an only <i>O</i>(<i>n</i>) time preprocessing, but they are beyond the scope of this book.</p>
+        <p>There are also sophisticated techniques that process range minimum queries in <i>O</i>(1) time after only <i>O</i>(<i>n</i>) preprocessing, but they are beyond this book's scope.</p>
       </div>
     </div>
   </div>
@@ -282,7 +281,7 @@
 
     <p class="statement" data-reveal>When the array can change, the table cannot simply be rebuilt. The structure has to repair a path of entries after each update.</p>
 
-    <p class="lead" data-reveal>This section presents two tree structures, using which we can both process range queries and update array values in logarithmic time. First, we discuss binary indexed trees that support sum queries, and after that, we focus on segment trees that also support several other queries.</p>
+    <p class="lead" data-reveal>This section presents two tree structures that process range queries and update array values in logarithmic time. First, we discuss binary indexed trees, which support sum queries; then segment trees, which also support several other queries.</p>
 
     <div class="ch09-compare" data-reveal role="table" aria-label="Query and update costs for the structures in this chapter">
       <div class="ch09-compare__head" role="row">
@@ -316,7 +315,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A binary indexed tree (or a Fenwick tree) can be seen as a dynamic variant of a prefix sum array. It provides two <i>O</i>(log <i>n</i>) time operations: processing a range sum query and updating a value. Even if the name of the structure is a binary indexed tree, the structure is usually represented as an array. When discussing binary indexed trees, we assume that all arrays are one-indexed, because it makes the implementation of the structure easier. Let <span class="ch09-mono">p(k)</span> denote the largest power of two that divides <i>k</i>. We store a binary indexed tree as an array <code>tree</code> such that <span class="ch09-mono">tree[k] = sumq(k − p(k) + 1, k)</span>, i.e., each position <i>k</i> contains the sum of values in a range of the original array whose length is <i>p(k)</i> and that ends at position <i>k</i>.</p>
+    <p class="lead" data-reveal>A binary indexed tree (or a Fenwick tree) is a dynamic variant of a prefix sum array. It provides two <i>O</i>(log <i>n</i>) time operations: a range sum query and a value update. Despite the name, the structure is usually represented as an array. We assume one-indexed arrays, which makes the implementation easier. Let <span class="ch09-mono">p(k)</span> denote the largest power of two that divides <i>k</i>. We store the tree as an array <code>tree</code> such that <span class="ch09-mono">tree[k] = sumq(k − p(k) + 1, k)</span>: each position <i>k</i> contains the sum of a range of the original array of length <i>p(k)</i> ending at <i>k</i>.</p>
 
     <div class="ch09-fenwick" data-ch09-fenwick data-reveal>
       <div class="ch09-fenwick__head">
@@ -343,15 +342,15 @@
     <div class="split2 ch09-fenwick-notes">
       <div data-reveal>
         <h3>Two loops, both logarithmic</h3>
-        <p>Using a binary indexed tree, any value of <span class="ch09-mono">sumq(1, k)</span> can be calculated in <i>O</i>(log <i>n</i>) time, because a range [1, <i>k</i>] can always be divided into <i>O</i>(log <i>n</i>) subranges whose sums have been stored in the tree. For example, to calculate the value of <span class="ch09-mono">sumq(1, 7)</span>, we divide the range [1, 7] into three subranges [1, 4], [5, 6], and [7, 7]. Since the sums of those subranges are available in the tree, we can calculate the sum of the entire range using the formula <span class="ch09-mono">sumq(1, 7) = sumq(1, 4) + sumq(5, 6) + sumq(7, 7) = 16 + 7 + 4 = 27</span>.</p>
-        <p>Then, to calculate the value of <span class="ch09-mono">sumq(a, b)</span> where <i>a</i> &gt; 1, we can use the same trick that we used with prefix sum arrays: <span class="ch09-mono">sumq(a, b) = sumq(1, b) − sumq(1, a − 1)</span>. We can calculate both <span class="ch09-mono">sumq(1, b)</span> and <span class="ch09-mono">sumq(1, a − 1)</span> in <i>O</i>(log <i>n</i>) time, so the total time complexity is <i>O</i>(log <i>n</i>).</p>
-        <p>After updating an array value, several values in the binary indexed tree should be updated. For example, when the value at position 3 changes, we should update the subranges [3, 3], [1, 4], and [1, 8]. Since each array element belongs to <i>O</i>(log <i>n</i>) subranges, it suffices to update <i>O</i>(log <i>n</i>) tree values.</p>
+        <p>With a binary indexed tree, any <span class="ch09-mono">sumq(1, k)</span> takes <i>O</i>(log <i>n</i>) time, because a range [1, <i>k</i>] always divides into <i>O</i>(log <i>n</i>) subranges whose sums are stored in the tree. For example, to calculate <span class="ch09-mono">sumq(1, 7)</span>, we divide the range [1, 7] into three subranges [1, 4], [5, 6], and [7, 7]. Since those sums are available in the tree, we can compute the entire range with the formula <span class="ch09-mono">sumq(1, 7) = sumq(1, 4) + sumq(5, 6) + sumq(7, 7) = 16 + 7 + 4 = 27</span>.</p>
+        <p>Then, to calculate <span class="ch09-mono">sumq(a, b)</span> where <i>a</i> &gt; 1, the same trick as with prefix sum arrays applies: <span class="ch09-mono">sumq(a, b) = sumq(1, b) − sumq(1, a − 1)</span>. Both terms take <i>O</i>(log <i>n</i>) time, so the total time is <i>O</i>(log <i>n</i>).</p>
+        <p>After an array value changes, several values in the binary indexed tree should be updated. For example, when the value at position 3 changes, the subranges [3, 3], [1, 4], and [1, 8] change. Since each array element belongs to <i>O</i>(log <i>n</i>) subranges, it suffices to update <i>O</i>(log <i>n</i>) tree values.</p>
       </div>
       <div class="ch09-fenwick-side" data-reveal style="--d:.08s">
         <span class="kicker">Example</span>
         <div class="ch09-fenwick-side__line"><span>array</span><code>1 3 4 8 6 1 4 2</code></div>
         <div class="ch09-fenwick-side__line"><span>tree</span><code>1 4 4 16 6 7 4 29</code></div>
-        <p class="ch09-small">The query <span class="ch09-mono">sumq(1, 7)</span> divides [1, 7] into three subranges [1, 4], [5, 6], and [7, 7]. The update at 3 changes the subranges [3, 3], [1, 4], and [1, 8].</p>
+        <p class="ch09-small">The query <span class="ch09-mono">sumq(1, 7)</span> reads the subranges [1, 4], [5, 6], and [7, 7]. The update at 3 changes [3, 3], [1, 4], and [1, 8].</p>
       </div>
     </div>
 
@@ -374,7 +373,7 @@
     <details class="note ch09-note" data-reveal>
       <summary><span class="note__label">Why k &amp; −k isolates the lowest set bit</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>In two's complement, <span class="ch09-mono">−k</span> flips every bit of <i>k</i> and adds one. Every bit below the lowest set bit becomes zero, and that bit becomes one; all higher bits cancel when the two values are ANDed. The result is exactly the power of two that <span class="ch09-mono">p(k)</span> is defined to be.</p>
+        <p>In two's complement, <span class="ch09-mono">−k</span> flips every bit of <i>k</i> and adds one. Every bit below the lowest set bit becomes zero, and that bit becomes one; all higher bits cancel when the two values are ANDed. The result is exactly the power of two that <span class="ch09-mono">p(k)</span> denotes.</p>
         <p>This is also why the loop bounds are logarithmic: each iteration of the query removes one set bit, and a number below <i>n</i> has at most log<sub>2</sub> <i>n</i> of them.</p>
       </div>
     </details>
@@ -391,7 +390,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A segment tree is a data structure that provides two <i>O</i>(log <i>n</i>) time operations: processing a range query and updating an array value. Segment trees support sum queries, minimum queries, and many other queries. A segment tree is a binary tree whose bottom level nodes correspond to the array elements, and the other nodes contain information needed for processing range queries. When discussing segment trees, we assume that the size of the array is a power of two, and zero-based indexing is used, because it is convenient to build a segment tree for such an array.</p>
+    <p class="lead" data-reveal>A segment tree provides two <i>O</i>(log <i>n</i>) time operations: a range query and an update of an array value. Segment trees support sum queries, minimum queries, and many other queries. A segment tree is a binary tree whose bottom level nodes correspond to the array elements, and the other nodes contain information needed for range queries. We assume that the size of the array is a power of two and use zero-based indexing, which makes the tree convenient to build.</p>
 
     <div class="ch09-seg" data-ch09-seg data-reveal>
       <div class="ch09-seg__head">
@@ -472,13 +471,13 @@
     <div class="split2 ch09-seg-notes">
       <div data-reveal>
         <h3>Other queries</h3>
-        <p>Segment trees can support any range queries where we can divide a range into two parts, calculate the answer separately for both parts, and then efficiently combine the answers. Examples of such queries are minimum and maximum, greatest common divisor, and bit operations <code>and</code>, <code>or</code>, and <code>xor</code>.</p>
-        <p>The structure of a segment tree also allows us to use a binary search style method for locating array elements. For example, if the tree supports minimum queries, we can find the position of an element with the smallest value in <i>O</i>(log <i>n</i>) time.</p>
+        <p>Segment trees support any range query where the range can be divided into two parts, each answered separately, and the answers combined efficiently. Examples are minimum and maximum, greatest common divisor, and the bit operations <code>and</code>, <code>or</code>, and <code>xor</code>.</p>
+        <p>The structure also allows a binary search style method for locating array elements. For example, if the tree supports minimum queries, we can find the position of the smallest value in <i>O</i>(log <i>n</i>) time.</p>
       </div>
       <div class="ch09-seg-side" data-reveal style="--d:.08s">
         <span class="kicker">Why the decomposition is short</span>
-        <p>When the sum is calculated using nodes located as high as possible in the tree, at most two nodes on each level of the tree are needed. Hence, the total number of nodes is <i>O</i>(log <i>n</i>).</p>
-        <p class="ch09-small">The bottom-up loop maintains a range in the segment tree array. Initially, the range is <span class="ch09-mono">[a + n, b + n]</span>. At each step, the range is moved one level higher in the tree, and the values of the nodes that do not belong to the higher range are added to the sum.</p>
+        <p>When the sum is calculated from nodes located as high as possible, at most two nodes per level are needed. Hence, the total number of nodes is <i>O</i>(log <i>n</i>).</p>
+        <p class="ch09-small">The bottom-up loop maintains a range in the segment tree array. Initially, the range is <span class="ch09-mono">[a + n, b + n]</span>. At each step the range moves one level higher, and the values of nodes outside the higher range are added to the sum.</p>
       </div>
     </div>
   </div>
@@ -494,13 +493,13 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A limitation in data structures that are built upon arrays is that the elements are indexed using consecutive integers. Difficulties arise when large indices are needed. Let us now consider an opposite situation, where we should update ranges and retrieve single values.</p>
+    <p class="lead" data-reveal>A limitation of array-based data structures is that elements are indexed by consecutive integers. Difficulties arise when large indices are needed. Let us now consider an opposite situation, where we update ranges and retrieve single values.</p>
 
     <div class="split2 ch09-compress-split">
       <div data-reveal>
         <h3>Index compression</h3>
-        <p>However, if we know all the indices needed during the algorithm beforehand, we can bypass this limitation by using index compression. The idea is to replace the original indices with consecutive integers 0, 1, 2, and so on. To do this, we define a function <i>c</i> that compresses the indices.</p>
-        <p>The function gives each original index <i>i</i> a compressed index <i>c</i>(<i>i</i>) in such a way that if <i>a</i> and <i>b</i> are two indices and <i>a</i> &lt; <i>b</i>, then <i>c</i>(<i>a</i>) &lt; <i>c</i>(<i>b</i>). After compressing the indices, we can conveniently perform queries using them: a range [<i>a</i>, <i>b</i>] in the original array corresponds to the range [<i>c</i>(<i>a</i>), <i>c</i>(<i>b</i>)] in the compressed array.</p>
+        <p>However, if we know all the indices needed during the algorithm beforehand, we can bypass the limitation with index compression. The idea is to replace the original indices with consecutive integers 0, 1, 2, and so on. We define a function <i>c</i> that compresses the indices.</p>
+        <p>The function gives each original index <i>i</i> a compressed index <i>c</i>(<i>i</i>) such that if <i>a</i> &lt; <i>b</i>, then <i>c</i>(<i>a</i>) &lt; <i>c</i>(<i>b</i>). After compression, a range [<i>a</i>, <i>b</i>] in the original array corresponds to the range [<i>c</i>(<i>a</i>), <i>c</i>(<i>b</i>)] in the compressed array.</p>
       </div>
 
       <div class="ch09-compress" data-reveal style="--d:.08s" aria-label="An eight-cell array with used indices 2, 5 and 7 compressed into three cells holding 5, 3 and 4">
@@ -547,7 +546,7 @@
       <p class="ch09-foothint">The original array is the prefix sum of the difference array. A range update changes one difference cell at the start and one just past the end; a Fenwick or segment tree can then carry the difference array.</p>
     </div>
 
-    <p class="ch09-after" data-reveal>The advantage of the difference array is that we can update a range in the original array by changing just two elements in the difference array. More precisely, to increase the values in range [<i>a</i>, <i>b</i>] by <i>x</i>, we increase the value at position <i>a</i> by <i>x</i> and decrease the value at position <i>b</i> + 1 by <i>x</i>. Thus, we only update single values and process sum queries in the difference array, so we can use a binary indexed tree or a segment tree.</p>
+    <p class="ch09-after" data-reveal>The advantage of the difference array is that we can update a range in the original array by changing just two elements in it. More precisely, to increase the values in range [<i>a</i>, <i>b</i>] by <i>x</i>, increase position <i>a</i> by <i>x</i> and decrease position <i>b</i> + 1 by <i>x</i>. Thus, we update single values and process sum queries in the difference array, so a binary indexed tree or segment tree applies.</p>
 
     <p class="closing ch09-closing" data-reveal>Prefix sums remember every beginning. Sparse tables remember every power of two. Fenwick and segment trees remember just enough to repair themselves. A range query is never cheaper than the preprocessing that anticipates it.</p>
   </div>

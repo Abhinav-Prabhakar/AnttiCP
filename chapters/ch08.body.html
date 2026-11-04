@@ -88,7 +88,7 @@
 
     <p class="statement" data-reveal>A register is not so much a number as a row of decisions — and one instruction can act on all of them.</p>
 
-    <p class="lead" data-reveal>Bit-parallel algorithms are based on the fact that individual bits of numbers can be manipulated in parallel with bit operations. A way to design an efficient algorithm is to represent its steps so they can be implemented efficiently with bit operations.</p>
+    <p class="lead" data-reveal>Bit-parallel algorithms are based on the fact that individual bits of numbers can be manipulated in parallel with bit operations. A way to design an efficient algorithm is to represent its steps so bit operations can implement them.</p>
 
     <figure class="figure ch08-packfig" data-reveal>
       <div class="figure__frame">
@@ -139,7 +139,7 @@
             <span class="ch08-xor__label ch08-xor__label--result">popcount</span>
             <span class="ch08-xor__result">2</span>
           </div>
-          <p class="ch08-xor__note">The two lit positions in the last row are where the strings disagree.</p>
+          <p class="ch08-xor__note">The two lit positions are where the strings disagree.</p>
         </div>
       </div>
       <figcaption>Packing booleans turns a per-position comparison into a population count. The book's Hamming example is <span class="ch08-mono">hamming(01101, 11001) = 2</span>.</figcaption>
@@ -148,7 +148,7 @@
     <div class="split2 ch08-hamming" data-reveal>
       <div>
         <h3>Minimum distance among many strings</h3>
-        <p>The Hamming distance <span class="ch08-mono">hamming(a, b)</span> between two strings <i>a</i> and <i>b</i> of equal length is the number of positions where they differ. Consider the problem: given <i>n</i> bit strings, each of length <i>k</i>, calculate the minimum Hamming distance between two strings.</p>
+        <p>The Hamming distance <span class="ch08-mono">hamming(a, b)</span> between two strings <i>a</i> and <i>b</i> of equal length is the number of positions where they differ. For example, <span class="ch08-mono">hamming(01101, 11001) = 2</span>. Consider the problem: given <i>n</i> bit strings, each of length <i>k</i>, calculate the minimum Hamming distance between two strings.</p>
         <p>A straightforward way to solve the problem is to go through all pairs of strings and calculate their Hamming distances, which yields an <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) time algorithm. However, since the strings consist of bits, we can store them as integers and calculate distances using bit operations. If <i>k</i> ≤ 32, the strings fit in <code>int</code> values. Then xor constructs a string with one bits where <i>a</i> and <i>b</i> differ, and <code>__builtin_popcount</code> counts the one bits.</p>
         <p class="ch08-small">For example, the answer for <span class="ch08-mono">[00111, 01101, 11110]</span> is 2, because <span class="ch08-mono">hamming(00111, 01101) = 2</span>, <span class="ch08-mono">hamming(00111, 11110) = 3</span>, and <span class="ch08-mono">hamming(01101, 11110) = 3</span>.</p>
       </div>
@@ -164,7 +164,7 @@
       <h3>Counting Subgrids</h3>
     </div>
 
-    <p class="lead ch08-lead" data-reveal>As another example, given an <i>n</i> × <i>n</i> grid whose each square is either black (1) or white (0), calculate the number of subgrids whose all corners are black.</p>
+    <p class="lead ch08-lead" data-reveal>As another example, given an <i>n</i> × <i>n</i> grid of black (1) and white (0) squares, count the subgrids whose corners are all black.</p>
 
     <p data-reveal>There is an <i>O</i>(<i>n</i><sup>3</sup>) time algorithm: go through all <i>O</i>(<i>n</i><sup>2</sup>) pairs of rows, and for each pair (<i>a</i>, <i>b</i>) count in <i>O</i>(<i>n</i>) time the columns with a black square in both rows. Then <i>count</i>(<i>count</i> − 1)/2 gives the number of subgrids whose first row is <i>a</i> and last row is <i>b</i>. To create a bit-parallel algorithm, represent each row <i>k</i> as an <i>n</i>-bit bitset <span class="ch08-mono">row[k]</span> where one bits denote black squares. Then we count the columns where both rows have black squares using an <code>and</code> operation: <span class="ch08-mono">(row[a] &amp; row[b]).count()</span>.</p>
 
@@ -258,7 +258,7 @@
           <div class="ch08-bitset"><span class="ch08-bitset__name">5</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i>0</i><i>0</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">1</span></div>
         </div>
         <p>Assuming <code>reach</code> is an array of bitset structures and the graph is stored in <code>adj</code>, the calculation for node <i>x</i> is: <span class="ch08-mono">reach[x][x] = 1;</span> <span class="ch08-mono">for (auto u : adj[x]) { reach[x] |= reach[u]; }</span> Each union touches <i>n</i> bits at once.</p>
-        <p class="ch08-warn">The algorithm uses a great amount of memory for large <i>n</i>. In many contests, the memory limit may be 512 MB or lower; at <i>n</i> = 10<sup>5</sup> the table already needs 1,250 MB.</p>
+        <p class="ch08-warn">The algorithm uses a great amount of memory for large <i>n</i>. In many contests, the limit may be 512 MB or lower; at <i>n</i> = 10<sup>5</sup> the table already needs 1,250 MB.</p>
       </div>
     </div>
 
@@ -292,11 +292,12 @@
 
     <p class="statement" data-reveal>The worst single operation can be expensive. What matters is what the whole sequence costs.</p>
 
-    <p class="lead" data-reveal>The structure of an algorithm often directly tells us its time complexity, but sometimes a straightforward analysis does not give a true picture. Amortized analysis analyzes a sequence of operations whose time complexity varies. The idea is to estimate the total time used by all such operations during the algorithm, instead of focusing on individual operations.</p>
+    <p class="lead" data-reveal>The structure of an algorithm often directly tells us its time complexity, but sometimes a straightforward analysis does not give a true picture. Amortized analysis analyzes a sequence of operations whose time complexity varies. The idea is to estimate the total time used by all such operations, instead of focusing on individual ones.</p>
 
     <div class="split2 ch08-amort">
       <div data-reveal>
         <p>Amortized analysis is often used to estimate the number of operations performed on a data structure. The operations may be distributed unevenly, so most occur during a certain phase of the algorithm, but the total number is limited.</p>
+        <p>Amortized analysis asks a different question: over <i>n</i> operations, how many times can each element be touched? If the answer is a constant, the occasional expensive step does not change the total.</p>
         <details class="note">
           <summary><span class="note__label">The accounting view</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
@@ -329,7 +330,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>In the two pointers method, two pointers walk through an array. Both move in one direction only, which keeps the algorithm efficient. As a first example of how to apply the technique, consider a problem where we are given an array of <i>n</i> positive integers and a target sum <i>x</i>, and we want to find a subarray whose sum is <i>x</i>, or report that none exists. The problem can be solved in <i>O</i>(<i>n</i>) time by using the two pointers method. The idea is to maintain pointers that point to the first and last value of a subarray. On each turn, the left pointer moves one step right, and the right pointer moves right as long as the subarray sum is at most <i>x</i>. If the sum becomes exactly <i>x</i>, a solution has been found.</p>
+    <p class="lead" data-reveal>In the two pointers method, two pointers walk through an array. Both move in one direction only, which keeps the algorithm efficient. As a first example of how to apply the technique, consider a problem where we are given an array of <i>n</i> positive integers and a target sum <i>x</i>, and we want to find a subarray whose sum is <i>x</i>, or report that none exists. The two pointers method solves it in <i>O</i>(<i>n</i>) time. The idea is to keep pointers to the first and last value of a subarray. On each turn, the left pointer moves one step right, and the right pointer moves right as long as the subarray sum is at most <i>x</i>. If the sum becomes exactly <i>x</i>, a solution has been found.</p>
 
     <div class="ch08-stepper" data-ch08-tp data-reveal>
       <div class="ch08-stepper__head">
@@ -447,7 +448,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A sliding window is a constant-size subarray that moves from left to right through an array. At each position, we want some information about the elements inside it. Here we focus on the sliding-window minimum: report the smallest value inside each window. The minima can be calculated with the same idea as the nearest smaller elements. This time we maintain a queue where each element is larger than the previous one, and the first element is always the minimum inside the window.</p>
+    <p class="lead" data-reveal>A sliding window is a constant-size subarray that moves from left to right through an array. At each position, we want some information about the elements inside. Here we focus on the sliding-window minimum: report the smallest value inside each window. The minima can be calculated with the same idea as the nearest smaller elements. This time we maintain a queue where each element is larger than the previous one, and the first element is always the minimum inside the window.</p>
 
     <div class="ch08-windowlab" data-ch08-window data-reveal>
       <div class="ch08-windowlab__head">
@@ -478,7 +479,7 @@
 
     <div class="split2 ch08-window-notes" data-reveal>
       <p>After each window move, we remove elements from the end of the queue until the last element is smaller than the new element, or the queue is empty. We also remove the first element if it is no longer inside the window. Finally, we add the new element to the queue. Since each array element is added exactly once and removed at most once, the algorithm works in <i>O</i>(<i>n</i>) time.</p>
-      <p class="ch08-small">The deque may grow and shrink between steps, but no value is pushed or removed twice.</p>
+      <p class="ch08-small">This is the same accounting argument as the stack: the deque may grow and shrink dramatically between steps, but no value is pushed or removed twice.</p>
     </div>
   </div>
 </section>

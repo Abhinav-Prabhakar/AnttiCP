@@ -17,6 +17,10 @@
   <img src="assets/readme/hero-ch02.jpg" alt="Chapter 2, Programming Techniques">
 </div>
 
+<div align="center">
+  <img src="assets/readme/dark-ch12.jpg" alt="Chapter 12 in dark mode">
+</div>
+
 <table>
   <tr>
     <td width="50%"><img src="assets/readme/hero-ch07.jpg" alt="Chapter 7, Graph Algorithms"></td>
@@ -51,7 +55,7 @@ read and controls you can move. Every chapter has its own visual language, but t
 type, spacing and navigation stay the same from the first page to the last.
 
 No frameworks, no external assets. The whole book is static HTML, CSS, SVG and a
-little JavaScript.
+little JavaScript. It follows your system theme, and the switch remembers your choice.
 
 ## Run it locally
 

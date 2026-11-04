@@ -110,6 +110,7 @@
   fill: var(--faint);
   text-anchor: middle;
 }
+.ch12-mini > text:not([class]) { fill: var(--ink); }
 .ch12-mini-edges path {
   fill: none;
   stroke: var(--c-b5b5ad);

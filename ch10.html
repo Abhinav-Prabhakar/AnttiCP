@@ -229,7 +229,7 @@
     <p class="statement" data-reveal>Root a tree, and every path becomes two ascents to a highest point.</p>
 
     <div class="ch10-intro" data-reveal>
-      <p class="lead">A tree is a connected acyclic graph that consists of <i>n</i> nodes and <i>n</i> − 1 edges. Removing any edge from a tree divides it into two components, and adding any edge creates a cycle. There is always a unique path between any two nodes of a tree. The leaves of a tree are the nodes with only one neighbor.</p>
+      <p class="lead">A tree is a connected acyclic graph with <i>n</i> nodes and <i>n</i> − 1 edges. Removing any edge divides it into two components, and adding any edge creates a cycle. There is always a unique path between any two nodes. The leaves are the nodes with only one neighbor.</p>
       <ul class="chips ch10-chips" aria-label="Properties of a tree">
         <li class="chip chip--static">connected</li>
         <li class="chip chip--static">acyclic</li>
@@ -238,7 +238,7 @@
       </ul>
     </div>
 
-    <p class="ch10-prose" data-reveal>In a rooted tree, one of the nodes is appointed the root of the tree, and all other nodes are placed underneath the root. The lower neighbors of a node are called its <em>children</em>, and the upper neighbor of a node is called its <em>parent</em>. Each node has exactly one parent, except for the root that does not have a parent. The structure of a rooted tree is recursive: each node of the tree acts as the root of a <em>subtree</em> that contains the node itself and all nodes that are in the subtrees of its children.</p>
+    <p class="ch10-prose" data-reveal>In a rooted tree, one node is appointed the root, and all other nodes are placed underneath it. The lower neighbors of a node are its <em>children</em>, and the upper neighbor is its <em>parent</em>. Each node has exactly one parent, except the root, which has none. The structure is recursive: each node acts as the root of a <em>subtree</em> that contains the node itself and all nodes in the subtrees of its children.</p>
 
     <figure class="figure" data-reveal>
       <div class="figure__frame ch10-inspector">
@@ -287,9 +287,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The traversal of a tree is easier to implement than that of a general graph, because there are no cycles in the tree, and it is not possible to reach a node from more than one direction.</p>
+    <p class="lead" data-reveal>Traversing a tree is easier than traversing a general graph: there are no cycles, and no node can be reached from more than one direction.</p>
 
-    <p class="ch10-prose" data-reveal>A typical way to traverse a tree is to start a depth-first search at an arbitrary node. The following recursive function can be used. The function is given two parameters: the current node <i>s</i> and the previous node <i>e</i>. The purpose of the parameter <i>e</i> is to make sure that the search only moves to nodes that have not been visited yet. In the first call <i>e</i> = 0, because there is no previous node, and it is allowed to proceed to any direction in the tree.</p>
+    <p class="ch10-prose" data-reveal>A typical way to traverse a tree is to start a depth-first search at an arbitrary node. The recursive function below takes two parameters: the current node <i>s</i> and the previous node <i>e</i>. The parameter <i>e</i> makes sure the search only moves to nodes not yet visited. In the first call <i>e</i> = 0, because there is no previous node, and any direction is allowed.</p>
 
     <div class="ch10-cardwrap" data-reveal>
       <div class="code-card" data-code-card>
@@ -309,7 +309,7 @@
       </div>
     </div>
 
-    <p class="ch10-prose" data-reveal>Dynamic programming can be used to calculate some information during a tree traversal. For example, the following code calculates for each node <i>s</i> a value <span class="ch10-mono">count[s]</span>: the number of nodes in its subtree. The subtree contains the node itself and all nodes in the subtrees of its children, so we can calculate the number of nodes recursively.</p>
+    <p class="ch10-prose" data-reveal>Dynamic programming can calculate information during a tree traversal. For example, the code below calculates for each node <i>s</i> a value <span class="ch10-mono">count[s]</span>: the number of nodes in its subtree. The subtree contains the node itself and all nodes in the subtrees of its children, so the count follows recursively.</p>
 
     <div class="ch10-orders" data-reveal>
       <div class="ch10-orders__tree">
@@ -345,7 +345,7 @@
           <code>4 &nbsp;6 &nbsp;5 &nbsp;2 &nbsp;7 &nbsp;3 &nbsp;1</code>
           <p>left, right, root</p>
         </div>
-        <p class="ch10-fine">If we know the pre-order and in-order of a tree, we can reconstruct its exact structure. The post-order and in-order also uniquely determine the structure of a tree. However, if we only know the pre-order and post-order, there may be more than one tree that matches the orderings.</p>
+        <p class="ch10-fine">Given the pre-order and in-order of a tree, we can reconstruct its exact structure. The post-order and in-order also determine it uniquely. However, pre-order and post-order alone may match more than one tree.</p>
       </div>
     </div>
   </div>
@@ -361,20 +361,20 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The diameter of a tree is the maximum length of a path between two nodes. Next we will discuss two <i>O</i>(<i>n</i>) time algorithms for calculating the diameter of a tree. The first algorithm is based on dynamic programming, and the second algorithm uses depth-first searches.</p>
+    <p class="lead" data-reveal>The diameter of a tree is the maximum length of a path between two nodes. Two <i>O</i>(<i>n</i>) time algorithms follow: the first is based on dynamic programming, the second uses depth-first searches.</p>
 
     <div class="split2 ch10-split" data-reveal>
       <div>
         <span class="kicker">First algorithm</span>
         <h3 class="ch10-h3">Root, then look up</h3>
-        <p>A general way to approach tree problems is to first root the tree arbitrarily and then solve the problem separately for each subtree. An important observation is that every path in a rooted tree has a highest point: the highest node that belongs to the path. Thus, we can calculate for each node <i>x</i> the length of the longest path whose highest point is <i>x</i>. One of those paths corresponds to the diameter of the tree. We calculate for each node <i>x</i> two values: <span class="ch10-mono">toLeaf(x)</span>, the maximum length of a path from <i>x</i> to any leaf, and <span class="ch10-mono">maxLength(x)</span>, the maximum length of a path whose highest point is <i>x</i>.</p>
-        <p>Dynamic programming can be used to calculate the above values for all nodes in <i>O</i>(<i>n</i>) time. First, to calculate <span class="ch10-mono">toLeaf(x)</span>, we go through the children of <i>x</i>, choose a child <i>c</i> with the maximum <span class="ch10-mono">toLeaf(c)</span>, and add one to this value. Then, to calculate <span class="ch10-mono">maxLength(x)</span>, we choose two distinct children <i>a</i> and <i>b</i> such that the sum <span class="ch10-mono">toLeaf(a) + toLeaf(b)</span> is maximum and add two to this sum. (The cases where <i>x</i> has less than two children are easy special cases.)</p>
+        <p>A general way to approach tree problems is to first root the tree arbitrarily and then solve the problem separately for each subtree. Every path in a rooted tree has a highest point: the highest node that belongs to it. Thus, for each node <i>x</i> we can calculate the length of the longest path whose highest point is <i>x</i>. One of those paths is the diameter of the tree. For each node <i>x</i> we calculate two values: <span class="ch10-mono">toLeaf(x)</span>, the maximum length of a path from <i>x</i> to any leaf, and <span class="ch10-mono">maxLength(x)</span>, the maximum length of a path whose highest point is <i>x</i>.</p>
+        <p>Dynamic programming calculates the above values for all nodes in <i>O</i>(<i>n</i>) time. To calculate <span class="ch10-mono">toLeaf(x)</span>, go through the children of <i>x</i>, choose a child <i>c</i> with maximum <span class="ch10-mono">toLeaf(c)</span>, and add one. To calculate <span class="ch10-mono">maxLength(x)</span>, choose two distinct children <i>a</i> and <i>b</i> whose sum <span class="ch10-mono">toLeaf(a) + toLeaf(b)</span> is maximum and add two. (Cases where <i>x</i> has fewer than two children are easy special cases.)</p>
       </div>
       <div>
         <span class="kicker">Second algorithm</span>
         <h3 class="ch10-h3">Two sweeps</h3>
-        <p>Another efficient way to calculate the diameter of a tree is based on two depth-first searches. First, we choose an arbitrary node <i>a</i> in the tree and find the farthest node <i>b</i> from <i>a</i>. Then, we find the farthest node <i>c</i> from <i>b</i>. The diameter of the tree is the distance between <i>b</i> and <i>c</i>.</p>
-        <p>For example, Fig. 10.6 shows a possible way to select nodes <i>a</i>, <i>b</i>, and <i>c</i> when calculating the diameter for our example tree.</p>
+        <p>Another efficient way to calculate the diameter of a tree is based on two depth-first searches. First, we choose an arbitrary node <i>a</i> in the tree and find the farthest node <i>b</i> from <i>a</i>. Then we find the farthest node <i>c</i> from <i>b</i>. The diameter is the distance between <i>b</i> and <i>c</i>.</p>
+        <p>For example, Fig. 10.6 shows a possible choice of <i>a</i>, <i>b</i>, and <i>c</i> for the example tree.</p>
       </div>
     </div>
 
@@ -429,7 +429,7 @@
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">Why the two sweeps work</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>This is an elegant method, but why does it work? It helps to draw the tree so that the path that corresponds to the diameter is horizontal and all other nodes hang from it. Node <i>x</i> indicates the place where the path from node <i>a</i> joins the path that corresponds to the diameter. The farthest node from <i>a</i> is node <i>b</i>, node <i>c</i>, or some other node that is at least as far from node <i>x</i>. Thus, this node is always a valid choice for an endpoint of a path that corresponds to the diameter.</p>
+        <p>This is an elegant method, but why does it work? It helps to draw the tree so that the path that corresponds to the diameter is horizontal and all other nodes hang from it. Node <i>x</i> indicates where the path from node <i>a</i> joins the diameter path. The farthest node from <i>a</i> is node <i>b</i>, node <i>c</i>, or some other node that is at least as far from node <i>x</i>. Thus, this node is always a valid endpoint for a path that corresponds to the diameter.</p>
         <p>The second sweep measures the farthest distance from that endpoint, which is the diameter itself.</p>
       </div>
     </details>
@@ -446,11 +446,11 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Our next problem is to calculate for every tree node <i>x</i> a value <span class="ch10-mono">maxLength(x)</span>: the maximum length of a path that begins at node <i>x</i>. This can be seen as a generalization of the tree diameter problem, because the largest of those lengths equals the diameter of the tree. Also, this problem can be solved in <i>O</i>(<i>n</i>) time.</p>
+    <p class="lead" data-reveal>Our next problem is to calculate for every node <i>x</i> a value <span class="ch10-mono">maxLength(x)</span>: the maximum length of a path that begins at <i>x</i>. This generalizes the diameter problem, because the largest of those lengths equals the diameter of the tree. It too can be solved in <i>O</i>(<i>n</i>) time.</p>
 
-    <p class="ch10-prose" data-reveal>Once again, a good starting point is to root the tree arbitrarily. The first part of the problem is to calculate for every node <i>x</i> the maximum length of a path that goes downwards through a child of <i>x</i>. For example, the longest path from node 1 goes through its child 2. This part is easy to solve in <i>O</i>(<i>n</i>) time, because we can use dynamic programming as we have done previously.</p>
+    <p class="ch10-prose" data-reveal>Once again, root the tree arbitrarily. The first part is to calculate for every node <i>x</i> the maximum length of a path that goes downwards through a child of <i>x</i>. For example, the longest path from node 1 goes through its child 2. This part is easy in <i>O</i>(<i>n</i>) time with dynamic programming, as before.</p>
 
-    <p class="ch10-prose" data-reveal>Then, the second part of the problem is to calculate for every node <i>x</i> the maximum length of a path upwards through its parent <i>p</i>. For example, the longest path from node 3 goes through its parent 1. At first glance, it seems that we should first move to <i>p</i> and then choose the longest path (upwards or downwards) from <i>p</i>. However, this does not always work, because such a path may go through <i>x</i>. Still, we can solve the second part in <i>O</i>(<i>n</i>) time by storing the maximum lengths of two paths for each node <i>x</i>: <span class="ch10-mono">maxLength1(x)</span>, the maximum length of a path from <i>x</i> to a leaf, and <span class="ch10-mono">maxLength2(x)</span>, the maximum length of a path from <i>x</i> to a leaf, in another direction than the first path.</p>
+    <p class="ch10-prose" data-reveal>The second part of the problem is to calculate for every node <i>x</i> the maximum length of a path upwards through its parent <i>p</i>. For example, the longest path from node 3 goes through its parent 1. At first glance, it seems that we should first move to <i>p</i> and then choose the longest path (upwards or downwards) from <i>p</i>. However, this does not always work, because such a path may go through <i>x</i>. Still, the second part is solvable in <i>O</i>(<i>n</i>) time by storing two path lengths for each node <i>x</i>: <span class="ch10-mono">maxLength1(x)</span>, the maximum length of a path from <i>x</i> to a leaf, and <span class="ch10-mono">maxLength2(x)</span>, the maximum length from <i>x</i> to a leaf in another direction than the first path.</p>
 
     <figure class="figure" data-reveal>
       <div class="figure__frame ch10-reroot">
@@ -485,7 +485,7 @@
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">The two cases, precisely</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Finally, to determine the maximum-length path from node <i>x</i> upwards through its parent <i>p</i>, we consider two cases: if the path that corresponds to <span class="ch10-mono">maxLength1(p)</span> goes through <i>x</i>, the maximum length is <span class="ch10-mono">maxLength2(p) + 1</span> and otherwise the maximum length is <span class="ch10-mono">maxLength1(p) + 1</span>.</p>
+        <p>Finally, for the maximum-length path from node <i>x</i> upwards through its parent <i>p</i>, there are two cases: if the path for <span class="ch10-mono">maxLength1(p)</span> goes through <i>x</i>, the maximum length is <span class="ch10-mono">maxLength2(p) + 1</span>; otherwise it is <span class="ch10-mono">maxLength1(p) + 1</span>.</p>
         <p>Both maxima are computed during the same post-order traversal that computes subtree sizes, so the rerooting pass adds only linear work.</p>
       </div>
     </details>
@@ -504,7 +504,7 @@
 
     <p class="statement" data-reveal>A rooted tree turns subtree queries into intervals and path queries into ascents.</p>
 
-    <p class="lead" data-reveal>In this section we focus on processing queries on rooted trees. Such queries are typically related to subtrees and paths of the tree, and they can be processed in constant or logarithmic time.</p>
+    <p class="lead" data-reveal>In this section we focus on queries on rooted trees. Such queries are typically related to subtrees and paths, and can be processed in constant or logarithmic time.</p>
 
     <ul class="ch10-queries" data-reveal aria-label="Typical tree queries and their complexities">
       <li><span>kth ancestor</span><b><i>O</i>(log <i>k</i>)</b></li>
@@ -525,9 +525,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The <i>k</i>th ancestor of a node <i>x</i> in a rooted tree is the node that we will reach if we move <i>k</i> levels up from <i>x</i>. Let <span class="ch10-mono">ancestor(x, k)</span> denote the <i>k</i>th ancestor of a node <i>x</i> (or 0 if there is no such an ancestor). For example, in Fig. 10.12, <span class="ch10-mono">ancestor(2, 1) = 1</span> and <span class="ch10-mono">ancestor(8, 2) = 4</span>.</p>
+    <p class="lead" data-reveal>The <i>k</i>th ancestor of a node <i>x</i> in a rooted tree is the node reached by moving <i>k</i> levels up from <i>x</i>. Let <span class="ch10-mono">ancestor(x, k)</span> denote the <i>k</i>th ancestor of <i>x</i> (or 0 if there is none). For example, in Fig. 10.12, <span class="ch10-mono">ancestor(2, 1) = 1</span> and <span class="ch10-mono">ancestor(8, 2) = 4</span>.</p>
 
-    <p class="ch10-prose" data-reveal>An easy way to calculate any value of <span class="ch10-mono">ancestor(x, k)</span> is to perform a sequence of <i>k</i> moves in the tree. However, the time complexity of this method is <i>O</i>(<i>k</i>), which may be slow, because a tree of <i>n</i> nodes may have a path of <i>n</i> nodes. Fortunately, we can efficiently calculate any value of <span class="ch10-mono">ancestor(x, k)</span> in <i>O</i>(log <i>k</i>) time after preprocessing. The idea is to first precalculate all values of <span class="ch10-mono">ancestor(x, k)</span> where <i>k</i> is a power of two. Since we know that a node always has less than <i>n</i> ancestors, it suffices to calculate <i>O</i>(log <i>n</i>) values for each node and the preprocessing takes <i>O</i>(<i>n</i> log <i>n</i>) time. After this, any value of <span class="ch10-mono">ancestor(x, k)</span> can be calculated in <i>O</i>(log <i>k</i>) time by representing <i>k</i> as a sum where each term is a power of two.</p>
+    <p class="ch10-prose" data-reveal>An easy way to calculate <span class="ch10-mono">ancestor(x, k)</span> is to perform a sequence of <i>k</i> moves in the tree. However, that takes <i>O</i>(<i>k</i>) time, which may be slow, because a tree of <i>n</i> nodes may have a path of <i>n</i> nodes. Fortunately, <span class="ch10-mono">ancestor(x, k)</span> can be calculated in <i>O</i>(log <i>k</i>) time after preprocessing. The idea is to first precalculate all values of <span class="ch10-mono">ancestor(x, k)</span> where <i>k</i> is a power of two. A node has fewer than <i>n</i> ancestors, so it suffices to calculate <i>O</i>(log <i>n</i>) values per node, and preprocessing takes <i>O</i>(<i>n</i> log <i>n</i>) time. After this, any <span class="ch10-mono">ancestor(x, k)</span> is calculated in <i>O</i>(log <i>k</i>) time by writing <i>k</i> as a sum of powers of two.</p>
 
     <div class="ch10-lab ch10-lift" id="ch10Lift" data-reveal>
       <div class="ch10-lab__head">
@@ -625,9 +625,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A tree traversal array contains the nodes of a rooted tree in the order in which a depth-first search from the root node visits them. An important property of tree traversal arrays is that each subtree of a tree corresponds to a subarray in the tree traversal array such that the first element of the subarray is the root node.</p>
+    <p class="lead" data-reveal>A tree traversal array contains the nodes of a rooted tree in the order a depth-first search from the root visits them. An important property is that each subtree corresponds to a subarray whose first element is the root of the subtree.</p>
 
-    <p class="ch10-prose" data-reveal>Using this array, we can calculate the sum of values in any subtree by first determining the size of the subtree and then summing up the values of the corresponding nodes. To answer queries efficiently, it suffices to store the last row of the array in a binary indexed or segment tree. After this, we can both update a value and calculate the sum of values in <i>O</i>(log <i>n</i>) time.</p>
+    <p class="ch10-prose" data-reveal>With this array, we can calculate the sum in any subtree by determining the size of the subtree and summing the values of the corresponding nodes. To answer queries efficiently, it suffices to store the last row of the array in a binary indexed or segment tree. Then we can both update a value and calculate a subtree sum in <i>O</i>(log <i>n</i>) time.</p>
 
     <div class="ch10-lab ch10-dfsarray" id="ch10DfsArray" data-reveal>
       <div class="ch10-lab__head">
@@ -656,7 +656,7 @@
       <p class="ch10-lab__note">Select a node on either side. The highlighted cells are exactly the nodes of its subtree.</p>
     </div>
 
-    <p class="ch10-prose" data-reveal>Using a tree traversal array, we can also efficiently calculate sums of values on paths from the root node to any node of the tree. We construct a tree traversal array that contains for each node the sum of values on a path from the root to the node. When the value of a node increases by <i>x</i>, the sums of all nodes in its subtree increase by <i>x</i>. To support both the operations, we need to be able to increase all values in a range and retrieve a single value. This can be done in <i>O</i>(log <i>n</i>) time using a binary indexed or segment tree and a difference array.</p>
+    <p class="ch10-prose" data-reveal>A tree traversal array also lets us calculate sums of values on paths from the root to any node. Construct an array that contains for each node the sum of values on the path from the root to the node. When the value of a node increases by <i>x</i>, the sums of all nodes in its subtree increase by <i>x</i>. To support both operations, we must increase all values in a range and retrieve a single value. A binary indexed or segment tree with a difference array does this in <i>O</i>(log <i>n</i>) time.</p>
 
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">Range add, point query</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
@@ -678,9 +678,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The lowest common ancestor of two nodes of a rooted tree is the lowest node whose subtree contains both the nodes. For example, in Fig. 10.19 the lowest common ancestor of nodes 5 and 8 is node 2.</p>
+    <p class="lead" data-reveal>The lowest common ancestor of two nodes is the lowest node whose subtree contains both. For example, in Fig. 10.19 the lowest common ancestor of nodes 5 and 8 is node 2.</p>
 
-    <p class="ch10-prose" data-reveal>Since we can efficiently find the <i>k</i>th ancestor of any node in the tree, we can use this fact to divide the problem into two parts. We use two pointers that initially point to the two nodes whose lowest common ancestor we should find. First, we make sure that the pointers point to nodes at the same level in the tree. If this is not the case initially, we move one of the pointers upwards. After this, we determine the minimum number of steps needed to move both pointers upwards so that they will point to the same node. The node to which the pointers point after this is the lowest common ancestor. Since both parts of the algorithm can be performed in <i>O</i>(log <i>n</i>) time using precomputed information, we can find the lowest common ancestor of any two nodes in <i>O</i>(log <i>n</i>) time.</p>
+    <p class="ch10-prose" data-reveal>Since we can efficiently find the <i>k</i>th ancestor of any node, we can use this fact to divide the problem into two parts. We use two pointers that initially point to the two nodes whose lowest common ancestor we should find. First, we make the pointers point to nodes at the same level; if they are not, we move one pointer upwards. Then we determine the minimum number of steps needed to move both pointers upwards until they meet. The node they point to is the lowest common ancestor. Both parts take <i>O</i>(log <i>n</i>) time using precomputed information, so any lowest common ancestor is found in <i>O</i>(log <i>n</i>) time.</p>
 
     <div class="ch10-lab ch10-lca" id="ch10Lca" data-reveal>
       <div class="ch10-lab__head">
@@ -728,13 +728,13 @@
       <p class="ch10-lab__note" id="ch10LcaNote">Start by equalising the depths. Then lift both pointers while their ancestors differ.</p>
     </div>
 
-    <p class="ch10-prose" data-reveal>Finally, consider the problem of processing queries where we need to calculate the distance between nodes <i>a</i> and <i>b</i>, i.e., the length of the path between <i>a</i> and <i>b</i>. It turns out that this problem reduces to finding the lowest common ancestor of the nodes. First, we root the tree arbitrarily. After this, the distance of nodes <i>a</i> and <i>b</i> can be calculated using the formula <span class="ch10-mono">depth(a) + depth(b) − 2·depth(c)</span>, where <i>c</i> is the lowest common ancestor of <i>a</i> and <i>b</i>. For example, to calculate the distance between nodes 5 and 8, we first determine that the lowest common ancestor of the nodes is node 2. Then, since the depths of the nodes are <span class="ch10-mono">depth(5) = 3</span>, <span class="ch10-mono">depth(8) = 4</span>, and <span class="ch10-mono">depth(2) = 2</span>, we conclude that the distance between nodes 5 and 8 is 3 + 4 − 2 · 2 = 3.</p>
+    <p class="ch10-prose" data-reveal>Finally, consider queries that calculate the distance between nodes <i>a</i> and <i>b</i>, the length of the path between them. This reduces to finding their lowest common ancestor. Root the tree arbitrarily. The distance is then <span class="ch10-mono">depth(a) + depth(b) − 2·depth(c)</span>, where <i>c</i> is the lowest common ancestor of <i>a</i> and <i>b</i>. For example, the lowest common ancestor of nodes 5 and 8 is node 2. Since <span class="ch10-mono">depth(5) = 3</span>, <span class="ch10-mono">depth(8) = 4</span>, and <span class="ch10-mono">depth(2) = 2</span>, the distance between nodes 5 and 8 is 3 + 4 − 2 · 2 = 3.</p>
 
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">The Euler tour alternative</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Another way to solve the problem is based on an extended tree traversal array, sometimes called an Euler tour tree. To construct the array, we go through the tree nodes using depth-first search and add each node to the array always when the depth-first search walks through the node (not only at the first visit). Hence, a node that has <i>k</i> children appears <i>k</i> + 1 times in the array, and there are a total of 2<i>n</i> − 1 nodes in the array. We store two values in the array: the identifier of the node and the depth of the node in the tree.</p>
-        <p>Now we can find the lowest common ancestor of nodes <i>a</i> and <i>b</i> by finding the node with the minimum depth between nodes <i>a</i> and <i>b</i> in the array. Using this technique, to find the lowest common ancestor of two nodes, it suffices to process a range minimum query. A usual way is to use a segment tree to process such queries in <i>O</i>(log <i>n</i>) time. However, since the array is static, we can also process queries in <i>O</i>(1) time after an <i>O</i>(<i>n</i> log <i>n</i>) time preprocessing.</p>
+        <p>Another way is based on an extended tree traversal array, sometimes called an Euler tour tree. To construct it, walk the tree with depth-first search and add each node whenever the search walks through it, not only at the first visit. A node with <i>k</i> children therefore appears <i>k</i> + 1 times, and the array holds 2<i>n</i> − 1 nodes. We store two values: the identifier of the node and its depth in the tree.</p>
+        <p>Now the lowest common ancestor of nodes <i>a</i> and <i>b</i> is the node with the minimum depth between them in the array. To find it, it suffices to process a range minimum query. A usual way is to use a segment tree to process such queries in <i>O</i>(log <i>n</i>) time. However, since the array is static, queries can also be processed in <i>O</i>(1) time after <i>O</i>(<i>n</i> log <i>n</i>) preprocessing.</p>
         <div class="ch10-euler" aria-label="Euler tour of the example tree with node ids and depths">
           <div class="ch10-euler__ids">
             <span>1</span><span>2</span><span class="is-range">5</span><span class="is-range is-min">2</span><span class="is-range">6</span><span class="is-range">8</span><span>6</span><span>2</span><span>1</span><span>3</span><span>1</span><span>4</span><span>7</span><span>4</span><span>1</span>
@@ -759,11 +759,11 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>So far, we have discussed online algorithms for tree queries. Those algorithms are able to process queries one after another in such a way that each query is answered before receiving the next query. However, in many problems, the online property is not necessary, and we may use offline algorithms to solve them. Such algorithms are given a complete set of queries which can be answered in any order. Offline algorithms are often easier to design than online algorithms.</p>
+    <p class="lead" data-reveal>So far, we have discussed online algorithms for tree queries. Such algorithms process queries one after another, answering each before receiving the next. However, in many problems the online property is not necessary, and offline algorithms may be used. They are given a complete set of queries, which can be answered in any order. Offline algorithms are often easier to design.</p>
 
-    <p class="ch10-prose" data-reveal>One method to construct an offline algorithm is to perform a depth-first tree traversal and maintain data structures in nodes. At each node <i>s</i>, we create a data structure <span class="ch10-mono">d[s]</span> that is based on the data structures of the children of <i>s</i>. Then, using this data structure, all queries related to <i>s</i> are processed.</p>
+    <p class="ch10-prose" data-reveal>One method is to perform a depth-first traversal and maintain data structures in the nodes. At each node <i>s</i>, we create a data structure <span class="ch10-mono">d[s]</span> based on the data structures of the children of <i>s</i>. Then all queries related to <i>s</i> are processed with it.</p>
 
-    <p class="ch10-prose" data-reveal>The merging at node <i>s</i> can be done as follows: we go through the children of <i>s</i> and at each child <i>u</i> merge <span class="ch10-mono">d[s]</span> and <span class="ch10-mono">d[u]</span>. We always copy the contents from <span class="ch10-mono">d[u]</span> to <span class="ch10-mono">d[s]</span>. However, before this, we swap the contents of <span class="ch10-mono">d[s]</span> and <span class="ch10-mono">d[u]</span> if <span class="ch10-mono">d[s]</span> is smaller than <span class="ch10-mono">d[u]</span>. By doing this, each value is copied only <i>O</i>(log <i>n</i>) times during the tree traversal, which ensures that the algorithm is efficient.</p>
+    <p class="ch10-prose" data-reveal>The merging at node <i>s</i> can be done as follows: we go through the children of <i>s</i> and at each child <i>u</i> merge <span class="ch10-mono">d[s]</span> and <span class="ch10-mono">d[u]</span>. We always copy the contents from <span class="ch10-mono">d[u]</span> to <span class="ch10-mono">d[s]</span>. Before this, however, we swap <span class="ch10-mono">d[s]</span> and <span class="ch10-mono">d[u]</span> if <span class="ch10-mono">d[s]</span> is smaller. Then each value is copied only <i>O</i>(log <i>n</i>) times during the traversal, which keeps the algorithm efficient.</p>
 
     <div class="ch10-merge" data-reveal aria-label="Three maps merging into the map of node 2">
       <div class="ch10-merge__side">
@@ -808,7 +808,7 @@
 
     <p class="statement" data-reveal>Two ways to make a tree smaller: split it at a centroid, or cut it into heavy paths.</p>
 
-    <p class="lead" data-reveal>In this section, we discuss two advanced tree processing techniques. Centroid decomposition divides a tree into smaller subtrees and processes them recursively. Heavy-light decomposition represents a tree as a set of special paths, which allows us to efficiently process path queries.</p>
+    <p class="lead" data-reveal>In this section, we discuss two advanced techniques. Centroid decomposition divides a tree into smaller subtrees and processes them recursively. Heavy-light decomposition represents a tree as a set of special paths, which makes path queries efficient.</p>
   </div>
 </section>
 
@@ -822,9 +822,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A centroid of a tree of <i>n</i> nodes is a node whose removal divides the tree into subtrees each of which contains at most ⌊<i>n</i>/2⌋ nodes. Every tree has a centroid, and it can be found by rooting the tree arbitrarily and always moving to the subtree that has the maximum number of nodes, until the current node is a centroid.</p>
+    <p class="lead" data-reveal>A centroid of a tree of <i>n</i> nodes is a node whose removal leaves subtrees with at most ⌊<i>n</i>/2⌋ nodes each. Every tree has a centroid, found by rooting the tree arbitrarily and moving to the largest subtree until the current node is a centroid.</p>
 
-    <p class="ch10-prose" data-reveal>In the centroid decomposition technique, we first locate a centroid of the tree and process all paths that go through the centroid. After this, we remove the centroid from the tree and process the remaining subtrees recursively. Since removing the centroid always creates subtrees whose size is at most half of the size of the original tree, the time complexity of such an algorithm is <i>O</i>(<i>n</i> log <i>n</i>), provided that we can process each subtree in linear time.</p>
+    <p class="ch10-prose" data-reveal>In the centroid decomposition technique, we first locate a centroid and process all paths that go through it. Then we remove the centroid and process the remaining subtrees recursively. Removing the centroid always creates subtrees at most half the size of the original, so the time complexity of such an algorithm is <i>O</i>(<i>n</i> log <i>n</i>), provided each subtree is processed in linear time.</p>
 
     <div class="ch10-lab ch10-centroid" id="ch10Centroid" data-reveal>
       <div class="ch10-lab__head">
@@ -894,7 +894,7 @@
       <p class="ch10-lab__note" id="ch10CentroidNote">Process every path through 5, remove it, and repeat inside each component.</p>
     </div>
 
-    <p class="ch10-prose" data-reveal>Using centroid decomposition, we can, for example, efficiently calculate the number of paths of length <i>x</i> in a tree. When processing a tree, we first find a centroid and calculate the number of paths that go through it, which can be done in linear time. After this, we remove the centroid and recursively process the smaller trees. The resulting algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+    <p class="ch10-prose" data-reveal>Centroid decomposition can, for example, calculate the number of paths of length <i>x</i> in a tree. For each tree, find a centroid and count the paths through it in linear time. Then remove the centroid and recurse on the smaller trees. The algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
 
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">Why the recursion is shallow</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
@@ -916,11 +916,11 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Heavy-light decomposition divides the nodes of a tree into a set of paths that are called heavy paths. The heavy paths are created so that a path between any two tree nodes can be represented as <i>O</i>(log <i>n</i>) subpaths of heavy paths. Using the technique, we can manipulate nodes on paths between tree nodes almost like elements in an array, with only an additional <i>O</i>(log <i>n</i>) factor.</p>
+    <p class="lead" data-reveal>Heavy-light decomposition divides the nodes of a tree into a set of heavy paths. These are created so that a path between any two nodes can be represented as <i>O</i>(log <i>n</i>) subpaths of heavy paths. The technique lets us manipulate nodes on paths almost like array elements, with only an extra <i>O</i>(log <i>n</i>) factor.</p>
 
-    <p class="ch10-prose" data-reveal>To construct the heavy paths, we first root the tree arbitrarily. Then, we start the first heavy path at the root of the tree and always move to a node that has a maximum-size subtree. After this, we recursively process the remaining subtrees. For example, in Fig. 10.28, there are four heavy paths: <span class="ch10-mono">1–2–6–8</span>, <span class="ch10-mono">3</span>, <span class="ch10-mono">4–7</span>, and <span class="ch10-mono">5</span> (note that two of the paths only have one node).</p>
+    <p class="ch10-prose" data-reveal>To construct the heavy paths, root the tree arbitrarily. Start the first heavy path at the root and always move to the child with a maximum-size subtree. Then recursively process the remaining subtrees. For example, in Fig. 10.28, there are four heavy paths: <span class="ch10-mono">1–2–6–8</span>, <span class="ch10-mono">3</span>, <span class="ch10-mono">4–7</span>, and <span class="ch10-mono">5</span> (two of them have only one node).</p>
 
-    <p class="ch10-prose" data-reveal>Now, consider any path between two nodes in the tree. Since we always chose the maximum-size subtree when creating heavy paths, this guarantees that we can divide the path into <i>O</i>(log <i>n</i>) subpaths so that each of them is a subpath of a single heavy path. For example, in Fig. 10.28, the path between nodes 7 and 8 can be divided into two heavy subpaths: first 7–4, then 1–2–6–8.</p>
+    <p class="ch10-prose" data-reveal>Now consider any path between two nodes. Choosing the maximum-size subtree guarantees that we can divide the path into <i>O</i>(log <i>n</i>) subpaths so that each of them is a subpath of a single heavy path. For example, in Fig. 10.28, the path between nodes 7 and 8 divides into two heavy subpaths: first 7–4, then 1–2–6–8.</p>
 
     <div class="ch10-lab ch10-hld" id="ch10Hld" data-reveal>
       <div class="ch10-lab__head">
@@ -978,12 +978,12 @@
       <p class="ch10-lab__note" id="ch10HldNote">The light edge 4–1 joins the two heavy subpaths. The decomposition stores each side in its own segment tree.</p>
     </div>
 
-    <p class="ch10-prose" data-reveal>The benefit of heavy-light decomposition is that each heavy path can be treated like an array of nodes. For example, we can assign a segment tree for each heavy path and support sophisticated path queries, such as calculating the minimum node value in a path or increasing the value of every node in a path. Such queries can be processed in <i>O</i>(log<sup>2</sup> <i>n</i>) time, because each path consists of <i>O</i>(log <i>n</i>) heavy paths and each heavy path can be processed in <i>O</i>(log <i>n</i>) time.</p>
+    <p class="ch10-prose" data-reveal>The benefit of heavy-light decomposition is that each heavy path can be treated like an array of nodes. For example, we can assign a segment tree to each heavy path and support path queries, such as the minimum node value in a path or increasing every value in a path. Such queries take <i>O</i>(log<sup>2</sup> <i>n</i>) time, because each path consists of <i>O</i>(log <i>n</i>) heavy paths, each processed in <i>O</i>(log <i>n</i>) time.</p>
 
     <details class="note ch10-note" data-reveal>
       <summary><span class="note__label">When not to use it</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>While many problems can be solved using heavy-light decomposition, it is good to keep in mind that there is often another solution that is easier to implement. In particular, the techniques presented in Sect. 10.2.2 can often be used instead of heavy-light decomposition.</p>
+        <p>While heavy-light decomposition solves many problems, keep in mind that another solution is often easier to implement. In particular, the techniques in Sect. 10.2.2 can often replace it.</p>
         <p class="ch10-fine"><sup>1</sup> Sleator and Tarjan introduced the idea in the context of their link/cut tree data structure.</p>
       </div>
     </details>

@@ -189,7 +189,7 @@
 
     <p class="statement" data-reveal>Given a set of coin values and a target sum, use as few coins as possible. The obvious strategy is greedy — and it is wrong.</p>
 
-    <p class="lead" data-reveal>Suppose that we are given a set of coin values coins = {<i>c</i><sub>1</sub>, <i>c</i><sub>2</sub>, …, <i>c</i><sub>k</sub>} and a target sum of money <i>n</i>, and we are asked to construct the sum <i>n</i> using as few coins as possible. There are no restrictions on how many times we can use each coin value. For example, if coins = {1, 2, 5} and <i>n</i> = 12, the optimal solution is 5 + 5 + 2 = 12, which requires three coins. The problem is small enough to see the whole idea of dynamic programming, and rich enough to need it.</p>
+    <p class="lead" data-reveal>Suppose we are given coin values coins = {<i>c</i><sub>1</sub>, <i>c</i><sub>2</sub>, …, <i>c</i><sub>k</sub>} and a target sum <i>n</i>, and asked to construct <i>n</i> with as few coins as possible. There is no limit on how often we use each coin value. For example, with coins = {1, 2, 5} and <i>n</i> = 12, the optimum is 5 + 5 + 2 = 12, three coins. The problem is small enough to see the whole idea of dynamic programming, and rich enough to need it.</p>
 
     <div class="ch06-def" data-reveal>
       <div class="ch06-def__head">
@@ -208,7 +208,7 @@
       </div>
     </div>
 
-    <p class="closing-line" data-reveal>There is a simple greedy algorithm for the problem, but it does not always produce an optimal solution. However, using dynamic programming, we can create an efficient algorithm that always finds an optimal solution.</p>
+    <p class="closing-line" data-reveal>There is a simple greedy algorithm, but it does not always produce an optimal solution. Using dynamic programming, we can create an efficient algorithm that always finds one.</p>
   </div>
 </section>
 
@@ -224,14 +224,14 @@
 
     <div class="split2 ch06-greedy-split">
       <div data-reveal>
-        <p>There is a natural greedy algorithm for solving the problem: always select the largest possible coin so that the sum of coin values does not exceed the target sum. For example, if <i>n</i> = 12, we first select two coins of value 5, and then one coin of value 2, which completes the solution. This looks like a reasonable strategy, but is it always optimal?</p>
-        <p class="ch06-gap">It turns out that this strategy does not always work. For example, if coins = {1, 3, 4} and <i>n</i> = 6, the optimal solution has only two coins (3 + 3 = 6) but the greedy strategy produces a solution with three coins (4 + 1 + 1 = 6).</p>
-        <p class="ch06-gap">This simple counterexample shows that the greedy algorithm is not correct. How could we solve the problem, then? Of course, we could try to find another greedy algorithm, but there are no other obvious strategies that we could consider.</p>
+        <p>There is a natural greedy algorithm: always select the largest coin that keeps the sum within the target. For example, if <i>n</i> = 12, we select two coins of value 5, then one of value 2, which completes the solution. This looks like a reasonable strategy, but is it always optimal?</p>
+        <p class="ch06-gap">It turns out that this strategy does not always work. For example, if coins = {1, 3, 4} and <i>n</i> = 6, the optimal solution has two coins (3 + 3 = 6), but greedy produces three (4 + 1 + 1 = 6).</p>
+        <p class="ch06-gap">This simple counterexample shows that greedy is not correct. How could we solve the problem, then? We could look for another greedy algorithm, but there are no other obvious strategies to consider.</p>
         <details class="note ch06-note">
           <summary><span class="note__label">Why not try every combination?</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
-            <p>Another possibility would be to create a brute force algorithm that goes through all possible ways to select coins. Such an algorithm would surely give correct results, but it would be very slow on large inputs.</p>
-            <p>However, using dynamic programming, we can create an algorithm that is almost like a brute force algorithm but it is also efficient. Thus, we can both be sure that the algorithm is correct and use it for processing large inputs. Furthermore, we can use the same technique for solving a large number of other problems.</p>
+            <p>Another possibility is a brute force algorithm that goes through all possible ways to select coins. It would surely give correct results, but be very slow on large inputs.</p>
+            <p>Using dynamic programming, we can create an algorithm that is almost like brute force but also efficient. Thus we can be sure it is correct and still use it on large inputs. Furthermore, the same technique solves a large number of other problems.</p>
           </div>
         </details>
       </div>
@@ -274,9 +274,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>To use dynamic programming, we should formulate the problem recursively so that the solution to the problem can be calculated from solutions to smaller subproblems. In the coin problem, a natural recursive problem is to calculate values of a function <i>solve</i>(<i>x</i>): what is the minimum number of coins required to form a sum <i>x</i>?</p>
+    <p class="lead" data-reveal>To use dynamic programming, we formulate the problem recursively, so that its solution follows from solutions to smaller subproblems. In the coin problem, a natural recursive problem is the function <i>solve</i>(<i>x</i>): what is the minimum number of coins required to form a sum <i>x</i>?</p>
 
-    <p data-reveal style="max-width:760px">Clearly, the values of the function depend on the values of the coins. For example, if coins = {1, 3, 4}, the first values of the function are <i>solve</i>(0) = 0, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3. The essential property of <i>solve</i> is that its values can be recursively calculated from its smaller values. The idea is to focus on the first coin that we choose for the sum. For example, in the above scenario, the first coin can be either 1, 3 or 4. If we first choose coin 1, the remaining task is to form the sum 9 using the minimum number of coins, which is a subproblem of the original problem. Of course, the same applies to coins 3 and 4. Thus, we can use the following recursive formula to calculate the minimum number of coins.</p>
+    <p data-reveal style="max-width:760px">Clearly, the values of <i>solve</i> depend on the coin values. For example, if coins = {1, 3, 4}, the first values are <i>solve</i>(0) = 0, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3. The essential property of <i>solve</i> is that its values can be calculated recursively from smaller values. The idea is to focus on the first coin we choose for the sum. In the above scenario, that coin can be 1, 3 or 4. If we first choose 1, the remaining task is to form the sum 9 using the minimum number of coins, a subproblem of the original. The same applies to coins 3 and 4. Thus we can use the following recursive formula.</p>
 
     <div class="ch06-formula" data-reveal>
       <div class="ch06-formula__head">
@@ -333,7 +333,7 @@
       </div>
     </div>
 
-    <p data-reveal style="max-width:760px">The added lines are the whole idea. The function handles the base cases <i>x</i> &lt; 0 and <i>x</i> = 0 as previously. Then it checks from <code>ready[x]</code> if <i>solve</i>(<i>x</i>) has already been stored in <code>value[x]</code>, and if it is, the function directly returns it. Otherwise the function calculates the value of <i>solve</i>(<i>x</i>) recursively and stores it in <code>value[x]</code>. This function works efficiently, because the answer for each parameter <i>x</i> is calculated recursively only once. The time complexity of the algorithm is <i>O</i>(<i>n</i><i>k</i>), where <i>n</i> is the target sum and <i>k</i> is the number of coins.</p>
+    <p data-reveal style="max-width:760px">The added lines are the whole idea. The function handles the base cases <i>x</i> &lt; 0 and <i>x</i> = 0 as before. Then it checks <code>ready[x]</code> to see whether <i>solve</i>(<i>x</i>) is already stored in <code>value[x]</code>, and if so returns it directly. Otherwise it calculates <i>solve</i>(<i>x</i>) recursively and stores the result in <code>value[x]</code>. This works efficiently, because the answer for each <i>x</i> is calculated only once. The time complexity is <i>O</i>(<i>n</i><i>k</i>), where <i>n</i> is the target sum and <i>k</i> the number of coins.</p>
 
     <div class="ch06-lab" id="coinLab" data-reveal>
       <div class="ch06-lab__head">
@@ -367,7 +367,7 @@
     </div>
 
     <h3 class="ch06-h3" data-reveal>Iterative implementation</h3>
-    <p data-reveal style="max-width:760px">Note that we can also iteratively construct the array <code>value</code> using a loop. In fact, most competitive programmers prefer this implementation, because it is shorter and has smaller constant factors. From now on, we also use iterative implementations in our examples. Still, it is often easier to think about dynamic programming solutions in terms of recursive functions.</p>
+    <p data-reveal style="max-width:760px">We can also construct the array <code>value</code> iteratively with a loop. Most competitive programmers prefer this implementation, because it is shorter and has smaller constant factors. From now on, our examples use iterative implementations. Still, it is often easier to think about dynamic programming in terms of recursive functions.</p>
 
     <div class="code-card" data-code-card="coins" data-reveal>
       <div class="code-card__head">
@@ -388,7 +388,7 @@
     <div class="ch06-construct" data-reveal>
       <div class="ch06-construct__copy">
         <span class="kicker">Constructing a solution</span>
-        <p>Sometimes we are asked both to find the value of an optimal solution and to give an example how such a solution can be constructed. To construct an optimal solution in our coin problem, we can declare a new array that indicates for each sum of money the first coin in an optimal solution. After this, the following code prints the coins that appear in an optimal solution for the sum <i>n</i>.</p>
+        <p>Sometimes we are asked both to find the value of an optimal solution and to show how one can be constructed. In the coin problem, we can declare an array that indicates, for each sum, the first coin in an optimal solution. The following code prints the coins in an optimal solution for the sum <i>n</i>.</p>
       </div>
       <pre class="ch06-code ch06-code--small"><code>while (n &gt; 0) {
   cout &lt;&lt; first[n] &lt;&lt; "\n";
@@ -412,9 +412,9 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Let us now consider another variant of the coin problem where our task is to calculate the total number of ways to produce a sum <i>x</i> using the coins.</p>
+    <p class="lead" data-reveal>Let us consider another variant of the coin problem: counting the number of ways to produce a sum <i>x</i> using the coins.</p>
 
-    <p data-reveal style="max-width:760px">For example, if coins = {1, 3, 4} and <i>x</i> = 5, there are a total of 6 ways. Again, we can solve the problem recursively. Let <i>solve</i>(<i>x</i>) denote the number of ways we can form the sum <i>x</i>. For example, if coins = {1, 3, 4}, then <i>solve</i>(5) = 6 and the recursive formula is <i>solve</i>(<i>x</i>) = <i>solve</i>(<i>x</i> − 1) + <i>solve</i>(<i>x</i> − 3) + <i>solve</i>(<i>x</i> − 4).</p>
+    <p data-reveal style="max-width:760px">For example, if coins = {1, 3, 4} and <i>x</i> = 5, there are 6 ways. Again, we can solve the problem recursively. Let <i>solve</i>(<i>x</i>) denote the number of ways to form the sum <i>x</i>. With coins = {1, 3, 4}, <i>solve</i>(5) = 6 and the recursive formula is <i>solve</i>(<i>x</i>) = <i>solve</i>(<i>x</i> − 1) + <i>solve</i>(<i>x</i> − 3) + <i>solve</i>(<i>x</i> − 4).</p>
 
     <div class="ch06-ways" data-reveal>
       <div class="ch06-ways__head">
@@ -441,7 +441,7 @@
             <div class="ch06-formula__case ch06-formula__case--wide"><span><i>x</i> &gt; 0</span><span class="ch06-formula__val">Σ<sub><i>c</i> ∈ coins</sub> <i>solve</i>(<i>x</i> − <i>c</i>)</span><span class="ch06-formula__why">add the branches</span></div>
           </div>
         </div>
-        <p class="ch06-small-gap">Often the number of solutions is so large that it is not required to calculate the exact number but it is enough to give the answer modulo <i>m</i> where, for example, <i>m</i> = 10<sup>9</sup> + 7. This can be done by changing the code so that all calculations are done modulo <i>m</i>. In the above code, it suffices to add the line <code>count[x] %= m;</code> after the line <code>count[x] += count[x-c];</code></p>
+        <p class="ch06-small-gap">Often the number of solutions is so large that we only need it modulo <i>m</i>, where, for example, <i>m</i> = 10<sup>9</sup> + 7. We can do this by making all calculations modulo <i>m</i>. In the above code, it suffices to add the line <code>count[x] %= m;</code> after <code>count[x] += count[x-c];</code></p>
       </div>
 
       <div data-reveal style="--d:.1s">
@@ -477,7 +477,7 @@ for (int x = 1; x &lt;= n; x++) {
 
     <p class="statement" data-reveal>Define the state, write the transition, fill the table in an order that respects it. The same recipe solves a surprising range of problems.</p>
 
-    <p class="lead" data-reveal>After having discussed the basic concepts of dynamic programming, we are now ready to go through a set of problems that can be efficiently solved using dynamic programming. As we will see, dynamic programming is a versatile technique that has many applications in algorithm design.</p>
+    <p class="lead" data-reveal>Having discussed the basic concepts of dynamic programming, we are ready to go through a set of problems it can solve efficiently. As we will see, dynamic programming is a versatile technique with many applications in algorithm design.</p>
 
     <div class="ch06-agenda" data-reveal>
       <span class="ch06-agenda__item"><i>6.2.1</i>Longest increasing subsequence</span>
@@ -499,9 +499,9 @@ for (int x = 1; x &lt;= n; x++) {
       </div>
     </div>
 
-    <p class="lead" data-reveal>The longest increasing subsequence in an array of <i>n</i> elements is a maximum-length sequence of array elements that goes from left to right, and each element in the sequence is larger than the previous element.</p>
+    <p class="lead" data-reveal>The longest increasing subsequence in an array of <i>n</i> elements is a maximum-length sequence that goes from left to right, each element larger than the previous one.</p>
 
-    <p data-reveal style="max-width:760px">We can efficiently find the longest increasing subsequence in an array using dynamic programming. Let <i>length</i>(<i>k</i>) denote the length of the longest increasing subsequence that ends at position <i>k</i>. To calculate a value of <i>length</i>(<i>k</i>), we should find a position <i>i</i> &lt; <i>k</i> for which <code>array[i] &lt; array[k]</code> and <i>length</i>(<i>i</i>) is as large as possible. Then we know that <i>length</i>(<i>k</i>) = <i>length</i>(<i>i</i>) + 1, because this is an optimal way to append <code>array[k]</code> to a subsequence. However, if there is no such position <i>i</i>, then <i>length</i>(<i>k</i>) = 1, which means that the subsequence only contains <code>array[k]</code>.</p>
+    <p data-reveal style="max-width:760px">We can find the longest increasing subsequence efficiently using dynamic programming. Let <i>length</i>(<i>k</i>) denote the length of the longest increasing subsequence ending at position <i>k</i>. To calculate <i>length</i>(<i>k</i>), find a position <i>i</i> &lt; <i>k</i> with <code>array[i] &lt; array[k]</code> and <i>length</i>(<i>i</i>) as large as possible. Then <i>length</i>(<i>k</i>) = <i>length</i>(<i>i</i>) + 1, the optimal way to append <code>array[k]</code> to a subsequence. If there is no such position, <i>length</i>(<i>k</i>) = 1, and the subsequence only contains <code>array[k]</code>.</p>
 
     <div class="ch06-lis" id="lisLab" data-reveal>
       <div class="ch06-lis__head">
@@ -517,8 +517,8 @@ for (int x = 1; x &lt;= n; x++) {
 
     <div class="split2 ch06-lis-split">
       <div data-reveal>
-        <p>For example, <i>length</i>(6) = 4, because the longest increasing subsequence that ends at position 6 consists of 4 elements. Since all values of the function can be calculated from its smaller values, we can use dynamic programming to calculate the values. In the following code, the values of the function will be stored in an array <i>length</i>. The resulting algorithm clearly works in <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
-        <p class="ch06-gap">In this problem, it is also possible to calculate the dynamic programming values more efficiently in <i>O</i>(<i>n</i> log <i>n</i>) time. Can you find a way to do this?</p>
+        <p>For example, <i>length</i>(6) = 4, because the longest increasing subsequence ending at position 6 has 4 elements. Since all values can be calculated from smaller values, we can use dynamic programming. In the code below, the values are stored in an array <i>length</i>. The algorithm clearly works in <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
+        <p class="ch06-gap">The dynamic programming values can also be calculated more efficiently, in <i>O</i>(<i>n</i> log <i>n</i>) time. Can you find a way to do this?</p>
       </div>
       <div class="code-card" data-code-card="lis" data-reveal style="--d:.08s">
         <div class="code-card__head">
@@ -549,9 +549,9 @@ for (int x = 1; x &lt;= n; x++) {
       </div>
     </div>
 
-    <p class="lead" data-reveal>Our next problem is to find a path from the upper-left corner to the lower-right corner of an <i>n</i> × <i>n</i> grid, with the restriction that we may only move down and right. Each square contains an integer, and the path should be constructed so that the sum of the values along the path is as large as possible.</p>
+    <p class="lead" data-reveal>Our next problem is to find a path from the upper-left to the lower-right corner of an <i>n</i> × <i>n</i> grid, moving only down and right. Each square contains an integer, and the path should maximize the sum of values along it.</p>
 
-    <p data-reveal style="max-width:760px">Assume that the rows and columns of the grid are numbered from 1 to <i>n</i>, and <code>value[y][x]</code> equals the value of square (<i>y</i>, <i>x</i>). Let <i>sum</i>(<i>y</i>, <i>x</i>) denote the maximum sum on a path from the upper-left corner to square (<i>y</i>, <i>x</i>). Then, <i>sum</i>(<i>n</i>, <i>n</i>) tells us the maximum sum from the upper-left corner to the lower-right corner. Now we can use the formula, which is based on the observation that a path that ends at square (<i>y</i>, <i>x</i>) can come either from square (<i>y</i>, <i>x</i>−1) or from square (<i>y</i>−1, <i>x</i>). Thus, we select the direction that maximizes the sum.</p>
+    <p data-reveal style="max-width:760px">Assume the rows and columns are numbered from 1 to <i>n</i>, and <code>value[y][x]</code> is the value of square (<i>y</i>, <i>x</i>). Let <i>sum</i>(<i>y</i>, <i>x</i>) be the maximum sum on a path from the upper-left corner to (<i>y</i>, <i>x</i>). Then <i>sum</i>(<i>n</i>, <i>n</i>) is the maximum sum to the lower-right corner. The formula rests on the observation that a path ending at (<i>y</i>, <i>x</i>) comes either from (<i>y</i>, <i>x</i>−1) or from (<i>y</i>−1, <i>x</i>). Thus we select the direction that maximizes the sum.</p>
 
     <div class="ch06-gridlab" id="gridLab" data-reveal>
       <div class="ch06-gridlab__main">
@@ -574,7 +574,7 @@ for (int x = 1; x &lt;= n; x++) {
     <div class="split2 ch06-grid-split">
       <div data-reveal>
         <p>We assume that <i>sum</i>(<i>y</i>, <i>x</i>) = 0 if <i>y</i> = 0 or <i>x</i> = 0, so the recursive formula also works for leftmost and topmost squares.</p>
-        <p class="ch06-gap">Since the function <i>sum</i> has two parameters, the dynamic programming array also has two dimensions. The time complexity of the algorithm is <i>O</i>(<i>n</i><sup>2</sup>).</p>
+        <p class="ch06-gap">Since <i>sum</i> has two parameters, the dynamic programming array has two dimensions. The time complexity is <i>O</i>(<i>n</i><sup>2</sup>).</p>
       </div>
       <div data-reveal style="--d:.08s">
         <pre class="ch06-code ch06-code--light"><code>for (int y = 1; y &lt;= n; y++) {
@@ -599,9 +599,9 @@ for (int x = 1; x &lt;= n; x++) {
       </div>
     </div>
 
-    <p class="lead" data-reveal>The term knapsack refers to problems where a set of objects is given, and subsets with some properties have to be found. Knapsack problems can often be solved using dynamic programming. In this section, we focus on the following problem: Given a list of weights [<i>w</i><sub>1</sub>, <i>w</i><sub>2</sub>, …, <i>w<sub>n</sub></i>], determine all sums that can be constructed using the weights.</p>
+    <p class="lead" data-reveal>The term knapsack refers to problems where a set of objects is given and subsets with certain properties must be found. Such problems can often be solved using dynamic programming. Here we focus on the following: given a list of weights [<i>w</i><sub>1</sub>, <i>w</i><sub>2</sub>, …, <i>w<sub>n</sub></i>], determine all sums that can be constructed using the weights.</p>
 
-    <p data-reveal style="max-width:760px">To solve the problem, we focus on subproblems where we only use the first <i>k</i> weights to construct sums. Let <i>possible</i>(<i>x</i>, <i>k</i>) = true if we can construct a sum <i>x</i> using the first <i>k</i> weights, and otherwise <i>possible</i>(<i>x</i>, <i>k</i>) = false. The values of the function can be recursively calculated using the formula below, which is based on the fact that we can either use or not use the weight <i>w<sub>k</sub></i> in the sum. If we use <i>w<sub>k</sub></i>, the remaining task is to form the sum <i>x</i> − <i>w<sub>k</sub></i> using the first <i>k</i> − 1 weights, and if we do not use <i>w<sub>k</sub></i>, the remaining task is to form the sum <i>x</i> using the first <i>k</i> − 1 weights.</p>
+    <p data-reveal style="max-width:760px">To solve the problem, we focus on subproblems that use only the first <i>k</i> weights. Let <i>possible</i>(<i>x</i>, <i>k</i>) = true if we can construct a sum <i>x</i> using the first <i>k</i> weights, otherwise false. The values can be calculated recursively with the formula below, based on whether we use the weight <i>w<sub>k</sub></i> in the sum. If we use <i>w<sub>k</sub></i>, the remaining task is to form <i>x</i> − <i>w<sub>k</sub></i> from the first <i>k</i> − 1 weights; if not, it is to form <i>x</i> from the first <i>k</i> − 1 weights.</p>
 
     <div class="ch06-formula ch06-formula--single" data-reveal>
       <div class="ch06-formula__head">
@@ -609,7 +609,7 @@ for (int x = 1; x &lt;= n; x++) {
         <span class="ch06-formula__name"><i>possible</i>(<i>x</i>, <i>k</i>)</span>
       </div>
       <p class="ch06-formula__big"><i>possible</i>(<i>x</i>, <i>k</i>) = <i>possible</i>(<i>x</i> − <i>w<sub>k</sub></i>, <i>k</i> − 1) <span class="ch06-or">or</span> <i>possible</i>(<i>x</i>, <i>k</i> − 1)</p>
-      <p class="ch06-formula__foot">The base cases are <i>possible</i>(<i>x</i>, 0) = true if <i>x</i> = 0, and false if <i>x</i> ≠ 0, because if no weights are used, we can only form the sum 0. Finally, <i>possible</i>(<i>x</i>, <i>n</i>) tells us whether we can construct a sum <i>x</i> using all weights.</p>
+      <p class="ch06-formula__foot">The base cases are <i>possible</i>(<i>x</i>, 0) = true if <i>x</i> = 0, false otherwise, because with no weights we can only form the sum 0. Finally, <i>possible</i>(<i>x</i>, <i>n</i>) tells us whether we can construct a sum <i>x</i> using all weights.</p>
     </div>
 
     <div class="ch06-knap" id="knapLab" data-reveal>
@@ -618,14 +618,14 @@ for (int x = 1; x &lt;= n; x++) {
         <span class="ch06-knap__legend"><i class="ch06-mark">✓</i> constructible</span>
       </div>
       <div class="ch06-knap__scroll" id="knapTable"></div>
-      <p class="ch06-knap__note">Row <i>k</i> uses only the first <i>k</i> weights. Row 2, for instance, tells us that [1, 3] can construct 0, 1, 3, and 4. Hover a column heading to see one subset that makes that sum.</p>
+      <p class="ch06-knap__note">Row <i>k</i> uses only the first <i>k</i> weights. Row 2, for instance, shows that [1, 3] can construct 0, 1, 3, and 4. Hover a column heading to see one subset that makes that sum.</p>
     </div>
 
     <div class="split2 ch06-knap-split">
       <div data-reveal>
         <h3 class="ch06-h3">One array is enough</h3>
-        <p>It turns out that there is also a more compact way to implement the dynamic programming calculation, using only a one-dimensional array <code>possible[x]</code> that indicates whether we can construct a subset with sum <i>x</i>. The trick is to update the array from right to left for each new weight.</p>
-        <p class="ch06-gap">Let <i>m</i> denote the total sum of the weights. The two-dimensional version takes <i>O</i>(<i>n</i><i>m</i>) time. Note that the general dynamic programming idea presented in this section can also be used in other knapsack problems, such as in a situation where objects have weights and values and we have to find a maximum-value subset whose weight does not exceed a given limit.</p>
+        <p>There is also a more compact way to implement the calculation, using one array <code>possible[x]</code> that indicates whether we can construct a subset with sum <i>x</i>. The trick is to update it from right to left for each new weight.</p>
+        <p class="ch06-gap">Let <i>m</i> denote the total sum of the weights. The two-dimensional version takes <i>O</i>(<i>n</i><i>m</i>) time. The same idea applies to other knapsack problems, such as finding a maximum-value subset whose weight does not exceed a given limit.</p>
       </div>
       <div data-reveal style="--d:.08s">
         <pre class="ch06-code ch06-code--light"><code>possible[0] = true;
@@ -653,9 +653,9 @@ for (int k = 1; k &lt;= n; k++) {
       </div>
     </div>
 
-    <p class="lead" data-reveal>Using dynamic programming, it is often possible to change an iteration over permutations into an iteration over subsets. The benefit of this is that <i>n</i>!, the number of permutations, is much larger than 2<sup><i>n</i></sup>, the number of subsets. For example, if <i>n</i> = 20, <i>n</i>! ≈ 2.4 × 10<sup>18</sup> and 2<sup><i>n</i></sup> ≈ 10<sup>6</sup>. Thus, for certain values of <i>n</i>, we can efficiently go through the subsets but not through the permutations.</p>
+    <p class="lead" data-reveal>Using dynamic programming, we can often change an iteration over permutations into one over subsets. The benefit is that <i>n</i>!, the number of permutations, is much larger than 2<sup><i>n</i></sup>, the number of subsets. For example, if <i>n</i> = 20, <i>n</i>! ≈ 2.4 × 10<sup>18</sup> and 2<sup><i>n</i></sup> ≈ 10<sup>6</sup>. Thus, for certain <i>n</i>, we can go through the subsets efficiently but not the permutations.</p>
 
-    <p data-reveal style="max-width:760px">As an example, consider the following problem: There is an elevator with maximum weight <i>x</i>, and <i>n</i> people who want to get from the ground floor to the top floor. The people are numbered 0, 1, …, <i>n</i> − 1, and the weight of person <i>i</i> is <code>weight[i]</code>. What is the minimum number of rides needed to get everybody to the top floor? The problem can be easily solved in <i>O</i>(<i>n</i>!<i>n</i>) time by testing all possible permutations of <i>n</i> people. However, we can use dynamic programming to create a more efficient <i>O</i>(2<sup><i>n</i></sup><i>n</i>) time algorithm. The idea is to calculate for each subset of people two values: the minimum number of rides needed and the minimum weight of people who ride in the last group.</p>
+    <p data-reveal style="max-width:760px">As an example, consider an elevator with maximum weight <i>x</i> and <i>n</i> people who want to get from the ground floor to the top floor. The people are numbered 0, 1, …, <i>n</i> − 1, and person <i>i</i> has weight <code>weight[i]</code>. What is the minimum number of rides needed to get everybody to the top floor? The problem can be solved in <i>O</i>(<i>n</i>!<i>n</i>) time by testing all permutations of the <i>n</i> people. However, dynamic programming gives a more efficient <i>O</i>(2<sup><i>n</i></sup><i>n</i>) algorithm. The idea is to calculate for each subset two values: the minimum number of rides and the minimum weight of the people in the last group.</p>
 
     <div class="ch06-elev" data-reveal>
       <div class="ch06-elev__head">
@@ -685,8 +685,8 @@ for (int k = 1; k &lt;= n; k++) {
 
     <div class="split2 ch06-sub-split">
       <div data-reveal>
-        <p>We can calculate the values of the functions recursively and then apply dynamic programming. Let <i>rides</i>(<i>S</i>) denote the minimum number of rides for a subset <i>S</i>, and let <i>last</i>(<i>S</i>) denote the minimum weight of the last ride in a solution where the number of rides is minimum. To calculate the values for a subset <i>S</i>, we go through all people who belong to <i>S</i> and optimally choose the last person <i>p</i> who enters the elevator. Each such choice yields a subproblem for a smaller subset of people. If <i>last</i>(<i>S</i> \ <i>p</i>) + <code>weight[p]</code> ≤ <i>x</i>, we can add <i>p</i> to the last ride. Otherwise, we have to reserve a new ride that only contains <i>p</i>.</p>
-        <p class="ch06-gap">Note that the above loop guarantees that for any two subsets <i>S</i><sub>1</sub> and <i>S</i><sub>2</sub> such that <i>S</i><sub>1</sub> ⊂ <i>S</i><sub>2</sub>, we process <i>S</i><sub>1</sub> before <i>S</i><sub>2</sub>. Thus, the dynamic programming values are calculated in the correct order.</p>
+        <p>We can calculate the values recursively and then apply dynamic programming. Let <i>rides</i>(<i>S</i>) be the minimum number of rides for a subset <i>S</i>, and <i>last</i>(<i>S</i>) the minimum weight of the last ride in such a solution. For a subset <i>S</i>, we go through all people in <i>S</i> and optimally choose the last person <i>p</i> to enter the elevator. Each choice yields a subproblem for a smaller subset. If <i>last</i>(<i>S</i> \ <i>p</i>) + <code>weight[p]</code> ≤ <i>x</i>, we can add <i>p</i> to the last ride. Otherwise, we reserve a new ride containing only <i>p</i>.</p>
+        <p class="ch06-gap">The above loop guarantees that for any two subsets <i>S</i><sub>1</sub> ⊂ <i>S</i><sub>2</sub>, we process <i>S</i><sub>1</sub> before <i>S</i><sub>2</sub>. Thus the dynamic programming values are calculated in the correct order.</p>
         <div class="ch06-fact">
           <div><span>20!</span><strong>≈ 2.4 × 10<sup>18</sup></strong><em>permutations</em></div>
           <div><span>2<sup>20</sup></span><strong>≈ 1.0 × 10<sup>6</sup></strong><em>subsets</em></div>
@@ -727,7 +727,7 @@ for (int s = 1; s &lt; (1 &lt;&lt; n); s++) {
       </div>
     </div>
 
-    <p class="lead" data-reveal>Sometimes the states of a dynamic programming solution are more complex than fixed combinations of values. As an example, consider the problem of calculating the number of distinct ways to fill an <i>n</i> × <i>m</i> grid using 1 × 2 and 2 × 1 size tiles. For example, there are a total of 781 ways to fill the 4 × 7 grid, one of them being the solution below.</p>
+    <p class="lead" data-reveal>Sometimes the states of a dynamic programming solution are more complex than fixed combinations of values. Consider the problem of counting the distinct ways to fill an <i>n</i> × <i>m</i> grid using 1 × 2 and 2 × 1 tiles. There are 781 ways to fill the 4 × 7 grid, one of them being the solution below.</p>
 
     <div class="ch06-tiling" data-reveal>
       <div class="ch06-tiling__stage">
@@ -783,14 +783,14 @@ for (int s = 1; s &lt; (1 &lt;&lt; n); s++) {
       <p class="ch06-tiling__cap">Hover or focus a row string to locate it in the drawing.</p>
     </div>
 
-    <p data-reveal style="max-width:780px">The problem can be solved using dynamic programming by going through the grid row by row. Each row in a solution can be represented as a string that contains <i>m</i> characters from the set {⊓, ⊔, ⊏, ⊐}. Suppose that the rows of the grid are indexed from 1 to <i>n</i>. Let <i>count</i>(<i>k</i>, <i>x</i>) denote the number of ways to construct a solution for rows 1 … <i>k</i> such that string <i>x</i> corresponds to row <i>k</i>. It is possible to use dynamic programming here, because the state of a row is constrained only by the state of the previous row. A solution is valid if row 1 does not contain the character ⊔, row <i>n</i> does not contain the character ⊓, and all consecutive rows are compatible.</p>
+    <p data-reveal style="max-width:780px">The problem can be solved with dynamic programming, row by row. Each row can be represented as a string of <i>m</i> characters from the set {⊓, ⊔, ⊏, ⊐}. Suppose the rows are indexed from 1 to <i>n</i>. Let <i>count</i>(<i>k</i>, <i>x</i>) denote the number of ways to construct rows 1 … <i>k</i> such that string <i>x</i> corresponds to row <i>k</i>. Dynamic programming applies because a row's state is constrained only by the previous row. A solution is valid if row 1 does not contain ⊔, row <i>n</i> does not contain ⊓, and all consecutive rows are compatible.</p>
 
-    <p data-reveal style="max-width:780px">Since a row consists of <i>m</i> characters and there are four choices for each character, the number of distinct rows is at most 4<sup><i>m</i></sup>. We can go through the <i>O</i>(4<sup><i>m</i></sup>) possible states for each row, and for each state, there are <i>O</i>(4<sup><i>m</i></sup>) possible states for the previous row, so the time complexity of the solution is <i>O</i>(<i>n</i>4<sup>2<i>m</i></sup>). In practice, it is a good idea to rotate the grid so that the shorter side has length <i>m</i>, because the factor 4<sup>2<i>m</i></sup> dominates the time complexity. It is possible to make the solution more efficient by using a more compact representation for the rows. It turns out that it suffices to know which columns of the previous row contain the upper square of a vertical tile. Thus, we can represent a row using only the characters ⊓ and □, where □ is a combination of the characters ⊔, ⊏, and ⊐. Using this representation, there are only 2<sup><i>m</i></sup> distinct rows, and the time complexity is <i>O</i>(<i>n</i>2<sup>2<i>m</i></sup>).</p>
+    <p data-reveal style="max-width:780px">Since a row has <i>m</i> characters with four choices each, the number of distinct rows is at most 4<sup><i>m</i></sup>. We can go through the <i>O</i>(4<sup><i>m</i></sup>) states for each row, and for each, <i>O</i>(4<sup><i>m</i></sup>) states for the previous row, so the time complexity is <i>O</i>(<i>n</i>4<sup>2<i>m</i></sup>). In practice, rotate the grid so that the shorter side has length <i>m</i>, because the factor 4<sup>2<i>m</i></sup> dominates. The solution can be made more efficient with a more compact row representation. It suffices to know which columns of the previous row contain the upper square of a vertical tile. Thus a row needs only the characters ⊓ and □, where □ combines ⊔, ⊏, and ⊐. With this representation there are only 2<sup><i>m</i></sup> distinct rows, and the time complexity is <i>O</i>(<i>n</i>2<sup>2<i>m</i></sup>).</p>
 
     <details class="note ch06-note ch06-note--wide" data-reveal>
       <summary><span class="note__label">A closed form, and why it is delicate</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>There is also a direct formula for calculating the number of tilings, a product over odd-indexed cosine terms:</p>
+        <p>There is also a direct formula for the number of tilings, a product over odd-indexed cosine terms:</p>
         <p class="ch06-formula__big ch06-formula__big--small">∏<sub><i>a</i>=1</sub><sup>⌈<i>n</i>/2⌉</sup> ∏<sub><i>b</i>=1</sub><sup>⌈<i>m</i>/2⌉</sup> 4 ( cos<sup>2</sup>(π<i>a</i> / (<i>n</i> + 1)) + cos<sup>2</sup>(π<i>b</i> / (<i>m</i> + 1)) )</p>
         <p>This formula is very efficient, because it calculates the number of tilings in <i>O</i>(<i>n</i><i>m</i>) time, but since the answer is a product of real numbers, a problem when using the formula is how to store the intermediate results accurately.</p>
       </div>
