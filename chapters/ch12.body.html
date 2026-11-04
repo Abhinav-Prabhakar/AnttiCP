@@ -169,7 +169,7 @@
 
     <p class="statement" data-reveal>A directed graph is <em>strongly connected</em> when every node can reach every other node.</p>
 
-    <p class="lead" data-reveal>A graph that fails this test can still be split into maximal strongly connected pieces. Each piece is a <em>strongly connected component</em>, and contracting every piece to a single node leaves a directed acyclic graph: the <em>component graph</em>.</p>
+    <p class="lead" data-reveal>A directed graph can always be divided into strongly connected components. Each such component contains a maximal set of nodes such that there is a path from any node to all other nodes, and the components form an acyclic <em>component graph</em> that represents the deep structure of the original graph.</p>
 
     <figure class="figure" data-reveal>
       <div class="figure__frame ch12-figure">
@@ -218,7 +218,7 @@
     <div class="ch12-cond">
       <div class="ch12-cond__copy" data-reveal>
         <h3>Contract, then sort</h3>
-        <p>A component graph is a DAG, so it is easier to process than the original graph. Because it has no cycles, it can be topologically sorted and handled with dynamic programming. The deep structure of a directed graph is the structure of its components, not its edges.</p>
+        <p>A component graph is a directed acyclic graph, so it is easier to process than the original graph. Since the graph does not contain cycles, we can always construct a topological sort and use dynamic programming to process it. The deep structure of a directed graph is the structure of its components, not its edges.</p>
         <ul class="chips ch12-chips" aria-label="Components of the example graph">
           <li class="chip chip--static">A = {1, 2}</li>
           <li class="chip chip--static">B = {3, 6, 7}</li>
@@ -247,7 +247,7 @@
       <div class="section-head__body"><h2 id="h1211">Kosaraju’s Algorithm</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Kosaraju’s algorithm finds every strongly connected component with two depth-first searches. The first search records the order in which nodes <em>finish</em>; the second walks that order backwards through the reversed graph.</p>
+    <p class="lead" data-reveal>Kosaraju’s algorithm is an efficient method for finding the strongly connected components of a graph. The algorithm performs two depth-first searches: the first search constructs a list of nodes according to the structure of the graph, and the second search forms the strongly connected components.</p>
 
     <div class="ch12-lab" id="ch12Kosaraju" data-reveal>
       <div class="ch12-lab__head">
@@ -344,8 +344,8 @@
     <details class="note" data-reveal>
       <summary><span class="note__label">Why the reversed order works</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>The node that finishes last in the first search belongs to a component with no outgoing edges to an unprocessed component. Reversing the edges makes that component a source, so a flood fill started there cannot leak into another component. Removing its nodes and repeating finds the next component, and so on.</p>
-        <p>Both passes touch each node and edge once, so the running time is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+        <p>After this, the algorithm goes through the list of nodes created by the first search, in reverse order. If a node does not belong to a component, the algorithm creates a new component by starting a depth-first search that adds all new nodes found during the search to the new component. Note that since all edges are reversed, the components do not “leak” to other parts of the graph.</p>
+        <p>The time complexity of the algorithm is <i>O</i>(<i>n</i> + <i>m</i>), because the algorithm performs two depth-first searches.</p>
       </div>
     </details>
   </div>
@@ -361,7 +361,7 @@
 
     <p class="lead" data-reveal>In the 2SAT problem we are given a formula</p>
     <p class="ch12-formula" data-reveal>(<i>a</i><sub>1</sub> ∨ <i>b</i><sub>1</sub>) ∧ (<i>a</i><sub>2</sub> ∨ <i>b</i><sub>2</sub>) ∧ ⋯ ∧ (<i>a</i><sub>m</sub> ∨ <i>b</i><sub>m</sub>),</p>
-    <p class="ch12-lead2" data-reveal>where every <i>a<sub>i</sub></i> and <i>b<sub>i</sub></i> is a variable or its negation. Each clause creates two implications: <i>a</i> ∨ <i>b</i> means ¬<i>a</i> → <i>b</i> and ¬<i>b</i> → <i>a</i>. The implication graph turns the formula into a directed graph, and strong connectivity decides whether a truth assignment exists.</p>
+    <p class="ch12-lead2" data-reveal>where each <i>a<sub>i</sub></i> and <i>b<sub>i</sub></i> is either a logical variable (<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x<sub>n</sub></i>) or a negation of a logical variable (¬<i>x</i><sub>1</sub>, ¬<i>x</i><sub>2</sub>, …, ¬<i>x<sub>n</sub></i>). Our task is to assign each variable a value so that the formula is true, or state that this is not possible. An instance of the 2SAT problem can be represented as an implication graph whose nodes correspond to variables <i>x<sub>i</sub></i> and negations ¬<i>x<sub>i</sub></i>, and edges determine the connections between the variables. Each pair (<i>a<sub>i</sub></i> ∨ <i>b<sub>i</sub></i>) generates two edges: ¬<i>a<sub>i</sub></i> → <i>b<sub>i</sub></i> and ¬<i>b<sub>i</sub></i> → <i>a<sub>i</sub></i>. The structure of the implication graph tells us whether it is possible to assign the values of the variables so that the formula is true. This can be done exactly when there are no nodes <i>x<sub>i</sub></i> and ¬<i>x<sub>i</sub></i> such that both nodes belong to the same strongly connected component.</p>
 
     <div class="ch12-two" id="ch12TwoSat" data-reveal>
       <div class="ch12-two__head">
@@ -416,11 +416,11 @@
       </div>
     </div>
 
-    <p class="ch12-after" data-reveal>A solution is read from the components in reverse topological order. In <i>L</i><sub>1</sub>, component D is processed first and sets <i>x</i><sub>4</sub> true; then C sets <i>x</i><sub>1</sub> and <i>x</i><sub>2</sub> false and <i>x</i><sub>3</sub> true. Components A and B only repeat values that are already fixed.</p>
+    <p class="ch12-after" data-reveal>If a solution exists, the values for the variables can be found by going through the nodes of the component graph in a reverse topological sort order. At each step, we process a component that does not contain edges that lead to an unprocessed component. When constructing the solution, we first process the component D where <i>x</i><sub>4</sub> becomes true. After this, we process the component C where <i>x</i><sub>1</sub> and <i>x</i><sub>2</sub> become false and <i>x</i><sub>3</sub> becomes true. All variables have been assigned values, so the remaining components A and B do not change the values of the variables.</p>
 
     <details class="note" data-reveal>
       <summary><span class="note__label">Why 3SAT is different</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
-      <div class="note__body"><p>With three literals per clause, a clause (<i>a</i> ∨ <i>b</i> ∨ <i>c</i>) no longer yields a pair of implications between single literals. 3SAT is NP-hard, so no efficient algorithm is known. The jump from two to three literals is a genuine change of difficulty, not an implementation detail.</p></div>
+      <div class="note__body"><p>A more difficult problem is the 3SAT problem, where each part of the formula is of the form (<i>a</i> ∨ <i>b</i> ∨ <i>c</i>). This problem is NP-hard, so no efficient algorithm for solving the problem is known. The jump from two to three literals is a genuine change of difficulty, not an implementation detail.</p></div>
     </details>
   </div>
 </section>
@@ -435,7 +435,7 @@
 
     <p class="statement" data-reveal>An Eulerian path uses every <em>edge</em> once. A Hamiltonian path visits every <em>node</em> once.</p>
 
-    <p class="lead" data-reveal>The two definitions differ by a single word, but the problems live on opposite sides of a cliff: Eulerian paths can be found in linear time, while Hamiltonian paths are NP-hard.</p>
+    <p class="lead" data-reveal>In this section we discuss two special types of paths in graphs: an Eulerian path is a path that goes through each edge exactly once, and a Hamiltonian path is a path that visits each node exactly once. While such paths look quite similar at first glance, the computational problems related to them are very different.</p>
 
     <figure class="figure" data-reveal>
       <div class="figure__frame ch12-figure">
@@ -504,18 +504,18 @@
       <div class="section-head__body"><h2 id="h1221">Eulerian Paths</h2></div>
     </div>
 
-    <p class="lead" data-reveal>An Eulerian path crosses every edge exactly once. If it begins and ends at the same node it is an Eulerian <em>circuit</em>. Existence is decided entirely by degrees.</p>
+    <p class="lead" data-reveal>An Eulerian path is a path that goes exactly once through each edge of a graph. Furthermore, if such a path starts and ends at the same node, it is called an Eulerian <em>circuit</em>. The existence of Eulerian paths and circuits depends on the degrees of the nodes.</p>
 
     <div class="split2 split2--wide">
       <div data-reveal>
         <h3 class="ch12-h3">The degree test</h3>
-        <p>An undirected graph has an Eulerian path exactly when all of its edges lie in one connected component and</p>
+        <p>First, an undirected graph has an Eulerian path exactly when all the edges belong to the same connected component and</p>
         <ul class="ch12-rules">
-          <li><span class="ch12-rule__num">1</span><span>every node has even degree, or</span></li>
-          <li><span class="ch12-rule__num">2</span><span>exactly two nodes have odd degree and all the others are even.</span></li>
+          <li><span class="ch12-rule__num">1</span><span>the degree of each node is even, or</span></li>
+          <li><span class="ch12-rule__num">2</span><span>the degree of exactly two nodes is odd, and the degree of all other nodes is even.</span></li>
         </ul>
-        <p>In the first case every Eulerian path is a circuit. In the second case the two odd-degree nodes are the endpoints of a path that is not a circuit.</p>
-        <p>For a directed graph, replace degree by indegree and outdegree: either they are equal at every node, or one node has outdegree one larger, another has indegree one larger, and all the rest balance.</p>
+        <p>In the first case, each Eulerian path is also an Eulerian circuit. In the second case, the odd-degree nodes are the endpoints of an Eulerian path, which is not an Eulerian circuit.</p>
+        <p>To determine whether a directed graph has Eulerian paths, we focus on indegrees and outdegrees of the nodes. A directed graph contains an Eulerian path exactly when all the edges belong to the same strongly connected component and either in each node the indegree equals the outdegree, or in one node the indegree is one larger than the outdegree, in another node the outdegree is one larger than the indegree, and in all other nodes the indegree equals the outdegree.</p>
 
         <div class="ch12-degrees" aria-label="Degree example">
           <div class="ch12-degree"><span class="ch12-degree__node">2</span><span class="ch12-degree__val">3</span><em>odd · start</em></div>
@@ -524,7 +524,7 @@
           <div class="ch12-degree"><span class="ch12-degree__node">3</span><span class="ch12-degree__val">2</span></div>
           <div class="ch12-degree ch12-degree--odd"><span class="ch12-degree__node">5</span><span class="ch12-degree__val">3</span><em>odd · end</em></div>
         </div>
-        <p class="ch12-fine">The trail graph above has exactly two odd-degree nodes, 2 and 5, so every Eulerian path in it runs between them. The walk 2 → 1 → 4 → 5 → 3 → 2 → 5 uses all six edges.</p>
+        <p class="ch12-fine">In the trail graph above, nodes 1, 3, and 4 have degree 2, and nodes 2 and 5 have degree 3. Exactly two nodes have an odd degree, so there is an Eulerian path between nodes 2 and 5, but the graph does not have an Eulerian circuit. The walk 2 → 1 → 4 → 5 → 3 → 2 → 5 uses all six edges.</p>
       </div>
 
       <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
@@ -572,8 +572,8 @@
     <details class="note" data-reveal>
       <summary><span class="note__label">Constructing the path: Hierholzer’s algorithm</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Start with a circuit containing one node. While some node <i>x</i> on the circuit has an unused outgoing edge, follow unused edges from <i>x</i> until the walk returns to <i>x</i>. This closes a subcircuit; splice it into the circuit at <i>x</i> and repeat. Every edge is used once, so the construction is <i>O</i>(<i>n</i> + <i>m</i>).</p>
-        <p>If the graph has an Eulerian path but no circuit, add an extra edge between the two odd-degree nodes, construct a circuit, then remove that edge from the result.</p>
+        <p>The algorithm begins with an empty circuit that contains only a single node and then extends the circuit step by step by adding subcircuits to it. The process continues until all edges have been added to the circuit. The circuit is extended by finding a node <i>x</i> that belongs to the circuit but has an outgoing edge that is not included in the circuit. Then, a new path from node <i>x</i> that only contains edges that are not yet in the circuit is constructed. Sooner or later, the path will return to node <i>x</i>, which creates a subcircuit. Every edge is used once, so the construction is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+        <p>If a graph does not have an Eulerian circuit but has an Eulerian path, we can still use Hierholzer’s algorithm to find the path by adding an extra edge to the graph and removing the edge after the circuit has been constructed. For example, in an undirected graph, we add the extra edge between the two odd-degree nodes.</p>
       </div>
     </details>
   </div>
@@ -587,9 +587,9 @@
       <div class="section-head__body"><h2 id="h1222">Hamiltonian Paths</h2></div>
     </div>
 
-    <p class="lead" data-reveal>A Hamiltonian path visits every node exactly once; if it returns to its starting node it is a Hamiltonian circuit. These definitions look like Euler’s, but no efficient general test is known.</p>
+    <p class="lead" data-reveal>A Hamiltonian path is a path that visits each node of a graph exactly once. Furthermore, if such a path begins and ends at the same node, it is called a Hamiltonian circuit. Problems related to Hamiltonian paths are NP-hard: nobody knows a general way to efficiently check if a graph has a Hamiltonian path or circuit.</p>
 
-    <p data-reveal>The problem is NP-hard. A direct backtracking search tries all <i>n</i>! orders of the nodes. Dynamic programming improves this to <i>O</i>(2<sup><i>n</i></sup><i>n</i><sup>2</sup>) by recording, for every subset <i>S</i> and every endpoint <i>x</i> ∈ <i>S</i>, whether a path through <i>S</i> can end at <i>x</i>. That is a real improvement, but it is still exponential — and the gap between the two grows fast.</p>
+    <p data-reveal>A simple way to search for a Hamiltonian path is to use a backtracking algorithm that goes through all possible ways to construct a path. The time complexity of such an algorithm is at least <i>O</i>(<i>n</i>!), because there are <i>n</i>! different ways to choose the order of <i>n</i> nodes. Then, using dynamic programming, we can create a more efficient <i>O</i>(2<sup><i>n</i></sup><i>n</i><sup>2</sup>) time solution, which determines for each subset of nodes <i>S</i> and each node <i>x</i> ∈ <i>S</i> if there is a path that visits all nodes of <i>S</i> exactly once and ends at node <i>x</i>. That is a real improvement, but it is still exponential — and the gap between the two grows fast.</p>
 
     <div class="ch12-bars" data-reveal>
       <div class="ch12-bars__head">
@@ -628,7 +628,7 @@
 
     <div class="ch12-callout" data-reveal>
       <span class="kicker">A useful special case</span>
-      <p>If the graph is complete — there is an edge between every pair of nodes — it certainly contains a Hamiltonian path. More generally, sufficient conditions can be checked cheaply even though the general problem cannot.</p>
+      <p>Of course, in some special cases we can be certain that a graph contains a Hamiltonian path. For example, if the graph is complete, i.e., there is an edge between all pairs of nodes, it surely contains a Hamiltonian path. More generally, sufficient conditions can be checked cheaply even though the general problem cannot.</p>
     </div>
   </div>
 </section>
@@ -641,7 +641,7 @@
       <div class="section-head__body"><h2 id="h1223">Applications</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Two classic constructions show how far the two path problems reach: a De Bruijn sequence is an Eulerian circuit in disguise, and a knight’s tour is a Hamiltonian path with a chessboard in between.</p>
+    <p class="lead" data-reveal>A De Bruijn sequence always corresponds to an Eulerian path in a graph where each node contains a string of <i>n</i> − 1 characters, and each edge adds one character to the string. A knight’s tour corresponds to a Hamiltonian path in a graph whose nodes represent the squares of the board, and two nodes are connected with an edge if a knight can move between the squares according to the rules of chess.</p>
 
     <div class="split2 ch12-apps">
       <figure class="ch12-figure ch12-figure--flush" data-reveal>
@@ -708,7 +708,7 @@
 
     <p class="statement" data-reveal>Send as much flow as possible from a source to a sink, without exceeding any edge’s capacity.</p>
 
-    <p class="lead" data-reveal>A flow network is a directed weighted graph with a source (no incoming edges) and a sink (no outgoing edges). Each edge has a capacity, and at every intermediate node the incoming flow must equal the outgoing flow. The size of the flow is the total leaving the source.</p>
+    <p class="lead" data-reveal>In the maximum flow problem, we are given a directed weighted graph that contains two special nodes: a source is a node with no incoming edges, and a sink is a node with no outgoing edges. Our task is to send as much flow as possible from the source to the sink. Each edge has a capacity that restricts the flow that can go through the edge, and in each intermediate node, the incoming and outgoing flow has to be equal.</p>
 
     <div class="ch12-stats" data-reveal>
       <div><span class="ch12-stats__v">7</span><span class="ch12-stats__l">maximum flow</span></div>
@@ -717,7 +717,7 @@
       <div><span class="ch12-stats__v">6</span><span class="ch12-stats__l">nodes · source 1, sink 6</span></div>
     </div>
 
-    <p data-reveal>A <em>cut</em> removes a set of edges so that the sink is no longer reachable from the source. The minimum cut is the cheapest such removal. Maximum flow and minimum cut are always equal: every flow is bounded by every cut, and the algorithm below finds a flow that meets a cut exactly. That equality is the reason the two problems are two views of one object.</p>
+    <p data-reveal>It turns out that the maximum flow problem is connected to another graph problem, the minimum cut problem, where our task is to remove a set of edges from the graph such that there will be no path from the source to the sink after the removal and the total weight of the removed edges is minimum. It is not a coincidence that the maximum flow and minimum cut are equal in our example graph. Rather, it turns out that they are always equal, so the concepts are two sides of the same coin.</p>
   </div>
 </section>
 
@@ -729,7 +729,7 @@
       <div class="section-head__body"><h2 id="h1231">The Ford–Fulkerson Algorithm</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Ford–Fulkerson starts with an empty flow and repeatedly finds a path from source to sink whose edges all have residual capacity. It pushes the smallest capacity on that path, then updates the residual graph. When no such path remains, the flow is maximum.</p>
+    <p class="lead" data-reveal>The Ford–Fulkerson algorithm finds the maximum flow in a graph. The algorithm begins with an empty flow, and at each step finds a path from the source to the sink that generates more flow. Finally, when the algorithm cannot increase the flow anymore, the maximum flow has been found.</p>
 
     <div class="ch12-flow" id="ch12Flow" data-reveal>
       <div class="ch12-flow__head">
@@ -817,7 +817,7 @@
       </div>
     </div>
 
-    <p class="ch12-after" data-reveal>The algorithm does not dictate <em>which</em> path to take. Depth-first search works, but in the worst case it can add only one unit per round. Edmonds–Karp uses breadth-first search, so every path is shortest in the residual graph; this gives <i>O</i>(<i>m</i><sup>2</sup><i>n</i>). Capacity scaling uses DFS but only on edges above a threshold that halves each time, giving <i>O</i>(<i>m</i><sup>2</sup> log <i>c</i>).</p>
+    <p class="ch12-after" data-reveal>The Ford–Fulkerson algorithm does not specify how we should choose the paths that increase the flow. In any case, the algorithm will terminate sooner or later and correctly find the maximum flow. However, the efficiency of the algorithm depends on how the paths are chosen. A simple way to find paths is to use depth-first search. Usually this works well, but in the worst case, each path only increases the flow by one unit, and the algorithm is slow. The Edmonds–Karp algorithm chooses each path so that the number of edges on the path is as small as possible. This can be done by using breadth-first search instead of depth-first search for finding paths. It can be proved that this guarantees that the flow increases quickly, and the time complexity of the algorithm is <i>O</i>(<i>m</i><sup>2</sup><i>n</i>). The capacity scaling algorithm uses depth-first search to find paths where each edge weight is at least an integer threshold value. Initially, the threshold value is some large number, for example, the sum of all edge weights of the graph. Always when a path cannot be found, the threshold value is divided by 2. The algorithm terminates when the threshold value becomes 0. The time complexity of the algorithm is <i>O</i>(<i>m</i><sup>2</sup> log <i>c</i>), where <i>c</i> is the initial threshold value.</p>
 
     <div class="code-card" data-code-card data-reveal>
       <div class="code-card__head">
@@ -838,7 +838,7 @@
     <details class="note" data-reveal>
       <summary><span class="note__label">Reading the minimum cut from the final residual graph</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>After the last augmentation, let <i>A</i> be the set of nodes reachable from the source through edges with positive residual capacity. Every edge that leaves <i>A</i> is saturated; otherwise its endpoint would also be reachable. The total capacity of those edges equals the flow, so they form a minimum cut.</p>
+        <p>It turns out that once the Ford–Fulkerson algorithm has found a maximum flow, it has also determined a minimum cut. Consider the graph produced by the algorithm, and let <i>A</i> be the set of nodes that can be reached from the source using positive-weight edges. Now the minimum cut consists of the edges of the original graph that start at some node in <i>A</i>, end at some node outside <i>A</i>, and whose capacity is fully used in the maximum flow.</p>
         <p>In the example the reachable set is {1, 2, 3}. The cut edges are 2 → 4, 3 → 4, and 3 → 5, with capacities 3 + 2 + 2 = 7.</p>
       </div>
     </details>
@@ -853,7 +853,7 @@
       <div class="section-head__body"><h2 id="h1232">Disjoint Paths</h2></div>
     </div>
 
-    <p class="lead" data-reveal>How many paths can run from source to sink at the same time? The answer changes depending on whether the paths must avoid sharing edges or nodes.</p>
+    <p class="lead" data-reveal>Many graph problems can be solved by reducing them to the maximum flow problem. Our first example of such a problem is as follows: we are given a directed graph with a source and a sink, and our task is to find the maximum number of disjoint paths from the source to the sink.</p>
 
     <div class="split2">
       <figure class="ch12-figure ch12-figure--flush" data-reveal>
@@ -900,11 +900,11 @@
       </figure>
     </div>
 
-    <p data-reveal>To forbid shared nodes, split each node into an <em>in</em> node and an <em>out</em> node joined by an edge of capacity one. Incoming edges enter the in node, outgoing edges leave the out node, and every unit of flow must cross the new edge. The maximum flow in the split graph equals the maximum number of node-disjoint paths.</p>
+    <p data-reveal>We can reduce also this problem to the maximum flow problem. Since each node can appear in at most one path, we have to limit the flow that goes through the nodes. A standard construction for this is to divide each node into two nodes such that the first node has the incoming edges of the original node, the second node has the outgoing edges of the original node, and there is a new edge from the first node to the second node. The maximum flow in the resulting graph equals the maximum number of node-disjoint paths.</p>
 
     <details class="note" data-reveal>
       <summary><span class="note__label">Recovering the paths</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
-      <div class="note__body"><p>Once the maximum flow is known, follow positive-flow edges from the source to the sink; each walk is one path. Remove the used edges and repeat. The value of the flow guarantees that the greedily extracted set has the same size as the maximum.</p></div>
+      <div class="note__body"><p>After the maximum flow has been constructed, the paths can be found greedily by following paths from the source to the sink. Remove the used edges and repeat; the value of the flow guarantees that the greedily extracted set has the same size as the maximum.</p></div>
     </details>
   </div>
 </section>
@@ -917,7 +917,7 @@
       <div class="section-head__body"><h2 id="h1233">Maximum Matchings</h2></div>
     </div>
 
-    <p class="lead" data-reveal>A matching pairs nodes along edges so that no node appears in two pairs. In a general graph this is already tricky; in a bipartite graph it reduces cleanly to maximum flow.</p>
+    <p class="lead" data-reveal>A maximum matching of a graph is a maximum-size set of node pairs where each pair is connected with an edge and each node belongs to at most one pair. While solving the maximum matching problem in a general graph requires tricky algorithms, the problem is much easier to solve if we assume that the graph is bipartite. In this case we can reduce the problem to the maximum flow problem.</p>
 
     <div class="split2 split2--narrow ch12-match">
       <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
@@ -954,15 +954,15 @@
 
       <div data-reveal>
         <h3 class="ch12-h3">Reduce, then match</h3>
-        <p>Add a source joined to every left node and a sink joined to every right node. Give every edge capacity one. A unit of flow from source to sink is a matched pair, and the maximum flow equals the maximum matching.</p>
-        <p>Hall’s theorem asks whether a matching can cover every left node. For every set <i>X</i> of left nodes, let <i>f</i>(<i>X</i>) be its neighbours. A matching covering all left nodes exists exactly when |<i>X</i>| ≤ |<i>f</i>(<i>X</i>)| for every <i>X</i>.</p>
-        <p>Here <i>X</i> = {2, 4} has <i>f</i>(<i>X</i>) = {7}, so no perfect matching exists. The maximum matching is 3.</p>
+        <p>We can reduce the bipartite maximum matching problem to the maximum flow problem by adding two new nodes to the graph: a source and a sink. We also add edges from the source to each left node and from each right node to the sink. After this, the size of a maximum flow in the resulting graph equals the size of a maximum matching in the original graph.</p>
+        <p>Hall’s theorem can be used to find out whether a bipartite graph has a matching that contains all left or right nodes. Assume that we want to find a matching that contains all left nodes. Let <i>X</i> be any set of left nodes and let <i>f</i>(<i>X</i>) be the set of their neighbors. According to Hall’s theorem, a matching that contains all left nodes exists exactly when for every possible set <i>X</i>, the condition |<i>X</i>| ≤ |<i>f</i>(<i>X</i>)| holds.</p>
+        <p>Then, let <i>X</i> = {2, 4} which yields <i>f</i>(<i>X</i>) = {7}. In this case, |<i>X</i>| = 2 and |<i>f</i>(<i>X</i>)| = 1, so the condition of Hall’s theorem does not hold. This means that it is not possible to form a perfect matching for the graph. This result is not surprising, because we already know that the maximum matching of the graph is 3 and not 4.</p>
         <div class="ch12-stats ch12-stats--inline">
           <div><span class="ch12-stats__v">3</span><span class="ch12-stats__l">max matching</span></div>
           <div><span class="ch12-stats__v">3</span><span class="ch12-stats__l">min node cover</span></div>
           <div><span class="ch12-stats__v">5</span><span class="ch12-stats__l">max independent set</span></div>
         </div>
-        <p class="ch12-fine">König’s theorem: in a bipartite graph the minimum node cover has the same size as the maximum matching. The complement of a minimum node cover is a maximum independent set.</p>
+        <p class="ch12-fine">A minimum node cover of a graph is a minimum set of nodes such that each edge of the graph has at least one endpoint in the set. In a bipartite graph, König’s theorem tells us that the size of a minimum node cover always equals the size of a maximum matching. The nodes that do not belong to a minimum node cover form a maximum independent set.</p>
       </div>
     </div>
   </div>
@@ -976,15 +976,15 @@
       <div class="section-head__body"><h2 id="h1234">Path Covers</h2></div>
     </div>
 
-    <p class="lead" data-reveal>A path cover is a set of paths such that every node belongs to at least one path. In a directed acyclic graph, the minimum number of paths follows from a matching.</p>
+    <p class="lead" data-reveal>A path cover is a set of paths in a graph such that each node of the graph belongs to at least one path. It turns out that in directed acyclic graphs, we can reduce the problem of finding a minimum path cover to the problem of finding a maximum flow in another graph.</p>
 
     <div class="split2 ch12-cover">
       <div data-reveal>
         <h3 class="ch12-h3">Node-disjoint covers</h3>
-        <p>Split every node into a left copy and a right copy. Add an edge from left <i>a</i> to right <i>b</i> whenever the original graph has <i>a</i> → <i>b</i>, then add a source and a sink. Every edge in a maximum matching joins two nodes that lie on the same path.</p>
+        <p>In a node-disjoint path cover, each node belongs to exactly one path. We can find a minimum node-disjoint path cover by constructing a matching graph where each node of the original graph is represented by two nodes: a left node and a right node. There is an edge from a left node to a right node if there is such an edge in the original graph. In addition, the matching graph contains a source and a sink, and there are edges from the source to all left nodes and from all right nodes to the sink. Each edge in the maximum matching of the matching graph corresponds to an edge in the minimum node-disjoint path cover of the original graph.</p>
         <p class="ch12-formula-line">minimum cover = <i>n</i> − <i>c</i> = 7 − 4 = <b>3</b></p>
-        <p>For a general cover, where a node may appear in several paths, add an edge between every pair connected by a path before matching. The minimum can only get smaller: here it drops from 3 to 2.</p>
-        <p class="ch12-fine">Dilworth’s theorem: in a DAG, the minimum general path cover equals the maximum antichain — a set of nodes with no path between any two of them. Nodes 3 and 7 form such an antichain here.</p>
+        <p>A general path cover is a path cover where a node can belong to more than one path. A minimum general path cover may be smaller than a minimum node-disjoint path cover, because a node can be used multiple times in paths. In this graph the minimum general path cover consists of two paths. A minimum general path cover can be found almost like a minimum node-disjoint path cover. It suffices to add some new edges to the matching graph so that there is an edge <i>a</i> → <i>b</i> always when there is a path from <i>a</i> to <i>b</i> in the original graph (possibly through several nodes).</p>
+        <p class="ch12-fine">An antichain is a set of nodes in a graph such that there is no path from any node to another node using the edges of the graph. Dilworth’s theorem states that in a directed acyclic graph, the size of a minimum general path cover equals the size of a maximum antichain. In this graph, nodes 3 and 7 form an antichain of two nodes. This is a maximum antichain, because a minimum general path cover of this graph has two paths.</p>
       </div>
 
       <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
@@ -1038,7 +1038,7 @@
 
     <p class="statement" data-reveal>Depth-first search does not only visit a graph. It leaves a tree behind, and the edges outside that tree explain the graph’s cycles.</p>
 
-    <p class="lead" data-reveal>When DFS processes a connected undirected graph, the edges used to discover new nodes form a rooted spanning tree. Every remaining edge is a <em>back edge</em>, and it always points to an ancestor of the current node — never to a node in a different branch.</p>
+    <p class="lead" data-reveal>When depth-first search processes a connected graph, it also creates a rooted directed spanning tree that can be called a depth-first search tree. Then, the edges of the graph can be classified according to their roles during the search. In an undirected graph, there will be two types of edges: tree edges that belong to the depth-first search tree and <em>back edges</em> that point to already visited nodes. Note that a back edge always points to an ancestor of a node.</p>
 
     <div class="ch12-dfs" id="ch12Dfs" data-reveal>
       <div class="ch12-dfs__head">
@@ -1118,15 +1118,15 @@
       <div class="section-head__body"><h2 id="h1241">Biconnectivity</h2></div>
     </div>
 
-    <p class="lead" data-reveal>A connected graph is <em>biconnected</em> if it stays connected after any single node and its edges are removed. The nodes whose removal breaks the graph are <em>articulation points</em>; the edges whose removal does so are <em>bridges</em>.</p>
+    <p class="lead" data-reveal>A connected graph is called <em>biconnected</em> if it remains connected after removing any single node (and its edges) from the graph. A node is called an articulation point if removing the node from the graph disconnects the graph. In a similar way, an edge is called a bridge if removing the edge from the graph disconnects the graph.</p>
 
     <div class="split2">
       <div data-reveal>
         <h3 class="ch12-h3">Two tests on one tree</h3>
         <p>Run DFS from any node. For each node <i>x</i>, <i>disc</i>(<i>x</i>) is the time it was discovered, and <i>low</i>(<i>x</i>) is the smallest discovery time reachable from the subtree of <i>x</i> using tree edges plus at most one back edge.</p>
-        <p>A tree edge <i>a</i> → <i>b</i> is a bridge exactly when no back edge from the subtree of <i>b</i> reaches <i>a</i> or above: low(<i>b</i>) &gt; disc(<i>a</i>).</p>
-        <p>For articulation points, the root is special: it is an articulation point exactly when it has two or more children. A non-root <i>x</i> is an articulation point when it has a child <i>b</i> with low(<i>b</i>) ≥ disc(<i>x</i>) — the subtree cannot escape above <i>x</i>.</p>
-        <p class="ch12-fine">In the example tree, the bridges are 2–5 and 3–7. The articulation points are 1, 2, and 3. Node 4 is not one, because node 8 has a back edge to 2, an ancestor of 4.</p>
+        <p>For bridges, we begin a depth-first search at an arbitrary node, which builds a depth-first search tree. An edge <i>a</i> → <i>b</i> corresponds to a bridge exactly when it is a tree edge, and there is no back edge from the subtree of <i>b</i> to <i>a</i> or any ancestor of <i>a</i>: low(<i>b</i>) &gt; disc(<i>a</i>).</p>
+        <p>Finding articulation points is a bit more difficult, but we can again use the depth-first search tree. First, if a node <i>x</i> is the root of the tree, it is an articulation point exactly when it has two or more children. Then, if <i>x</i> is not the root, it is an articulation point exactly when it has a child whose subtree does not contain a back edge to an ancestor of <i>x</i>.</p>
+        <p class="ch12-fine">In the example tree, the bridges are 2–5 and 3–7. The articulation points are 1, 2, and 3. Node 4 is not an articulation point, because node 8 has a back edge to 2, an ancestor of 4.</p>
       </div>
       <div class="ch12-bicon" data-reveal style="--d:.08s" aria-label="A biconnected graph and a graph with an articulation point">
         <div class="ch12-bicon__card">
@@ -1177,12 +1177,12 @@
       <div class="section-head__body"><h2 id="h1242">Eulerian Subgraphs</h2></div>
     </div>
 
-    <p class="lead" data-reveal>An Eulerian subgraph keeps every node but chooses a subset of edges so that every degree is even. For a connected graph, counting them is surprisingly easy: the answer is 2<sup><i>k</i></sup>, where <i>k</i> is the number of back edges in a DFS tree.</p>
+    <p class="lead" data-reveal>An Eulerian subgraph of a graph contains the nodes of the graph and a subset of the edges such that the degree of each node is even. Consider the problem of calculating the total number of Eulerian subgraphs for a connected graph. It turns out that there is a simple formula for this: there are always 2<sup><i>k</i></sup> Eulerian subgraphs where <i>k</i> is the number of back edges in the depth-first search tree of the graph.</p>
 
     <div class="split2 split2--wide">
       <div data-reveal>
-        <p>Since a tree on <i>n</i> nodes has <i>n</i> − 1 edges, a connected graph with <i>m</i> edges has <i>k</i> = <i>m</i> − (<i>n</i> − 1) back edges. Fix any subset of the back edges. Then choose the tree edges from the bottom of the tree upward: include a tree edge exactly when it points to a node whose degree would otherwise be odd. The root always ends up even, because the sum of all degrees is even.</p>
-        <p>So every subset of back edges extends to exactly one Eulerian subgraph, and there are 2<sup><i>k</i></sup> subsets.</p>
+        <p>Note that <i>k</i> = <i>m</i> − (<i>n</i> − 1) where <i>n</i> is the number of nodes and <i>m</i> is the number of edges. The depth-first search tree helps to understand why this formula holds. Consider any fixed subset of back edges in the depth-first search tree. To create an Eulerian subgraph that contains these edges, we need to choose a subset of the tree edges so that each node has an even degree. To do this, we process the tree from bottom to top and always include a tree edge in the subgraph exactly when it points to a node whose degree is even with the edge. Then, since the sum of degrees is even, also the degree of the root node will be even.</p>
+        <p>Thus, every subset of back edges extends to exactly one Eulerian subgraph, and there are 2<sup><i>k</i></sup> subsets.</p>
         <p class="ch12-formula-line">2<sup><i>k</i></sup>, where <i>k</i> = <i>m</i> − <i>n</i> + 1</p>
         <p class="ch12-fine">For the graph in the figure, <i>n</i> = 5 and <i>m</i> = 7, so <i>k</i> = 3 and there are 8 Eulerian subgraphs.</p>
       </div>

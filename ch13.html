@@ -228,7 +228,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>The hard part of computational geometry is rarely the mathematics. It is arranging the computation so that the number of special cases stays small and the implementation remains honest. This section builds a small kit of exact tools, then uses them on lines, segments, polygons and distances.</p>
+    <p class="lead" data-reveal>A challenge when solving geometric problems is how to approach the problem so that the number of special cases is as small as possible and there is a convenient way to implement the solution. In this section, we will go through a set of tools that make solving geometric problems easier.</p>
 
     <div class="ch13-toolkit" data-reveal>
       <article class="ch13-tool">
@@ -278,7 +278,7 @@
       </article>
     </div>
 
-    <p class="ch13-after" data-reveal>Prefer integer coordinates whenever the problem allows them: cross products and shoelace sums are then exact. Floating point is reserved for lengths and angles, where a square root is unavoidable.</p>
+    <p class="ch13-after" data-reveal>As a general rule, it is good to use integer coordinates whenever possible, because calculations with integers are exact. Floating point is reserved for lengths and angles, where a square root is unavoidable.</p>
 
     <details class="note" data-reveal>
       <summary><span class="note__label">Why exact arithmetic matters</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
@@ -298,7 +298,7 @@
       <div class="section-head__body"><h2 id="h1311">Complex Numbers</h2></div>
     </div>
 
-    <p class="lead" data-reveal>A complex number <i>x</i> + <i>yi</i> is also a point and a vector. C++’s <span class="ch13-mono">complex</span> class supplies addition, length, angle and rotation, so the geometric code can stay short.</p>
+    <p class="lead" data-reveal>A complex number is a number of the form <i>x</i> + <i>yi</i>, where <i>i</i> = √−1 is the imaginary unit. A geometric interpretation of a complex number is that it represents a two-dimensional point (<i>x</i>, <i>y</i>) or a vector from the origin to a point (<i>x</i>, <i>y</i>). The C++ complex number class <span class="ch13-mono">complex</span> is useful when solving geometric problems. Using the class we can represent points and vectors as complex numbers, and use the features of the class to manipulate them.</p>
 
     <div class="ch13-lab ch13-rot" id="ch13Rot" data-reveal>
       <div class="ch13-lab__head">
@@ -361,7 +361,7 @@
       </div>
     </div>
 
-    <p class="ch13-after" data-reveal>The code uses <span class="ch13-mono">arg(v)</span> for the angle and <span class="ch13-mono">polar(1, a)</span> for a unit vector at angle <i>a</i>. Multiplication by that unit vector rotates <i>v</i> by <i>a</i> and leaves <span class="ch13-mono">abs(v)</span> unchanged. The distance between two points is the length of their difference: <span class="ch13-mono">abs(b - a)</span>.</p>
+    <p class="ch13-after" data-reveal>The function <span class="ch13-mono">abs(v)</span> calculates the length |<i>v</i>| of a vector <i>v</i> = (<i>x</i>, <i>y</i>) using the formula √(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>). The function can also be used for calculating the distance between points (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), because that distance equals the length of the vector (<i>x</i><sub>2</sub> − <i>x</i><sub>1</sub>, <i>y</i><sub>2</sub> − <i>y</i><sub>1</sub>). The function <span class="ch13-mono">arg(v)</span> calculates the angle of a vector <i>v</i> = (<i>x</i>, <i>y</i>) with respect to the x-axis. The function gives the angle in radians, where <i>r</i> radians equals 180<i>r</i>/π degrees. The angle of a vector that points to the right is 0, and angles decrease clockwise and increase counterclockwise. The function <span class="ch13-mono">polar(s, a)</span> constructs a vector whose length is <i>s</i> and that points to an angle <i>a</i>, given in radians. A vector can be rotated by an angle <i>a</i> by multiplying it by a vector with length 1 and angle <i>a</i>.</p>
 
     <div class="ch13-codewrap">
       <div class="code-card" data-code-card data-reveal>
@@ -384,7 +384,7 @@
     <details class="note" data-reveal>
       <summary><span class="note__label">What <span class="ch13-mono">conj</span> does to a cross product</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>For <i>a</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>b</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), the complex product <span class="ch13-mono">conj(a) * b</span> has imaginary part <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub>, which is exactly the cross product. The real part is the dot product.</p>
+        <p>For <i>a</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>b</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), the function <span class="ch13-mono">conj</span> negates the y coordinate of a vector, and when the vectors (<i>x</i><sub>1</sub>, −<i>y</i><sub>1</sub>) and (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) are multiplied together, the y coordinate of the result is <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub>, which is exactly the cross product. The real part is the dot product.</p>
       </div>
     </details>
   </div>
@@ -398,7 +398,7 @@
       <div class="section-head__body"><h2 id="h1312">Points and Lines</h2></div>
     </div>
 
-    <p class="lead" data-reveal>The cross product <i>a</i> × <i>b</i> = <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub> records which way <i>b</i> turns after <i>a</i>. Its sign answers most orientation questions without a single division.</p>
+    <p class="lead" data-reveal>The cross product <i>a</i> × <i>b</i> of vectors <i>a</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>b</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) is defined to be <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub>. It tells us the direction to which <i>b</i> turns when it is placed directly after <i>a</i>.</p>
 
     <figure class="figure ch13-crossfig" data-reveal>
       <div class="figure__frame ch13-crossframe">
@@ -491,7 +491,7 @@
       </div>
     </div>
 
-    <p class="ch13-after" data-reveal>Use the same test to locate a point against a line, to decide whether two segments cross, or to compute the distance from a point to a line. The distance is <span class="ch13-mono">|cross| / |B − A|</span>; the lab evaluates it as you drag.</p>
+    <p class="ch13-after" data-reveal>Cross products can be used to test whether a point is located on the left or right side of a line. Another property of cross products is that the area of a triangle can be calculated using the formula |(<i>a</i> − <i>c</i>) × (<i>b</i> − <i>c</i>)| / 2. Using this fact, we can derive a formula for calculating the shortest distance between a point and a line: <i>d</i> = (<i>s</i><sub>1</sub> − <i>p</i>) × (<i>s</i><sub>2</sub> − <i>p</i>) / |<i>s</i><sub>2</sub> − <i>s</i><sub>1</sub>|.</p>
 
     <figure class="figure ch13-segfig" data-reveal>
       <div class="figure__frame">
@@ -575,7 +575,7 @@
       <div class="section-head__body"><h2 id="h1313">Polygon Area</h2></div>
     </div>
 
-    <p class="lead" data-reveal>The shoelace formula adds signed trapezoids between the polygon and a horizontal baseline. When every vertex is integral, Pick’s theorem reaches the same area by counting lattice points.</p>
+    <p class="lead" data-reveal>A general formula for calculating the area of a polygon, sometimes called the shoelace formula, is as follows. Pick’s theorem provides another way to calculate the area of a polygon, assuming that all vertices of the polygon have integer coordinates.</p>
 
     <div class="ch13-lab ch13-area" id="ch13Area" data-reveal>
       <div class="ch13-lab__head">
@@ -630,8 +630,8 @@
     <div class="split2 ch13-pick">
       <div data-reveal>
         <h3 class="ch13-h3">Pick’s theorem</h3>
-        <p>If every vertex has integer coordinates, the area is <span class="ch13-mono">a + b/2 − 1</span>, where <i>a</i> counts the lattice points strictly inside and <i>b</i> counts the lattice points on the boundary.</p>
-        <p>For this polygon, <i>a</i> = 6 and <i>b</i> = 7, so the area is 6 + 3.5 − 1 = 8.5. Count the boundary points with the gcd of each edge’s coordinate differences: an edge from (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) to (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) contains <span class="ch13-mono">gcd(|x</span><sub>2</sub><span class="ch13-mono">−x</span><sub>1</sub><span class="ch13-mono">|, |y</span><sub>2</sub><span class="ch13-mono">−y</span><sub>1</sub><span class="ch13-mono">|)</span> new lattice points.</p>
+        <p>Pick’s theorem provides another way to calculate the area of a polygon, assuming that all vertices of the polygon have integer coordinates. Pick’s theorem tells us that the area of the polygon is <i>a</i> + <i>b</i>/2 − 1, where <i>a</i> is the number of integer points inside the polygon and <i>b</i> is the number of integer points on the boundary of the polygon.</p>
+        <p>For example, the area of the polygon in the figure is 6 + 7/2 − 1 = 17/2. Count the boundary points with the gcd of each edge’s coordinate differences: an edge from (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) to (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) contains <span class="ch13-mono">gcd(|x</span><sub>2</sub><span class="ch13-mono">−x</span><sub>1</sub><span class="ch13-mono">|, |y</span><sub>2</sub><span class="ch13-mono">−y</span><sub>1</sub><span class="ch13-mono">|)</span> new lattice points.</p>
       </div>
       <div data-reveal style="--d:.08s">
         <div class="ch13-stats">
@@ -671,7 +671,7 @@
       <div class="section-head__body"><h2 id="h1314">Distance Functions</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Euclidean distance measures the straight line. Manhattan distance measures the walk along the axes. The second is often easier to optimize, especially after a 45° coordinate transform.</p>
+    <p class="lead" data-reveal>A distance function defines the distance between two points. The usual distance function is the Euclidean distance where the distance between points (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) is √((<i>x</i><sub>2</sub> − <i>x</i><sub>1</sub>)² + (<i>y</i><sub>2</sub> − <i>y</i><sub>1</sub>)²). An alternative distance function is the Manhattan distance where the distance between points (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) is |<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>| + |<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>|.</p>
 
     <div class="ch13-lab ch13-dist" id="ch13Dist" data-reveal>
       <div class="ch13-lab__head">
@@ -766,7 +766,7 @@
     <details class="note" data-reveal>
       <summary><span class="note__label">Why the transform preserves the distance</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>For <i>p</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>q</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), write <i>p</i>′ = (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>, <i>y</i><sub>1</sub> − <i>x</i><sub>1</sub>) and similarly for <i>q</i>′. Then the two coordinate differences are (<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>) + (<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>) and (<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>) − (<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>). One of these has magnitude equal to |Δx| + |Δy|, and the other is no larger. Taking the maximum recovers the Manhattan distance.</p>
+        <p>For two points <i>p</i><sub>1</sub> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>p</i><sub>2</sub> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) whose transformed coordinates are <i>p</i>′<sub>1</sub> = (<i>x</i>′<sub>1</sub>, <i>y</i>′<sub>1</sub>) and <i>p</i>′<sub>2</sub> = (<i>x</i>′<sub>2</sub>, <i>y</i>′<sub>2</sub>), there are two ways to express the Manhattan distance between <i>p</i><sub>1</sub> and <i>p</i><sub>2</sub>: |<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>| + |<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>| = max(|<i>x</i>′<sub>1</sub> − <i>x</i>′<sub>2</sub>|, |<i>y</i>′<sub>1</sub> − <i>y</i>′<sub>2</sub>|). One of the two coordinate differences has magnitude equal to |Δx| + |Δy|, and the other is no larger. Taking the maximum recovers the Manhattan distance.</p>
       </div>
     </details>
   </div>
@@ -783,7 +783,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A sweep line turns geometry into a sequence of events. The line moves in one direction; at each event it updates a small active set and answers a local question. Three classic problems share this shape: intersections, closest pairs and convex hulls.</p>
+    <p class="lead" data-reveal>Many geometric problems can be solved using sweep line algorithms. The idea in such algorithms is to represent an instance of the problem as a set of events that correspond to points in the plane. Then, the events are processed in increasing order according to their x or y coordinates.</p>
 
     <div class="ch13-motion" data-reveal>
       <div class="ch13-motion__line">
@@ -806,7 +806,7 @@
       <div class="section-head__body"><h2 id="h1321">Intersection Points</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Five axis-aligned segments can be checked in ten pairs, but a sweep needs only eight events. Horizontal segments enter and leave an active set; each vertical segment asks how many active heights lie inside its span.</p>
+    <p class="lead" data-reveal>Given a set of <i>n</i> line segments, each of them being either horizontal or vertical, consider the problem of counting the total number of intersection points. It is easy to solve the problem in <i>O</i>(<i>n</i><sup>2</sup>) time, because we can go through all possible pairs of line segments and check if they intersect. However, we can solve the problem more efficiently in <i>O</i>(<i>n</i> log <i>n</i>) time using a sweep line algorithm and a range query data structure.</p>
 
     <div class="ch13-sweep" id="ch13Sweep" data-reveal>
       <div class="ch13-sweep__head">
@@ -857,7 +857,7 @@
       </div>
     </div>
 
-    <p class="ch13-after" data-reveal>At a vertical segment between heights <i>y</i><sub>1</sub> and <i>y</i><sub>2</sub>, count the active horizontal heights in that range. A binary indexed or segment tree answers the range count in <i>O</i>(log <i>n</i>), so all events take <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+    <p class="ch13-after" data-reveal>After creating the events, we go through them from left to right and use a data structure that maintains the y coordinates of the active horizontal segments. At event 1, we add the y coordinate of the segment to the structure, and at event 2, we remove the y coordinate from the structure. Intersection points are calculated at event 3: when processing a vertical segment between points <i>y</i><sub>1</sub> and <i>y</i><sub>2</sub>, we count the number of active horizontal segments whose y coordinate is between <i>y</i><sub>1</sub> and <i>y</i><sub>2</sub>, and add this number to the total number of intersection points. To store y coordinates of horizontal segments, we can use a binary indexed or segment tree, possibly with index compression. Processing each event takes <i>O</i>(log <i>n</i>) time, so the algorithm works in <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
 
     <details class="note" data-reveal>
       <summary><span class="note__label">Why event order matters at equal x</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
@@ -876,7 +876,7 @@
       <div class="section-head__body"><h2 id="h1322">Closest Pair Problem</h2></div>
     </div>
 
-    <p class="lead" data-reveal>Scan the points from left to right while keeping the smallest distance <i>d</i> seen so far. Only points in a narrow strip behind the sweep line can improve it — and that strip contains only a constant number of points.</p>
+    <p class="lead" data-reveal>Given a set of <i>n</i> points, our next problem is to find two points whose Euclidean distance is minimum. This is another example of a problem that can be solved in <i>O</i>(<i>n</i> log <i>n</i>) time using a sweep line algorithm. We go through the points from left to right and maintain a value <i>d</i>: the minimum distance between two points seen so far. At each point, we find its nearest point to the left. If the distance is less than <i>d</i>, it is the new minimum distance and we update the value of <i>d</i>.</p>
 
     <figure class="figure ch13-closest" data-reveal>
       <div class="figure__frame">
@@ -913,11 +913,11 @@
     <div class="split2 ch13-closest__notes">
       <div data-reveal>
         <h3 class="ch13-h3">Why the strip is small</h3>
-        <p>Suppose the current minimum is <i>d</i>. Divide the strip into boxes of size <i>d</i>/2 by <i>d</i>/2. If one box contained two points, those two points would be closer than <i>d</i>, contradicting the definition of <i>d</i>. The strip is therefore sparse.</p>
+        <p>The efficiency of the algorithm is based on the fact that the region always contains only <i>O</i>(1) points. Since the current minimum distance between two points is <i>d</i>, each <i>d</i>/2 × <i>d</i>/2 square may contain at most one point. Thus, there are at most eight points in the region.</p>
       </div>
       <div data-reveal style="--d:.08s">
         <h3 class="ch13-h3">What the algorithm stores</h3>
-        <p>Keep the points whose <i>x</i> coordinate lies in [<i>x</i> − <i>d</i>, <i>x</i>], ordered by <i>y</i>. For each new point, inspect only the neighbours within <i>d</i> in that order. A balanced tree gives <i>O</i>(log <i>n</i>) per point and <i>O</i>(<i>n</i> log <i>n</i>) overall.</p>
+        <p>If the current point is (<i>x</i>, <i>y</i>) and there is a point to the left within a distance of less than <i>d</i>, the x coordinate of such a point must be between [<i>x</i> − <i>d</i>, <i>x</i>] and the y coordinate must be between [<i>y</i> − <i>d</i>, <i>y</i> + <i>d</i>]. Thus, it suffices to only consider points that are located in those ranges, which makes the algorithm efficient. We can go through the points in the region in <i>O</i>(log <i>n</i>) time by maintaining a set of points whose x coordinates are between [<i>x</i> − <i>d</i>, <i>x</i>] so that the points are sorted in increasing order according to their y coordinates. The time complexity of the algorithm is <i>O</i>(<i>n</i> log <i>n</i>), because we go through <i>n</i> points and determine for each point its nearest point to the left in <i>O</i>(log <i>n</i>) time.</p>
       </div>
     </div>
   </div>
@@ -931,7 +931,7 @@
       <div class="section-head__body"><h2 id="h1323">Convex Hull Problem</h2></div>
     </div>
 
-    <p class="lead" data-reveal>The convex hull is the smallest convex polygon containing every point. Andrew’s algorithm sorts the points, builds the upper hull, then mirrors the same pass for the lower hull.</p>
+    <p class="lead" data-reveal>A convex hull is the smallest convex polygon that contains all points of a given point set. Here convexity means that a line segment between any two vertices of the polygon is completely inside the polygon. There are many efficient algorithms for constructing convex hulls. Perhaps the simplest among them is Andrew’s algorithm. The algorithm first determines the leftmost and rightmost points in the set, and then constructs the convex hull in two parts: first the upper hull and then the lower hull. Both parts are similar, so we can focus on constructing the upper hull.</p>
 
     <div class="ch13-hull" id="ch13Hull" data-reveal>
       <div class="ch13-hull__head">
@@ -975,12 +975,12 @@
             <button class="btn btn--primary" id="ch13HullNext" type="button">Next step <svg class="icon"><use href="#i-arrow"/></svg></button>
             <button class="btn btn--icon" id="ch13HullReset" type="button" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
           </div>
-          <div class="ch13-dots" id="ch13HullDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ch13-dots" id="ch13HullDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         </div>
       </div>
     </div>
 
-    <p class="ch13-after" data-reveal>The check is a cross product: while the last three hull points make a left turn, remove the middle one. After both passes, the hull contains each extreme point once, in counterclockwise order. Sorting dominates the running time, so the algorithm is <i>O</i>(<i>n</i> log <i>n</i>).</p>
+    <p class="ch13-after" data-reveal>First, we sort the points primarily according to x coordinates and secondarily according to y coordinates. After this, we go through the points and add each point to the hull. Always after adding a point to the hull, we make sure that the last line segment in the hull does not turn left. As long as it turns left, we repeatedly remove the second last point from the hull. After both passes, the hull contains each extreme point once, in counterclockwise order, and sorting dominates the running time.</p>
 
     <div class="ch13-codewrap">
       <div class="code-card" data-code-card data-reveal>
