@@ -21,8 +21,8 @@ const shots = [
   { file: 'ch07.html', name: 'hero-ch07', top: 1110 },
   { file: 'ch13.html', name: 'hero-ch13', top: 1110 },
   { file: 'ch06.html', name: 'dp-grid', sel: '#gridLab' },
-  { file: 'ch12.html', name: 'kosaraju', sel: '#ch12Kosaraju' },
-  { file: 'ch12.html', name: 'max-flow', sel: '#ch12Flow' },
+  { file: 'ch12.html', name: 'kosaraju', sel: '#ch12Kosaraju', actions: [['#ch12KNext', 4]] },
+  { file: 'ch12.html', name: 'max-flow', sel: '#ch12Flow', actions: [['#ch12FlowNext', 4]] },
   { file: 'ch13.html', name: 'orientation', sel: '#ch13Orient' },
   { file: 'ch13.html', name: 'polygon-area', sel: '#ch13Area' },
   { file: 'ch14.html', name: 'trie', sel: '#s1411 .ch14-split-trie' },
@@ -39,6 +39,12 @@ for (const shot of shots) {
     const el = page.locator(shot.sel).first();
     await el.scrollIntoViewIfNeeded();
     await page.waitForTimeout(700);
+    for (const [button, times] of shot.actions || []) {
+      for (let i = 0; i < times; i++) {
+        await page.locator(button).click();
+        await page.waitForTimeout(450);
+      }
+    }
     await el.screenshot({ path, type: 'jpeg', quality: 88, animations: 'disabled' });
     console.log(`${shot.name}.jpg  ${shot.file}  ${shot.sel}`);
   } else {
