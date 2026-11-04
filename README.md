@@ -15,8 +15,8 @@
   <img alt="300+ diagrams" src="https://img.shields.io/badge/diagrams-300%2B-0f766e?style=flat-square">
   <img alt="30 code cards" src="https://img.shields.io/badge/code-30-b45309?style=flat-square">
   <img alt="Static HTML and SVG" src="https://img.shields.io/badge/static-HTML-a6402e?style=flat-square&logo=html5&logoColor=white">
-  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-none-a6402e?style=flat-square">
-  <img alt="Dark mode follows your device" src="https://img.shields.io/badge/dark_mode-system-171717?style=flat-square">
+  <img alt="No dependencies" src="https://img.shields.io/badge/no_deps-a6402e?style=flat-square">
+  <img alt="Dark mode follows your device" src="https://img.shields.io/badge/dark_mode-171717?style=flat-square">
   <img alt="Responsive on phone and desktop" src="https://img.shields.io/badge/responsive-0f766e?style=flat-square">
   <img alt="Live on GitHub Pages" src="https://img.shields.io/badge/Pages-live-2f6f4e?style=flat-square&logo=github">
 </p>
