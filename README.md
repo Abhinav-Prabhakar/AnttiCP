@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://abhinav-prabhakar.github.io/Antti-CP/"><b>Read the book →</b></a>
+  <a href="https://abhinav-prabhakar.github.io/AnttiCP/"><b>Read the book →</b></a>
 </p>
 
 <div align="center">
@@ -56,8 +56,8 @@ little JavaScript.
 ## Run it locally
 
 ```bash
-git clone https://github.com/Abhinav-Prabhakar/Antti-CP.git
-cd Antti-CP
+git clone https://github.com/Abhinav-Prabhakar/AnttiCP.git
+cd AnttiCP
 python3 -m http.server 8123
 ```
 
