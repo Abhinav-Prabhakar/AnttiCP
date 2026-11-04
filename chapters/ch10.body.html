@@ -1,0 +1,902 @@
+<!-- ============ hero ============ -->
+<section class="hero ch10-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 10</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Tree Algorithms</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Tree Algorithms</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Rooting, traversing, and querying trees — from LCA to centroid decomposition.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>16 pages</span><span>≈ 42 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch10-hero-map" data-reveal style="--d:.2s" aria-label="A rooted tree with one path split into two ascents at the lowest common ancestor">
+      <svg class="ch10-hero-svg ch10-hero-svg--wide" viewBox="0 0 1200 300" role="img" aria-hidden="true">
+        <g class="ch10-hero-levels">
+          <line x1="120" y1="46" x2="1100" y2="46"/>
+          <line x1="120" y1="116" x2="1100" y2="116"/>
+          <line x1="120" y1="186" x2="1100" y2="186"/>
+          <line x1="120" y1="256" x2="1100" y2="256"/>
+        </g>
+        <g class="ch10-hero-level-labels">
+          <text x="96" y="50" text-anchor="end">root</text>
+          <text x="96" y="120" text-anchor="end">1</text>
+          <text x="96" y="190" text-anchor="end">2</text>
+          <text x="96" y="260" text-anchor="end">3</text>
+        </g>
+
+        <g class="ch10-hero-edges">
+          <path d="M600 46 360 116M600 46 600 116M600 46 860 116"/>
+          <path d="M360 116 280 186M360 116 440 186"/>
+          <path d="M600 116 520 186M600 116 700 186"/>
+          <path d="M860 116 940 186"/>
+          <path d="M280 186 210 256M280 186 360 256"/>
+          <path d="M700 186 760 256"/>
+          <path d="M940 186 1010 256"/>
+        </g>
+
+        <path class="ch10-hero-half ch10-hero-half--a" d="M210 256 280 186 360 116 600 46"/>
+        <path class="ch10-hero-half ch10-hero-half--b" d="M600 46 860 116 940 186 1010 256"/>
+
+        <g class="ch10-hero-nodes">
+          <g transform="translate(600 46)"><circle class="is-lca" r="6"/><text y="-18" text-anchor="middle">lca</text></g>
+          <g transform="translate(210 256)"><circle r="4.5"/><text x="-12" y="5" text-anchor="end">a</text></g>
+          <g transform="translate(1010 256)"><circle r="4.5"/><text x="12" y="5">b</text></g>
+          <g transform="translate(360 116)"><circle r="3.6"/></g>
+          <g transform="translate(600 116)"><circle r="3.6"/></g>
+          <g transform="translate(860 116)"><circle r="3.6"/></g>
+          <g transform="translate(280 186)"><circle r="3.6"/></g>
+          <g transform="translate(440 186)"><circle r="3.6"/></g>
+          <g transform="translate(520 186)"><circle r="3.6"/></g>
+          <g transform="translate(700 186)"><circle r="3.6"/></g>
+          <g transform="translate(940 186)"><circle r="3.6"/></g>
+          <g transform="translate(360 256)"><circle r="3.6"/></g>
+          <g transform="translate(760 256)"><circle r="3.6"/></g>
+        </g>
+      </svg>
+      <svg class="ch10-hero-svg ch10-hero-svg--tall" viewBox="0 0 560 320" role="img" aria-hidden="true">
+        <g class="ch10-hero-levels">
+          <line x1="70" y1="60" x2="520" y2="60"/>
+          <line x1="70" y1="155" x2="520" y2="155"/>
+          <line x1="70" y1="250" x2="520" y2="250"/>
+        </g>
+        <g class="ch10-hero-level-labels">
+          <text x="52" y="64" text-anchor="end">root</text>
+          <text x="52" y="159" text-anchor="end">1</text>
+          <text x="52" y="254" text-anchor="end">2</text>
+        </g>
+        <g class="ch10-hero-edges">
+          <path d="M280 60 170 155M280 60 280 155M280 60 390 155"/>
+          <path d="M190 155 110 250M190 155 250 250"/>
+          <path d="M390 155 390 250"/>
+        </g>
+        <path class="ch10-hero-half ch10-hero-half--a" d="M110 250 190 155 280 60"/>
+        <path class="ch10-hero-half ch10-hero-half--b" d="M280 60 390 155 390 250"/>
+        <g class="ch10-hero-nodes">
+          <g transform="translate(280 60)"><circle class="is-lca" r="9"/><text y="-20" text-anchor="middle">lca</text></g>
+          <g transform="translate(110 250)"><circle r="7"/><text x="-15" y="5" text-anchor="end">a</text></g>
+          <g transform="translate(390 250)"><circle r="7"/><text x="15" y="5" text-anchor="start">b</text></g>
+          <g transform="translate(190 155)"><circle r="5"/></g>
+          <g transform="translate(280 155)"><circle r="5"/></g>
+          <g transform="translate(390 155)"><circle r="5"/></g>
+          <g transform="translate(250 250)"><circle r="5"/></g>
+        </g>
+      </svg>
+      <figcaption><span class="hero-map__hint">One path, two ascents. The lowest common ancestor is where the halves meet.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s101">
+          <span class="idx__num">10.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Basic Techniques</span>
+            <span class="idx__desc">Rooting · DFS order · subtree sizes · diameter · all longest paths</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s102">
+          <span class="idx__num">10.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Tree Queries</span>
+            <span class="idx__desc">Ancestors · subtrees and paths · LCA · merging data structures</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s103">
+          <span class="idx__num">10.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Advanced Techniques</span>
+            <span class="idx__desc">Centroid decomposition · heavy-light decomposition</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10.1 ============ -->
+<section class="section" id="s101" aria-labelledby="h101">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">10.1</span>
+      <div class="section-head__body">
+        <h2 id="h101">Basic Techniques</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Root a tree, and every path becomes two ascents to a highest point.</p>
+
+    <div class="ch10-intro" data-reveal>
+      <p class="lead">A tree is a connected acyclic graph with <i>n</i> nodes and <i>n</i> − 1 edges. Removing any edge divides it into two components, and adding any edge creates a cycle. There is always a unique path between two nodes, and the leaves are the nodes with only one neighbour.</p>
+      <ul class="chips ch10-chips" aria-label="Properties of a tree">
+        <li class="chip chip--static">connected</li>
+        <li class="chip chip--static">acyclic</li>
+        <li class="chip chip--static"><i>n</i> − 1 edges</li>
+        <li class="chip chip--static">unique path</li>
+      </ul>
+    </div>
+
+    <p class="ch10-prose" data-reveal>In a rooted tree one node is appointed the root, and all other nodes are placed underneath it. The lower neighbours of a node are its <em>children</em>, and its upper neighbour is its <em>parent</em>. Every node except the root has exactly one parent. The structure is recursive: each node is the root of a <em>subtree</em> containing itself and all nodes below it.</p>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch10-inspector">
+        <div class="ch10-inspector__head">
+          <div>
+            <span class="kicker">Fig. 10.2 · rooted at 1</span>
+            <h3>Every node owns a subtree</h3>
+          </div>
+          <span class="tag tag--mono"><i>n</i> = 8</span>
+        </div>
+        <div class="ch10-inspector__body">
+          <svg id="ch10Inspector" class="ch10-tree-svg" viewBox="0 0 560 400" role="img" aria-label="A rooted tree with eight nodes. Select a node to bracket its subtree."></svg>
+          <aside class="ch10-readout" id="ch10InspectorReadout" aria-live="polite">
+            <span class="kicker">Selected node</span>
+            <div class="ch10-readout__big"><b id="ch10SelNode">2</b><span id="ch10SelSub">subtree 4</span></div>
+            <dl class="ch10-facts">
+              <div><dt>parent</dt><dd id="ch10SelParent">1</dd></div>
+              <div><dt>children</dt><dd id="ch10SelChildren">5, 6</dd></div>
+              <div><dt>depth</dt><dd id="ch10SelDepth">2</dd></div>
+              <div><dt>dfs positions</dt><dd id="ch10SelRange">2–5</dd></div>
+            </dl>
+            <p class="ch10-readout__hint">Select any node. The bracket closes over its whole subtree.</p>
+          </aside>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The subtree of node 2 is <span class="ch10-mono">2, 5, 6, 8</span> — four nodes. The leaves are 3, 5, 7 and 8.</figcaption>
+    </figure>
+
+    <div class="ch10-statrow" data-reveal>
+      <div><span class="ch10-statrow__value">8</span><span class="kicker">nodes</span></div>
+      <div><span class="ch10-statrow__value">7</span><span class="kicker">edges</span></div>
+      <div><span class="ch10-statrow__value">4</span><span class="kicker">leaves</span></div>
+      <div><span class="ch10-statrow__value">1</span><span class="kicker">root</span></div>
+      <p>A tree has no cycles, so a traversal never has to guard against visiting a node twice — only against walking back along the edge it came from.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10.1.1 ============ -->
+<section class="section section--sub" id="s1011" aria-labelledby="h1011">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h1011">Tree Traversal</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Tree traversal is easier to implement than general graph traversal, because there are no cycles and no node can be reached from more than one direction.</p>
+
+    <p class="ch10-prose" data-reveal>The usual starting point is a depth-first search from an arbitrary node. The recursive function takes the current node <i>s</i> and the previous node <i>e</i>. The parameter <i>e</i> is the only guard needed: the search never moves back to where it came from. The first call uses <i>e</i> = 0, since there is no previous node.</p>
+
+    <div class="ch10-cardwrap" data-reveal>
+      <div class="code-card" data-code-card>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch10-prose" data-reveal>Dynamic programming fits naturally into the same traversal. To count the nodes in every subtree, initialise <span class="ch10-mono">sz[s] = 1</span>, recurse into each child, then add the child's count. Each node is visited once, so the whole computation is <i>O</i>(<i>n</i>).</p>
+
+    <div class="ch10-orders" data-reveal>
+      <div class="ch10-orders__tree">
+        <span class="kicker">A binary tree</span>
+        <svg viewBox="0 0 340 280" role="img" aria-label="A binary tree with seven nodes, node 1 at the root">
+          <g class="ch10-static-edges">
+            <path d="M170 36 110 100M170 36 230 100M110 100 70 168M110 100 150 168M150 168 130 232M230 100 270 168"/>
+          </g>
+          <g class="ch10-static-nodes">
+            <g transform="translate(170 36)"><circle r="16"/><text y="4">1</text></g>
+            <g transform="translate(110 100)"><circle r="16"/><text y="4">2</text></g>
+            <g transform="translate(230 100)"><circle r="16"/><text y="4">3</text></g>
+            <g transform="translate(70 168)"><circle r="16"/><text y="4">4</text></g>
+            <g transform="translate(150 168)"><circle r="16"/><text y="4">5</text></g>
+            <g transform="translate(130 232)"><circle r="16"/><text y="4">6</text></g>
+            <g transform="translate(270 168)"><circle r="16"/><text y="4">7</text></g>
+          </g>
+        </svg>
+      </div>
+      <div class="ch10-orders__rows">
+        <div class="ch10-order">
+          <span class="kicker">pre-order</span>
+          <code>1 &nbsp;2 &nbsp;4 &nbsp;5 &nbsp;6 &nbsp;3 &nbsp;7</code>
+          <p>root, left, right</p>
+        </div>
+        <div class="ch10-order">
+          <span class="kicker">in-order</span>
+          <code>4 &nbsp;2 &nbsp;6 &nbsp;5 &nbsp;1 &nbsp;3 &nbsp;7</code>
+          <p>left, root, right</p>
+        </div>
+        <div class="ch10-order">
+          <span class="kicker">post-order</span>
+          <code>4 &nbsp;6 &nbsp;5 &nbsp;2 &nbsp;7 &nbsp;3 &nbsp;1</code>
+          <p>left, right, root</p>
+        </div>
+        <p class="ch10-fine">Pre-order and in-order together determine the tree uniquely. So do post-order and in-order. Pre-order and post-order alone may leave more than one tree consistent with the orders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10.1.2 ============ -->
+<section class="section section--sub" id="s1012" aria-labelledby="h1012">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h1012">Calculating Diameters</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The diameter of a tree is the maximum length of a path between two nodes. Both algorithms below find it in <i>O</i>(<i>n</i>) time.</p>
+
+    <div class="split2 ch10-split" data-reveal>
+      <div>
+        <span class="kicker">First algorithm</span>
+        <h3 class="ch10-h3">Root, then look up</h3>
+        <p>Every path in a rooted tree has a highest point. For each node <i>x</i>, compute <span class="ch10-mono">toLeaf(x)</span>, the longest path from <i>x</i> down to a leaf, and <span class="ch10-mono">maxLength(x)</span>, the longest path whose highest point is <i>x</i>. The answer is the largest <span class="ch10-mono">maxLength</span>.</p>
+        <p>Choose the two children <i>a</i> and <i>b</i> with the largest <span class="ch10-mono">toLeaf</span> values; then <span class="ch10-mono">maxLength(x) = toLeaf(a) + toLeaf(b) + 2</span>. If <i>x</i> has fewer than two children, use the only child's value plus one, or 0 when <i>x</i> is a leaf.</p>
+      </div>
+      <div>
+        <span class="kicker">Second algorithm</span>
+        <h3 class="ch10-h3">Two sweeps</h3>
+        <p>Choose an arbitrary node <i>a</i> and find the farthest node <i>b</i> from it. Then find the farthest node <i>c</i> from <i>b</i>. The distance between <i>b</i> and <i>c</i> is the diameter.</p>
+        <p>Both searches are ordinary depth-first searches, so the whole method is two linear passes. It is short, elegant, and easy to implement once the tree is stored as adjacency lists.</p>
+      </div>
+    </div>
+
+    <div class="ch10-lab ch10-diam" id="ch10Diam" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">The seven-node example</span>
+          <h3>Where is the path highest?</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Diameter algorithm">
+          <button class="seg__btn is-active" type="button" data-diam-mode="dp" aria-pressed="true">Highest point</button>
+          <button class="seg__btn" type="button" data-diam-mode="sweep" aria-pressed="false">Two sweeps</button>
+        </div>
+      </div>
+
+      <div class="ch10-diam__stage">
+        <svg viewBox="0 0 560 280" role="img" aria-label="A seven-node tree with the diameter path highlighted">
+          <g class="ch10-static-edges">
+            <path d="M280 40 150 120M280 40 280 120M280 40 410 120M150 120 90 200M150 120 210 200M410 120 410 200"/>
+          </g>
+
+          <g class="ch10-diam__dp">
+            <path class="ch10-diam__path" d="M210 200 150 120 280 40 410 120 410 200"/>
+            <text class="ch10-diam__note" x="280" y="12" text-anchor="middle">highest point · node 1</text>
+            <text class="ch10-diam__note" x="118" y="154" text-anchor="end">toLeaf 1</text>
+            <text class="ch10-diam__note" x="442" y="154">toLeaf 1</text>
+          </g>
+
+          <g class="ch10-diam__sweep">
+            <path class="ch10-diam__path ch10-diam__path--a" d="M280 120 280 40 150 120 90 200"/>
+            <path class="ch10-diam__path ch10-diam__path--b" d="M90 200 150 120 280 40 410 120 410 200"/>
+            <text class="ch10-diam__note" x="280" y="160" text-anchor="middle">a</text>
+            <text class="ch10-diam__note" x="90" y="242" text-anchor="middle">b</text>
+            <text class="ch10-diam__note" x="410" y="242" text-anchor="middle">c</text>
+          </g>
+
+          <g class="ch10-static-nodes">
+            <g transform="translate(280 40)"><circle r="16"/><text y="4">1</text></g>
+            <g transform="translate(150 120)"><circle r="16"/><text y="4">2</text></g>
+            <g transform="translate(280 120)"><circle r="16"/><text y="4">3</text></g>
+            <g transform="translate(410 120)"><circle r="16"/><text y="4">4</text></g>
+            <g transform="translate(90 200)"><circle r="16"/><text y="4">5</text></g>
+            <g transform="translate(210 200)"><circle r="16"/><text y="4">6</text></g>
+            <g transform="translate(410 200)"><circle r="16"/><text y="4">7</text></g>
+          </g>
+        </svg>
+      </div>
+
+      <p class="ch10-lab__note" id="ch10DiamNote">The path 6 → 2 → 1 → 4 → 7 has length 4, and node 1 is its highest point.</p>
+    </div>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">Why the two sweeps work</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Draw the diameter horizontally and let every other node hang from it. Let <i>x</i> be the point where the path from the arbitrary start <i>a</i> joins the diameter. The farthest node from <i>a</i> is <i>b</i>, <i>c</i>, or another node at least as far from <i>x</i> as either of them. So the first sweep always returns a valid endpoint of some diameter.</p>
+        <p>The second sweep measures the farthest distance from that endpoint, which is the diameter itself.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.1.3 ============ -->
+<section class="section section--sub" id="s1013" aria-labelledby="h1013">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.1.3</span>
+      <div class="section-head__body">
+        <h2 id="h1013">All Longest Paths</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>For every node <i>x</i>, compute the maximum length of a path that begins at <i>x</i>. The largest of these values is the diameter, so this generalises the previous problem — still in <i>O</i>(<i>n</i>) time.</p>
+
+    <p class="ch10-prose" data-reveal>Root the tree arbitrarily. A longest path from <i>x</i> either goes downwards through a child, or upwards through its parent <i>p</i> and then somewhere else. The downward part is a standard subtree DP. The upward part is the subtle one: the best path from <i>p</i> may immediately re-enter the subtree of <i>x</i>, which would repeat an edge.</p>
+
+    <p class="ch10-prose" data-reveal>That is why each node stores the lengths of its two best downward paths, in different directions: <span class="ch10-mono">maxLength1(x)</span> and <span class="ch10-mono">maxLength2(x)</span>. If the parent's best path uses <i>x</i>, use the second-best value instead.</p>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch10-reroot">
+        <div class="ch10-reroot__head">
+          <span class="kicker">Rerooting at node 3</span>
+          <h3>The best answer may go up</h3>
+        </div>
+        <svg class="ch10-reroot__svg" viewBox="0 0 560 300" role="img" aria-label="A seven-node tree with the longest path from node 3 highlighted going up through node 1 and down to node 5">
+          <g class="ch10-static-edges">
+            <path d="M280 48 150 128M280 48 280 128M280 48 410 128M150 128 90 208M150 128 210 208M410 128 410 208"/>
+          </g>
+          <path class="ch10-reroot__path" d="M280 128 280 48 150 128 90 208"/>
+          <g class="ch10-static-nodes">
+            <g transform="translate(280 48)"><circle r="16"/><text y="4">1</text><text class="ch10-val" y="34">2</text></g>
+            <g transform="translate(150 128)"><circle r="16"/><text y="4">2</text><text class="ch10-val" y="34">3</text></g>
+            <g class="is-start" transform="translate(280 128)"><circle r="16"/><text y="4">3</text><text class="ch10-val" y="34">3</text></g>
+            <g transform="translate(410 128)"><circle r="16"/><text y="4">4</text><text class="ch10-val" y="34">3</text></g>
+            <g transform="translate(90 208)"><circle r="16"/><text y="4">5</text><text class="ch10-val" y="34">4</text></g>
+            <g transform="translate(210 208)"><circle r="16"/><text y="4">6</text><text class="ch10-val" y="34">4</text></g>
+            <g transform="translate(410 208)"><circle r="16"/><text y="4">7</text><text class="ch10-val" y="34">4</text></g>
+          </g>
+          <g class="ch10-reroot__labels">
+            <text x="292" y="80">up</text>
+            <text x="55" y="202" text-anchor="end">down</text>
+          </g>
+        </svg>
+        <p class="ch10-lab__note"><span class="ch10-mono">maxLength(3) = 3</span> · 3 → 1 → 2 → 5. The downward part from the parent must avoid returning through 3.</p>
+      </div>
+      <figcaption class="figure__cap">The small numbers are the answer for each node. At node 3 the longest route does not descend into its own subtree; it climbs first.</figcaption>
+    </figure>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">The two cases, precisely</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>To find the best path from <i>x</i> upwards through its parent <i>p</i>: if the path realising <span class="ch10-mono">maxLength1(p)</span> goes through <i>x</i>, the answer is <span class="ch10-mono">maxLength2(p) + 1</span>; otherwise it is <span class="ch10-mono">maxLength1(p) + 1</span>.</p>
+        <p>Both maxima are computed during the same post-order traversal that computes subtree sizes, so the rerooting pass adds only linear work.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.2 ============ -->
+<section class="section" id="s102" aria-labelledby="h102">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">10.2</span>
+      <div class="section-head__body">
+        <h2 id="h102">Tree Queries</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A rooted tree turns subtree queries into intervals and path queries into ascents.</p>
+
+    <p class="lead" data-reveal>The queries in this section are typically about subtrees and paths. With a little preprocessing they can be answered in constant or logarithmic time instead of walking the tree for every query.</p>
+
+    <ul class="ch10-queries" data-reveal aria-label="Typical tree queries and their complexities">
+      <li><span>kth ancestor</span><b><i>O</i>(log <i>k</i>)</b></li>
+      <li><span>subtree sum</span><b><i>O</i>(log <i>n</i>)</b></li>
+      <li><span>lowest common ancestor</span><b><i>O</i>(log <i>n</i>)</b></li>
+      <li><span>distance between nodes</span><b><i>O</i>(log <i>n</i>)</b></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 10.2.1 ============ -->
+<section class="section section--sub" id="s1021" aria-labelledby="h1021">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h1021">Finding Ancestors</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The <i>k</i>th ancestor of a node <i>x</i> is the node reached by moving <i>k</i> levels up. Writing <span class="ch10-mono">ancestor(x, k)</span>, the answer is 0 when no such ancestor exists.</p>
+
+    <p class="ch10-prose" data-reveal>Walking up one edge at a time costs <i>O</i>(<i>k</i>), which can be <i>O</i>(<i>n</i>) — too slow when a tree is a long path and there are many queries. The fix is to precompute jumps whose lengths are powers of two. After <i>O</i>(<i>n</i> log <i>n</i>) preprocessing, any <span class="ch10-mono">ancestor(x, k)</span> is answered in <i>O</i>(log <i>k</i>) time by writing <i>k</i> as a sum of powers of two.</p>
+
+    <div class="ch10-lab ch10-lift" id="ch10Lift" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">Binary lifting</span>
+          <h3>Jump in powers of two</h3>
+        </div>
+        <span class="tag tag--mono"><i>O</i>(<i>n</i> log <i>n</i>) build</span>
+      </div>
+
+      <div class="ch10-controls">
+        <label class="ch10-field" for="ch10LiftNode"><span class="ch10-field__label">node <i>x</i></span>
+          <select class="ch10-select" id="ch10LiftNode">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option>
+          </select>
+        </label>
+        <div class="ch10-kchips" role="group" aria-label="Jump length k">
+          <button class="ch10-kbtn" type="button" data-k="1">1</button>
+          <button class="ch10-kbtn" type="button" data-k="2">2</button>
+          <button class="ch10-kbtn is-active" type="button" data-k="3">3</button>
+          <button class="ch10-kbtn" type="button" data-k="4">4</button>
+          <button class="ch10-kbtn" type="button" data-k="5">5</button>
+          <button class="ch10-kbtn" type="button" data-k="6">6</button>
+          <button class="ch10-kbtn" type="button" data-k="7">7</button>
+        </div>
+        <div class="ch10-actions">
+          <button class="btn btn--primary" type="button" id="ch10LiftStep"><svg class="icon"><use href="#i-step"/></svg><span>Next jump</span></button>
+          <button class="btn btn--icon" type="button" id="ch10LiftReset" aria-label="Reset the ancestor query"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ch10-lift__body">
+        <div class="ch10-lift__tree">
+          <svg id="ch10LiftTree" class="ch10-tree-svg" viewBox="0 0 560 380" role="img" aria-label="A rooted tree. Select a node to trace an ancestor jump."></svg>
+        </div>
+        <div class="ch10-lift__side">
+          <div class="ch10-readout" aria-live="polite">
+            <span class="kicker">Ancestor query</span>
+            <div class="ch10-readout__line"><b id="ch10LiftExpr">ancestor(8, 3)</b><span id="ch10LiftResult">= ?</span></div>
+            <div class="ch10-jumps" id="ch10LiftJumps"></div>
+          </div>
+          <div class="ch10-table-scroll">
+            <table class="ch10-table" aria-label="Precomputed ancestors for jump lengths one, two and four">
+              <thead>
+                <tr><th scope="col">x</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row"><span>2<sup>0</sup></span><em>jump 1</em></th><td data-up="0-1">0</td><td data-up="0-2">1</td><td data-up="0-3">1</td><td data-up="0-4">1</td><td data-up="0-5">2</td><td data-up="0-6">2</td><td data-up="0-7">4</td><td data-up="0-8">6</td></tr>
+                <tr><th scope="row"><span>2<sup>1</sup></span><em>jump 2</em></th><td data-up="1-1">0</td><td data-up="1-2">0</td><td data-up="1-3">0</td><td data-up="1-4">0</td><td data-up="1-5">1</td><td data-up="1-6">1</td><td data-up="1-7">1</td><td data-up="1-8">2</td></tr>
+                <tr><th scope="row"><span>2<sup>2</sup></span><em>jump 4</em></th><td data-up="2-1">0</td><td data-up="2-2">0</td><td data-up="2-3">0</td><td data-up="2-4">0</td><td data-up="2-5">0</td><td data-up="2-6">0</td><td data-up="2-7">0</td><td data-up="2-8">0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <p class="ch10-lab__note" id="ch10LiftNote">3 = 2 + 1, so two jumps: first 2<sup>1</sup>, then 2<sup>0</sup>.</p>
+    </div>
+
+    <div class="ch10-cardwrap" data-reveal>
+      <div class="code-card" data-code-card>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">Why powers of two are enough</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Every positive integer has a unique binary representation. To move <i>k</i> levels, scan the bits of <i>k</i> and apply the precomputed jump for each set bit. A jump of 2<sup><i>b</i></sup> is read directly from <span class="ch10-mono">up[b][x]</span>, and the next jump starts from the node just reached.</p>
+        <p>The table has one row per power of two. Since a node has fewer than <i>n</i> ancestors, only <i>O</i>(log <i>n</i>) rows are needed.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.2.2 ============ -->
+<section class="section section--sub" id="s1022" aria-labelledby="h1022">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h1022">Subtrees and Paths</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A tree traversal array lists the nodes in the order a depth-first search from the root visits them. Each subtree then occupies one contiguous subarray, with its root at the left end.</p>
+
+    <p class="ch10-prose" data-reveal>This single property does a lot of work. To compute the sum of values in a subtree, find the subtree's size, then sum that many consecutive array entries. Updates and queries become range operations, handled in <i>O</i>(log <i>n</i>) by a binary indexed tree or a segment tree.</p>
+
+    <div class="ch10-lab ch10-dfsarray" id="ch10DfsArray" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">DFS order</span>
+          <h3>A subtree is an interval</h3>
+        </div>
+        <span class="tag tag--mono">positions 1–8</span>
+      </div>
+
+      <div class="ch10-dfsarray__body">
+        <div class="ch10-dfsarray__tree">
+          <svg id="ch10ArrayTree" class="ch10-tree-svg" viewBox="0 0 560 380" role="img" aria-label="A rooted tree. Select a node to highlight its subtree interval in the traversal array."></svg>
+        </div>
+        <div class="ch10-array-wrap">
+          <div class="ch10-array__head">
+            <span class="kicker">Traversal array</span>
+            <span class="ch10-array__range" id="ch10ArrayRange">subtree 2 · positions 2–5</span>
+          </div>
+          <div class="ch10-array" id="ch10Array"></div>
+          <p class="ch10-array__sum" id="ch10ArraySum">sum of values in the interval = <b>12</b></p>
+          <p class="ch10-fine">Each node holds the value shown in the third row. The interval sum is the subtree sum.</p>
+        </div>
+      </div>
+
+      <p class="ch10-lab__note">Select a node on either side. The highlighted cells are exactly the nodes of its subtree.</p>
+    </div>
+
+    <p class="ch10-prose" data-reveal>A second application is path sums from the root. Store in each array position the sum of values on the path from the root to that node. When the value of a node increases by <i>x</i>, every path sum in its subtree increases by <i>x</i> — which is a range addition over the subtree interval. A difference array plus a binary indexed tree supports the range addition and the point query in <i>O</i>(log <i>n</i>).</p>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">Range add, point query</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Represent the array as differences. Adding <i>x</i> to every position in <span class="ch10-mono">[l, r]</span> means adding <i>x</i> at <i>l</i> and subtracting <i>x</i> at <i>r</i> + 1. A prefix sum of the difference array then gives the current value at any single position.</p>
+        <p>The subtree interval is <span class="ch10-mono">[tin[s], tin[s] + sz[s] − 1]</span>, so both operations stay inside one range.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.2.3 ============ -->
+<section class="section section--sub" id="s1023" aria-labelledby="h1023">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h1023">Lowest Common Ancestors</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The lowest common ancestor of two nodes is the lowest node whose subtree contains both of them. In the example tree, the lowest common ancestor of nodes 5 and 8 is node 2.</p>
+
+    <p class="ch10-prose" data-reveal>Once <i>k</i>th ancestors are available, an LCA query becomes a short pointer walk. First make the pointers point to nodes at the same depth by lifting the deeper one. Then move both pointers upwards together, as far as their ancestors remain different. The parent of the two final positions is the lowest common ancestor.</p>
+
+    <div class="ch10-lab ch10-lca" id="ch10Lca" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">Two pointers, binary lifting</span>
+          <h3>Find the meeting point</h3>
+        </div>
+        <span class="tag tag--mono"><i>O</i>(log <i>n</i>)</span>
+      </div>
+
+      <div class="ch10-controls">
+        <label class="ch10-field" for="ch10LcaA"><span class="ch10-field__label">node <i>a</i></span>
+          <select class="ch10-select" id="ch10LcaA">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </label>
+        <label class="ch10-field" for="ch10LcaB"><span class="ch10-field__label">node <i>b</i></span>
+          <select class="ch10-select" id="ch10LcaB">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option>
+          </select>
+        </label>
+        <div class="ch10-actions">
+          <button class="btn btn--icon" type="button" id="ch10LcaPrev" aria-label="Previous step"><svg class="icon"><use href="#i-chevron"/></svg></button>
+          <button class="btn btn--primary" type="button" id="ch10LcaNext"><span>Step</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--icon" type="button" id="ch10LcaReset" aria-label="Reset the query"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ch10-lca__stage">
+        <svg id="ch10LcaTree" class="ch10-tree-svg ch10-tree-svg--wide" viewBox="0 0 560 380" role="img" aria-label="A rooted tree with two pointers and the path between them"></svg>
+      </div>
+
+      <div class="ch10-lca__readout">
+        <div class="ch10-lca__status">
+          <span class="kicker" id="ch10LcaKicker">Step 1 / 5</span>
+          <p id="ch10LcaText">a = 5 at depth 3, b = 8 at depth 4.</p>
+        </div>
+        <div class="ch10-lca__result">
+          <span class="kicker">Result</span>
+          <b id="ch10LcaResult">LCA = —</b>
+          <span id="ch10LcaDist">distance —</span>
+        </div>
+      </div>
+
+      <p class="ch10-lab__note" id="ch10LcaNote">Start by equalising the depths. Then lift both pointers while their ancestors differ.</p>
+    </div>
+
+    <p class="ch10-prose" data-reveal>Distances follow immediately. With <i>c</i> the lowest common ancestor of <i>a</i> and <i>b</i>, the length of the path between them is <span class="ch10-mono">depth(a) + depth(b) − 2·depth(c)</span>. For nodes 5 and 8 the depths are 3, 4 and 2, so the distance is 3 + 4 − 2·2 = 3.</p>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">The Euler tour alternative</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Walk the tree with a depth-first search and append a node every time the search passes through it — not only on the first visit. A node with <i>k</i> children appears <i>k</i> + 1 times, and the array has 2<i>n</i> − 1 entries. Store the node id and its depth.</p>
+        <p>The lowest common ancestor of <i>a</i> and <i>b</i> is the minimum-depth node between any occurrence of <i>a</i> and any occurrence of <i>b</i>. That is a range minimum query: <i>O</i>(log <i>n</i>) with a segment tree, or <i>O</i>(1) after <i>O</i>(<i>n</i> log <i>n</i>) preprocessing on the static array.</p>
+        <div class="ch10-euler" aria-label="Euler tour of the example tree with node ids and depths">
+          <div class="ch10-euler__ids">
+            <span>1</span><span>2</span><span class="is-range">5</span><span class="is-range is-min">2</span><span class="is-range">6</span><span class="is-range">8</span><span>6</span><span>2</span><span>1</span><span>3</span><span>1</span><span>4</span><span>7</span><span>4</span><span>1</span>
+          </div>
+          <div class="ch10-euler__depths">
+            <span>0</span><span>1</span><span class="is-range">2</span><span class="is-range is-min">1</span><span class="is-range">2</span><span class="is-range">3</span><span>2</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>2</span><span>1</span><span>0</span>
+          </div>
+        </div>
+        <p class="ch10-fine">Between the marked 5 and 8, the smallest depth is 1, at node 2. The highlighted cells are the range minimum query.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.2.4 ============ -->
+<section class="section section--sub" id="s1024" aria-labelledby="h1024">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.2.4</span>
+      <div class="section-head__body">
+        <h2 id="h1024">Merging Data Structures</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The methods so far are online: each query is answered before the next arrives. Many problems give the whole query set at once, and an offline traversal can be simpler.</p>
+
+    <p class="ch10-prose" data-reveal>One offline pattern keeps a data structure at every node. At node <i>s</i>, start with a structure <span class="ch10-mono">d[s]</span> containing only the value of <i>s</i>. Then merge in the structures of the children. Queries attached to <i>s</i> are answered as soon as its structure is complete.</p>
+
+    <p class="ch10-prose" data-reveal>The maps are merged small into large: before copying a child's map into the parent's map, swap them if the parent's map is smaller. Each value then moves to a larger map only, so it is copied <i>O</i>(log <i>n</i>) times over the whole traversal. Swapping two C++ standard library containers is constant time, so the trick costs nothing.</p>
+
+    <div class="ch10-merge" data-reveal aria-label="Three maps merging into the map of node 2">
+      <div class="ch10-merge__side">
+        <div class="ch10-map">
+          <span class="ch10-map__name">d[5]</span>
+          <div class="ch10-map__body"><span><b>3</b> × 1</span></div>
+        </div>
+        <div class="ch10-map">
+          <span class="ch10-map__name">d[6]</span>
+          <div class="ch10-map__body"><span><b>1</b> × 1</span><span><b>3</b> × 1</span></div>
+        </div>
+      </div>
+      <div class="ch10-merge__op" aria-hidden="true">
+        <span>merge</span>
+        <svg viewBox="0 0 80 40" role="img" aria-hidden="true"><path d="M4 8h18l16 12h38M4 32h18l16-12" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+      </div>
+      <div class="ch10-map ch10-map--merged">
+        <span class="ch10-map__name">d[2]</span>
+        <div class="ch10-map__body"><span><b>2</b> × 1</span><span><b>3</b> × 2</span><span><b>1</b> × 1</span></div>
+        <p>two nodes with value 3</p>
+      </div>
+    </div>
+
+    <p class="ch10-fine ch10-merge__fine" data-reveal>The map of node 2 starts with its own value and absorbs the maps of nodes 5 and 6. A query “how many nodes in subtree(2) have value 3?” now reads the count directly.</p>
+
+    <div class="ch10-swap" data-reveal>
+      <code>swap(a, b);</code>
+      <p>Constant time for C++ standard library containers. This is the whole optimisation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10.3 ============ -->
+<section class="section" id="s103" aria-labelledby="h103">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">10.3</span>
+      <div class="section-head__body">
+        <h2 id="h103">Advanced Techniques</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Two ways to make a tree smaller: split it at a centroid, or cut it into heavy paths.</p>
+
+    <p class="lead" data-reveal>Centroid decomposition divides a tree into smaller subtrees and processes them recursively. Heavy-light decomposition represents a tree as a set of special paths, which makes path queries behave almost like array queries.</p>
+  </div>
+</section>
+
+<!-- ============ 10.3.1 ============ -->
+<section class="section section--sub" id="s1031" aria-labelledby="h1031">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.3.1</span>
+      <div class="section-head__body">
+        <h2 id="h1031">Centroid Decomposition</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A centroid of a tree of <i>n</i> nodes is a node whose removal leaves subtrees of at most ⌊<i>n</i>/2⌋ nodes each. Every tree has one, and it can be found by walking towards the largest subtree until no subtree is too large.</p>
+
+    <p class="ch10-prose" data-reveal>Centroid decomposition processes all paths that pass through the centroid, removes it, and recurses on the remaining components. Each removal at least halves the component size, so there are <i>O</i>(log <i>n</i>) levels. If each level costs linear time, the whole algorithm is <i>O</i>(<i>n</i> log <i>n</i>).</p>
+
+    <div class="ch10-lab ch10-centroid" id="ch10Centroid" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">Fig. 10.27 · centroid tree</span>
+          <h3>Peel the tree a level at a time</h3>
+        </div>
+        <div class="ch10-actions">
+          <button class="btn btn--primary" type="button" id="ch10CentroidStep"><span>Decompose</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--icon" type="button" id="ch10CentroidReset" aria-label="Reset centroid decomposition"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ch10-centroid__body">
+        <div class="ch10-centroid__stage">
+          <svg viewBox="0 0 520 400" role="img" aria-label="A tree with eight nodes. The first centroid is node 5.">
+            <g class="ch10-static-edges">
+              <path data-ce="5-2" d="M260 180 140 100"/>
+              <path data-ce="2-1" d="M140 100 70 35"/>
+              <path data-ce="5-4" d="M260 180 380 100"/>
+              <path data-ce="4-3" d="M380 100 450 35"/>
+              <path data-ce="5-6" d="M260 180 260 290"/>
+              <path data-ce="6-7" d="M260 290 180 360"/>
+              <path data-ce="6-8" d="M260 290 340 360"/>
+            </g>
+
+            <g class="ch10-cent-components">
+              <ellipse cx="105" cy="68" rx="62" ry="62"/>
+              <ellipse cx="415" cy="68" rx="62" ry="62"/>
+              <ellipse cx="260" cy="318" rx="108" ry="56"/>
+            </g>
+
+            <g class="ch10-static-nodes ch10-cent-nodes">
+              <g transform="translate(260 180)" data-cent="5" data-level="0"><circle r="20"/><text y="5">5</text></g>
+              <g transform="translate(140 100)" data-cent="2" data-level="1"><circle r="18"/><text y="5">2</text></g>
+              <g transform="translate(380 100)" data-cent="4" data-level="1"><circle r="18"/><text y="5">4</text></g>
+              <g transform="translate(260 290)" data-cent="6" data-level="1"><circle r="18"/><text y="5">6</text></g>
+              <g transform="translate(70 35)" data-cent="1" data-level="2"><circle r="16"/><text y="4">1</text></g>
+              <g transform="translate(450 35)" data-cent="3" data-level="2"><circle r="16"/><text y="4">3</text></g>
+              <g transform="translate(180 360)" data-cent="7" data-level="2"><circle r="16"/><text y="4">7</text></g>
+              <g transform="translate(340 360)" data-cent="8" data-level="2"><circle r="16"/><text y="4">8</text></g>
+            </g>
+
+            <g class="ch10-cent-rings">
+              <circle data-ring="0" cx="260" cy="180" r="30"/>
+              <circle data-ring="1" cx="140" cy="100" r="27"/>
+              <circle data-ring="1" cx="380" cy="100" r="27"/>
+              <circle data-ring="1" cx="260" cy="290" r="27"/>
+              <circle data-ring="2" cx="70" cy="35" r="24"/>
+              <circle data-ring="2" cx="450" cy="35" r="24"/>
+              <circle data-ring="2" cx="180" cy="360" r="24"/>
+              <circle data-ring="2" cx="340" cy="360" r="24"/>
+            </g>
+          </svg>
+        </div>
+
+        <aside class="ch10-centroid__panel" aria-live="polite">
+          <span class="kicker">Level <b id="ch10CentroidLevel">0</b> of 2</span>
+          <p class="ch10-centroid__text" id="ch10CentroidText">Node 5 is the only centroid: removing it leaves components of 2, 2 and 3 nodes.</p>
+          <ul class="ch10-centroid__list" id="ch10CentroidList">
+            <li><span>component</span><b>{1, 2} · {3, 4} · {6, 7, 8}</b></li>
+            <li><span>largest</span><b>3 ≤ ⌊8/2⌋</b></li>
+          </ul>
+        </aside>
+      </div>
+
+      <p class="ch10-lab__note" id="ch10CentroidNote">Process every path through 5, remove it, and repeat inside each component.</p>
+    </div>
+
+    <p class="ch10-prose" data-reveal>The standard application is counting paths of a given length. For each centroid, count the paths that pass through it in linear time; then remove it and recurse. Every path is counted exactly once, at the first centroid it meets.</p>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">Why the recursion is shallow</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>After removing a centroid, every remaining component has at most half as many nodes as the component it came from. The size sequence is at most <i>n</i>, <i>n</i>/2, <i>n</i>/4, … so it reaches 1 in ⌈log<sub>2</sub> <i>n</i>⌉ levels.</p>
+        <p>That is where the extra logarithmic factor comes from: linear work per level, logarithmic number of levels.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 10.3.2 ============ -->
+<section class="section section--sub" id="s1032" aria-labelledby="h1032">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">10.3.2</span>
+      <div class="section-head__body">
+        <h2 id="h1032">Heavy-Light Decomposition</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Heavy-light decomposition divides the nodes of a tree into heavy paths, arranged so that a path between any two nodes can be covered by <i>O</i>(log <i>n</i>) subpaths of heavy paths.</p>
+
+    <p class="ch10-prose" data-reveal>Root the tree arbitrarily. Start a heavy path at the root and always continue to the child with the largest subtree; then recurse on the remaining subtrees. In the example tree this gives four paths: <span class="ch10-mono">1–2–6–8</span>, <span class="ch10-mono">3</span>, <span class="ch10-mono">4–7</span> and <span class="ch10-mono">5</span>.</p>
+
+    <p class="ch10-prose" data-reveal>Because the heavy child is always the largest, every light edge leads to a subtree at most half the size of its parent's. A path therefore crosses only <i>O</i>(log <i>n</i>) light edges, and between them it travels along heavy paths. Each heavy path can be treated as an array and equipped with a segment tree.</p>
+
+    <div class="ch10-lab ch10-hld" id="ch10Hld" data-reveal>
+      <div class="ch10-lab__head">
+        <div>
+          <span class="kicker">Fig. 10.28</span>
+          <h3>A path, cut into chain pieces</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Path to decompose">
+          <button class="seg__btn is-active" type="button" data-hld-pair="78" aria-pressed="true">7 → 8</button>
+          <button class="seg__btn" type="button" data-hld-pair="53" aria-pressed="false">5 → 3</button>
+          <button class="seg__btn" type="button" data-hld-pair="83" aria-pressed="false">8 → 3</button>
+        </div>
+      </div>
+
+      <div class="ch10-hld__body">
+        <div class="ch10-hld__stage">
+          <svg id="ch10HldSvg" viewBox="0 0 560 400" role="img" aria-label="A tree divided into four heavy paths, with the selected path highlighted in chain segments">
+            <g class="ch10-hld__edges">
+              <path data-edge="1-2" d="M280 50 140 140" class="is-heavy"/>
+              <path data-edge="1-3" d="M280 50 280 140"/>
+              <path data-edge="1-4" d="M280 50 420 140"/>
+              <path data-edge="2-5" d="M140 140 80 230"/>
+              <path data-edge="2-6" d="M140 140 200 230" class="is-heavy"/>
+              <path data-edge="4-7" d="M420 140 420 230" class="is-heavy"/>
+              <path data-edge="6-8" d="M200 230 200 320" class="is-heavy"/>
+            </g>
+            <g id="ch10HldOverlay"></g>
+            <g class="ch10-static-nodes ch10-hld__nodes">
+              <g transform="translate(280 50)"><circle r="17"/><text y="4">1</text><text class="ch10-chain-tag" x="30" y="4">P1</text></g>
+              <g transform="translate(140 140)"><circle r="17"/><text y="4">2</text><text class="ch10-chain-tag" x="30" y="4">P1</text></g>
+              <g transform="translate(280 140)"><circle r="17"/><text y="4">3</text><text class="ch10-chain-tag" x="30" y="4">P2</text></g>
+              <g transform="translate(420 140)"><circle r="17"/><text y="4">4</text><text class="ch10-chain-tag" x="30" y="4">P3</text></g>
+              <g transform="translate(80 230)"><circle r="17"/><text y="4">5</text><text class="ch10-chain-tag" x="30" y="4">P4</text></g>
+              <g transform="translate(200 230)"><circle r="17"/><text y="4">6</text><text class="ch10-chain-tag" x="30" y="4">P1</text></g>
+              <g transform="translate(420 230)"><circle r="17"/><text y="4">7</text><text class="ch10-chain-tag" x="30" y="4">P3</text></g>
+              <g transform="translate(200 320)"><circle r="17"/><text y="4">8</text><text class="ch10-chain-tag" x="30" y="4">P1</text></g>
+            </g>
+          </svg>
+        </div>
+
+        <aside class="ch10-hld__panel" aria-live="polite">
+          <span class="kicker">Heavy subpaths</span>
+          <b class="ch10-hld__count" id="ch10HldCount">2</b>
+          <ol class="ch10-hld__segs" id="ch10HldSegs">
+            <li><span>7 – 4</span><em>P3</em></li>
+            <li><span>1 – 2 – 6 – 8</span><em>P1</em></li>
+          </ol>
+          <div class="ch10-hld__legend">
+            <span><i class="is-heavy"></i>heavy edge</span>
+            <span><i></i>light edge</span>
+          </div>
+        </aside>
+      </div>
+
+      <p class="ch10-lab__note" id="ch10HldNote">The light edge 4–1 joins the two heavy subpaths. The decomposition stores each side in its own segment tree.</p>
+    </div>
+
+    <p class="ch10-prose" data-reveal>A path query becomes <i>O</i>(log <i>n</i>) segment-tree queries: one per heavy subpath. Each segment-tree query is itself <i>O</i>(log <i>n</i>), so the total is <i>O</i>(log<sup>2</sup> <i>n</i>). Path updates work the same way.</p>
+
+    <details class="note ch10-note" data-reveal>
+      <summary><span class="note__label">When not to use it</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Heavy-light decomposition is powerful, but it is not always the easiest solution. The traversal-array techniques of Sect. 10.2.2 are often enough, and they are shorter to implement. Reach for heavy-light when the query is genuinely about arbitrary paths and the simpler interval tricks do not apply.</p>
+        <p class="ch10-fine"><sup>1</sup> Sleator and Tarjan introduced the idea in the context of their link/cut tree data structure.</p>
+      </div>
+    </details>
+
+    <p class="closing" data-reveal>A tree rewards a traversal order and a little preprocessing. Root it once, and the rest is intervals, jumps, and chains.</p>
+  </div>
+</section>

@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 11 — Mathematics · Guide to Competitive Programming</title>
+<meta name="description" content="Number theory, combinatorics, matrices, probability, and games.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E11%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch11.css">
+</head>
+<body data-chapter="11">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 11 <span>— Mathematics</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s11" class="siderail__item" data-section="s11"><span class="siderail__num">11.1</span><span class="siderail__label">Number Theory</span></a>
+  <a href="#s111" class="siderail__item" data-section="s111"><span class="siderail__num">11.1.1</span><span class="siderail__label">Primes and Factors</span></a>
+  <a href="#s112" class="siderail__item" data-section="s112"><span class="siderail__num">11.1.2</span><span class="siderail__label">Sieve of Eratosthenes</span></a>
+  <a href="#s113" class="siderail__item" data-section="s113"><span class="siderail__num">11.1.3</span><span class="siderail__label">Euclid’s Algorithm</span></a>
+  <a href="#s114" class="siderail__item" data-section="s114"><span class="siderail__num">11.1.4</span><span class="siderail__label">Modular Exponentiation</span></a>
+  <a href="#s115" class="siderail__item" data-section="s115"><span class="siderail__num">11.1.5</span><span class="siderail__label">Euler’s Theorem</span></a>
+  <a href="#s116" class="siderail__item" data-section="s116"><span class="siderail__num">11.1.6</span><span class="siderail__label">Solving Equations</span></a>
+  <a href="#s12" class="siderail__item" data-section="s12"><span class="siderail__num">11.2</span><span class="siderail__label">Combinatorics</span></a>
+  <a href="#s121" class="siderail__item" data-section="s121"><span class="siderail__num">11.2.1</span><span class="siderail__label">Binomial Coefficients</span></a>
+  <a href="#s122" class="siderail__item" data-section="s122"><span class="siderail__num">11.2.2</span><span class="siderail__label">Catalan Numbers</span></a>
+  <a href="#s123" class="siderail__item" data-section="s123"><span class="siderail__num">11.2.3</span><span class="siderail__label">Inclusion–Exclusion</span></a>
+  <a href="#s124" class="siderail__item" data-section="s124"><span class="siderail__num">11.2.4</span><span class="siderail__label">Burnside’s Lemma</span></a>
+  <a href="#s125" class="siderail__item" data-section="s125"><span class="siderail__num">11.2.5</span><span class="siderail__label">Cayley’s Formula</span></a>
+  <a href="#s13" class="siderail__item" data-section="s13"><span class="siderail__num">11.3</span><span class="siderail__label">Matrices</span></a>
+  <a href="#s131" class="siderail__item" data-section="s131"><span class="siderail__num">11.3.1</span><span class="siderail__label">Matrix Operations</span></a>
+  <a href="#s132" class="siderail__item" data-section="s132"><span class="siderail__num">11.3.2</span><span class="siderail__label">Linear Recurrences</span></a>
+  <a href="#s133" class="siderail__item" data-section="s133"><span class="siderail__num">11.3.3</span><span class="siderail__label">Graphs and Matrices</span></a>
+  <a href="#s134" class="siderail__item" data-section="s134"><span class="siderail__num">11.3.4</span><span class="siderail__label">Gaussian Elimination</span></a>
+  <a href="#s14" class="siderail__item" data-section="s14"><span class="siderail__num">11.4</span><span class="siderail__label">Probability</span></a>
+  <a href="#s141" class="siderail__item" data-section="s141"><span class="siderail__num">11.4.1</span><span class="siderail__label">Working with Events</span></a>
+  <a href="#s142" class="siderail__item" data-section="s142"><span class="siderail__num">11.4.2</span><span class="siderail__label">Random Variables</span></a>
+  <a href="#s143" class="siderail__item" data-section="s143"><span class="siderail__num">11.4.3</span><span class="siderail__label">Markov Chains</span></a>
+  <a href="#s144" class="siderail__item" data-section="s144"><span class="siderail__num">11.4.4</span><span class="siderail__label">Randomized Algorithms</span></a>
+  <a href="#s15" class="siderail__item" data-section="s15"><span class="siderail__num">11.5</span><span class="siderail__label">Game Theory</span></a>
+  <a href="#s151" class="siderail__item" data-section="s151"><span class="siderail__num">11.5.1</span><span class="siderail__label">Game States</span></a>
+  <a href="#s152" class="siderail__item" data-section="s152"><span class="siderail__num">11.5.2</span><span class="siderail__label">Nim Game</span></a>
+  <a href="#s153" class="siderail__item" data-section="s153"><span class="siderail__num">11.5.3</span><span class="siderail__label">Sprague–Grundy Theorem</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 11</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Mathematics</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Mathematics</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Number theory, combinatorics, matrices, probability, and games — the mathematics that competitive programming uses every week, and the algorithms that make it fast.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>5 sections</span><span>41 pages</span><span>≈ 100 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="ch11-hero" data-reveal style="--d:.2s" aria-label="Five mathematical structures used in the chapter">
+      <svg viewBox="0 0 1200 280" role="img" aria-label="A sieve of primes, Pascal's triangle, a matrix power, a probability tree, and a row of winning and losing game states">
+        <g class="ch11-hero__panel">
+          <g class="ch11-hero__sieve" aria-hidden="true">
+            <circle cx="32" cy="78" r="2.4" class="is-one"/>
+            <circle cx="57" cy="78" r="3" class="is-prime"/><circle cx="82" cy="78" r="3" class="is-prime"/><circle cx="107" cy="78" r="2.4"/><circle cx="132" cy="78" r="3" class="is-prime"/><circle cx="157" cy="78" r="2.4"/><circle cx="182" cy="78" r="3" class="is-prime"/><circle cx="207" cy="78" r="2.4"/>
+            <circle cx="32" cy="102" r="2.4"/><circle cx="57" cy="102" r="2.4"/><circle cx="82" cy="102" r="2.4"/><circle cx="107" cy="102" r="3" class="is-prime"/><circle cx="132" cy="102" r="2.4"/><circle cx="157" cy="102" r="3" class="is-prime"/><circle cx="182" cy="102" r="2.4"/><circle cx="207" cy="102" r="3" class="is-prime"/>
+            <circle cx="32" cy="126" r="2.4"/><circle cx="57" cy="126" r="3" class="is-prime"/><circle cx="82" cy="126" r="2.4"/><circle cx="107" cy="126" r="2.4"/><circle cx="132" cy="126" r="2.4"/><circle cx="157" cy="126" r="2.4"/><circle cx="182" cy="126" r="3" class="is-prime"/><circle cx="207" cy="126" r="2.4"/>
+            <circle cx="32" cy="150" r="2.4"/><circle cx="57" cy="150" r="2.4"/><circle cx="82" cy="150" r="3" class="is-prime"/><circle cx="107" cy="150" r="2.4"/><circle cx="132" cy="150" r="2.4"/><circle cx="157" cy="150" r="2.4"/><circle cx="182" cy="150" r="2.4"/><circle cx="207" cy="150" r="2.4"/>
+            <circle cx="32" cy="174" r="3" class="is-prime"/><circle cx="57" cy="174" r="2.4"/><circle cx="82" cy="174" r="2.4"/><circle cx="107" cy="174" r="2.4"/><circle cx="132" cy="174" r="3" class="is-prime"/><circle cx="157" cy="174" r="2.4"/><circle cx="182" cy="174" r="2.4"/><circle cx="207" cy="174" r="3" class="is-prime"/>
+          </g>
+          <text class="ch11-hero__num" x="0" y="230">11.1</text>
+          <text class="ch11-hero__name" x="0" y="250">Number theory</text>
+          <text class="ch11-hero__hint" x="0" y="270">primes · gcd · mod</text>
+        </g>
+
+        <g class="ch11-hero__panel">
+          <g class="ch11-hero__pascal" aria-hidden="true">
+            <circle cx="360" cy="62" r="3"/><circle cx="343" cy="80" r="3"/><circle cx="377" cy="80" r="3"/><circle cx="326" cy="98" r="3"/><circle cx="360" cy="98" r="4"/><circle cx="394" cy="98" r="3"/><circle cx="309" cy="116" r="3"/><circle cx="343" cy="116" r="4.4"/><circle cx="377" cy="116" r="4.4"/><circle cx="411" cy="116" r="3"/><circle cx="292" cy="134" r="3"/><circle cx="326" cy="134" r="4.8"/><circle cx="360" cy="134" r="5.6"/><circle cx="394" cy="134" r="4.8"/><circle cx="428" cy="134" r="3"/><circle cx="275" cy="152" r="3"/><circle cx="309" cy="152" r="5.2"/><circle cx="343" cy="152" r="6"/><circle cx="377" cy="152" r="6"/><circle cx="411" cy="152" r="5.2"/><circle cx="445" cy="152" r="3"/>
+          </g>
+          <text class="ch11-hero__num" x="240" y="230">11.2</text>
+          <text class="ch11-hero__name" x="240" y="250">Combinatorics</text>
+          <text class="ch11-hero__hint" x="240" y="270">count without listing</text>
+        </g>
+
+        <g class="ch11-hero__panel">
+          <g class="ch11-hero__matrix" aria-hidden="true">
+            <rect x="516" y="82" width="34" height="34"/><rect x="550" y="82" width="34" height="34"/><rect x="516" y="116" width="34" height="34"/><rect x="550" y="116" width="34" height="34"/>
+            <text x="533" y="104">0</text><text x="567" y="104">1</text><text x="533" y="138">1</text><text x="567" y="138">1</text>
+            <path class="ch11-hero__arrow" d="M598 116h18M611 110l6 6-6 6"/>
+            <rect x="630" y="82" width="34" height="34" class="is-soft"/><rect x="664" y="82" width="34" height="34" class="is-soft"/><rect x="630" y="116" width="34" height="34" class="is-soft"/><rect x="664" y="116" width="34" height="34" class="is-soft"/>
+            <text x="647" y="104">1</text><text x="681" y="104">1</text><text x="647" y="138">1</text><text x="681" y="138">2</text>
+          </g>
+          <text class="ch11-hero__num" x="480" y="230">11.3</text>
+          <text class="ch11-hero__name" x="480" y="250">Matrices</text>
+          <text class="ch11-hero__hint" x="480" y="270">X · v, X² · v, X⁴ · v</text>
+        </g>
+
+        <g class="ch11-hero__panel">
+          <g class="ch11-hero__tree" aria-hidden="true">
+            <path d="M840 64 812 104M840 64 868 104M812 104 792 148M812 104 832 148M868 104 848 148M868 104 888 148"/>
+            <circle cx="840" cy="64" r="3.2" class="is-root"/><circle cx="812" cy="104" r="2.6"/><circle cx="868" cy="104" r="2.6"/><circle cx="792" cy="148" r="2.4"/><circle cx="832" cy="148" r="2.4"/><circle cx="848" cy="148" r="2.4"/><circle cx="888" cy="148" r="2.4"/>
+            <text x="798" y="94">1/2</text><text x="856" y="94">1/2</text>
+          </g>
+          <text class="ch11-hero__num" x="720" y="230">11.4</text>
+          <text class="ch11-hero__name" x="720" y="250">Probability</text>
+          <text class="ch11-hero__hint" x="720" y="270">events · expectation</text>
+        </g>
+
+        <g class="ch11-hero__panel">
+          <g class="ch11-hero__game" aria-hidden="true">
+            <rect x="978" y="100" width="36" height="34"/><rect x="1014" y="100" width="36" height="34" class="is-win"/><rect x="1050" y="100" width="36" height="34"/><rect x="1086" y="100" width="36" height="34" class="is-win"/><rect x="1122" y="100" width="36" height="34"/>
+            <text x="988" y="122" class="is-loss">L</text><text x="1030" y="122">W</text><text x="1066" y="122" class="is-loss">L</text><text x="1102" y="122">W</text><text x="1138" y="122" class="is-loss">L</text>
+            <text x="988" y="152" class="ch11-hero__idx">0</text><text x="1024" y="152" class="ch11-hero__idx">1</text><text x="1060" y="152" class="ch11-hero__idx">2</text><text x="1096" y="152" class="ch11-hero__idx">3</text><text x="1132" y="152" class="ch11-hero__idx">4</text>
+          </g>
+          <text class="ch11-hero__num" x="960" y="230">11.5</text>
+          <text class="ch11-hero__name" x="960" y="250">Game theory</text>
+          <text class="ch11-hero__hint" x="960" y="270">winning · losing</text>
+        </g>
+
+        <line class="ch11-hero__rule" x1="0" y1="200" x2="1200" y2="200"/>
+        <circle class="ch11-hero__dot" cx="0" cy="200" r="2.4"/>
+      </svg>
+      <figcaption>
+        <span class="hero-map__hint">Five structures, one habit: replace enumeration with the invariant that makes a large space small.</span>
+      </figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s11">
+          <span class="idx__num">11.1</span>
+          <span class="idx__body"><span class="idx__title">Number Theory</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s12">
+          <span class="idx__num">11.2</span>
+          <span class="idx__body"><span class="idx__title">Combinatorics</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s13">
+          <span class="idx__num">11.3</span>
+          <span class="idx__body"><span class="idx__title">Matrices</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s14">
+          <span class="idx__num">11.4</span>
+          <span class="idx__body"><span class="idx__title">Probability</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s15">
+          <span class="idx__num">11.5</span>
+          <span class="idx__body"><span class="idx__title">Game Theory</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.1 ============ -->
+<section class="section" id="s11" aria-labelledby="h11">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">11.1</span>
+      <div class="section-head__body"><h2 id="h11">Number Theory</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Number theory is the study of the integers. In a contest it is usually four operations: deciding what divides what, filtering the primes, taking a greatest common divisor, and doing all of it modulo <i>m</i>.</p>
+
+    <p class="lead" data-reveal>Every integer is built from primes, and every prime is found by division. The algorithms in this section exploit that structure so that a number such as 10<sup>9</sup> never has to be examined one candidate at a time.</p>
+
+    <div class="ch11-defs" data-reveal>
+      <div class="ch11-def">
+        <span class="kicker">Divisibility</span>
+        <p><i>a</i> is a <em>factor</em> of <i>b</i> if <i>a</i> divides <i>b</i>, written <i>a</i> | <i>b</i>. The factors of 24 are 1, 2, 3, 4, 6, 8, 12, and 24.</p>
+      </div>
+      <div class="ch11-def">
+        <span class="kicker">Primality</span>
+        <p>An integer <i>n</i> &gt; 1 is <em>prime</em> if its only positive factors are 1 and <i>n</i>. A number that is not prime is composite.</p>
+      </div>
+      <div class="ch11-def">
+        <span class="kicker">Factorisation</span>
+        <p>Every <i>n</i> &gt; 1 has a unique prime factorisation <i>n</i> = <i>p</i><sub>1</sub><sup>α<sub>1</sub></sup><i>p</i><sub>2</sub><sup>α<sub>2</sub></sup> ⋯ <i>p</i><sub><i>k</i></sub><sup>α<sub><i>k</i></sub></sup>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.1.1 ============ -->
+<section class="section section--sub" id="s111" aria-labelledby="h111">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.1</span>
+      <div class="section-head__body"><h2 id="h111">Primes and Factors</h2></div>
+    </div>
+
+    <p data-reveal>Two functions describe a factorisation. Let τ(<i>n</i>) be the number of factors of <i>n</i>, and σ(<i>n</i>) the sum of its factors. For 12 the factors are 1, 2, 3, 4, 6, and 12, so τ(12) = 6 and σ(12) = 28. Both values follow directly from the exponents.</p>
+
+    <div class="ch11-formula" data-reveal>
+      <div class="ch11-formula__row">
+        <span class="ch11-formula__label">number of factors</span>
+        <span class="ch11-math">τ(<i>n</i>) = ∏<sub><i>i</i>=1</sub><sup><i>k</i></sup> (α<sub><i>i</i></sub> + 1)</span>
+      </div>
+      <div class="ch11-formula__row">
+        <span class="ch11-formula__label">sum of factors</span>
+        <span class="ch11-math">σ(<i>n</i>) = ∏<sub><i>i</i>=1</sub><sup><i>k</i></sup> (1 + <i>p</i><sub><i>i</i></sub> + ⋯ + <i>p</i><sub><i>i</i></sub><sup>α<sub><i>i</i></sub></sup>) = ∏<sub><i>i</i>=1</sub><sup><i>k</i></sup> <span class="ch11-frac"><span class="ch11-frac__n"><i>p</i><sub><i>i</i></sub><sup>α<sub><i>i</i></sub>+1</sup> − 1</span><span class="ch11-frac__d"><i>p</i><sub><i>i</i></sub> − 1</span></span></span>
+      </div>
+    </div>
+
+    <figure class="figure ch11-factor" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-factor__grid">
+          <div class="ch11-factor__ladder" aria-label="Division ladder for 84">
+            <div class="ch11-ladder__row"><span class="ch11-ladder__n">84</span><span class="ch11-ladder__p">2</span></div>
+            <div class="ch11-ladder__row"><span class="ch11-ladder__n">42</span><span class="ch11-ladder__p">2</span></div>
+            <div class="ch11-ladder__row"><span class="ch11-ladder__n">21</span><span class="ch11-ladder__p">3</span></div>
+            <div class="ch11-ladder__row"><span class="ch11-ladder__n">7</span><span class="ch11-ladder__p">7</span></div>
+            <div class="ch11-ladder__row ch11-ladder__row--last"><span class="ch11-ladder__n">1</span><span class="ch11-ladder__p"></span></div>
+          </div>
+          <div class="ch11-factor__side">
+            <p class="ch11-factor__eq">84 = 2<sup>2</sup> · 3 · 7</p>
+            <div class="ch11-factor__stat"><span>τ(84)</span><b>(2 + 1)(1 + 1)(1 + 1) = 12</b></div>
+            <div class="ch11-factor__stat"><span>σ(84)</span><b>7 · 4 · 8 = 224</b></div>
+            <div class="ch11-factor__divisors">
+              <span class="kicker">The twelve factors</span>
+              <div class="chips chips--tight">
+                <span class="chip chip--static">1</span><span class="chip chip--static">2</span><span class="chip chip--static">3</span><span class="chip chip--static">4</span><span class="chip chip--static">6</span><span class="chip chip--static">7</span><span class="chip chip--static">12</span><span class="chip chip--static">14</span><span class="chip chip--static">21</span><span class="chip chip--static">28</span><span class="chip chip--static">42</span><span class="chip chip--static">84</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">A division ladder peels off one prime at a time. The exponents 2, 1, 1 then give τ(84) = 3 · 2 · 2 and σ(84) = (1 + 2 + 4)(1 + 3)(1 + 7) = 224.</figcaption>
+    </figure>
+
+    <p data-reveal>If <i>n</i> is composite, it can be written as <i>a</i> · <i>b</i> with <i>a</i> ≤ √<i>n</i>, so it has a factor between 2 and ⌊√<i>n</i>⌋. Trial division therefore tests primality and finds a factorisation in <i>O</i>(√<i>n</i>) time. The factorisation routine below divides <i>n</i> by each prime factor as many times as it divides.</p>
+
+    <div class="ch11-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+
+    <div class="split2 ch11-primefacts" data-reveal>
+      <div>
+        <h3 class="ch11-h3">There are infinitely many primes</h3>
+        <p>Suppose the primes were exactly <i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, …, <i>p</i><sub><i>n</i></sub>. Then <i>p</i><sub>1</sub><i>p</i><sub>2</sub> ⋯ <i>p</i><sub><i>n</i></sub> + 1 would be larger than every prime in the list, yet leave remainder 1 when divided by each of them. The list cannot be complete.</p>
+      <p>The prime-counting function π(<i>n</i>) gives the number of primes up to <i>n</i>. Primes are frequent: π(<i>n</i>) ≈ <i>n</i> / ln <i>n</i>.</p>
+      </div>
+      <div class="ch11-pi" aria-label="Comparison of the exact and estimated prime count up to one million">
+        <span class="kicker">π(10<sup>6</sup>)</span>
+        <div class="ch11-pi__row"><span>exact</span><b>78,498</b></div>
+        <div class="ch11-pi__row"><span><i>n</i> / ln <i>n</i></span><b>72,382</b></div>
+        <p class="ch11-pi__note" data-tip="The estimate is asymptotic: the relative error tends to zero, but the absolute gap is still large at one million.">The estimate is close, and it gets relatively closer as <i>n</i> grows.</p>
+      </div>
+    </div>
+
+    <details class="note ch11-note" data-reveal>
+      <summary><span class="note__label">Why α<sub>i</sub> + 1 choices</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body"><p>A factor of <i>n</i> chooses an exponent for each prime: 0, 1, …, α<sub><i>i</i></sub> occurrences of <i>p</i><sub><i>i</i></sub>. The choices are independent, so the counts multiply. The sum formula is the same product applied to the geometric series 1 + <i>p</i> + ⋯ + <i>p</i><sup>α</sup>.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 11.1.2 ============ -->
+<section class="section section--sub" id="s112" aria-labelledby="h112">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.2</span>
+      <div class="section-head__body"><h2 id="h112">Sieve of Eratosthenes</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>The sieve answers every primality query up to <i>n</i> at once. It keeps an array <code>sieve</code>, where <code>sieve[x] = 0</code> means <i>x</i> is prime; when a new prime <i>x</i> is found, all multiples 2<i>x</i>, 3<i>x</i>, 4<i>x</i>, … are marked composite.</p>
+
+    <div class="ch11-lab ch11-sieve" id="ch11Sieve" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · sieve up to 100</span>
+          <h3>Cross out the multiples</h3>
+        </div>
+        <div class="ch11-lab__modes" id="ch11SieveModes" role="group" aria-label="Show the multiples removed by a prime"></div>
+      </div>
+      <div class="ch11-sieve__grid" id="ch11SieveGrid" role="grid" aria-label="Integers from 1 to 100, marked prime or composite"></div>
+      <div class="ch11-lab__foot">
+        <p id="ch11SieveNote">All composites are marked. The numbers left standing are the 25 primes up to 100.</p>
+        <div class="ch11-sieve__key" aria-hidden="true">
+          <span><i class="ch11-sieve__swatch is-prime"></i>prime</span>
+          <span><i class="ch11-sieve__swatch is-hit"></i>removed now</span>
+          <span><i class="ch11-sieve__swatch is-out"></i>already removed</span>
+        </div>
+      </div>
+    </div>
+
+    <figure class="figure ch11-sievecode" data-reveal>
+      <pre class="code"><code><span class="code-line">for (int x = 2; x &lt;= n; x++) {</span><span class="code-line">    if (sieve[x]) continue;</span><span class="code-line">    for (int u = 2*x; u &lt;= n; u += x) {</span><span class="code-line">        sieve[u] = 1;</span><span class="code-line">    }</span><span class="code-line">}</span></code></pre>
+      <figcaption class="figure__cap">The inner loop runs ⌊<i>n</i>/<i>x</i>⌋ times for each <i>x</i>, so the harmonic sum ⌊<i>n</i>/2⌋ + ⌊<i>n</i>/3⌋ + ⋯ gives an <i>O</i>(<i>n</i> log <i>n</i>) upper bound. Because only primes enter the inner loop, the real bound is <i>O</i>(<i>n</i> log log <i>n</i>).</figcaption>
+    </figure>
+
+    <div class="split2 ch11-sieveextra" data-reveal>
+      <div>
+        <h3 class="ch11-h3">An extended sieve</h3>
+        <p>The same array can store the <em>smallest prime factor</em> of each number. A factorisation then walks down: 12 → 2, 6 → 2, 3 → 3. Since a number has <i>O</i>(log <i>n</i>) prime factors, each factorisation is fast after the sieve has been built.</p>
+        <p>In practice the sieve is close to linear. The table is from the book, measured on a machine of its time.</p>
+      </div>
+      <div class="ch11-timings">
+        <div class="ch11-timings__head"><span>upper bound <i>n</i></span><span>time</span></div>
+        <div class="ch11-timings__row"><span>10<sup>6</sup></span><b>0.01 s</b></div>
+        <div class="ch11-timings__row"><span>2 · 10<sup>6</sup></span><b>0.03 s</b></div>
+        <div class="ch11-timings__row"><span>4 · 10<sup>6</sup></span><b>0.07 s</b></div>
+        <div class="ch11-timings__row"><span>8 · 10<sup>6</sup></span><b>0.14 s</b></div>
+        <div class="ch11-timings__row"><span>16 · 10<sup>6</sup></span><b>0.28 s</b></div>
+        <div class="ch11-timings__row"><span>32 · 10<sup>6</sup></span><b>0.57 s</b></div>
+        <div class="ch11-timings__row"><span>64 · 10<sup>6</sup></span><b>1.16 s</b></div>
+        <div class="ch11-timings__row"><span>128 · 10<sup>6</sup></span><b>2.35 s</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.1.3 ============ -->
+<section class="section section--sub" id="s113" aria-labelledby="h113">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.3</span>
+      <div class="section-head__body"><h2 id="h113">Euclid’s Algorithm</h2></div>
+    </div>
+
+    <p data-reveal>The greatest common divisor gcd(<i>a</i>, <i>b</i>) is the largest integer dividing both. For example, gcd(30, 12) = 6. The lowest common multiple follows from it:</p>
+
+    <div class="ch11-formula ch11-formula--inline" data-reveal>
+      <span class="ch11-math">lcm(<i>a</i>, <i>b</i>) = <span class="ch11-frac"><span class="ch11-frac__n"><i>a</i><i>b</i></span><span class="ch11-frac__d">gcd(<i>a</i>, <i>b</i>)</span></span></span>
+      <span class="ch11-formula__aside">lcm(30, 12) = 360 / 6 = 60</span>
+    </div>
+
+    <p data-reveal>Factoring both numbers would work, but it is slow. Euclid’s algorithm uses only the remainder:</p>
+
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math">gcd(<i>a</i>, <i>b</i>) = <span class="ch11-cases"><span><i>a</i><em>if</em> <i>b</i> = 0</span><span>gcd(<i>b</i>, <i>a</i> mod <i>b</i>)<em>if</em> <i>b</i> ≠ 0</span></span></span>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 660 280" role="img" aria-label="A 30 by 12 rectangle tiled by five columns of two 6 by 6 squares">
+          <g class="ch11-rect">
+            <rect x="60" y="60" width="540" height="216" class="ch11-rect__outline"/>
+            <g class="ch11-rect__tiles">
+              <rect x="60" y="60" width="108" height="108"/><rect x="168" y="60" width="108" height="108"/><rect x="276" y="60" width="108" height="108"/><rect x="384" y="60" width="108" height="108"/><rect x="492" y="60" width="108" height="108"/>
+              <rect x="60" y="168" width="108" height="108"/><rect x="168" y="168" width="108" height="108"/><rect x="276" y="168" width="108" height="108"/><rect x="384" y="168" width="108" height="108"/><rect x="492" y="168" width="108" height="108"/>
+            </g>
+            <rect x="60" y="60" width="108" height="108" class="ch11-rect__one"/>
+          </g>
+          <g class="ch11-rect__labels">
+            <text x="330" y="42" text-anchor="middle">30</text>
+            <text x="40" y="172" text-anchor="middle" transform="rotate(-90 40 172)">12</text>
+            <text x="114" y="120" text-anchor="middle">6</text>
+            <text x="330" y="262" text-anchor="middle" class="is-caption">30 = 2 · 12 + 6, then 12 = 2 · 6 + 0</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">Any common divisor of <i>a</i> and <i>b</i> also divides <i>a</i> mod <i>b</i>, so the pair can be replaced by (<i>b</i>, <i>a</i> mod <i>b</i>) without losing information. Here the common unit is 6, and the rectangle is exactly ten of them.</figcaption>
+    </figure>
+
+    <p data-reveal>The number of steps is <i>O</i>(log <i>n</i>), where <i>n</i> = min(<i>a</i>, <i>b</i>). The same recursion can be extended to return coefficients <i>x</i> and <i>y</i> with <i>a</i><i>x</i> + <i>b</i><i>y</i> = gcd(<i>a</i>, <i>b</i>). For 30 and 12, the algorithm gives 30 · 1 + 12 · (−2) = 6.</p>
+
+    <div class="ch11-lab ch11-euclid" id="ch11Euclid" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · Euclid and extended Euclid</span>
+          <h3>Follow the remainders</h3>
+        </div>
+        <div class="ch11-presets" id="ch11EuclidPresets" role="group" aria-label="Example pairs"></div>
+      </div>
+      <div class="ch11-lab__controls">
+        <label class="ch11-field" for="ch11EuclidA"><span>a =</span><input id="ch11EuclidA" type="number" min="1" max="99999" value="30" inputmode="numeric"></label>
+        <label class="ch11-field" for="ch11EuclidB"><span>b =</span><input id="ch11EuclidB" type="number" min="0" max="99999" value="12" inputmode="numeric"></label>
+        <div class="ch11-lab__actions">
+          <button class="btn btn--primary" id="ch11EuclidStep" type="button"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn" id="ch11EuclidReset" type="button"><svg class="icon"><use href="#i-reset"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+      <div class="ch11-euclid__body">
+        <div class="ch11-euclid__rows" id="ch11EuclidRows" aria-live="polite"></div>
+        <aside class="ch11-euclid__side">
+          <span class="kicker">Extended coefficients</span>
+          <div class="ch11-euclid__ext" id="ch11EuclidExt">Reach remainder 0 to read <i>x</i> and <i>y</i>.</div>
+        </aside>
+      </div>
+      <div class="ch11-lab__foot"><p id="ch11EuclidNote">Each row replaces (<i>a</i>, <i>b</i>) by (<i>b</i>, <i>a</i> mod <i>b</i>). The last non-zero remainder is the gcd.</p></div>
+    </div>
+
+    <div class="ch11-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.1.4 ============ -->
+<section class="section section--sub" id="s114" aria-labelledby="h114">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.4</span>
+      <div class="section-head__body"><h2 id="h114">Modular Exponentiation</h2></div>
+    </div>
+
+    <p data-reveal>Powers modulo <i>m</i> are needed constantly, and the exponent can be enormous. The value <i>x</i><sup><i>n</i></sup> mod <i>m</i> is computed in <i>O</i>(log <i>n</i>) time by halving the exponent:</p>
+
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>x</i><sup><i>n</i></sup> = <span class="ch11-cases"><span>1<em><i>n</i> = 0</em></span><span><i>x</i><sup><i>n</i>/2</sup> · <i>x</i><sup><i>n</i>/2</sup><em><i>n</i> even</em></span><span><i>x</i><sup><i>n</i>−1</sup> · <i>x</i><em><i>n</i> odd</em></span></span></span>
+    </div>
+
+    <p data-reveal>To compute <i>x</i><sup>100</sup>, first compute <i>x</i><sup>50</sup>; to compute that, first compute <i>x</i><sup>25</sup>; and so on. Each even exponent halves, so only <i>O</i>(log <i>n</i>) multiplications are needed.</p>
+
+    <div class="ch11-lab ch11-pow" id="ch11Pow" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · <i>x</i><sup><i>n</i></sup> mod <i>m</i></span>
+          <h3>Climb back up the recursion</h3>
+        </div>
+        <div class="ch11-presets" id="ch11PowPresets" role="group" aria-label="Example powers"></div>
+      </div>
+      <div class="ch11-lab__controls">
+        <label class="ch11-field" for="ch11PowX"><span>x =</span><input id="ch11PowX" type="number" min="1" max="99" value="7" inputmode="numeric"></label>
+        <label class="ch11-field" for="ch11PowN"><span>n =</span><input id="ch11PowN" type="number" min="0" max="60" value="4" inputmode="numeric"></label>
+        <label class="ch11-field" for="ch11PowM"><span>m =</span><input id="ch11PowM" type="number" min="2" max="9999" value="10" inputmode="numeric"></label>
+        <div class="ch11-lab__actions">
+          <button class="btn btn--primary" id="ch11PowStep" type="button"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn" id="ch11PowReset" type="button"><svg class="icon"><use href="#i-reset"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+      <div class="ch11-pow__body">
+        <div class="ch11-pow__ladder" id="ch11PowLadder" aria-live="polite"></div>
+        <aside class="ch11-pow__readout">
+          <span class="kicker">Result</span>
+          <div class="ch11-pow__result" id="ch11PowResult">·</div>
+          <p id="ch11PowNote">The recursion descends to <i>n</i> = 0, then each level squares the value below it.</p>
+        </aside>
+      </div>
+      <div class="ch11-lab__foot"><p>All arithmetic is reduced modulo <i>m</i> after every multiplication.</p></div>
+    </div>
+
+    <div class="ch11-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.1.5 ============ -->
+<section class="section section--sub" id="s115" aria-labelledby="h115">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.5</span>
+      <div class="section-head__body"><h2 id="h115">Euler’s Theorem</h2></div>
+    </div>
+
+    <p data-reveal>Two integers are <em>coprime</em> if gcd(<i>a</i>, <i>b</i>) = 1. Euler’s totient function φ(<i>n</i>) counts the integers between 1 and <i>n</i> that are coprime to <i>n</i>. For 10, the four values 1, 3, 7, and 9 are coprime to 10, so φ(10) = 4.</p>
+
+    <div class="split2 ch11-totient" data-reveal>
+      <figure class="figure ch11-totient__fig">
+        <div class="figure__frame">
+          <svg viewBox="0 0 640 250" role="img" aria-label="Two rings of dots: the numbers coprime to 10 and to 12 are filled">
+            <circle class="ch11-ring" cx="160" cy="125" r="70"/>
+            <circle class="ch11-ring" cx="470" cy="125" r="70"/>
+            <g class="ch11-ring__pts">
+              <circle cx="160.0" cy="55.0" r="5.2" class="is-on"/><text x="160.0" y="40.0">1</text>
+              <circle cx="201.1" cy="68.4" r="4.4"/><text x="210.0" y="56.2">2</text>
+              <circle cx="226.6" cy="103.4" r="5.2" class="is-on"/><text x="240.8" y="98.7">3</text>
+              <circle cx="226.6" cy="146.6" r="4.4"/><text x="240.8" y="151.3">4</text>
+              <circle cx="201.1" cy="181.6" r="4.4"/><text x="210.0" y="193.8">5</text>
+              <circle cx="160.0" cy="195.0" r="4.4"/><text x="160.0" y="210.0">6</text>
+              <circle cx="118.9" cy="181.6" r="5.2" class="is-on"/><text x="110.0" y="193.8">7</text>
+              <circle cx="93.4" cy="146.6" r="4.4"/><text x="79.2" y="151.3">8</text>
+              <circle cx="93.4" cy="103.4" r="5.2" class="is-on"/><text x="79.2" y="98.7">9</text>
+              <circle cx="118.9" cy="68.4" r="4.4"/><text x="110.0" y="56.2">10</text>
+              <circle cx="470.0" cy="55.0" r="5.2" class="is-on"/><text x="470.0" y="40.0">1</text>
+              <circle cx="505.0" cy="64.4" r="4.4"/><text x="512.5" y="51.4">2</text>
+              <circle cx="530.6" cy="90.0" r="4.4"/><text x="543.6" y="82.5">3</text>
+              <circle cx="540.0" cy="125.0" r="4.4"/><text x="555.0" y="125.0">4</text>
+              <circle cx="530.6" cy="160.0" r="5.2" class="is-on"/><text x="543.6" y="167.5">5</text>
+              <circle cx="505.0" cy="185.6" r="4.4"/><text x="512.5" y="198.6">6</text>
+              <circle cx="470.0" cy="195.0" r="5.2" class="is-on"/><text x="470.0" y="210.0">7</text>
+              <circle cx="435.0" cy="185.6" r="4.4"/><text x="427.5" y="198.6">8</text>
+              <circle cx="409.4" cy="160.0" r="4.4"/><text x="396.4" y="167.5">9</text>
+              <circle cx="400.0" cy="125.0" r="4.4"/><text x="385.0" y="125.0">10</text>
+              <circle cx="409.4" cy="90.0" r="5.2" class="is-on"/><text x="396.4" y="82.5">11</text>
+              <circle cx="435.0" cy="64.4" r="4.4"/><text x="427.5" y="51.4">12</text>
+            </g>
+            <text class="ch11-ring__label" x="160" y="240" text-anchor="middle">φ(10) = 4</text>
+            <text class="ch11-ring__label" x="470" y="240" text-anchor="middle">φ(12) = 4</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">The filled dots are the units modulo <i>n</i>. For 10 they are 1, 3, 7, 9; for 12 they are 1, 5, 7, 11.</figcaption>
+      </figure>
+      <div class="ch11-totient__copy">
+        <p>φ(<i>n</i>) is computed from the prime factorisation:</p>
+        <div class="ch11-formula ch11-formula--compact">
+          <span class="ch11-math">φ(<i>n</i>) = ∏<sub><i>i</i>=1</sub><sup><i>k</i></sup> <i>p</i><sub><i>i</i></sub><sup>α<sub><i>i</i></sub>−1</sup>(<i>p</i><sub><i>i</i></sub> − 1)</span>
+        </div>
+        <p>For 10 = 2 · 5, this gives 2<sup>0</sup>(2 − 1) · 5<sup>0</sup>(5 − 1) = 4. For 12 = 2<sup>2</sup> · 3, it gives 2<sup>1</sup>(2 − 1) · 3<sup>0</sup>(3 − 1) = 4.</p>
+        <p class="ch11-small">If <i>m</i> is prime, every number 1, 2, …, <i>m</i> − 1 is coprime to <i>m</i>, so φ(<i>m</i>) = <i>m</i> − 1.</p>
+      </div>
+    </div>
+
+    <p class="statement ch11-statement-tight" data-reveal>Euler’s theorem: if <i>x</i> and <i>m</i> are coprime, then <i>x</i><sup>φ(<i>m</i>)</sup> mod <i>m</i> = 1.</p>
+
+    <p data-reveal>For example, 7<sup>4</sup> mod 10 = 1, because 7 and 10 are coprime and φ(10) = 4. When <i>m</i> is prime this becomes Fermat’s little theorem, <i>x</i><sup><i>m</i>−1</sup> mod <i>m</i> = 1. It also means an exponent can be reduced: <i>x</i><sup><i>n</i></sup> mod <i>m</i> = <i>x</i><sup><i>n</i> mod (<i>m</i>−1)</sup> mod <i>m</i> for prime <i>m</i>.</p>
+
+    <div class="ch11-inverse" data-reveal>
+      <div class="ch11-inverse__copy">
+        <span class="kicker">Modular multiplicative inverse</span>
+        <p>The inverse of <i>x</i> modulo <i>m</i> is the value inv<sub><i>m</i></sub>(<i>x</i>) with <i>x</i> · inv<sub><i>m</i></sub>(<i>x</i>) mod <i>m</i> = 1. It exists exactly when <i>x</i> and <i>m</i> are coprime, and then</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">inv<sub><i>m</i></sub>(<i>x</i>) = <i>x</i><sup>φ(<i>m</i>)−1</sup> mod <i>m</i></span></div>
+        <p>For prime <i>m</i> this is <i>x</i><sup><i>m</i>−2</sup> mod <i>m</i>. Division by <i>x</i> becomes multiplication by its inverse: 36 / 6 mod 17 = 36 · 3 mod 17, because inv<sub>17</sub>(6) = 6<sup>15</sup> mod 17 = 3.</p>
+      </div>
+      <div class="ch11-inverse__calc" aria-label="Verification of the inverse of six modulo seventeen">
+        <span class="ch11-inverse__tag">6 · 3 mod 17</span>
+        <div class="ch11-inverse__value">1</div>
+        <p>and 6<sup>15</sup> mod 17 = 3, so the modular exponentiation routine from 11.1.4 computes the inverse.</p>
+      </div>
+    </div>
+
+    <details class="note ch11-note" data-reveal>
+      <summary><span class="note__label">Where the exponent reduction comes from</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body"><p>Write <i>n</i> = <i>q</i>(<i>m</i>−1) + <i>r</i>. Then <i>x</i><sup><i>n</i></sup> = (<i>x</i><sup><i>m</i>−1</sup>)<sup><i>q</i></sup> · <i>x</i><sup><i>r</i></sup>. Fermat’s theorem makes the first factor 1 modulo the prime <i>m</i>, leaving <i>x</i><sup><i>r</i></sup>.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 11.1.6 ============ -->
+<section class="section section--sub" id="s116" aria-labelledby="h116">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.1.6</span>
+      <div class="section-head__body"><h2 id="h116">Solving Equations</h2></div>
+    </div>
+
+    <p data-reveal>A Diophantine equation asks for integers <i>x</i> and <i>y</i> such that <i>a</i><i>x</i> + <i>b</i><i>y</i> = <i>c</i>. For 5<i>x</i> + 2<i>y</i> = 11, one solution is <i>x</i> = 3, <i>y</i> = −2. Extended Euclid solves the case <i>c</i> = gcd(<i>a</i>, <i>b</i>); a solution exists exactly when gcd(<i>a</i>, <i>b</i>) divides <i>c</i>.</p>
+
+    <figure class="figure ch11-lattice" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 660 400" role="img" aria-label="The integer solutions of 5x plus 2y equals 11 lie on a straight line">
+          <g class="ch11-lattice__grid">
+            <line x1="128" y1="250" x2="520" y2="250"/><line x1="280" y1="72" x2="280" y2="380"/>
+            <line x1="128" y1="216" x2="520" y2="216"/><line x1="128" y1="182" x2="520" y2="182"/><line x1="128" y1="148" x2="520" y2="148"/><line x1="128" y1="114" x2="520" y2="114"/><line x1="128" y1="80" x2="520" y2="80"/>
+            <line x1="128" y1="284" x2="520" y2="284"/><line x1="128" y1="318" x2="520" y2="318"/><line x1="128" y1="352" x2="520" y2="352"/><line x1="166" y1="72" x2="166" y2="380"/><line x1="204" y1="72" x2="204" y2="380"/><line x1="242" y1="72" x2="242" y2="380"/><line x1="318" y1="72" x2="318" y2="380"/><line x1="356" y1="72" x2="356" y2="380"/><line x1="394" y1="72" x2="394" y2="380"/><line x1="432" y1="72" x2="432" y2="380"/><line x1="470" y1="72" x2="470" y2="380"/><line x1="508" y1="72" x2="508" y2="380"/>
+          </g>
+          <line class="ch11-lattice__line" x1="220" y1="90" x2="495" y2="398"/>
+          <g class="ch11-lattice__pts">
+            <circle cx="242" cy="114" r="4.4"/><text x="252" y="106">(−1, 8)</text>
+            <circle cx="318" cy="199" r="4.4"/><text x="328" y="192">(1, 3)</text>
+            <circle cx="394" cy="284" r="6" class="is-main"/><text x="406" y="300">(3, −2)</text>
+            <circle cx="470" cy="369" r="4.4"/><text x="410" y="386">(5, −7)</text>
+          </g>
+          <g class="ch11-lattice__axis">
+            <text x="510" y="268">x</text><text x="292" y="86">y</text><text x="266" y="266">0</text>
+          </g>
+          <text class="ch11-lattice__step" x="330" y="266">+2, −5</text>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">Every solution is a lattice point on the line. From (3, −2), adding (<i>b</i>/g, −<i>a</i>/g) = (2, −5) gives (5, −7); subtracting it gives (1, 3). A single solution generates all of them.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-diophant" data-reveal>
+      <div>
+        <h3 class="ch11-h3">A worked equation</h3>
+        <p>Solve 39<i>x</i> + 15<i>y</i> = 12. First gcd(39, 15) = 3, and 3 | 12, so solutions exist. Extended Euclid gives 39 · 2 + 15 · (−5) = 3. Multiplying by 4 gives 39 · 8 + 15 · (−20) = 12, so (<i>x</i>, <i>y</i>) = (8, −20).</p>
+        <div class="ch11-formula ch11-formula--compact">
+          <span class="ch11-math">(<i>x</i>, <i>y</i>) → (<i>x</i> + <span class="ch11-frac"><span class="ch11-frac__n"><i>k</i><i>b</i></span><span class="ch11-frac__d">g</span></span>, <i>y</i> − <span class="ch11-frac"><span class="ch11-frac__n"><i>k</i><i>a</i></span><span class="ch11-frac__d">g</span></span>)</span>
+        </div>
+        <p class="ch11-small">where <i>g</i> = gcd(<i>a</i>, <i>b</i>) and <i>k</i> is any integer.</p>
+      </div>
+      <div class="ch11-crt">
+        <span class="kicker">Chinese remainder theorem</span>
+        <p>A system <i>x</i> ≡ <i>a</i><sub><i>i</i></sub> (mod <i>m</i><sub><i>i</i></sub>) with pairwise coprime moduli has the solution</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>x</i> = Σ <i>a</i><sub><i>k</i></sub><i>X</i><sub><i>k</i></sub> inv<sub><i>m</i><sub><i>k</i></sub></sub>(<i>X</i><sub><i>k</i></sub>), <i>X</i><sub><i>k</i></sub> = <span class="ch11-frac"><span class="ch11-frac__n"><i>m</i><sub>1</sub><i>m</i><sub>2</sub> ⋯ <i>m</i><sub><i>n</i></sub></span><span class="ch11-frac__d"><i>m</i><sub><i>k</i></sub></span></span></span></div>
+        <div class="ch11-crt__table">
+          <div class="ch11-crt__row ch11-crt__row--head"><span><i>k</i></span><span><i>a</i><sub><i>k</i></sub></span><span><i>m</i><sub><i>k</i></sub></span><span><i>X</i><sub><i>k</i></sub></span><span>term</span></div>
+          <div class="ch11-crt__row"><span>1</span><span>3</span><span>5</span><span>21</span><span>63</span></div>
+          <div class="ch11-crt__row"><span>2</span><span>4</span><span>7</span><span>15</span><span>60</span></div>
+          <div class="ch11-crt__row"><span>3</span><span>2</span><span>3</span><span>35</span><span>140</span></div>
+        </div>
+        <p class="ch11-crt__sum"><span>3 · 21 · 1 + 4 · 15 · 1 + 2 · 35 · 2</span><b>263</b></p>
+        <p class="ch11-small">All solutions are 263 + 105<i>k</i>, since 5 · 7 · 3 = 105.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.2 ============ -->
+<section class="section" id="s12" aria-labelledby="h12">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">11.2</span>
+      <div class="section-head__body"><h2 id="h12">Combinatorics</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Combinatorics counts combinations without generating them. The whole subject is a set of shortcuts for a question that would otherwise need a list.</p>
+
+    <p class="lead" data-reveal>How many ways can we choose, arrange, or divide a set? The tools below answer that for subsets, parenthesis strings, unions of sets, symmetric objects, and labelled trees.</p>
+  </div>
+</section>
+
+<!-- ============ 11.2.1 ============ -->
+<section class="section section--sub" id="s121" aria-labelledby="h121">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.2.1</span>
+      <div class="section-head__body"><h2 id="h121">Binomial Coefficients</h2></div>
+    </div>
+
+    <p data-reveal>The binomial coefficient <span class="ch11-binom-inline">C(<i>n</i>, <i>k</i>)</span> is the number of ways to choose a subset of <i>k</i> elements from a set of <i>n</i> elements. For 5 and 3 the answer is 10:</p>
+
+    <div class="ch11-subsets" data-reveal>
+      <span class="ch11-subsets__lead"><span class="ch11-binom-inline">C(5, 3) = 10</span></span>
+      <div class="ch11-subsets__grid">
+        <code>{1,2,3}</code><code>{1,2,4}</code><code>{1,2,5}</code><code>{1,3,4}</code><code>{1,3,5}</code><code>{1,4,5}</code><code>{2,3,4}</code><code>{2,3,5}</code><code>{2,4,5}</code><code>{3,4,5}</code>
+      </div>
+    </div>
+
+    <div class="ch11-binomials" data-reveal>
+      <div class="ch11-binomials__item">
+        <span class="kicker">Recursion</span>
+        <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i>−1</span><span><i>k</i>−1</span></span><span class="ch11-binom__p">)</span></span> + <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i>−1</span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span></span>
+        <p>Either the element <i>x</i> is chosen, or it is not.</p>
+      </div>
+      <div class="ch11-binomials__item">
+        <span class="kicker">Factorials</span>
+        <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>!</span><span class="ch11-frac__d"><i>k</i>!(<i>n</i>−<i>k</i>)!</span></span></span>
+        <p>From <i>n</i>! permutations, divide by the order inside and outside the subset.</p>
+      </div>
+      <div class="ch11-binomials__item">
+        <span class="kicker">Symmetry and sum</span>
+        <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>n</i>−<i>k</i></span></span><span class="ch11-binom__p">)</span></span><br>Σ<sub><i>k</i>=0</sub><sup><i>n</i></sup> <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> = 2<sup><i>n</i></sup></span>
+        <p>Choosing a subset is choosing its complement. Summed over every <i>k</i>, the choices count each element’s in/out decision.</p>
+      </div>
+    </div>
+
+    <div class="ch11-lab ch11-pascal" id="ch11Pascal" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · Pascal’s triangle</span>
+          <h3>Inspect a coefficient</h3>
+        </div>
+        <p class="ch11-pascal__hint">Hover, or move with the arrow keys.</p>
+      </div>
+      <div class="ch11-pascal__body">
+        <div class="ch11-pascal__chart">
+          <svg id="ch11PascalSvg" viewBox="0 0 760 440" role="img" aria-label="Rows zero to ten of Pascal's triangle. Each value is the sum of the two values above it."></svg>
+        </div>
+        <aside class="ch11-pascal__readout" aria-live="polite">
+          <span class="kicker">Selected coefficient</span>
+          <div class="ch11-pascal__expr" id="ch11PascalExpr">C(5, 3)</div>
+          <div class="ch11-pascal__val" id="ch11PascalVal">10</div>
+          <div class="ch11-pascal__parents" id="ch11PascalParents">C(4, 2) + C(4, 3) = 6 + 4</div>
+          <div class="ch11-pascal__fact" id="ch11PascalFact">5! / (3! · 2!) = 120 / 12</div>
+          <p class="ch11-pascal__meta" id="ch11PascalMeta">Row 5 · third smallest of six values</p>
+        </aside>
+      </div>
+      <div class="ch11-lab__foot"><p id="ch11PascalNote">Every interior value is the sum of the two above it. The rim is always 1.</p></div>
+    </div>
+
+    <p data-reveal>The binomial theorem records where these numbers appear:</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math">(<i>a</i> + <i>b</i>)<sup><i>n</i></sup> = Σ<sub><i>k</i>=0</sub><sup><i>n</i></sup> <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i></span></span><span class="ch11-binom__p">)</span></span> <i>a</i><sup><i>n</i>−<i>k</i></sup><i>b</i><sup><i>k</i></sup></span>
+    </div>
+
+    <h3 class="ch11-h3" data-reveal>Boxes and balls</h3>
+    <p data-reveal>Place <i>k</i> balls in <i>n</i> boxes. Three restrictions give three counts; the small case <i>n</i> = 5, <i>k</i> = 2 shows each one.</p>
+
+    <figure class="figure ch11-boxes" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-boxes__row">
+          <div class="ch11-boxes__label"><span class="ch11-boxes__num">01</span><b>At most one</b><span>choose the boxes</span></div>
+          <div class="ch11-boxes__strip">
+            <span class="ch11-box is-full"></span><span class="ch11-box"></span><span class="ch11-box is-full"></span><span class="ch11-box"></span><span class="ch11-box"></span>
+          </div>
+          <span class="ch11-boxes__formula"><span class="ch11-binom-inline">C(5, 2) = 10</span></span>
+        </div>
+        <div class="ch11-boxes__row">
+          <div class="ch11-boxes__label"><span class="ch11-boxes__num">02</span><b>Any number</b><span>stars and bars</span></div>
+          <div class="ch11-boxes__strip">
+            <span class="ch11-box"></span><span class="ch11-box"></span><span class="ch11-box is-full"></span><span class="ch11-box is-full"></span><span class="ch11-box"></span>
+            <code class="ch11-boxes__string">→ → o → o →</code>
+          </div>
+          <span class="ch11-boxes__formula"><span class="ch11-binom-inline">C(6, 2) = 15</span></span>
+        </div>
+        <div class="ch11-boxes__row">
+          <div class="ch11-boxes__label"><span class="ch11-boxes__num">03</span><b>No two adjacent</b><span>separate the balls</span></div>
+          <div class="ch11-boxes__strip">
+            <span class="ch11-box is-full"></span><span class="ch11-box"></span><span class="ch11-box"></span><span class="ch11-box is-full"></span><span class="ch11-box"></span>
+          </div>
+          <span class="ch11-boxes__formula"><span class="ch11-binom-inline">C(4, 2) = 6</span></span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Scenario 2 encodes a placement as a string of <i>k</i> balls <code>o</code> and <i>n</i>−1 moves <code>→</code>: length <i>k</i>+<i>n</i>−1, choose the balls. Scenario 3 reserves a gap after each ball, leaving <span class="ch11-binom-inline">C(<i>n</i>−<i>k</i>+1, <i>n</i>−2<i>k</i>+1)</span> positions.</figcaption>
+    </figure>
+
+    <p data-reveal>The multinomial coefficient generalises this to <i>m</i> groups of sizes <i>k</i><sub>1</sub>, …, <i>k</i><sub><i>m</i></sub> with total <i>n</i>:</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span><i>n</i></span><span><i>k</i><sub>1</sub>, <i>k</i><sub>2</sub>, …, <i>k</i><sub><i>m</i></sub></span></span><span class="ch11-binom__p">)</span></span> = <span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>!</span><span class="ch11-frac__d"><i>k</i><sub>1</sub>!<i>k</i><sub>2</sub>! ⋯ <i>k</i><sub><i>m</i></sub>!</span></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.2.2 ============ -->
+<section class="section section--sub" id="s122" aria-labelledby="h122">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.2.2</span>
+      <div class="section-head__body"><h2 id="h122">Catalan Numbers</h2></div>
+    </div>
+
+    <p data-reveal>The Catalan number <i>C</i><sub><i>n</i></sub> counts valid parenthesis expressions with <i>n</i> left and <i>n</i> right parentheses. For <i>n</i> = 3 there are five:</p>
+
+    <figure class="figure ch11-catalan" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-catalan__exprs">
+          <code>()()()</code><code>(())()</code><code>()(())</code><code>((()))</code><code>(()())</code>
+        </div>
+        <svg class="ch11-catalan__trees" viewBox="0 0 900 210" role="img" aria-label="Five binary trees, each with three nodes">
+          <g class="ch11-tree"><path d="M90 40 60 100M60 100 30 160"/><circle cx="90" cy="40" r="7"/><circle cx="60" cy="100" r="7"/><circle cx="30" cy="160" r="7"/></g>
+          <g class="ch11-tree"><path d="M270 40 240 100M240 100 270 160"/><circle cx="270" cy="40" r="7"/><circle cx="240" cy="100" r="7"/><circle cx="270" cy="160" r="7"/></g>
+          <g class="ch11-tree"><path d="M450 40 420 160M450 40 480 160"/><circle cx="450" cy="40" r="7"/><circle cx="420" cy="160" r="7"/><circle cx="480" cy="160" r="7"/></g>
+          <g class="ch11-tree"><path d="M630 40 660 100M660 100 630 160"/><circle cx="630" cy="40" r="7"/><circle cx="660" cy="100" r="7"/><circle cx="630" cy="160" r="7"/></g>
+          <g class="ch11-tree"><path d="M810 40 840 100M840 100 870 160"/><circle cx="810" cy="40" r="7"/><circle cx="840" cy="100" r="7"/><circle cx="870" cy="160" r="7"/></g>
+        </svg>
+        <p class="ch11-catalan__cap"><span>five valid expressions</span><span class="ch11-catalan__rule"></span><span>five binary trees of three nodes</span></p>
+      </div>
+      <figcaption class="figure__cap">A parenthesis expression is valid if every prefix has at least as many left as right parentheses, and the whole expression has equal numbers of each. The trees are counted with left and right children distinguished.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-catalan__math" data-reveal>
+      <div>
+        <span class="kicker">Recurrence</span>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>C</i><sub><i>n</i></sub> = Σ<sub><i>i</i>=0</sub><sup><i>n</i>−1</sup> <i>C</i><sub><i>i</i></sub> <i>C</i><sub><i>n</i>−<i>i</i>−1</sub></span></div>
+        <p>Split the expression after the first part becomes a complete valid expression. The first part contains <i>i</i>+1 pairs, the second <i>n</i>−<i>i</i>−1. The base case is <i>C</i><sub>0</sub> = 1.</p>
+      </div>
+      <div>
+        <span class="kicker">Closed form</span>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>C</i><sub><i>n</i></sub> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i>+1</span></span> <span class="ch11-binom"><span class="ch11-binom__p">(</span><span class="ch11-binom__s"><span>2<i>n</i></span><span><i>n</i></span></span><span class="ch11-binom__p">)</span></span></span></div>
+        <p>Of the <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>)</span> strings, the invalid ones can be reflected at their first bad prefix. That is a bijection with strings of <i>n</i>+1 left and <i>n</i>−1 right parentheses, of which there are <span class="ch11-binom-inline">C(2<i>n</i>, <i>n</i>+1)</span>.</p>
+      </div>
+    </div>
+
+    <p data-reveal><i>C</i><sub><i>n</i></sub> also counts binary trees of <i>n</i> nodes, and general rooted trees of <i>n</i>+1 nodes. For <i>n</i> = 3 both counts are five.</p>
+  </div>
+</section>
+
+<!-- ============ 11.2.3 ============ -->
+<section class="section section--sub" id="s123" aria-labelledby="h123">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.2.3</span>
+      <div class="section-head__body"><h2 id="h123">Inclusion–Exclusion</h2></div>
+    </div>
+
+    <p data-reveal>Inclusion–exclusion computes the size of a union from the sizes of the intersections, and vice versa. For two sets,</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math">|<i>A</i> ∪ <i>B</i>| = |<i>A</i>| + |<i>B</i>| − |<i>A</i> ∩ <i>B</i>|</span>
+    </div>
+
+    <figure class="figure ch11-venn" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-venn__grid">
+          <svg viewBox="0 0 420 300" role="img" aria-label="Three overlapping sets A, B and C">
+            <circle cx="160" cy="120" r="92" class="ch11-venn__c"/>
+            <circle cx="260" cy="120" r="92" class="ch11-venn__c"/>
+            <circle cx="210" cy="205" r="92" class="ch11-venn__c"/>
+            <text x="96" y="94" class="ch11-venn__l">A</text>
+            <text x="312" y="94" class="ch11-venn__l">B</text>
+            <text x="204" y="258" class="ch11-venn__l">C</text>
+            <text x="210" y="150" class="ch11-venn__small">A∩B∩C</text>
+          </svg>
+          <div class="ch11-venn__ledger">
+            <div class="ch11-venn__line is-plus"><span>+</span><span>|<i>A</i>| + |<i>B</i>| + |<i>C</i>|</span></div>
+            <div class="ch11-venn__line is-minus"><span>−</span><span>|<i>A</i>∩<i>B</i>| + |<i>A</i>∩<i>C</i>| + |<i>B</i>∩<i>C</i>|</span></div>
+            <div class="ch11-venn__line is-plus"><span>+</span><span>|<i>A</i>∩<i>B</i>∩<i>C</i>|</span></div>
+            <p>An intersection of an odd number of sets is added; an even number is subtracted. The same rule works for any number of sets.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Adding the three circles counts the pairwise overlaps twice and the centre three times. Subtracting the pairwise intersections fixes the overlaps but removes the centre once too often, so it is added back.</figcaption>
+    </figure>
+
+    <h3 class="ch11-h3" data-reveal>Counting derangements</h3>
+    <p data-reveal>A derangement of {1, 2, …, <i>n</i>} is a permutation in which no element stays in its place. For <i>n</i> = 3 there are two: (2, 3, 1) and (3, 1, 2). Let <i>X</i><sub><i>k</i></sub> be the set of permutations that keep <i>k</i> fixed. Then the derangements are everything outside <i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ <i>X</i><sub>3</sub>.</p>
+
+    <div class="ch11-derange" data-reveal>
+      <div class="ch11-derange__sets">
+        <span class="kicker">The three sets, for <i>n</i> = 3</span>
+        <div><b><i>X</i><sub>1</sub></b><code>(1,2,3) (1,3,2)</code></div>
+        <div><b><i>X</i><sub>2</sub></b><code>(1,2,3) (3,2,1)</code></div>
+        <div><b><i>X</i><sub>3</sub></b><code>(1,2,3) (2,1,3)</code></div>
+      </div>
+      <div class="ch11-derange__calc">
+        <div class="ch11-derange__line"><span>|<i>X</i><sub>1</sub> ∪ <i>X</i><sub>2</sub> ∪ <i>X</i><sub>3</sub>|</span><span>= 2 + 2 + 2 − 1 − 1 − 1 + 1 = <b>4</b></span></div>
+        <div class="ch11-derange__line"><span>derangements</span><span>= 3! − 4 = <b>2</b></span></div>
+        <p>An intersection of <i>c</i> distinct sets has (<i>n</i>−<i>c</i>)! elements: those <i>c</i> positions are fixed, the rest are free.</p>
+      </div>
+    </div>
+
+    <p data-reveal>There is also a direct recurrence. Let <i>f</i>(<i>n</i>) be the number of derangements. Then <i>f</i>(1) = 0, <i>f</i>(2) = 1, and for <i>n</i> &gt; 2,</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>f</i>(<i>n</i>) = (<i>n</i>−1)(<i>f</i>(<i>n</i>−2) + <i>f</i>(<i>n</i>−1))</span>
+      <span class="ch11-formula__aside">choose what replaces 1: swap with 1, or continue without it</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.2.4 ============ -->
+<section class="section section--sub" id="s124" aria-labelledby="h124">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.2.4</span>
+      <div class="section-head__body"><h2 id="h124">Burnside’s Lemma</h2></div>
+    </div>
+
+    <p data-reveal>Burnside’s lemma counts combinations up to symmetry. If there are <i>n</i> ways to move a combination and <i>c</i>(<i>k</i>) combinations stay unchanged under the <i>k</i>th move, the number of distinct combinations is</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i></span></span> Σ<sub><i>k</i>=1</sub><sup><i>n</i></sup> <i>c</i>(<i>k</i>)</span>
+    </div>
+
+    <div class="split2 ch11-burnside" data-reveal>
+      <figure class="figure ch11-necklace">
+        <div class="figure__frame">
+          <svg viewBox="0 0 480 220" role="img" aria-label="One necklace of four beads shown in four rotations">
+            <g class="ch11-neck"><circle cx="60" cy="110" r="38"/><circle cx="60" cy="72" r="9" class="is-a"/><circle cx="98" cy="110" r="9" class="is-b"/><circle cx="60" cy="148" r="9" class="is-c"/><circle cx="22" cy="110" r="9" class="is-b"/></g>
+            <path class="ch11-neck__arrow" d="M118 110h16M128 104l6 6-6 6"/>
+            <g class="ch11-neck"><circle cx="180" cy="110" r="38"/><circle cx="180" cy="72" r="9" class="is-b"/><circle cx="218" cy="110" r="9" class="is-a"/><circle cx="180" cy="148" r="9" class="is-b"/><circle cx="142" cy="110" r="9" class="is-c"/></g>
+            <path class="ch11-neck__arrow" d="M238 110h16M248 104l6 6-6 6"/>
+            <g class="ch11-neck"><circle cx="300" cy="110" r="38"/><circle cx="300" cy="72" r="9" class="is-c"/><circle cx="338" cy="110" r="9" class="is-b"/><circle cx="300" cy="148" r="9" class="is-a"/><circle cx="262" cy="110" r="9" class="is-b"/></g>
+            <path class="ch11-neck__arrow" d="M358 110h16M368 104l6 6-6 6"/>
+            <g class="ch11-neck"><circle cx="420" cy="110" r="38"/><circle cx="420" cy="72" r="9" class="is-b"/><circle cx="458" cy="110" r="9" class="is-c"/><circle cx="420" cy="148" r="9" class="is-b"/><circle cx="382" cy="110" r="9" class="is-a"/></g>
+            <text x="240" y="202" text-anchor="middle" class="ch11-neck__cap">four rotations · one necklace</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Rotating the necklace does not create a new combination. With four pearls and three colours, the count is (3<sup>4</sup> + 3 + 3<sup>2</sup> + 3) / 4 = 24.</figcaption>
+      </figure>
+      <div class="ch11-burnside__copy">
+        <p>For a necklace of <i>n</i> pearls with <i>m</i> colours, a rotation by <i>k</i> steps preserves exactly <i>m</i><sup>gcd(<i>k</i>,<i>n</i>)</sup> necklaces: the pearls split into blocks of size gcd(<i>k</i>, <i>n</i>), and each block must share one colour.</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d"><i>n</i></span></span> Σ<sub><i>k</i>=0</sub><sup><i>n</i>−1</sup> <i>m</i><sup>gcd(<i>k</i>,<i>n</i>)</sup></span></div>
+        <p>For <i>n</i> = 4 and <i>m</i> = 3: the identity fixes 3<sup>4</sup> necklaces, a quarter-turn fixes 3<sup>1</sup>, a half-turn fixes 3<sup>2</sup>, and a three-quarter turn fixes 3<sup>1</sup>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.2.5 ============ -->
+<section class="section section--sub" id="s125" aria-labelledby="h125">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.2.5</span>
+      <div class="section-head__body"><h2 id="h125">Cayley’s Formula</h2></div>
+    </div>
+
+    <p data-reveal>There are <i>n</i><sup><i>n</i>−2</sup> distinct labelled trees on <i>n</i> nodes. For <i>n</i> = 4 that is 4<sup>2</sup> = 16. The proof uses a code that describes a tree uniquely.</p>
+
+    <div class="split2 ch11-prufer" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame">
+          <svg viewBox="0 0 560 320" role="img" aria-label="A five-node tree whose Prüfer code is 4, 4, 2">
+            <g class="ch11-prufer__edges">
+              <path d="M120 70 230 170M330 70 230 170M110 250 230 170M330 70 450 130"/>
+            </g>
+            <g class="ch11-prufer__nodes">
+              <circle cx="120" cy="70" r="19"/><text x="120" y="76">1</text>
+              <circle cx="330" cy="70" r="19"/><text x="330" y="76">2</text>
+              <circle cx="230" cy="170" r="19"/><text x="230" y="176">4</text>
+              <circle cx="110" cy="250" r="19"/><text x="110" y="256">3</text>
+              <circle cx="450" cy="130" r="19"/><text x="450" y="136">5</text>
+            </g>
+            <g class="ch11-prufer__order">
+              <text x="72" y="52">remove 1</text><text x="72" y="232">remove 3</text><text x="196" y="208">remove 4</text>
+            </g>
+            <g class="ch11-prufer__code">
+              <text x="330" y="272">code</text>
+              <rect x="370" y="252" width="34" height="30"/><text x="387" y="272">4</text>
+              <rect x="410" y="252" width="34" height="30"/><text x="427" y="272">4</text>
+              <rect x="450" y="252" width="34" height="30"/><text x="467" y="272">2</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Repeatedly remove the smallest leaf and write down its only neighbour. The leaves go in the order 1, 3, 4, producing [4, 4, 2].</figcaption>
+      </figure>
+      <div class="ch11-prufer__copy">
+        <p>A Prüfer code is a sequence of <i>n</i>−2 numbers. For the tree above, removing leaf 1 writes 4; removing leaf 3 writes 4; removing leaf 4 writes 2. The remaining two nodes need no code.</p>
+        <p>Every tree produces a code, and every code of length <i>n</i>−2 with values 1…<i>n</i> produces exactly one tree. Since there are <i>n</i><sup><i>n</i>−2</sup> such sequences, that is the number of labelled trees.</p>
+        <div class="ch11-prufer__count"><span><i>n</i> = 4</span><b>4<sup>4−2</sup> = 16</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.3 ============ -->
+<section class="section" id="s13" aria-labelledby="h13">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">11.3</span>
+      <div class="section-head__body"><h2 id="h13">Matrices</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A matrix is a two-dimensional array with arithmetic. In a contest, its real power is compression: one matrix multiplication can advance a whole recurrence by one step.</p>
+
+    <div class="split2 ch11-matintro" data-reveal>
+      <div>
+        <p>A matrix of size <i>a</i> × <i>b</i> has <i>a</i> rows and <i>b</i> columns. The notation <i>A</i>[<i>i</i>, <i>j</i>] means row <i>i</i>, column <i>j</i>. A vector is a matrix of size <i>n</i> × 1, and a square matrix has equal dimensions.</p>
+        <p>The transpose <i>A</i><sup>T</sup> swaps rows and columns: <i>A</i><sup>T</sup>[<i>i</i>, <i>j</i>] = <i>A</i>[<i>j</i>, <i>i</i>].</p>
+      </div>
+      <div class="ch11-matintro__mats">
+        <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>A</i> · 3 × 4</span>
+          <div class="ch11-mat" style="--cols:4"><span>6</span><span>13</span><span>7</span><span>4</span><span>7</span><span>0</span><span>8</span><span>2</span><span>9</span><span>5</span><span>4</span><span>18</span></div>
+        </div>
+        <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>A</i><sup>T</sup> · 4 × 3</span>
+          <div class="ch11-mat" style="--cols:3"><span>6</span><span>7</span><span>9</span><span>13</span><span>0</span><span>5</span><span>7</span><span>8</span><span>4</span><span>4</span><span>2</span><span>18</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.3.1 ============ -->
+<section class="section section--sub" id="s131" aria-labelledby="h131">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.3.1</span>
+      <div class="section-head__body"><h2 id="h131">Matrix Operations</h2></div>
+    </div>
+
+    <p data-reveal>Matrices of the same size add element by element, and a scalar multiplies every element. Multiplication is the operation that matters: <i>AB</i> is defined when <i>A</i> is <i>a</i> × <i>n</i> and <i>B</i> is <i>n</i> × <i>b</i>, and the result is <i>a</i> × <i>b</i>.</p>
+
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>AB</i>[<i>i</i>, <i>j</i>] = Σ<sub><i>k</i>=1</sub><sup><i>n</i></sup> <i>A</i>[<i>i</i>, <i>k</i>] · <i>B</i>[<i>k</i>, <i>j</i>]</span>
+    </div>
+
+    <figure class="figure ch11-matmul" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-matmul__row">
+          <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>A</i> · 3 × 2</span>
+            <div class="ch11-mat" style="--cols:2"><span>1</span><span>4</span><span class="is-row">3</span><span class="is-row">9</span><span>8</span><span>6</span></div>
+          </div>
+          <span class="ch11-matmul__op">×</span>
+          <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>B</i> · 2 × 2</span>
+            <div class="ch11-mat" style="--cols:2"><span class="is-col">1</span><span>6</span><span class="is-col">2</span><span>9</span></div>
+          </div>
+          <span class="ch11-matmul__op">=</span>
+          <div class="ch11-matwrap"><span class="ch11-matwrap__label"><i>C</i> · 3 × 2</span>
+            <div class="ch11-mat" style="--cols:2"><span>9</span><span>42</span><span class="is-cell">21</span><span>99</span><span>20</span><span>102</span></div>
+          </div>
+        </div>
+        <p class="ch11-matmul__sum"><span class="ch11-matmul__tag">row 2 · column 1</span><span>3 · 1 + 9 · 2 = <b>21</b></span></p>
+      </div>
+      <figcaption class="figure__cap">The element <i>C</i>[2, 1] is the dot product of row 2 of <i>A</i> and column 1 of <i>B</i>. Computing every element this way takes <i>O</i>(<i>n</i><sup>3</sup>) time for two <i>n</i> × <i>n</i> matrices.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-matprops" data-reveal>
+      <div>
+        <h3 class="ch11-h3">Associative, not commutative</h3>
+        <p><i>A</i>(<i>BC</i>) = (<i>AB</i>)<i>C</i>, so a chain of multiplications can be grouped freely. But usually <i>AB</i> ≠ <i>BA</i>: the order of the factors is part of the meaning.</p>
+        <p>The identity matrix <i>I</i> has ones on the diagonal and zeros elsewhere. Multiplying by <i>I</i> changes nothing: <i>AI</i> = <i>IA</i> = <i>A</i>.</p>
+      </div>
+      <div class="ch11-identity" aria-label="The three by three identity matrix">
+        <span class="kicker"><i>I</i><sub>3</sub></span>
+        <div class="ch11-mat" style="--cols:3"><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span></div>
+        <p>A matrix power <i>A</i><sup><i>k</i></sup> is <i>k</i> copies of <i>A</i>, and <i>A</i><sup>0</sup> = <i>I</i>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.3.2 ============ -->
+<section class="section section--sub" id="s132" aria-labelledby="h132">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.3.2</span>
+      <div class="section-head__body"><h2 id="h132">Linear Recurrences</h2></div>
+    </div>
+
+    <p data-reveal>A linear recurrence fixes <i>k</i> initial values and computes each later value from the previous <i>k</i>:</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>f</i>(<i>n</i>) = <i>c</i><sub>1</sub><i>f</i>(<i>n</i>−1) + <i>c</i><sub>2</sub><i>f</i>(<i>n</i>−2) + ⋯ + <i>c</i><sub><i>k</i></sub><i>f</i>(<i>n</i>−<i>k</i>)</span>
+    </div>
+
+    <p data-reveal>Dynamic programming computes <i>f</i>(<i>n</i>) in <i>O</i>(<i>k</i><i>n</i>) time. A matrix computes it in <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>) time. The idea is to make the state a vector of <i>k</i> consecutive values and let one matrix advance the window.</p>
+
+    <div class="split2 ch11-fibintro" data-reveal>
+      <div>
+        <h3 class="ch11-h3">Fibonacci numbers</h3>
+        <p>For <i>f</i>(0) = 0, <i>f</i>(1) = 1 and <i>f</i>(<i>n</i>) = <i>f</i>(<i>n</i>−1) + <i>f</i>(<i>n</i>−2), the transition matrix is</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>X</i> = <span class="ch11-mat ch11-mat--inline" style="--cols:2"><span>0</span><span>1</span><span>1</span><span>1</span></span></span></div>
+        <p>so that <i>X</i> · [<i>f</i>(<i>i</i>), <i>f</i>(<i>i</i>+1)]<sup>T</sup> = [<i>f</i>(<i>i</i>+1), <i>f</i>(<i>i</i>+2)]<sup>T</sup>. Therefore</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">[<i>f</i>(<i>n</i>), <i>f</i>(<i>n</i>+1)]<sup>T</sup> = <i>X</i><sup><i>n</i></sup> · [0, 1]<sup>T</sup></span></div>
+        <p class="ch11-small">and <i>X</i><sup><i>n</i></sup> takes <i>O</i>(log <i>n</i>) matrix multiplications by repeated squaring.</p>
+      </div>
+      <div class="ch11-fibintro__vec">
+        <span class="kicker">One step, exactly</span>
+        <div class="ch11-fibintro__calc">
+          <span class="ch11-mat ch11-mat--inline" style="--cols:2"><span>0</span><span>1</span><span>1</span><span>1</span></span>
+          <span class="ch11-fibintro__dot">·</span>
+          <span class="ch11-mat ch11-mat--inline ch11-mat--vec" style="--cols:1"><span>5</span><span>8</span></span>
+          <span class="ch11-fibintro__dot">=</span>
+          <span class="ch11-mat ch11-mat--inline ch11-mat--vec" style="--cols:1"><span>8</span><span>13</span></span>
+        </div>
+        <p><i>f</i>(5) = 5 and <i>f</i>(6) = 8 become <i>f</i>(6) = 8 and <i>f</i>(7) = 13.</p>
+      </div>
+    </div>
+
+    <div class="ch11-lab ch11-fib" id="ch11Fib" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · matrix exponentiation</span>
+          <h3>The ladder to <i>X</i><sup><i>n</i></sup></h3>
+        </div>
+        <div class="ch11-presets" id="ch11FibPresets" role="group" aria-label="Example indices"></div>
+      </div>
+      <div class="ch11-lab__controls">
+        <label class="ch11-field" for="ch11FibN"><span>n =</span><input id="ch11FibN" type="number" min="0" max="40" value="10" inputmode="numeric"></label>
+        <div class="ch11-fib__binary" id="ch11FibBinary">10 = 1010<sub>2</sub></div>
+        <div class="ch11-lab__actions">
+          <button class="btn btn--primary" id="ch11FibStep" type="button"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn" id="ch11FibReset" type="button"><svg class="icon"><use href="#i-reset"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+      <div class="ch11-fib__grid">
+        <div class="ch11-fib__ladder" id="ch11FibRows" aria-live="polite"></div>
+        <aside class="ch11-fib__out">
+          <span class="kicker">Accumulator</span>
+          <div class="ch11-fib__acc" id="ch11FibAcc"></div>
+          <div class="ch11-fib__answer"><span class="ch11-fib__flabel"><i>f</i>(<i>n</i>)</span><b id="ch11FibResult">55</b></div>
+          <p id="ch11FibNote">Square the base at every bit; multiply it into the accumulator when the bit is 1.</p>
+        </aside>
+      </div>
+      <div class="ch11-lab__foot"><p>Bits are processed from least significant to most significant. A skipped bit still squares the base.</p></div>
+    </div>
+
+    <h3 class="ch11-h3" data-reveal>The general case</h3>
+    <p data-reveal>For a recurrence of order <i>k</i>, the state vector holds <i>f</i>(<i>i</i>), …, <i>f</i>(<i>i</i>+<i>k</i>−1). The first <i>k</i>−1 rows of <i>X</i> simply shift the window; the last row holds the coefficients.</p>
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>X</i> = <span class="ch11-mat ch11-mat--inline" style="--cols:4"><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span><i>c</i><sub><i>k</i></sub></span><span><i>c</i><sub><i>k</i>−1</sub></span><span><i>c</i><sub><i>k</i>−2</sub></span><span><i>c</i><sub>1</sub></span></span></span>
+    </div>
+    <p data-reveal class="ch11-small">The matrix is <i>k</i> × <i>k</i>, so each multiplication costs <i>O</i>(<i>k</i><sup>3</sup>), and <i>f</i>(<i>n</i>) costs <i>O</i>(<i>k</i><sup>3</sup> log <i>n</i>).</p>
+
+    <div class="ch11-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.3.3 ============ -->
+<section class="section section--sub" id="s133" aria-labelledby="h133">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.3.3</span>
+      <div class="section-head__body"><h2 id="h133">Graphs and Matrices</h2></div>
+    </div>
+
+    <p data-reveal>Let <i>M</i> be the adjacency matrix of an unweighted directed graph. Then (<i>M</i><sup><i>n</i></sup>)[<i>a</i>, <i>b</i>] is the number of paths from <i>a</i> to <i>b</i> with exactly <i>n</i> edges. A node may repeat.</p>
+
+    <figure class="figure ch11-paths" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 640 340" role="img" aria-label="A six-node directed graph with two highlighted paths of four edges from node 2 to node 5">
+          <defs>
+            <marker id="ch11Arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="ch11-paths__head"/></marker>
+            <marker id="ch11ArrowSignal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="ch11-paths__head is-signal"/></marker>
+          </defs>
+          <g class="ch11-paths__edges">
+            <path d="M100 70 186 160" marker-end="url(#ch11Arrow)"/>
+            <path d="M270 70 120 70" marker-end="url(#ch11Arrow)"/>
+            <path d="M300 80 390 160" marker-end="url(#ch11Arrow)"/>
+            <path d="M300 80 296 250" marker-end="url(#ch11Arrow)"/>
+            <path d="M500 80 320 70" marker-end="url(#ch11Arrow)"/>
+            <path d="M214 157 276 84" marker-end="url(#ch11Arrow)"/>
+            <path d="M310 270 480 92" marker-end="url(#ch11Arrow)"/>
+            <path d="M320 270 220 190" marker-end="url(#ch11Arrow)"/>
+          </g>
+          <g class="ch11-paths__nodes">
+            <circle cx="100" cy="70" r="20"/><text x="100" y="76">1</text>
+            <circle cx="290" cy="70" r="20"/><text x="290" y="76">2</text>
+            <circle cx="500" cy="80" r="20"/><text x="500" y="86">3</text>
+            <circle cx="200" cy="170" r="20"/><text x="200" y="176">4</text>
+            <circle cx="400" cy="170" r="20"/><text x="400" y="176">5</text>
+            <circle cx="300" cy="270" r="20"/><text x="300" y="276">6</text>
+          </g>
+          <g class="ch11-paths__route is-alt">
+            <path d="M291 90 299 250" marker-end="url(#ch11ArrowSignal)"/>
+            <path d="M315 257 Q 350 110 486 94" marker-end="url(#ch11ArrowSignal)"/>
+            <path d="M480 79 310 71" marker-end="url(#ch11ArrowSignal)"/>
+            <path d="M304 84 386 156" marker-end="url(#ch11ArrowSignal)"/>
+          </g>
+          <g class="ch11-paths__route">
+            <path d="M270 70 120 70" marker-end="url(#ch11Arrow)"/>
+            <path d="M114 84 186 156" marker-end="url(#ch11Arrow)"/>
+            <path d="M213 157 277 83" marker-end="url(#ch11Arrow)"/>
+            <path d="M304 84 386 156" marker-end="url(#ch11Arrow)"/>
+          </g>
+          <g class="ch11-paths__labels">
+            <text x="120" y="46">2 → 1 → 4 → 2 → 5</text>
+            <text x="330" y="316">2 → 6 → 3 → 2 → 5</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">Both routes use exactly four edges from 2 to 5, so <i>M</i><sup>4</sup>[2, 5] = 2. The matrix counts walks, so revisiting a node is allowed.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-pathnote" data-reveal>
+      <div>
+        <h3 class="ch11-h3">Weighted graphs</h3>
+        <p>The same idea finds the shortest path of exactly <i>n</i> edges if multiplication is redefined. Replace the sum with a minimum and the product with a sum:</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>AB</i>[<i>i</i>, <i>j</i>] = min<sub><i>k</i></sub> (<i>A</i>[<i>i</i>, <i>k</i>] + <i>B</i>[<i>k</i>, <i>j</i>])</span></div>
+        <p>Now matrix powers minimise path lengths. Missing edges are ∞, and the identity matrix for this operation has 0 on the diagonal and ∞ elsewhere.</p>
+      </div>
+      <div class="ch11-pathnote__fact">
+        <span class="kicker">From the book’s example</span>
+        <p>The minimum length of a 4-edge path from 2 to 5 is 8, using 2 → 1 → 4 → 2 → 5.</p>
+        <span class="ch11-pathnote__value"><i>M</i><sup>4</sup>[2, 5] = 2</span>
+        <span class="ch11-pathnote__label">unweighted · number of walks</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.3.4 ============ -->
+<section class="section section--sub" id="s134" aria-labelledby="h134">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.3.4</span>
+      <div class="section-head__body"><h2 id="h134">Gaussian Elimination</h2></div>
+    </div>
+
+    <p data-reveal>Gaussian elimination solves a system of linear equations by applying row operations that preserve the solution: swap two rows, multiply a row by a constant, or add a multiple of one row to another. The goal is the identity matrix on the left; the last column then holds the answer.</p>
+
+    <div class="ch11-gauss" data-reveal>
+      <div class="ch11-gauss__scroll">
+        <div class="ch11-gauss__stage">
+          <span class="ch11-gauss__cap">start</span>
+          <div class="ch11-mtable" style="--cols:4"><span>2</span><span>4</span><span>1</span><span class="is-aug">16</span><span>1</span><span>2</span><span>5</span><span class="is-aug">17</span><span>3</span><span>1</span><span>1</span><span class="is-aug">8</span></div>
+        </div>
+        <div class="ch11-gauss__stage">
+          <span class="ch11-gauss__cap">row 1 ÷ 2</span>
+          <div class="ch11-mtable" style="--cols:4"><span>1</span><span>2</span><span>1/2</span><span class="is-aug">8</span><span>1</span><span>2</span><span>5</span><span class="is-aug">17</span><span>3</span><span>1</span><span>1</span><span class="is-aug">8</span></div>
+        </div>
+        <div class="ch11-gauss__stage">
+          <span class="ch11-gauss__cap">eliminate column 1</span>
+          <div class="ch11-mtable" style="--cols:4"><span>1</span><span>2</span><span>1/2</span><span class="is-aug">8</span><span>0</span><span>0</span><span>9/2</span><span class="is-aug">9</span><span>0</span><span>−5</span><span>−1/2</span><span class="is-aug">−16</span></div>
+        </div>
+        <div class="ch11-gauss__stage">
+          <span class="ch11-gauss__cap">swap rows 2 and 3</span>
+          <div class="ch11-mtable" style="--cols:4"><span>1</span><span>2</span><span>1/2</span><span class="is-aug">8</span><span>0</span><span>−5</span><span>−1/2</span><span class="is-aug">−16</span><span>0</span><span>0</span><span>9/2</span><span class="is-aug">9</span></div>
+        </div>
+        <div class="ch11-gauss__stage">
+          <span class="ch11-gauss__cap">normalise and eliminate</span>
+          <div class="ch11-mtable" style="--cols:4"><span>1</span><span>0</span><span>3/10</span><span class="is-aug">8/5</span><span>0</span><span>1</span><span>1/10</span><span class="is-aug">16/5</span><span>0</span><span>0</span><span>1</span><span class="is-aug">2</span></div>
+        </div>
+        <div class="ch11-gauss__stage is-final">
+          <span class="ch11-gauss__cap">solution</span>
+          <div class="ch11-mtable" style="--cols:4"><span>1</span><span>0</span><span>0</span><span class="is-aug">1</span><span>0</span><span>1</span><span>0</span><span class="is-aug">3</span><span>0</span><span>0</span><span>1</span><span class="is-aug">2</span></div>
+        </div>
+      </div>
+      <p class="ch11-gauss__answer"><span><i>x</i><sub>1</sub> = 1</span><span><i>x</i><sub>2</sub> = 3</span><span><i>x</i><sub>3</sub> = 2</span></p>
+    </div>
+
+    <p data-reveal>Each column is processed in turn: put a one in the pivot position and zeros everywhere else in that column. If a pivot cannot be found, the system has either no solution or infinitely many. For example, <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 5 and <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 7 are contradictory; <i>x</i><sub>1</sub> + <i>x</i><sub>2</sub> = 2 and 2<i>x</i><sub>1</sub> + 2<i>x</i><sub>2</sub> = 4 contain the same equation twice. The whole process is <i>O</i>(<i>n</i><sup>3</sup>).</p>
+  </div>
+</section>
+
+<!-- ============ 11.4 ============ -->
+<section class="section" id="s14" aria-labelledby="h14">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">11.4</span>
+      <div class="section-head__body"><h2 id="h14">Probability</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A probability is a number between 0 and 1. The work is in finding the right sample space, not in the arithmetic.</p>
+
+    <p class="lead" data-reveal>Probabilities can be counted with combinatorics or generated step by step. The same two views — sets and processes — lead to expectation, Markov chains, and randomised algorithms.</p>
+
+    <div class="split2 ch11-cards" data-reveal>
+      <div>
+        <h3 class="ch11-h3">Three cards, one value</h3>
+        <p>Draw the top three cards from a shuffled deck. What is the probability that all three have the same value? Count the favourable outcomes: 13 values, and <span class="ch11-binom-inline">C(4,3)</span> suit choices for each. There are <span class="ch11-binom-inline">C(52,3)</span> total draws.</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><span class="ch11-frac"><span class="ch11-frac__n">13 · <span class="ch11-binom-inline">C(4,3)</span></span><span class="ch11-frac__d"><span class="ch11-binom-inline">C(52,3)</span></span></span> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d">425</span></span></span></div>
+      </div>
+      <div class="ch11-cards__process">
+        <span class="kicker">The same event, as a process</span>
+        <div class="ch11-cards__steps">
+          <div><span>first card</span><b>1</b></div>
+          <div><span>second matches</span><b>3/51</b></div>
+          <div><span>third matches</span><b>2/50</b></div>
+        </div>
+        <p class="ch11-cards__product">1 · <span class="ch11-frac"><span class="ch11-frac__n">3</span><span class="ch11-frac__d">51</span></span> · <span class="ch11-frac"><span class="ch11-frac__n">2</span><span class="ch11-frac__d">50</span></span> = <span class="ch11-frac"><span class="ch11-frac__n">1</span><span class="ch11-frac__d">425</span></span></p>
+        <p class="ch11-small">The first card is always fine; then three of the remaining 51 cards match its value, and two of the remaining 50 after that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.4.1 ============ -->
+<section class="section section--sub" id="s141" aria-labelledby="h141">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.4.1</span>
+      <div class="section-head__body"><h2 id="h141">Working with Events</h2></div>
+    </div>
+
+    <p data-reveal>An event is a subset of the possible outcomes. When a die is thrown, the event “the outcome is even” is <i>A</i> = {2, 4, 6}, and <i>P</i>(<i>A</i>) is the sum of the probabilities of its outcomes.</p>
+
+    <figure class="figure ch11-events" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-events__row">
+          <span class="ch11-events__name"><i>A</i> · even</span>
+          <div class="ch11-events__cells">
+            <span>1</span><span class="is-a">2</span><span>3</span><span class="is-a">4</span><span>5</span><span class="is-a">6</span>
+          </div>
+          <span class="ch11-events__p"><i>P</i>(<i>A</i>) = 1/2</span>
+        </div>
+        <div class="ch11-events__row">
+          <span class="ch11-events__name"><i>B</i> · less than 4</span>
+          <div class="ch11-events__cells">
+            <span class="is-b">1</span><span class="is-b is-both">2</span><span class="is-b">3</span><span>4</span><span>5</span><span>6</span>
+          </div>
+          <span class="ch11-events__p"><i>P</i>(<i>B</i>) = 1/2</span>
+        </div>
+        <div class="ch11-events__row">
+          <span class="ch11-events__name"><i>A</i> ∩ <i>B</i></span>
+          <div class="ch11-events__cells">
+            <span>1</span><span class="is-both">2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          </div>
+          <span class="ch11-events__p"><i>P</i>(<i>A</i> ∩ <i>B</i>) = 1/6</span>
+        </div>
+        <div class="ch11-events__sum">
+          <span><i>P</i>(<i>A</i> ∪ <i>B</i>) = 1/2 + 1/2 − 1/6 = <b>5/6</b></span>
+          <span class="ch11-events__hint" data-tip="The outcomes 1, 2, 3, 4, 6: even or less than four. Only 5 is outside.">five of six outcomes</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The union adds the two bands and subtracts the overlap once. Conditional probability does the reverse: <i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i> | <i>A</i>) = 1/2 · 1/3 = 1/6, because one of {2, 4, 6} is below 4.</figcaption>
+    </figure>
+
+    <div class="ch11-eventrules" data-reveal>
+      <div class="ch11-eventrule"><span class="ch11-eventrule__k">complement</span><span class="ch11-math"><i>P</i>(<i>Ā</i>) = 1 − <i>P</i>(<i>A</i>)</span><p>At least one six in ten throws: 1 − (5/6)<sup>10</sup>.</p></div>
+      <div class="ch11-eventrule"><span class="ch11-eventrule__k">union</span><span class="ch11-math"><i>P</i>(<i>A</i> ∪ <i>B</i>) = <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>) − <i>P</i>(<i>A</i> ∩ <i>B</i>)</span><p>For disjoint events the last term is zero.</p></div>
+      <div class="ch11-eventrule"><span class="ch11-eventrule__k">intersection</span><span class="ch11-math"><i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i> | <i>A</i>)</span><p>Independent events satisfy <i>P</i>(<i>A</i> ∩ <i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i>).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.4.2 ============ -->
+<section class="section section--sub" id="s142" aria-labelledby="h142">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.4.2</span>
+      <div class="section-head__body"><h2 id="h142">Random Variables</h2></div>
+    </div>
+
+    <p data-reveal>A random variable is a value produced by a random process. The sum of two dice is one: <i>P</i>(<i>X</i> = 10) = 3/36, from [4, 6], [5, 5], and [6, 4]. The expected value is the probability-weighted average</p>
+
+    <div class="ch11-formula ch11-formula--display" data-reveal>
+      <span class="ch11-math"><i>E</i>[<i>X</i>] = Σ<sub><i>x</i></sub> <i>P</i>(<i>X</i> = <i>x</i>) · <i>x</i></span>
+    </div>
+
+    <figure class="figure ch11-dist" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-dist__head">
+          <span class="kicker">Distribution of the sum of two dice</span>
+          <span class="ch11-dist__expect"><i>E</i>[<i>X</i>] = <b>7</b></span>
+        </div>
+        <div class="ch11-dist__chart" id="ch11DistChart" aria-label="Bar chart of the probabilities of sums from two to twelve"></div>
+        <div class="ch11-dist__axis"><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+      </div>
+      <figcaption class="figure__cap">Each bar is <i>k</i>/36. Linearity of expectation then gives <i>E</i>[<i>X</i><sub>1</sub> + <i>X</i><sub>2</sub>] = 7/2 + 7/2 = 7 without using the distribution at all — even if the variables depend on each other.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-empty" data-reveal>
+      <div>
+        <h3 class="ch11-h3">Empty boxes</h3>
+        <p>Place <i>n</i> balls randomly in <i>n</i> boxes. A single box is empty when all <i>n</i> balls avoid it, which happens with probability ((<i>n</i>−1)/<i>n</i>)<sup><i>n</i></sup>. By linearity, the expected number of empty boxes is</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>E</i> = <i>n</i> · (<span class="ch11-frac"><span class="ch11-frac__n"><i>n</i>−1</span><span class="ch11-frac__d"><i>n</i></span></span>)<sup><i>n</i></sup></span></div>
+        <p>For <i>n</i> = 2 the four placements give 0, 0, 1, 1 empty boxes, so the expectation is 1/2.</p>
+      </div>
+      <div class="ch11-empty__table">
+        <div class="ch11-empty__row ch11-empty__row--head"><span><i>n</i></span><span>2</span><span>5</span><span>10</span><span>100</span></div>
+        <div class="ch11-empty__row"><span><i>E</i></span><b>0.5</b><b>1.638</b><b>3.487</b><b>36.60</b></div>
+        <p class="ch11-empty__note">The count grows almost linearly: about <i>n</i>/<i>e</i> boxes stay empty.</p>
+      </div>
+    </div>
+
+    <h3 class="ch11-h3" data-reveal>Three distributions</h3>
+    <div class="ch11-dists" data-reveal>
+      <article class="ch11-distcard"><span class="kicker">Uniform</span><span class="ch11-math">P(<i>X</i>=<i>x</i>) = 1/<i>n</i></span><p><i>a</i>, <i>a</i>+1, …, <i>b</i></p><span class="ch11-distcard__e"><i>E</i>[<i>X</i>] = (<i>a</i>+<i>b</i>)/2</span></article>
+      <article class="ch11-distcard"><span class="kicker">Binomial</span><span class="ch11-math">P(<i>X</i>=<i>x</i>) = <span class="ch11-binom-inline">C(<i>n</i>,<i>x</i>)</span><i>p</i><sup><i>x</i></sup>(1−<i>p</i>)<sup><i>n</i>−<i>x</i></sup></span><p><i>x</i> successes in <i>n</i> attempts</p><span class="ch11-distcard__e"><i>E</i>[<i>X</i>] = <i>p</i><i>n</i></span></article>
+      <article class="ch11-distcard"><span class="kicker">Geometric</span><span class="ch11-math">P(<i>X</i>=<i>x</i>) = (1−<i>p</i>)<sup><i>x</i>−1</sup><i>p</i></span><p>attempts until the first success</p><span class="ch11-distcard__e"><i>E</i>[<i>X</i>] = 1/<i>p</i></span></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.4.3 ============ -->
+<section class="section section--sub" id="s143" aria-labelledby="h143">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.4.3</span>
+      <div class="section-head__body"><h2 id="h143">Markov Chains</h2></div>
+    </div>
+
+    <p data-reveal>A Markov chain is a random process with states and transition probabilities. Each floor of a building can be a state: from floor 1 we always go up, from floor <i>n</i> always down, and elsewhere we go up or down with probability 1/2.</p>
+
+    <figure class="figure ch11-markov" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 900 280" role="img" aria-label="A five-floor random walk with transition probabilities">
+          <g class="ch11-markov__edges">
+            <path d="M170 120 Q 220 60 270 120"/><path d="M270 140 Q 220 200 170 140"/>
+            <path d="M330 120 Q 380 60 430 120"/><path d="M430 140 Q 380 200 330 140"/>
+            <path d="M490 120 Q 540 60 590 120"/><path d="M590 140 Q 540 200 490 140"/>
+            <path d="M650 120 Q 700 60 750 120"/><path d="M750 140 Q 700 200 650 140"/>
+          </g>
+          <g class="ch11-markov__nodes">
+            <circle cx="130" cy="130" r="26"/><text x="130" y="136">1</text>
+            <circle cx="300" cy="130" r="26"/><text x="300" y="136">2</text>
+            <circle cx="470" cy="130" r="26"/><text x="470" y="136">3</text>
+            <circle cx="640" cy="130" r="26"/><text x="640" y="136">4</text>
+            <circle cx="810" cy="130" r="26"/><text x="810" y="136">5</text>
+          </g>
+          <g class="ch11-markov__p">
+            <text x="205" y="72">1</text><text x="205" y="194">—</text>
+            <text x="375" y="72">1/2</text><text x="375" y="194">1/2</text>
+            <text x="545" y="72">1/2</text><text x="545" y="194">1/2</text>
+            <text x="715" y="72">1/2</text><text x="715" y="194">1/2</text>
+            <text x="828" y="72">—</text><text x="828" y="194">1</text>
+          </g>
+          <text class="ch11-markov__axis" x="130" y="240" text-anchor="middle">start</text>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">From floor 1 the only move is up; from floor 5 the only move is down. Every other state has two equiprobable moves. The walk cannot stay still.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-markov__body" data-reveal>
+      <div>
+        <p>The probability distribution after <i>k</i> steps is a vector [<i>p</i><sub>1</sub>, …, <i>p</i><sub><i>n</i></sub>] whose entries sum to 1. Starting at floor 1 gives [1, 0, 0, 0, 0], then [0, 1, 0, 0, 0], then [1/2, 0, 1/2, 0, 0].</p>
+        <p>Dynamic programming updates the vector in <i>O</i>(<i>n</i><sup>2</sup><i>m</i>) time for <i>m</i> steps. A transition matrix does the same in <i>O</i>(<i>n</i><sup>3</sup> log <i>m</i>) — useful when <i>m</i> is large.</p>
+        <div class="ch11-markov__vec">
+          <span class="kicker">Step by step</span>
+          <div><span>0</span><code>[1, 0, 0, 0, 0]</code></div>
+          <div><span>1</span><code>[0, 1, 0, 0, 0]</code></div>
+          <div><span>2</span><code>[1/2, 0, 1/2, 0, 0]</code></div>
+          <div><span>3</span><code>[0, 3/4, 0, 1/4, 0]</code></div>
+          <div><span>4</span><code>[3/8, 0, 1/2, 0, 1/8]</code></div>
+        </div>
+        <p class="ch11-small">The chain is bipartite, so the reachable floors alternate parity. That is a property of this walk, not of Markov chains in general.</p>
+      </div>
+      <div class="ch11-markov__matrix">
+        <span class="kicker">Transition matrix · column <i>j</i> is the move from floor <i>j</i></span>
+        <div class="ch11-mtable" style="--cols:5">
+          <span>0</span><span>1/2</span><span>0</span><span>0</span><span>0</span>
+          <span>1</span><span>0</span><span>1/2</span><span>0</span><span>0</span>
+          <span>0</span><span>1/2</span><span>0</span><span>1/2</span><span>0</span>
+          <span>0</span><span>0</span><span>1/2</span><span>0</span><span>1</span>
+          <span>0</span><span>0</span><span>0</span><span>1/2</span><span>0</span>
+        </div>
+        <p class="ch11-small">Multiplying this matrix by the distribution advances the walk one step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.4.4 ============ -->
+<section class="section section--sub" id="s144" aria-labelledby="h144">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.4.4</span>
+      <div class="section-head__body"><h2 id="h144">Randomized Algorithms</h2></div>
+    </div>
+
+    <p data-reveal>Randomness can solve problems that have nothing to do with probability. Two kinds of guarantee are useful:</p>
+
+    <div class="ch11-randomtypes" data-reveal>
+      <article class="ch11-randomtype">
+        <span class="kicker">Monte Carlo</span>
+        <h3>May be wrong</h3>
+        <p>The answer can be incorrect, with a small probability. Repeating the algorithm with fresh randomness makes the error probability smaller.</p>
+        <span class="ch11-randomtype__ex">verifying matrix multiplication in <i>O</i>(<i>n</i><sup>2</sup>)</span>
+      </article>
+      <article class="ch11-randomtype">
+        <span class="kicker">Las Vegas</span>
+        <h3>Always correct</h3>
+        <p>The answer is always right; the running time is random. The goal is to be fast with high probability.</p>
+        <span class="ch11-randomtype__ex">order statistics, graph colouring</span>
+      </article>
+    </div>
+
+    <div class="ch11-randomlist" data-reveal>
+      <div class="ch11-randomlist__item">
+        <span class="ch11-randomlist__num">01</span>
+        <div><h4>Order statistics</h4><p>Choose a random pivot <i>x</i>, partition the array around it, and recurse into the side containing position <i>k</i>. The expected size halves each time: <i>n</i> + <i>n</i>/2 + <i>n</i>/4 + ⋯ = <i>O</i>(<i>n</i>). The worst case is <i>O</i>(<i>n</i><sup>2</sup>), but it is very unlikely.</p></div>
+        <span class="ch11-randomlist__tag">Las Vegas</span>
+      </div>
+      <div class="ch11-randomlist__item">
+        <span class="ch11-randomlist__num">02</span>
+        <div><h4>Verifying a matrix product</h4><p>To test <i>AB</i> = <i>C</i>, choose a random vector <i>X</i> and compare <i>A</i>(<i>BX</i>) with <i>CX</i>. Both products take <i>O</i>(<i>n</i><sup>2</sup>) time. A mismatch is certain to be detected; a false match is possible but unlikely.</p></div>
+        <span class="ch11-randomlist__tag">Monte Carlo</span>
+      </div>
+      <div class="ch11-randomlist__item">
+        <span class="ch11-randomlist__num">03</span>
+        <div><h4>Graph colouring</h4><p>Colour each node independently at random. Each edge has both endpoints differently coloured with probability 1/2, so the expected number of such edges is <i>m</i>/2. Generate colourings until one reaches that bound.</p></div>
+        <span class="ch11-randomlist__tag">Las Vegas</span>
+      </div>
+    </div>
+
+    <div class="ch11-matrixcheck" data-reveal>
+      <div class="ch11-matrixcheck__flow">
+        <span class="ch11-matrixcheck__box"><i>A</i> · <i>n</i>×<i>n</i></span>
+        <span class="ch11-matrixcheck__op">×</span>
+        <span class="ch11-matrixcheck__box"><i>B</i> · <i>n</i>×<i>n</i></span>
+        <span class="ch11-matrixcheck__op">×</span>
+        <span class="ch11-matrixcheck__box is-vec"><i>X</i> · <i>n</i>×1</span>
+        <span class="ch11-matrixcheck__op">=?</span>
+        <span class="ch11-matrixcheck__box"><i>C</i> · <i>n</i>×<i>n</i></span>
+        <span class="ch11-matrixcheck__op">×</span>
+        <span class="ch11-matrixcheck__box is-vec"><i>X</i> · <i>n</i>×1</span>
+      </div>
+      <p>Grouping the left side as <i>A</i>(<i>BX</i>) costs two matrix–vector products, not one matrix–matrix product. The false-positive chance is reduced by testing several independent vectors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.5 ============ -->
+<section class="section" id="s15" aria-labelledby="h15">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">11.5</span>
+      <div class="section-head__body"><h2 id="h15">Game Theory</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Two players, alternating moves, no randomness, complete information. A position is winning if some move hands the opponent a losing position; otherwise it is losing.</p>
+
+    <p class="lead" data-reveal>This one rule classifies every finite impartial game. Nim gives the arithmetic that makes the classification quick, and the Sprague–Grundy theorem extends it to games that look nothing like nim.</p>
+  </div>
+</section>
+
+<!-- ============ 11.5.1 ============ -->
+<section class="section section--sub" id="s151" aria-labelledby="h151">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.5.1</span>
+      <div class="section-head__body"><h2 id="h151">Game States</h2></div>
+    </div>
+
+    <p data-reveal>Start with a heap of <i>n</i> sticks. Each move removes 1, 2, or 3 sticks, and the player who takes the last stick wins. The states are 0, 1, …, <i>n</i>. State 0 is losing (no move), states 1–3 are winning (take everything), and state 4 is losing because every move leaves 1–3.</p>
+
+    <figure class="figure ch11-states" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-states__strip" role="img" aria-label="States zero to fifteen, with losing states at 0, 4, 8 and 12">
+          <span class="is-loss">L</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-loss">L</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-loss">L</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-loss">L</span><span class="is-win">W</span><span class="is-win">W</span><span class="is-win">W</span>
+          <span class="ch11-states__idx">0</span><span class="ch11-states__idx">1</span><span class="ch11-states__idx">2</span><span class="ch11-states__idx">3</span><span class="ch11-states__idx">4</span><span class="ch11-states__idx">5</span><span class="ch11-states__idx">6</span><span class="ch11-states__idx">7</span><span class="ch11-states__idx">8</span><span class="ch11-states__idx">9</span><span class="ch11-states__idx">10</span><span class="ch11-states__idx">11</span><span class="ch11-states__idx">12</span><span class="ch11-states__idx">13</span><span class="ch11-states__idx">14</span><span class="ch11-states__idx">15</span>
+        </div>
+        <p class="ch11-states__rule">A state is losing exactly when it is divisible by 4. The winning strategy is to leave a multiple of 4 after every move.</p>
+      </div>
+      <figcaption class="figure__cap">Classifying states from 0 upward. Mark a state W as soon as one move reaches an L; if every move reaches a W, mark it L.</figcaption>
+    </figure>
+
+    <div class="split2 ch11-divgame" data-reveal>
+      <div>
+        <h3 class="ch11-h3">A divisibility game</h3>
+        <p>In state <i>k</i>, remove any <i>x</i> &lt; <i>k</i> that divides <i>k</i>. From 8 the moves are 1, 2, and 4; from 7 only 1. State 1 is losing. The classification alternates: every even state is winning, every odd state is losing.</p>
+        <p>Why? An even state can remove 1 to reach an odd state; every move from an odd state removes an odd divisor (since all divisors of an odd number are odd) and therefore lands on an even state. Induction from 1 finishes the argument.</p>
+      </div>
+      <figure class="figure ch11-divgraph">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 320" role="img" aria-label="State graph of the divisibility game, with even states winning and odd states losing">
+            <g class="ch11-divgraph__edges">
+              <path d="M100 60 260 60" marker-end="url(#ch11Arrow)"/><path d="M100 60 100 160" marker-end="url(#ch11Arrow)"/>
+              <path d="M260 60 420 60" marker-end="url(#ch11Arrow)"/><path d="M260 60 100 160" marker-end="url(#ch11Arrow)"/><path d="M260 60 420 160" marker-end="url(#ch11Arrow)"/>
+              <path d="M420 60 100 160" marker-end="url(#ch11Arrow)"/>
+              <path d="M100 160 260 160" marker-end="url(#ch11Arrow)"/><path d="M100 160 420 160" marker-end="url(#ch11Arrow)"/><path d="M100 160 100 260" marker-end="url(#ch11Arrow)"/>
+              <path d="M260 160 420 160" marker-end="url(#ch11Arrow)"/>
+              <path d="M420 160 100 260" marker-end="url(#ch11Arrow)"/><path d="M420 160 260 260" marker-end="url(#ch11Arrow)"/>
+              <path d="M100 260 260 260" marker-end="url(#ch11Arrow)"/>
+              <path d="M260 260 420 260" marker-end="url(#ch11Arrow)"/>
+            </g>
+            <g class="ch11-divgraph__nodes">
+              <circle cx="100" cy="60" r="24" class="is-loss"/><text x="100" y="65">9</text><text class="ch11-divgraph__wl" x="100" y="32">L</text>
+              <circle cx="260" cy="60" r="24" class="is-win"/><text x="260" y="65">8</text><text class="ch11-divgraph__wl" x="260" y="32">W</text>
+              <circle cx="420" cy="60" r="24" class="is-loss"/><text x="420" y="65">7</text><text class="ch11-divgraph__wl" x="420" y="32">L</text>
+              <circle cx="100" cy="160" r="24" class="is-win"/><text x="100" y="165">6</text><text class="ch11-divgraph__wl" x="100" y="132">W</text>
+              <circle cx="260" cy="160" r="24" class="is-loss"/><text x="260" y="165">5</text><text class="ch11-divgraph__wl" x="260" y="132">L</text>
+              <circle cx="420" cy="160" r="24" class="is-win"/><text x="420" y="165">4</text><text class="ch11-divgraph__wl" x="420" y="132">W</text>
+              <circle cx="100" cy="260" r="24" class="is-loss"/><text x="100" y="265">3</text><text class="ch11-divgraph__wl" x="100" y="232">L</text>
+              <circle cx="260" cy="260" r="24" class="is-win"/><text x="260" y="265">2</text><text class="ch11-divgraph__wl" x="260" y="232">W</text>
+              <circle cx="420" cy="260" r="24" class="is-loss"/><text x="420" y="265">1</text><text class="ch11-divgraph__wl" x="420" y="232">L</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Edges are the legal removals. Every edge from an even state can reach an odd state; every move from an odd state lands on an even one.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.5.2 ============ -->
+<section class="section section--sub" id="s152" aria-labelledby="h152">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.5.2</span>
+      <div class="section-head__body"><h2 id="h152">Nim Game</h2></div>
+    </div>
+
+    <p data-reveal>Nim has <i>n</i> heaps. A move chooses one heap and removes any positive number of sticks from it. The player who takes the last stick wins. A state is [<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x</i><sub><i>n</i></sub>], and the empty state is losing.</p>
+
+    <div class="split2 ch11-nimintro" data-reveal>
+      <div>
+        <p>The classification is one number. Let the <em>nim sum</em> be</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math"><i>s</i> = <i>x</i><sub>1</sub> ⊕ <i>x</i><sub>2</sub> ⊕ ⋯ ⊕ <i>x</i><sub><i>n</i></sub></span></div>
+        <p>States with <i>s</i> = 0 are losing; all others are winning. For [10, 12, 5], the sum is 10 ⊕ 12 ⊕ 5 = 3, so the state is winning.</p>
+        <p>A winning move exists whenever some heap satisfies <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i> &lt; <i>x</i><sub><i>i</i></sub>. Change that heap to <i>x</i><sub><i>i</i></sub> ⊕ <i>s</i>. Such a heap always exists: take one with a 1 in the position of the leftmost 1-bit of <i>s</i>.</p>
+      </div>
+      <div class="ch11-nimbits" aria-label="Binary nim sum of 10, 12 and 5">
+        <div class="ch11-nimbits__row ch11-nimbits__row--head"><span></span><span>8</span><span>4</span><span>2</span><span>1</span></div>
+        <div class="ch11-nimbits__row"><span>10</span><span>1</span><span>0</span><span>1</span><span>0</span></div>
+        <div class="ch11-nimbits__row"><span>12</span><span>1</span><span>1</span><span>0</span><span>0</span></div>
+        <div class="ch11-nimbits__row"><span>5</span><span>0</span><span>1</span><span>0</span><span>1</span></div>
+        <div class="ch11-nimbits__row ch11-nimbits__row--sum"><span>⊕</span><span>0</span><span>0</span><span class="is-key">1</span><span>1</span></div>
+        <p class="ch11-nimbits__note">The leftmost 1 of <i>s</i> is in the 2s column. Heap 10 has a 1 there, and 10 ⊕ 3 = 9 &lt; 10, so remove one stick from heap 10.</p>
+      </div>
+    </div>
+
+    <div class="ch11-lab ch11-nim" id="ch11Nim" data-reveal>
+      <div class="ch11-lab__head">
+        <div>
+          <span class="kicker">Interactive · nim</span>
+          <h3>Play the nim sum to zero</h3>
+        </div>
+        <div class="ch11-presets" id="ch11NimPresets" role="group" aria-label="Example positions"></div>
+      </div>
+      <div class="ch11-nim__heaps" id="ch11NimHeaps"></div>
+      <div class="ch11-nim__controls">
+        <label class="ch11-field" for="ch11NimA"><span>heap 1</span><input id="ch11NimA" type="number" min="0" max="15" value="10" inputmode="numeric"></label>
+        <label class="ch11-field" for="ch11NimB"><span>heap 2</span><input id="ch11NimB" type="number" min="0" max="15" value="12" inputmode="numeric"></label>
+        <label class="ch11-field" for="ch11NimC"><span>heap 3</span><input id="ch11NimC" type="number" min="0" max="15" value="5" inputmode="numeric"></label>
+        <div class="ch11-lab__actions">
+          <button class="btn btn--primary" id="ch11NimPlay" type="button"><span>Play optimal move</span></button>
+          <button class="btn" id="ch11NimReset" type="button"><svg class="icon"><use href="#i-reset"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+      <div class="ch11-nim__readout">
+        <div><span class="kicker">nim sum</span><b id="ch11NimSum">3</b></div>
+        <div><span class="kicker">state</span><b id="ch11NimState">winning</b></div>
+        <div><span class="kicker">best move</span><b id="ch11NimMove">10 → 9</b></div>
+      </div>
+      <div class="ch11-lab__foot"><p id="ch11NimNote">Every move from a zero-sum state leaves a non-zero sum, so the opponent can always restore zero.</p></div>
+    </div>
+
+    <div class="ch11-misere" data-reveal>
+      <span class="kicker">Misère nim</span>
+      <p>If the player who takes the last stick <em>loses</em>, play the normal strategy until every heap has at most one stick after the next move. Then change the parity: leave an <em>odd</em> number of one-stick heaps. The turning point is always reached, and it is winning because exactly one heap still has more than one stick, so the nim sum is not zero.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11.5.3 ============ -->
+<section class="section section--sub" id="s153" aria-labelledby="h153">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">11.5.3</span>
+      <div class="section-head__body"><h2 id="h153">Sprague–Grundy Theorem</h2></div>
+    </div>
+
+    <p data-reveal>The theorem applies to games with two alternating players, moves that do not depend on whose turn it is, a certain end, complete information, and no randomness. Each state receives a Grundy number that behaves exactly like the size of a nim heap.</p>
+
+    <div class="split2 ch11-grundyintro" data-reveal>
+      <div>
+        <h3 class="ch11-h3">The mex rule</h3>
+        <p>The Grundy number of a state is the smallest nonnegative integer not among the Grundy numbers of its options:</p>
+        <div class="ch11-formula ch11-formula--compact"><span class="ch11-math">g = mex({<i>g</i><sub>1</sub>, <i>g</i><sub>2</sub>, …, <i>g</i><sub><i>n</i></sub>})</span></div>
+        <p>For example, mex({0, 1, 3}) = 2. A state with no moves has <i>g</i> = 0, because mex(∅) = 0. A Grundy number of 0 is losing; a positive one is winning.</p>
+        <p>If a game consists of independent subgames, its Grundy number is the nim sum of the subgames’ Grundy numbers.</p>
+      </div>
+      <div class="ch11-grundyintro__rules">
+        <span class="kicker">The theorem asks for</span>
+        <ul class="chips">
+          <li class="chip chip--static">two players</li>
+          <li class="chip chip--static">alternating moves</li>
+          <li class="chip chip--static">same moves for both</li>
+          <li class="chip chip--static">no randomness</li>
+          <li class="chip chip--static">complete information</li>
+          <li class="chip chip--static">guaranteed end</li>
+        </ul>
+        <p class="ch11-small">A game may have moves to states with larger Grundy numbers; the opponent can cancel them, so the nim strategy still works.</p>
+      </div>
+    </div>
+
+    <figure class="figure ch11-grundy" data-reveal>
+      <div class="figure__frame">
+        <div class="ch11-grundy__top">
+          <span class="ch11-grundy__heap"><span class="kicker">heap 8</span><span class="ch11-sticks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
+          <span class="ch11-grundy__arrow">split into two unequal heaps</span>
+        </div>
+        <div class="ch11-grundy__options">
+          <div class="ch11-grundy__option"><span class="ch11-grundy__split">1 + 7</span><span class="ch11-grundy__xor">g(1) ⊕ g(7) = 0 ⊕ 0 = <b>0</b></span></div>
+          <div class="ch11-grundy__option"><span class="ch11-grundy__split">2 + 6</span><span class="ch11-grundy__xor">g(2) ⊕ g(6) = 0 ⊕ 1 = <b>1</b></span></div>
+          <div class="ch11-grundy__option"><span class="ch11-grundy__split">3 + 5</span><span class="ch11-grundy__xor">g(3) ⊕ g(5) = 1 ⊕ 2 = <b>3</b></span></div>
+        </div>
+        <div class="ch11-grundy__mex">
+          <span>g(8) = mex({0, 1, 3})</span><b>2</b>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Grundy’s game: split one heap into two nonempty heaps of different sizes; the last move wins. The values g(1) = 0, g(2) = 0, g(3) = 1, g(5) = 2, g(6) = 1, g(7) = 0 give the three options above. Since mex is 2, the winning move is 1 + 7.</figcaption>
+    </figure>
+
+    <p data-reveal>The theorem turns a game into arithmetic. Three mazes with Grundy numbers 2, 3, and 3 have nim sum 2 ⊕ 3 ⊕ 3 = 2, so the first player wins. Moving two steps up in the first maze changes its value to 0, leaving 0 ⊕ 3 ⊕ 3 = 0 for the opponent.</p>
+
+    <p class="closing ch11-closing" data-reveal>Primes, binomial coefficients, matrix powers, distributions, and Grundy numbers are all compressions: each one replaces a large explicit object with a small invariant that is enough to answer the question. The next chapter returns to graphs and asks which parts of a directed graph can reach each other.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 11</span>
+    <h2 id="endTitle">Count, arrange, and prove.</h2>
+    <p>Mathematics supplies both the tools and the shortcuts.</p>
+    <a class="end__next end__next--link" href="ch12.html">
+      <div class="end__next-copy">
+        <span class="kicker">Next · Chapter 12</span>
+        <h3>Advanced Graph Algorithms</h3>
+        <p>Strong connectivity, Eulerian and Hamiltonian paths, flows, and DFS trees.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 11 · Mathematics</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 11 · Mathematics</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s11" data-close-drawer><span>11.1</span>Number Theory</a>
+            <a href="#s111" data-close-drawer><span>11.1.1</span>Primes and Factors</a>
+            <a href="#s112" data-close-drawer><span>11.1.2</span>Sieve of Eratosthenes</a>
+            <a href="#s113" data-close-drawer><span>11.1.3</span>Euclid’s Algorithm</a>
+            <a href="#s114" data-close-drawer><span>11.1.4</span>Modular Exponentiation</a>
+            <a href="#s115" data-close-drawer><span>11.1.5</span>Euler’s Theorem</a>
+            <a href="#s116" data-close-drawer><span>11.1.6</span>Solving Equations</a>
+            <a href="#s12" data-close-drawer><span>11.2</span>Combinatorics</a>
+            <a href="#s121" data-close-drawer><span>11.2.1</span>Binomial Coefficients</a>
+            <a href="#s122" data-close-drawer><span>11.2.2</span>Catalan Numbers</a>
+            <a href="#s123" data-close-drawer><span>11.2.3</span>Inclusion–Exclusion</a>
+            <a href="#s124" data-close-drawer><span>11.2.4</span>Burnside’s Lemma</a>
+            <a href="#s125" data-close-drawer><span>11.2.5</span>Cayley’s Formula</a>
+            <a href="#s13" data-close-drawer><span>11.3</span>Matrices</a>
+            <a href="#s131" data-close-drawer><span>11.3.1</span>Matrix Operations</a>
+            <a href="#s132" data-close-drawer><span>11.3.2</span>Linear Recurrences</a>
+            <a href="#s133" data-close-drawer><span>11.3.3</span>Graphs and Matrices</a>
+            <a href="#s134" data-close-drawer><span>11.3.4</span>Gaussian Elimination</a>
+            <a href="#s14" data-close-drawer><span>11.4</span>Probability</a>
+            <a href="#s141" data-close-drawer><span>11.4.1</span>Working with Events</a>
+            <a href="#s142" data-close-drawer><span>11.4.2</span>Random Variables</a>
+            <a href="#s143" data-close-drawer><span>11.4.3</span>Markov Chains</a>
+            <a href="#s144" data-close-drawer><span>11.4.4</span>Randomized Algorithms</a>
+            <a href="#s15" data-close-drawer><span>11.5</span>Game Theory</a>
+            <a href="#s151" data-close-drawer><span>11.5.1</span>Game States</a>
+            <a href="#s152" data-close-drawer><span>11.5.2</span>Nim Game</a>
+            <a href="#s153" data-close-drawer><span>11.5.3</span>Sprague–Grundy Theorem</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row" href="ch02.html">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row" href="ch03.html">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row" href="ch07.html">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row" href="ch09.html">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch11.html" aria-current="page">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch15.html">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch11.js"></script>
+</body>
+</html>

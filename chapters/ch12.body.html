@@ -1,0 +1,1221 @@
+<!-- ============ hero ============ -->
+<section class="hero ch12-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 12</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Advanced Graph Algorithms</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Advanced<br>Graph Algorithms</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Strong connectivity, complete paths, flows, and the trees that depth-first search leaves behind.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>4 sections</span><span>21 pages</span><span>≈ 54 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch12-hero-map" data-reveal style="--d:.2s" aria-label="A directed graph with four strongly connected components and its condensation DAG">
+      <div class="ch12-hero-stage">
+        <svg viewBox="0 0 1200 300" role="img" aria-label="Seven nodes in four component boxes on the left; four component boxes in a DAG on the right">
+          <defs>
+            <marker id="ch12h-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+            </marker>
+            <marker id="ch12h-arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#171717"/>
+            </marker>
+          </defs>
+
+          <g class="ch12-sccbox ch12-sccbox--a">
+            <rect x="108" y="66" width="84" height="182" rx="12"/>
+            <text class="ch12-boxlabel" x="122" y="58">A</text>
+          </g>
+          <g class="ch12-sccbox ch12-sccbox--b">
+            <rect x="350" y="26" width="216" height="196" rx="14"/>
+            <text class="ch12-boxlabel" x="364" y="18">B</text>
+          </g>
+          <g class="ch12-sccbox ch12-sccbox--c">
+            <rect x="296" y="214" width="90" height="76" rx="12"/>
+            <text class="ch12-boxlabel" x="310" y="206">C</text>
+          </g>
+          <g class="ch12-sccbox ch12-sccbox--d">
+            <rect x="616" y="196" width="90" height="76" rx="12"/>
+            <text class="ch12-boxlabel" x="630" y="188">D</text>
+          </g>
+
+          <g class="ch12-hero-edges">
+            <path d="M150 127 Q118 161 150 193" marker-end="url(#ch12h-arrow)"/>
+            <path d="M150 193 Q182 161 150 127" marker-end="url(#ch12h-arrow)"/>
+            <path d="M166 205 Q300 195 374 133" marker-end="url(#ch12h-arrow)"/>
+            <path d="M404 108 Q440 88 460 77" marker-end="url(#ch12h-arrow)"/>
+            <path d="M492 77 Q522 101 518 153" marker-end="url(#ch12h-arrow)"/>
+            <path d="M506 162 Q460 150 406 131" marker-end="url(#ch12h-arrow)"/>
+            <path d="M382 134 Q360 180 350 233" marker-end="url(#ch12h-arrow)"/>
+            <path d="M356 252 Q500 278 642 242" marker-end="url(#ch12h-arrow)"/>
+            <path d="M536 175 Q600 200 644 228" marker-end="url(#ch12h-arrow)"/>
+          </g>
+
+          <g class="ch12-node" transform="translate(150 110)"><circle r="16"/><text y="4">1</text></g>
+          <g class="ch12-node" transform="translate(150 210)"><circle r="16"/><text y="4">2</text></g>
+          <g class="ch12-node" transform="translate(390 120)"><circle r="16"/><text y="4">3</text></g>
+          <g class="ch12-node" transform="translate(480 62)"><circle r="16"/><text y="4">6</text></g>
+          <g class="ch12-node" transform="translate(520 170)"><circle r="16"/><text y="4">7</text></g>
+          <g class="ch12-node" transform="translate(340 250)"><circle r="16"/><text y="4">4</text></g>
+          <g class="ch12-node" transform="translate(660 235)"><circle r="16"/><text y="4">5</text></g>
+
+          <line x1="770" y1="36" x2="770" y2="266" class="ch12-hero-divider"/>
+          <text class="ch12-hero-col" x="810" y="42">contract each component</text>
+
+          <g class="ch12-cond-edges">
+            <path d="M866 201 Q892 155 916 121" marker-end="url(#ch12h-arrow-dark)"/>
+            <path d="M957 118 Q989 140 1017 164" marker-end="url(#ch12h-arrow-dark)"/>
+            <path d="M1060 162 Q1094 120 1107 93" marker-end="url(#ch12h-arrow-dark)"/>
+            <path d="M956 92 Q1035 58 1103 68" marker-end="url(#ch12h-arrow-dark)"/>
+          </g>
+          <g class="ch12-cond-node" transform="translate(842 214)"><rect x="-24" y="-17" width="48" height="34" rx="4"/><text y="4">A</text></g>
+          <g class="ch12-cond-node" transform="translate(944 101)"><rect x="-24" y="-17" width="48" height="34" rx="4"/><text y="4">B</text></g>
+          <g class="ch12-cond-node" transform="translate(1042 177)"><rect x="-24" y="-17" width="48" height="34" rx="4"/><text y="4">C</text></g>
+          <g class="ch12-cond-node" transform="translate(1132 78)"><rect x="-24" y="-17" width="48" height="34" rx="4"/><text y="4">D</text></g>
+          <text class="ch12-hero-col" x="1000" y="280" text-anchor="middle">the component graph · a DAG</text>
+        </svg>
+      </div>
+      <svg class="ch12-hero-mobile" viewBox="0 0 360 360" role="img" aria-label="Top: seven nodes grouped into four strongly connected components. Bottom: those components contracted into a directed acyclic graph.">
+        <defs>
+          <marker id="ch12hm-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+          </marker>
+        </defs>
+        <text class="ch12-hm-kicker" x="14" y="16">directed graph</text>
+        <g class="ch12-hm-box">
+          <rect x="14" y="30" width="78" height="120" rx="10"/><text x="24" y="44">A</text>
+          <rect x="120" y="24" width="158" height="144" rx="12"/><text x="130" y="38">B</text>
+          <rect x="100" y="190" width="78" height="70" rx="10"/><text x="110" y="204">C</text>
+          <rect x="264" y="190" width="78" height="70" rx="10"/><text x="274" y="204">D</text>
+        </g>
+        <g class="ch12-hm-edges">
+          <path d="M42 72 Q28 90 42 108" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M42 108 Q56 90 42 72" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M54 126 Q116 146 144 102" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M168 82 Q184 62 196 56" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M218 58 Q234 80 238 112" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M230 120 Q196 106 166 98" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M150 104 Q126 160 137 212" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M151 236 Q222 250 292 236" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M250 132 Q282 172 298 212" marker-end="url(#ch12hm-arrow)"/>
+        </g>
+        <g class="ch12-hm-nodes">
+          <circle cx="42" cy="60" r="10"/><text x="42" y="63">1</text>
+          <circle cx="42" cy="120" r="10"/><text x="42" y="123">2</text>
+          <circle cx="156" cy="92" r="10"/><text x="156" y="95">3</text>
+          <circle cx="206" cy="52" r="10"/><text x="206" y="55">6</text>
+          <circle cx="242" cy="124" r="10"/><text x="242" y="127">7</text>
+          <circle cx="139" cy="225" r="10"/><text x="139" y="228">4</text>
+          <circle cx="303" cy="225" r="10"/><text x="303" y="228">5</text>
+        </g>
+        <line x1="14" y1="280" x2="346" y2="280" class="ch12-hm-rule"/>
+        <text class="ch12-hm-kicker" x="14" y="298">contract each component</text>
+        <g class="ch12-hm-dag">
+          <path d="M70 326 L110 326" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M150 326 L190 326" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M230 326 L270 326" marker-end="url(#ch12hm-arrow)"/>
+          <path d="M150 314 Q208 290 270 314" marker-end="url(#ch12hm-arrow)"/>
+          <g transform="translate(52 326)"><rect x="-18" y="-13" width="36" height="26" rx="3"/><text y="4">A</text></g>
+          <g transform="translate(132 326)"><rect x="-18" y="-13" width="36" height="26" rx="3"/><text y="4">B</text></g>
+          <g transform="translate(212 326)"><rect x="-18" y="-13" width="36" height="26" rx="3"/><text y="4">C</text></g>
+          <g transform="translate(292 326)"><rect x="-18" y="-13" width="36" height="26" rx="3"/><text y="4">D</text></g>
+        </g>
+        <text class="ch12-hm-kicker" x="180" y="356" text-anchor="middle">the component graph · a DAG</text>
+      </svg>
+      <figcaption><span class="hero-map__hint">Seven nodes collapse into four strongly connected components. The components themselves form a directed acyclic graph.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s121">
+          <span class="idx__num">12.1</span>
+          <span class="idx__body"><span class="idx__title">Strong Connectivity</span><span class="idx__desc">Kosaraju’s algorithm and 2SAT</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s122">
+          <span class="idx__num">12.2</span>
+          <span class="idx__body"><span class="idx__title">Complete Paths</span><span class="idx__desc">Euler, Hamilton, De Bruijn</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s123">
+          <span class="idx__num">12.3</span>
+          <span class="idx__body"><span class="idx__title">Maximum Flows</span><span class="idx__desc">Ford–Fulkerson and its reductions</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s124">
+          <span class="idx__num">12.4</span>
+          <span class="idx__body"><span class="idx__title">Depth-First Search Trees</span><span class="idx__desc">Bridges, articulation points, low values</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.1 ============ -->
+<section class="section" id="s121" aria-labelledby="h121">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">12.1</span>
+      <div class="section-head__body"><h2 id="h121">Strong Connectivity</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A directed graph is <em>strongly connected</em> when every node can reach every other node.</p>
+
+    <p class="lead" data-reveal>A graph that fails this test can still be split into maximal strongly connected pieces. Each piece is a <em>strongly connected component</em>, and contracting every piece to a single node leaves a directed acyclic graph: the <em>component graph</em>.</p>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch12-figure">
+        <svg viewBox="0 0 640 250" role="img" aria-label="Two four-node directed graphs. The left one is strongly connected; in the right one node 2 cannot reach node 1.">
+          <defs>
+            <marker id="ch12m-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+            </marker>
+          </defs>
+          <g class="ch12-mini">
+            <circle cx="150" cy="58" r="17"/><text x="150" y="62">1</text>
+            <circle cx="274" cy="84" r="17"/><text x="274" y="88">2</text>
+            <circle cx="256" cy="196" r="17"/><text x="256" y="200">3</text>
+            <circle cx="122" cy="178" r="17"/><text x="122" y="182">4</text>
+            <g class="ch12-mini-edges">
+              <path d="M167 63 Q212 68 257 80" marker-end="url(#ch12m-arrow)"/>
+              <path d="M281 101 Q283 148 263 179" marker-end="url(#ch12m-arrow)"/>
+              <path d="M240 202 Q184 205 137 186" marker-end="url(#ch12m-arrow)"/>
+              <path d="M127 161 Q132 114 146 75" marker-end="url(#ch12m-arrow)"/>
+              <path d="M272 101 Q214 130 137 166" marker-end="url(#ch12m-arrow)"/>
+            </g>
+            <text class="ch12-mini-label" x="196" y="236">strongly connected</text>
+          </g>
+          <g class="ch12-mini">
+            <circle cx="470" cy="58" r="17"/><text x="470" y="62">1</text>
+            <circle cx="594" cy="84" r="17"/><text x="594" y="88">2</text>
+            <circle cx="576" cy="196" r="17"/><text x="576" y="200">3</text>
+            <circle cx="442" cy="178" r="17"/><text x="442" y="182">4</text>
+            <g class="ch12-mini-edges">
+              <path d="M487 63 Q532 68 577 80" marker-end="url(#ch12m-arrow)"/>
+              <path d="M601 101 Q603 148 583 179" marker-end="url(#ch12m-arrow)"/>
+              <path d="M560 202 Q504 205 457 186" marker-end="url(#ch12m-arrow)"/>
+              <path d="M456 166 Q510 140 583 104" marker-end="url(#ch12m-arrow)"/>
+            </g>
+            <text class="ch12-mini-label" x="516" y="236">not strongly connected</text>
+          </g>
+        </svg>
+        <div class="ch12-fig-notes">
+          <span>The cycle reaches every node from every node.</span>
+          <span>Node 2 can reach 3 and 4, but never 1.</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Strong connectivity is a property of the whole graph, not of individual edges.</figcaption>
+    </figure>
+
+    <div class="ch12-cond">
+      <div class="ch12-cond__copy" data-reveal>
+        <h3>Contract, then sort</h3>
+        <p>A component graph is a DAG, so it is easier to process than the original graph. Because it has no cycles, it can be topologically sorted and handled with dynamic programming. The deep structure of a directed graph is the structure of its components, not its edges.</p>
+        <ul class="chips ch12-chips" aria-label="Components of the example graph">
+          <li class="chip chip--static">A = {1, 2}</li>
+          <li class="chip chip--static">B = {3, 6, 7}</li>
+          <li class="chip chip--static">C = {4}</li>
+          <li class="chip chip--static">D = {5}</li>
+        </ul>
+      </div>
+      <div class="ch12-cond__dag" data-reveal style="--d:.08s" aria-label="The component graph is a chain with one shortcut">
+        <div class="ch12-dagrow">
+          <span class="ch12-dagnode">A</span><span class="ch12-dagarrow">→</span>
+          <span class="ch12-dagnode">B</span><span class="ch12-dagarrow">→</span>
+          <span class="ch12-dagnode">C</span><span class="ch12-dagarrow">→</span>
+          <span class="ch12-dagnode">D</span>
+        </div>
+        <p class="ch12-dagrow__note">Also B → D. The topological order is A, B, C, D — or A, B, D, C.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.1.1 ============ -->
+<section class="section section--sub" id="s1211" aria-labelledby="h1211">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.1.1</span>
+      <div class="section-head__body"><h2 id="h1211">Kosaraju’s Algorithm</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Kosaraju’s algorithm finds every strongly connected component with two depth-first searches. The first search records the order in which nodes <em>finish</em>; the second walks that order backwards through the reversed graph.</p>
+
+    <div class="ch12-lab" id="ch12Kosaraju" data-reveal>
+      <div class="ch12-lab__head">
+        <div>
+          <span class="kicker">Interactive · two passes</span>
+          <h3>Follow the finishing order</h3>
+        </div>
+        <span class="ch12-lab__count" id="ch12KStep">Step 1 / 5</span>
+      </div>
+
+      <div class="ch12-lab__grid">
+        <div class="ch12-lab__stage">
+          <svg id="ch12KosSvg" viewBox="0 0 560 340" role="img" aria-label="The example graph with discovery and finish times, then reversed edges, then four coloured components">
+            <defs>
+              <marker id="ch12k-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#9d9d95"/>
+              </marker>
+            </defs>
+
+            <g class="ch12-kbox ch12-kbox--a"><rect x="78" y="70" width="84" height="200" rx="12"/><text x="92" y="62">A</text></g>
+            <g class="ch12-kbox ch12-kbox--b"><rect x="260" y="32" width="214" height="200" rx="12"/><text x="274" y="24">B</text></g>
+            <g class="ch12-kbox ch12-kbox--c"><rect x="208" y="258" width="88" height="72" rx="12"/><text x="222" y="250">C</text></g>
+            <g class="ch12-kbox ch12-kbox--d"><rect x="458" y="244" width="88" height="72" rx="12"/><text x="472" y="236">D</text></g>
+
+            <g id="ch12KForward" class="ch12-kedges">
+              <path data-edge="12" d="M120 127 Q88 170 120 213" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="21" d="M120 213 Q152 170 120 127" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="23" d="M136 225 Q230 222 284 163" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="36" d="M314 138 Q350 110 372 87" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="67" d="M402 81 Q432 110 428 174" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="73" d="M416 182 Q370 170 316 158" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="34" d="M292 164 Q270 220 260 274" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="45" d="M266 292 Q380 315 482 288" marker-end="url(#ch12k-arrow)"/>
+              <path data-edge="75" d="M446 194 Q490 230 484 264" marker-end="url(#ch12k-arrow)"/>
+            </g>
+            <g id="ch12KReverse" class="ch12-kedges ch12-kedges--rev" hidden>
+              <path d="M120 213 Q88 170 120 127" marker-end="url(#ch12k-arrow)"/>
+              <path d="M120 127 Q152 170 120 213" marker-end="url(#ch12k-arrow)"/>
+              <path d="M284 163 Q230 222 136 225" marker-end="url(#ch12k-arrow)"/>
+              <path d="M372 87 Q350 110 314 138" marker-end="url(#ch12k-arrow)"/>
+              <path d="M428 174 Q432 110 402 81" marker-end="url(#ch12k-arrow)"/>
+              <path d="M316 158 Q370 170 416 182" marker-end="url(#ch12k-arrow)"/>
+              <path d="M260 274 Q270 220 292 164" marker-end="url(#ch12k-arrow)"/>
+              <path d="M482 288 Q380 315 266 292" marker-end="url(#ch12k-arrow)"/>
+              <path d="M484 264 Q490 230 446 194" marker-end="url(#ch12k-arrow)"/>
+            </g>
+
+            <g class="ch12-knode" data-node="1" transform="translate(120 110)"><circle r="17"/><text class="ch12-kn" y="4">1</text><text class="ch12-kt" y="-24"></text></g>
+            <g class="ch12-knode" data-node="2" transform="translate(120 230)"><circle r="17"/><text class="ch12-kn" y="4">2</text><text class="ch12-kt" y="-24"></text></g>
+            <g class="ch12-knode" data-node="3" transform="translate(300 150)"><circle r="17"/><text class="ch12-kn" y="4">3</text><text class="ch12-kt" y="-24"></text></g>
+            <g class="ch12-knode" data-node="6" transform="translate(390 70)"><circle r="17"/><text class="ch12-kn" y="4">6</text><text class="ch12-kt" y="-24"></text></g>
+            <g class="ch12-knode" data-node="7" transform="translate(430 190)"><circle r="17"/><text class="ch12-kn" y="4">7</text><text class="ch12-kt" y="-24"></text></g>
+            <g class="ch12-knode" data-node="4" transform="translate(250 290)"><circle r="17"/><text class="ch12-kn" y="4">4</text><text class="ch12-kt" y="34"></text></g>
+            <g class="ch12-knode" data-node="5" transform="translate(500 280)"><circle r="17"/><text class="ch12-kn" y="4">5</text><text class="ch12-kt" y="34"></text></g>
+          </svg>
+          <div class="ch12-lab__legend">
+            <span><i class="ch12-swatch ch12-swatch--line"></i>edge</span>
+            <span><i class="ch12-swatch ch12-swatch--rev"></i>reversed</span>
+            <span><i class="ch12-swatch ch12-swatch--comp"></i>component</span>
+          </div>
+        </div>
+
+        <div class="ch12-lab__panel">
+          <p class="ch12-lab__caption" id="ch12KCap" aria-live="polite">Start with the graph. No node has been visited yet.</p>
+          <div class="ch12-lab__out" id="ch12KOut"></div>
+          <div class="ch12-controls">
+            <button class="btn btn--icon" id="ch12KPrev" type="button" aria-label="Previous step"><svg class="icon ch12-flip"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--primary" id="ch12KNext" type="button">Next step <svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="ch12KReset" type="button" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+          <div class="ch12-dots" id="ch12KDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch12-codewrap">
+      <div class="code-card" data-code-card data-reveal>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Why the reversed order works</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>The node that finishes last in the first search belongs to a component with no outgoing edges to an unprocessed component. Reversing the edges makes that component a source, so a flood fill started there cannot leak into another component. Removing its nodes and repeating finds the next component, and so on.</p>
+        <p>Both passes touch each node and edge once, so the running time is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12.1.2 ============ -->
+<section class="section section--sub" id="s1212" aria-labelledby="h1212">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.1.2</span>
+      <div class="section-head__body"><h2 id="h1212">The 2SAT Problem</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>In the 2SAT problem we are given a formula</p>
+    <p class="ch12-formula" data-reveal>(<i>a</i><sub>1</sub> ∨ <i>b</i><sub>1</sub>) ∧ (<i>a</i><sub>2</sub> ∨ <i>b</i><sub>2</sub>) ∧ ⋯ ∧ (<i>a</i><sub>m</sub> ∨ <i>b</i><sub>m</sub>),</p>
+    <p class="ch12-lead2" data-reveal>where every <i>a<sub>i</sub></i> and <i>b<sub>i</sub></i> is a variable or its negation. Each clause creates two implications: <i>a</i> ∨ <i>b</i> means ¬<i>a</i> → <i>b</i> and ¬<i>b</i> → <i>a</i>. The implication graph turns the formula into a directed graph, and strong connectivity decides whether a truth assignment exists.</p>
+
+    <div class="ch12-two" id="ch12TwoSat" data-reveal>
+      <div class="ch12-two__head">
+        <div>
+          <span class="kicker">Interactive · implication graph</span>
+          <h3>One formula, two verdicts</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Choose a formula">
+          <button class="seg__btn is-active" type="button" data-2sat="l1" aria-pressed="true">L₁</button>
+          <button class="seg__btn" type="button" data-2sat="l2" aria-pressed="false">L₂</button>
+        </div>
+      </div>
+
+      <div class="ch12-two__body">
+        <div class="ch12-two__stage">
+          <svg id="ch12TwoSvg" viewBox="0 0 640 260" role="img" aria-label="Component graph of formula L1: a chain A to B to C to D. Formula L2: all literals in one component.">
+            <defs>
+              <marker id="ch12t-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+              </marker>
+            </defs>
+
+            <g id="ch12TwoL1">
+              <g class="ch12-tbox"><rect x="42" y="96" width="118" height="68" rx="4"/><text class="ch12-tbox__label" x="56" y="88">A</text><text class="ch12-tbox__set" x="101" y="126">¬x4</text></g>
+              <g class="ch12-tbox"><rect x="196" y="96" width="140" height="68" rx="4"/><text class="ch12-tbox__label" x="210" y="88">B</text><text class="ch12-tbox__set" x="266" y="120">x1 · x2 · ¬x3</text></g>
+              <g class="ch12-tbox"><rect x="372" y="96" width="140" height="68" rx="4"/><text class="ch12-tbox__label" x="386" y="88">C</text><text class="ch12-tbox__set" x="442" y="120">¬x1 · ¬x2 · x3</text></g>
+              <g class="ch12-tbox"><rect x="548" y="96" width="70" height="68" rx="4"/><text class="ch12-tbox__label" x="562" y="88">D</text><text class="ch12-tbox__set" x="583" y="126">x4</text></g>
+              <g class="ch12-tedges">
+                <path d="M161 130 L192 130" marker-end="url(#ch12t-arrow)"/>
+                <path d="M337 130 L368 130" marker-end="url(#ch12t-arrow)"/>
+                <path d="M513 130 L544 130" marker-end="url(#ch12t-arrow)"/>
+              </g>
+              <text class="ch12-tnote" x="320" y="218" text-anchor="middle">the component graph is a chain</text>
+            </g>
+
+            <g id="ch12TwoL2" hidden>
+              <g class="ch12-tbox ch12-tbox--one"><rect x="90" y="78" width="460" height="104" rx="4"/><text class="ch12-tbox__label" x="104" y="70">one component</text><text class="ch12-tbox__set" x="320" y="120">x1 · ¬x1 · x2 · ¬x2 · x3 · ¬x3</text><text class="ch12-tbox__sub" x="320" y="148">both a literal and its negation</text></g>
+              <text class="ch12-tnote" x="320" y="218" text-anchor="middle">a variable and its negation in the same component</text>
+            </g>
+          </svg>
+        </div>
+
+        <aside class="ch12-two__panel">
+          <div id="ch12TwoVerdict" data-verdict="l1">
+            <span class="ch12-verdict ch12-verdict--ok" id="ch12TwoTag">satisfiable</span>
+            <p id="ch12TwoText">The literals of every variable lie in different components, so an assignment exists.</p>
+            <div class="ch12-assign" id="ch12TwoAssign">
+              <span><i>x</i>1 = false</span><span><i>x</i>2 = false</span><span><i>x</i>3 = true</span><span><i>x</i>4 = true</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <p class="ch12-after" data-reveal>A solution is read from the components in reverse topological order. In <i>L</i><sub>1</sub>, component D is processed first and sets <i>x</i><sub>4</sub> true; then C sets <i>x</i><sub>1</sub> and <i>x</i><sub>2</sub> false and <i>x</i><sub>3</sub> true. Components A and B only repeat values that are already fixed.</p>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Why 3SAT is different</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body"><p>With three literals per clause, a clause (<i>a</i> ∨ <i>b</i> ∨ <i>c</i>) no longer yields a pair of implications between single literals. 3SAT is NP-hard, so no efficient algorithm is known. The jump from two to three literals is a genuine change of difficulty, not an implementation detail.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12.2 ============ -->
+<section class="section" id="s122" aria-labelledby="h122">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">12.2</span>
+      <div class="section-head__body"><h2 id="h122">Complete Paths</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>An Eulerian path uses every <em>edge</em> once. A Hamiltonian path visits every <em>node</em> once.</p>
+
+    <p class="lead" data-reveal>The two definitions differ by a single word, but the problems live on opposite sides of a cliff: Eulerian paths can be found in linear time, while Hamiltonian paths are NP-hard.</p>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch12-figure">
+        <svg viewBox="0 0 640 300" role="img" aria-label="Left: an Eulerian trail through six edges. Right: a Hamiltonian path through five nodes.">
+          <defs>
+            <marker id="ch12c-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+            </marker>
+          </defs>
+          <g class="ch12-mini">
+            <g class="ch12-trail-edges">
+              <path d="M112 132 L196 88" marker-end="url(#ch12c-arrow)"/>
+              <path d="M212 98 L212 192" marker-end="url(#ch12c-arrow)"/>
+              <path d="M228 208 L304 208" marker-end="url(#ch12c-arrow)"/>
+              <path d="M320 192 L306 112" marker-end="url(#ch12c-arrow)"/>
+              <path d="M288 100 Q190 110 112 132" marker-end="url(#ch12c-arrow)"/>
+              <path d="M100 150 Q200 210 306 204" marker-end="url(#ch12c-arrow)"/>
+            </g>
+            <g class="ch12-trail-nums">
+              <text x="148" y="100">1</text><text x="224" y="148">2</text><text x="266" y="198">3</text>
+              <text x="324" y="152">4</text><text x="194" y="104">5</text><text x="214" y="194">6</text>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="96" cy="138" r="16"/><text x="96" y="142">2</text>
+              <circle cx="212" cy="82" r="16"/><text x="212" y="86">1</text>
+              <circle cx="212" cy="208" r="16"/><text x="212" y="212">4</text>
+              <circle cx="320" cy="208" r="16"/><text x="320" y="212">5</text>
+              <circle cx="304" cy="96" r="16"/><text x="304" y="100">3</text>
+            </g>
+            <text class="ch12-mini-label" x="208" y="258">every edge once</text>
+            <text class="ch12-mini-sub" x="208" y="276">2 → 1 → 4 → 5 → 3 → 2 → 5</text>
+          </g>
+          <g class="ch12-mini">
+            <g class="ch12-ham-edges">
+              <path d="M422 166 Q446 126 468 112" marker-end="url(#ch12c-arrow)"/>
+              <path d="M486 106 L534 128" marker-end="url(#ch12c-arrow)"/>
+              <path d="M544 156 L552 188" marker-end="url(#ch12c-arrow)"/>
+              <path d="M528 214 Q494 234 464 234" marker-end="url(#ch12c-arrow)"/>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="408" cy="176" r="16"/><text x="408" y="180">1</text>
+              <circle cx="474" cy="100" r="16"/><text x="474" y="104">2</text>
+              <circle cx="548" cy="140" r="16"/><text x="548" y="144">3</text>
+              <circle cx="556" cy="206" r="16"/><text x="556" y="210">4</text>
+              <circle cx="452" cy="236" r="16"/><text x="452" y="240">5</text>
+            </g>
+            <text class="ch12-mini-label" x="488" y="272">every node once</text>
+            <text class="ch12-mini-sub" x="488" y="290">1 → 2 → 3 → 4 → 5</text>
+          </g>
+        </svg>
+        <div class="ch12-fig-notes">
+          <span>Euler: a walk along the edges.</span>
+          <span>Hamilton: a walk through the nodes.</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The left walk can repeat nodes; the right walk can skip edges.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 12.2.1 ============ -->
+<section class="section section--sub" id="s1221" aria-labelledby="h1221">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.2.1</span>
+      <div class="section-head__body"><h2 id="h1221">Eulerian Paths</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>An Eulerian path crosses every edge exactly once. If it begins and ends at the same node it is an Eulerian <em>circuit</em>. Existence is decided entirely by degrees.</p>
+
+    <div class="split2 split2--wide">
+      <div data-reveal>
+        <h3 class="ch12-h3">The degree test</h3>
+        <p>An undirected graph has an Eulerian path exactly when all of its edges lie in one connected component and</p>
+        <ul class="ch12-rules">
+          <li><span class="ch12-rule__num">1</span><span>every node has even degree, or</span></li>
+          <li><span class="ch12-rule__num">2</span><span>exactly two nodes have odd degree and all the others are even.</span></li>
+        </ul>
+        <p>In the first case every Eulerian path is a circuit. In the second case the two odd-degree nodes are the endpoints of a path that is not a circuit.</p>
+        <p>For a directed graph, replace degree by indegree and outdegree: either they are equal at every node, or one node has outdegree one larger, another has indegree one larger, and all the rest balance.</p>
+
+        <div class="ch12-degrees" aria-label="Degree example">
+          <div class="ch12-degree"><span class="ch12-degree__node">2</span><span class="ch12-degree__val">3</span><em>odd · start</em></div>
+          <div class="ch12-degree"><span class="ch12-degree__node">1</span><span class="ch12-degree__val">2</span></div>
+          <div class="ch12-degree"><span class="ch12-degree__node">4</span><span class="ch12-degree__val">2</span></div>
+          <div class="ch12-degree"><span class="ch12-degree__node">3</span><span class="ch12-degree__val">2</span></div>
+          <div class="ch12-degree ch12-degree--odd"><span class="ch12-degree__node">5</span><span class="ch12-degree__val">3</span><em>odd · end</em></div>
+        </div>
+        <p class="ch12-fine">The trail graph above has exactly two odd-degree nodes, 2 and 5, so every Eulerian path in it runs between them. The walk 2 → 1 → 4 → 5 → 3 → 2 → 5 uses all six edges.</p>
+      </div>
+
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 320" role="img" aria-label="Hierholzer's example graph with a ten-edge Eulerian circuit numbered in order">
+            <defs>
+              <marker id="ch12e-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+              </marker>
+            </defs>
+            <g class="ch12-euler-edges">
+              <path data-step="1" d="M84 168 L164 96" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="2" d="M172 96 Q130 190 146 264" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="3" d="M166 282 L330 258" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="4" d="M350 238 Q384 162 340 86" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="5" d="M306 84 Q280 130 262 164" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="6" d="M266 190 Q370 200 438 172" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="7" d="M442 178 Q404 222 368 244" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="8" d="M334 244 Q240 170 196 94" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="9" d="M196 66 Q260 54 306 68" marker-end="url(#ch12e-arrow)"/>
+              <path data-step="10" d="M322 88 Q220 120 114 164" marker-end="url(#ch12e-arrow)"/>
+            </g>
+            <g class="ch12-euler-nums">
+              <text x="132" y="126">1</text><text x="140" y="188">2</text><text x="248" y="272">3</text>
+              <text x="374" y="166">4</text><text x="272" y="128">5</text><text x="344" y="174">6</text>
+              <text x="400" y="222">7</text><text x="248" y="158">8</text><text x="250" y="60">9</text>
+              <text x="194" y="134">10</text>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="100" cy="180" r="17"/><text x="100" y="184">1</text>
+              <circle cx="180" cy="80" r="17"/><text x="180" y="84">2</text>
+              <circle cx="320" cy="70" r="17"/><text x="320" y="74">3</text>
+              <circle cx="250" cy="180" r="17"/><text x="250" y="184">4</text>
+              <circle cx="150" cy="280" r="17"/><text x="150" y="284">5</text>
+              <circle cx="350" cy="250" r="17"/><text x="350" y="254">6</text>
+              <circle cx="450" cy="160" r="17"/><text x="450" y="164">7</text>
+            </g>
+          </svg>
+          <div class="ch12-fig-notes"><span>Hierholzer: splice the subcircuits 1 → 2 → 3 → 1, 2 → 5 → 6 → 2, and 6 → 3 → 4 → 7 → 6.</span></div>
+        </div>
+        <figcaption class="figure__cap">Ten edges, one circuit. The numbers follow the order in which the edges are added.</figcaption>
+      </figure>
+    </div>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Constructing the path: Hierholzer’s algorithm</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Start with a circuit containing one node. While some node <i>x</i> on the circuit has an unused outgoing edge, follow unused edges from <i>x</i> until the walk returns to <i>x</i>. This closes a subcircuit; splice it into the circuit at <i>x</i> and repeat. Every edge is used once, so the construction is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+        <p>If the graph has an Eulerian path but no circuit, add an extra edge between the two odd-degree nodes, construct a circuit, then remove that edge from the result.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12.2.2 ============ -->
+<section class="section section--sub" id="s1222" aria-labelledby="h1222">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.2.2</span>
+      <div class="section-head__body"><h2 id="h1222">Hamiltonian Paths</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>A Hamiltonian path visits every node exactly once; if it returns to its starting node it is a Hamiltonian circuit. These definitions look like Euler’s, but no efficient general test is known.</p>
+
+    <p data-reveal>The problem is NP-hard. A direct backtracking search tries all <i>n</i>! orders of the nodes. Dynamic programming improves this to <i>O</i>(2<sup><i>n</i></sup><i>n</i><sup>2</sup>) by recording, for every subset <i>S</i> and every endpoint <i>x</i> ∈ <i>S</i>, whether a path through <i>S</i> can end at <i>x</i>. That is a real improvement, but it is still exponential — and the gap between the two grows fast.</p>
+
+    <div class="ch12-bars" data-reveal>
+      <div class="ch12-bars__head">
+        <div>
+          <span class="kicker">Work, on a logarithmic scale</span>
+          <h3>n! versus 2<sup>n</sup> n<sup>2</sup></h3>
+        </div>
+        <span class="ch12-bars__note">lower is better</span>
+      </div>
+      <div class="ch12-bars__legend"><span><i class="ch12-swatch ch12-swatch--dark"></i>backtracking · n!</span><span><i class="ch12-swatch ch12-swatch--mid"></i>subset DP · 2<sup>n</sup> n<sup>2</sup></span></div>
+      <div class="ch12-bar-rows">
+        <div class="ch12-bar-row" data-tip="At n = 8 the DP does 16,384 steps against 40,320: already 2.46× less." tabindex="0">
+          <span class="ch12-bar-n">n = 8</span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--a" style="--w:33%"></span></div>
+          <span class="ch12-bar-val">40,320</span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--b" style="--w:30%"></span></div>
+          <span class="ch12-bar-val">16,384</span>
+        </div>
+        <div class="ch12-bar-row" data-tip="At n = 12: 479,001,600 versus 589,824. About 812× less work." tabindex="0">
+          <span class="ch12-bar-n">n = 12</span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--a" style="--w:62%"></span></div>
+          <span class="ch12-bar-val">479,001,600</span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--b" style="--w:41%"></span></div>
+          <span class="ch12-bar-val">589,824</span>
+        </div>
+        <div class="ch12-bar-row" data-tip="At n = 16: 20,922,789,888,000 versus 16,777,216. More than a million times less work." tabindex="0">
+          <span class="ch12-bar-n">n = 16</span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--a" style="--w:95%"></span></div>
+          <span class="ch12-bar-val">2.09 × 10<sup>13</sup></span>
+          <div class="ch12-bar-track"><span class="ch12-bar ch12-bar--b" style="--w:52%"></span></div>
+          <span class="ch12-bar-val">1.68 × 10<sup>7</sup></span>
+        </div>
+      </div>
+      <p class="ch12-bars__foot">Exact counts. The bars use log<sub>10</sub> of the operation count, so equal bar lengths are not equal work.</p>
+    </div>
+
+    <div class="ch12-callout" data-reveal>
+      <span class="kicker">A useful special case</span>
+      <p>If the graph is complete — there is an edge between every pair of nodes — it certainly contains a Hamiltonian path. More generally, sufficient conditions can be checked cheaply even though the general problem cannot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.2.3 ============ -->
+<section class="section section--sub" id="s1223" aria-labelledby="h1223">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.2.3</span>
+      <div class="section-head__body"><h2 id="h1223">Applications</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Two classic constructions show how far the two path problems reach: a De Bruijn sequence is an Eulerian circuit in disguise, and a knight’s tour is a Hamiltonian path with a chessboard in between.</p>
+
+    <div class="split2 ch12-apps">
+      <figure class="ch12-figure ch12-figure--flush" data-reveal>
+        <div class="figure__frame">
+          <svg viewBox="0 0 560 300" role="img" aria-label="The De Bruijn graph for n=3 and k=2: four nodes labelled 00, 01, 10, 11 with eight edges labelled 0 or 1">
+            <defs>
+              <marker id="ch12d-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#8f8f88"/>
+              </marker>
+            </defs>
+            <g class="ch12-bruijn-edges">
+              <path d="M104 66 Q120 38 136 66" marker-end="url(#ch12d-arrow)"/>
+              <path d="M142 72 L378 72" marker-end="url(#ch12d-arrow)"/>
+              <path d="M400 96 L400 224" marker-end="url(#ch12d-arrow)"/>
+              <path d="M378 248 L142 248" marker-end="url(#ch12d-arrow)"/>
+              <path d="M120 224 L120 96" marker-end="url(#ch12d-arrow)"/>
+              <path d="M382 92 Q250 108 140 226" marker-end="url(#ch12d-arrow)"/>
+              <path d="M138 228 Q300 214 382 100" marker-end="url(#ch12d-arrow)"/>
+              <path d="M422 232 Q452 242 422 254" marker-end="url(#ch12d-arrow)"/>
+            </g>
+            <g class="ch12-bruijn-labels">
+              <text x="120" y="32">0</text>
+              <text x="260" y="62">1</text>
+              <text x="414" y="162">1</text>
+              <text x="260" y="266">0</text>
+              <text x="106" y="162">0</text>
+              <text x="198" y="152">0</text>
+              <text x="330" y="214">1</text>
+              <text x="444" y="240">1</text>
+            </g>
+            <g class="ch12-tnodes">
+              <rect x="98" y="64" width="44" height="32" rx="3"/><text x="120" y="85">00</text>
+              <rect x="378" y="64" width="44" height="32" rx="3"/><text x="400" y="85">01</text>
+              <rect x="378" y="224" width="44" height="32" rx="3"/><text x="400" y="245">11</text>
+              <rect x="98" y="224" width="44" height="32" rx="3"/><text x="120" y="245">10</text>
+            </g>
+            <text class="ch12-mini-sub" x="280" y="292" text-anchor="middle">0001011100</text>
+          </svg>
+          <div class="ch12-fig-notes"><span class="ch12-mono">n = 3, k = 2 · length k<sup>n</sup> + n − 1 = 10</span></div>
+        </div>
+        <figcaption class="figure__cap">Each node is a string of <i>n</i> − 1 characters; each edge appends one character. An Eulerian circuit reads out every length-3 string exactly once.</figcaption>
+      </figure>
+
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <div class="ch12-knight" aria-label="An open knight's tour on a 5 by 5 board">
+            <div class="ch12-knight__grid" id="ch12Knight"></div>
+          </div>
+          <div class="ch12-fig-notes"><span>An open knight’s tour: every square once, no return to the start.</span></div>
+        </div>
+        <figcaption class="figure__cap">A knight’s tour is a Hamiltonian path in the graph whose nodes are squares and whose edges are legal knight moves. Warnsdorf’s rule — move to the square with the fewest onward moves — finds one quickly.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.3 ============ -->
+<section class="section" id="s123" aria-labelledby="h123">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">12.3</span>
+      <div class="section-head__body"><h2 id="h123">Maximum Flows</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Send as much flow as possible from a source to a sink, without exceeding any edge’s capacity.</p>
+
+    <p class="lead" data-reveal>A flow network is a directed weighted graph with a source (no incoming edges) and a sink (no outgoing edges). Each edge has a capacity, and at every intermediate node the incoming flow must equal the outgoing flow. The size of the flow is the total leaving the source.</p>
+
+    <div class="ch12-stats" data-reveal>
+      <div><span class="ch12-stats__v">7</span><span class="ch12-stats__l">maximum flow</span></div>
+      <div><span class="ch12-stats__v">7</span><span class="ch12-stats__l">minimum cut</span></div>
+      <div><span class="ch12-stats__v">4</span><span class="ch12-stats__l">augmenting rounds</span></div>
+      <div><span class="ch12-stats__v">6</span><span class="ch12-stats__l">nodes · source 1, sink 6</span></div>
+    </div>
+
+    <p data-reveal>A <em>cut</em> removes a set of edges so that the sink is no longer reachable from the source. The minimum cut is the cheapest such removal. Maximum flow and minimum cut are always equal: every flow is bounded by every cut, and the algorithm below finds a flow that meets a cut exactly. That equality is the reason the two problems are two views of one object.</p>
+  </div>
+</section>
+
+<!-- ============ 12.3.1 ============ -->
+<section class="section section--sub" id="s1231" aria-labelledby="h1231">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.3.1</span>
+      <div class="section-head__body"><h2 id="h1231">The Ford–Fulkerson Algorithm</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Ford–Fulkerson starts with an empty flow and repeatedly finds a path from source to sink whose edges all have residual capacity. It pushes the smallest capacity on that path, then updates the residual graph. When no such path remains, the flow is maximum.</p>
+
+    <div class="ch12-flow" id="ch12Flow" data-reveal>
+      <div class="ch12-flow__head">
+        <div>
+          <span class="kicker">Interactive · augmenting paths</span>
+          <h3>Push flow, then read the cut</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Graph view">
+          <button class="seg__btn is-active" type="button" data-flow-view="flow" aria-pressed="true">Flow</button>
+          <button class="seg__btn" type="button" data-flow-view="residual" aria-pressed="false">Residual</button>
+        </div>
+      </div>
+
+      <div class="ch12-flow__grid">
+        <div class="ch12-flow__stage">
+          <svg id="ch12FlowSvg" viewBox="0 0 640 360" role="img" aria-label="A flow network with six nodes and eight edges; the current augmenting path is highlighted">
+            <defs>
+              <marker id="ch12f-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+              </marker>
+              <marker id="ch12f-arrow-hot" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+              <marker id="ch12f-arrow-cut" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#a6402e"/>
+              </marker>
+            </defs>
+
+            <g class="ch12-flow-edges" id="ch12FlowEdges">
+              <path data-edge="0" d="M99 169 Q151 117 221 103" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="1" d="M99 191 Q151 243 221 257" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="2" d="M240 114 L240 246" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="3" d="M258 95 L412 95" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="4" d="M252 250 Q330 188 413 111" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="5" d="M258 265 L412 265" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="6" d="M447 105 Q511 131 564 168" marker-end="url(#ch12f-arrow)"/>
+              <path data-edge="7" d="M447 255 Q511 229 564 192" marker-end="url(#ch12f-arrow)"/>
+            </g>
+
+            <g class="ch12-flow-labels" id="ch12FlowLabels">
+              <text data-flabel="0" x="146" y="114">0/4</text>
+              <text data-flabel="1" x="146" y="250">0/4</text>
+              <text data-flabel="2" x="250" y="184">0/1</text>
+              <text data-flabel="3" x="335" y="84">0/3</text>
+              <text data-flabel="4" x="320" y="202">0/2</text>
+              <text data-flabel="5" x="335" y="254">0/2</text>
+              <text data-flabel="6" x="505" y="120">0/5</text>
+              <text data-flabel="7" x="505" y="246">0/5</text>
+            </g>
+
+            <g class="ch12-flow-nodes">
+              <g transform="translate(80 180)"><circle r="19"/><text y="5">1</text><text class="ch12-flow-role" y="-28">source</text></g>
+              <g transform="translate(240 95)"><circle r="19"/><text y="5">2</text></g>
+              <g transform="translate(240 265)"><circle r="19"/><text y="5">3</text></g>
+              <g transform="translate(430 95)"><circle r="19"/><text y="5">4</text></g>
+              <g transform="translate(430 265)"><circle r="19"/><text y="5">5</text></g>
+              <g transform="translate(580 180)"><circle r="19"/><text y="5">6</text><text class="ch12-flow-role" y="-28">sink</text></g>
+            </g>
+
+            <g id="ch12FlowResidual" class="ch12-flow-residual" hidden></g>
+            <g id="ch12FlowCut" class="ch12-flow-cut" hidden></g>
+          </svg>
+          <div class="ch12-lab__legend">
+            <span><i class="ch12-swatch ch12-swatch--line"></i>residual capacity</span>
+            <span><i class="ch12-swatch ch12-swatch--flow"></i>flow</span>
+            <span><i class="ch12-swatch ch12-swatch--cut"></i>cut edge</span>
+          </div>
+        </div>
+
+        <div class="ch12-flow__panel">
+          <div class="ch12-flow__value"><span class="ch12-flow__num" id="ch12FlowValue">0</span><span class="ch12-flow__unit">units of flow</span></div>
+          <p class="ch12-lab__caption" id="ch12FlowCap" aria-live="polite">The empty flow. Every edge is at capacity zero.</p>
+          <div class="ch12-flow__path" id="ch12FlowPath"><span class="ch12-flow__pathlabel">augmenting path</span><span class="ch12-flow__pathval">—</span></div>
+          <div class="ch12-flow__meta">
+            <div><span class="kicker">Round</span><strong id="ch12FlowRound">0 / 4</strong></div>
+            <div><span class="kicker">Bottleneck</span><strong id="ch12FlowAdd">—</strong></div>
+          </div>
+          <div class="ch12-controls">
+            <button class="btn btn--icon" id="ch12FlowPrev" type="button" aria-label="Previous step"><svg class="icon ch12-flip"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--primary" id="ch12FlowNext" type="button">Augment <svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="ch12FlowReset" type="button" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+          <div class="ch12-dots" id="ch12FlowDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch12-after" data-reveal>The algorithm does not dictate <em>which</em> path to take. Depth-first search works, but in the worst case it can add only one unit per round. Edmonds–Karp uses breadth-first search, so every path is shortest in the residual graph; this gives <i>O</i>(<i>m</i><sup>2</sup><i>n</i>). Capacity scaling uses DFS but only on edges above a threshold that halves each time, giving <i>O</i>(<i>m</i><sup>2</sup> log <i>c</i>).</p>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Reading the minimum cut from the final residual graph</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>After the last augmentation, let <i>A</i> be the set of nodes reachable from the source through edges with positive residual capacity. Every edge that leaves <i>A</i> is saturated; otherwise its endpoint would also be reachable. The total capacity of those edges equals the flow, so they form a minimum cut.</p>
+        <p>In the example the reachable set is {1, 2, 3}. The cut edges are 2 → 4, 3 → 4, and 3 → 5, with capacities 3 + 2 + 2 = 7.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12.3.2 ============ -->
+<section class="section section--sub" id="s1232" aria-labelledby="h1232">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.3.2</span>
+      <div class="section-head__body"><h2 id="h1232">Disjoint Paths</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>How many paths can run from source to sink at the same time? The answer changes depending on whether the paths must avoid sharing edges or nodes.</p>
+
+    <div class="split2">
+      <figure class="ch12-figure ch12-figure--flush" data-reveal>
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 260" role="img" aria-label="Two edge-disjoint paths from node 1 to node 6">
+            <g class="ch12-pathset ch12-pathset--a">
+              <path d="M90 130 L170 80 L260 80 L330 130"/>
+              <path d="M90 130 L170 180 L260 180 L330 130"/>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="72" cy="130" r="16"/><text x="72" y="134">1</text>
+              <circle cx="180" cy="80" r="16"/><text x="180" y="84">2</text>
+              <circle cx="180" cy="180" r="16"/><text x="180" y="184">4</text>
+              <circle cx="274" cy="80" r="16"/><text x="274" y="84">3</text>
+              <circle cx="274" cy="180" r="16"/><text x="274" y="184">5</text>
+              <circle cx="348" cy="130" r="16"/><text x="348" y="134">6</text>
+            </g>
+            <text class="ch12-mini-label" x="210" y="238">edge-disjoint · 2 paths</text>
+            <text class="ch12-mini-sub" x="210" y="254">unit capacities · max flow = 2</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Set every capacity to one; the maximum flow is the number of edge-disjoint paths.</figcaption>
+      </figure>
+
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 260" role="img" aria-label="One node-disjoint path from node 1 to node 6">
+            <g class="ch12-pathset ch12-pathset--b">
+              <path d="M90 130 L170 80 L260 80 L348 130"/>
+            </g>
+            <g class="ch12-tnodes ch12-tnodes--muted">
+              <circle cx="72" cy="130" r="16"/><text x="72" y="134">1</text>
+              <circle cx="180" cy="80" r="16"/><text x="180" y="84">2</text>
+              <circle cx="180" cy="180" r="16"/><text x="180" y="184">4</text>
+              <circle cx="274" cy="80" r="16"/><text x="274" y="84">3</text>
+              <circle cx="274" cy="180" r="16"/><text x="274" y="184">5</text>
+              <circle cx="348" cy="130" r="16"/><text x="348" y="134">6</text>
+            </g>
+            <text class="ch12-mini-label" x="210" y="238">node-disjoint · 1 path</text>
+            <text class="ch12-mini-sub" x="210" y="254">split every node · max flow = 1</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Node 4 would have to serve both routes, so only one path can be node-disjoint.</figcaption>
+      </figure>
+    </div>
+
+    <p data-reveal>To forbid shared nodes, split each node into an <em>in</em> node and an <em>out</em> node joined by an edge of capacity one. Incoming edges enter the in node, outgoing edges leave the out node, and every unit of flow must cross the new edge. The maximum flow in the split graph equals the maximum number of node-disjoint paths.</p>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Recovering the paths</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body"><p>Once the maximum flow is known, follow positive-flow edges from the source to the sink; each walk is one path. Remove the used edges and repeat. The value of the flow guarantees that the greedily extracted set has the same size as the maximum.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12.3.3 ============ -->
+<section class="section section--sub" id="s1233" aria-labelledby="h1233">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.3.3</span>
+      <div class="section-head__body"><h2 id="h1233">Maximum Matchings</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>A matching pairs nodes along edges so that no node appears in two pairs. In a general graph this is already tricky; in a bipartite graph it reduces cleanly to maximum flow.</p>
+
+    <div class="split2 split2--narrow ch12-match">
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 300" role="img" aria-label="A bipartite graph with left nodes 1 to 4 and right nodes 5 to 8. A maximum matching of size three is highlighted.">
+            <g class="ch12-bip-edges">
+              <path data-e="15" d="M196 60 L344 60"/>
+              <path data-e="16" d="M198 68 L342 122"/>
+              <path data-e="36" d="M196 200 L344 138"/>
+              <path data-e="38" d="M198 208 L342 257"/>
+              <path data-e="27" d="M198 136 L342 194"/>
+              <path data-e="47" d="M198 259 L342 206"/>
+            </g>
+            <g class="ch12-tnodes">
+              <g tabindex="0" data-tip="Neighbours of 1: {5, 6}"><circle cx="180" cy="60" r="16"/><text x="180" y="64">1</text></g>
+              <g tabindex="0" data-tip="Neighbours of 2: {7}. Together with 4, this is the set X that breaks Hall's condition."><circle cx="180" cy="130" r="16"/><text x="180" y="134">2</text></g>
+              <g tabindex="0" data-tip="Neighbours of 3: {6, 8}"><circle cx="180" cy="200" r="16"/><text x="180" y="204">3</text></g>
+              <g tabindex="0" data-tip="Neighbours of 4: {7}. Its only possible partner is 7, which 2 also needs."><circle cx="180" cy="265" r="16"/><text x="180" y="269">4</text></g>
+              <g tabindex="0" data-tip="Right node 5 · matched with 1"><circle cx="360" cy="60" r="16"/><text x="360" y="64">5</text></g>
+              <g tabindex="0" data-tip="Right node 6 · unmatched"><circle cx="360" cy="130" r="16"/><text x="360" y="134">6</text></g>
+              <g tabindex="0" data-tip="Right node 7 · matched with 2"><circle cx="360" cy="200" r="16"/><text x="360" y="204">7</text></g>
+              <g tabindex="0" data-tip="Right node 8 · matched with 3"><circle cx="360" cy="265" r="16"/><text x="360" y="269">8</text></g>
+            </g>
+            <g class="ch12-match-edges">
+              <path d="M196 60 L344 60"/>
+              <path d="M196 200 L344 265"/>
+              <path d="M196 130 L344 200"/>
+            </g>
+            <text class="ch12-mini-label" x="270" y="296">maximum matching = 3</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">The bold edges are a maximum matching. Hover or focus a left node to see its neighbourhood.</figcaption>
+      </figure>
+
+      <div data-reveal>
+        <h3 class="ch12-h3">Reduce, then match</h3>
+        <p>Add a source joined to every left node and a sink joined to every right node. Give every edge capacity one. A unit of flow from source to sink is a matched pair, and the maximum flow equals the maximum matching.</p>
+        <p>Hall’s theorem asks whether a matching can cover every left node. For every set <i>X</i> of left nodes, let <i>f</i>(<i>X</i>) be its neighbours. A matching covering all left nodes exists exactly when |<i>X</i>| ≤ |<i>f</i>(<i>X</i>)| for every <i>X</i>.</p>
+        <p>Here <i>X</i> = {2, 4} has <i>f</i>(<i>X</i>) = {7}, so no perfect matching exists. The maximum matching is 3.</p>
+        <div class="ch12-stats ch12-stats--inline">
+          <div><span class="ch12-stats__v">3</span><span class="ch12-stats__l">max matching</span></div>
+          <div><span class="ch12-stats__v">3</span><span class="ch12-stats__l">min node cover</span></div>
+          <div><span class="ch12-stats__v">5</span><span class="ch12-stats__l">max independent set</span></div>
+        </div>
+        <p class="ch12-fine">König’s theorem: in a bipartite graph the minimum node cover has the same size as the maximum matching. The complement of a minimum node cover is a maximum independent set.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.3.4 ============ -->
+<section class="section section--sub" id="s1234" aria-labelledby="h1234">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.3.4</span>
+      <div class="section-head__body"><h2 id="h1234">Path Covers</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>A path cover is a set of paths such that every node belongs to at least one path. In a directed acyclic graph, the minimum number of paths follows from a matching.</p>
+
+    <div class="split2 ch12-cover">
+      <div data-reveal>
+        <h3 class="ch12-h3">Node-disjoint covers</h3>
+        <p>Split every node into a left copy and a right copy. Add an edge from left <i>a</i> to right <i>b</i> whenever the original graph has <i>a</i> → <i>b</i>, then add a source and a sink. Every edge in a maximum matching joins two nodes that lie on the same path.</p>
+        <p class="ch12-formula-line">minimum cover = <i>n</i> − <i>c</i> = 7 − 4 = <b>3</b></p>
+        <p>For a general cover, where a node may appear in several paths, add an edge between every pair connected by a path before matching. The minimum can only get smaller: here it drops from 3 to 2.</p>
+        <p class="ch12-fine">Dilworth’s theorem: in a DAG, the minimum general path cover equals the maximum antichain — a set of nodes with no path between any two of them. Nodes 3 and 7 form such an antichain here.</p>
+      </div>
+
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 320" role="img" aria-label="A seven-node DAG covered by three node-disjoint paths: 1 to 5 to 6 to 7, 2 to 3, and 4 alone">
+            <defs>
+              <marker id="ch12p-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#b0b0a8"/>
+              </marker>
+            </defs>
+            <g class="ch12-cover-edges">
+              <path d="M90 96 L90 194" marker-end="url(#ch12p-arrow)"/>
+              <path d="M106 74 Q160 56 214 58" marker-end="url(#ch12p-arrow)"/>
+              <path d="M106 216 Q160 226 214 228" marker-end="url(#ch12p-arrow)"/>
+              <path d="M246 230 L344 230" marker-end="url(#ch12p-arrow)"/>
+              <path d="M376 230 Q440 216 458 166" marker-end="url(#ch12p-arrow)"/>
+              <path d="M246 60 L344 60" marker-end="url(#ch12p-arrow)"/>
+              <path d="M376 66 Q430 92 452 134" marker-end="url(#ch12p-arrow)"/>
+            </g>
+            <g class="ch12-cover-hl">
+              <path d="M106 74 Q160 56 214 58"/>
+              <path d="M246 60 L344 60"/>
+              <path d="M376 66 Q430 92 452 134"/>
+              <path d="M106 216 Q160 226 214 228"/>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="90" cy="80" r="16"/><text x="90" y="84">1</text>
+              <circle cx="90" cy="210" r="16"/><text x="90" y="214">2</text>
+              <circle cx="230" cy="230" r="16"/><text x="230" y="234">3</text>
+              <circle cx="360" cy="230" r="16"/><text x="360" y="234">4</text>
+              <circle cx="230" cy="60" r="16"/><text x="230" y="64">5</text>
+              <circle cx="360" cy="60" r="16"/><text x="360" y="64">6</text>
+              <circle cx="470" cy="150" r="16"/><text x="470" y="154">7</text>
+            </g>
+            <text class="ch12-mini-label" x="260" y="304">1→5→6→7 · 2→3 · 4</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Three node-disjoint paths. Counting the matching edges is easier than searching for the paths.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.4 ============ -->
+<section class="section" id="s124" aria-labelledby="h124">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">12.4</span>
+      <div class="section-head__body"><h2 id="h124">Depth-First Search Trees</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Depth-first search does not only visit a graph. It leaves a tree behind, and the edges outside that tree explain the graph’s cycles.</p>
+
+    <p class="lead" data-reveal>When DFS processes a connected undirected graph, the edges used to discover new nodes form a rooted spanning tree. Every remaining edge is a <em>back edge</em>, and it always points to an ancestor of the current node — never to a node in a different branch.</p>
+
+    <div class="ch12-dfs" id="ch12Dfs" data-reveal>
+      <div class="ch12-dfs__head">
+        <div>
+          <span class="kicker">Interactive · low values</span>
+          <h3>What the subtree can reach</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Highlight">
+          <button class="seg__btn is-active" type="button" data-dfs-mode="low" aria-pressed="true">Low values</button>
+          <button class="seg__btn" type="button" data-dfs-mode="cuts" aria-pressed="false">Bridges &amp; points</button>
+        </div>
+      </div>
+      <div class="ch12-dfs__grid">
+        <div class="ch12-dfs__stage">
+          <svg id="ch12DfsSvg" viewBox="0 0 640 380" role="img" aria-label="A depth-first search tree on eight nodes with three back edges. Low values are shown beneath each node.">
+            <defs>
+              <marker id="ch12dfs-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#a9a9a1"/>
+              </marker>
+              <marker id="ch12dfs-arrow-back" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#c9c9c1"/>
+              </marker>
+            </defs>
+
+            <g class="ch12-tree-edges">
+              <path data-tree="12" d="M320 63 Q256 84 208 112" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="13" d="M320 63 Q384 84 432 112" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="24" d="M190 152 Q170 190 168 214" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="25" d="M202 152 Q224 190 238 214" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="36" d="M446 152 Q420 190 406 214" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="37" d="M458 152 Q492 190 508 214" marker-end="url(#ch12dfs-arrow)"/>
+              <path data-tree="48" d="M154 256 Q122 292 108 318" marker-end="url(#ch12dfs-arrow)"/>
+            </g>
+            <g class="ch12-back-edges">
+              <path data-back="41" d="M156 236 Q128 170 300 82" marker-end="url(#ch12dfs-arrow-back)"/>
+              <path data-back="82" d="M118 324 Q96 222 186 146" marker-end="url(#ch12dfs-arrow-back)"/>
+              <path data-back="61" d="M394 236 Q360 128 312 74" marker-end="url(#ch12dfs-arrow-back)"/>
+            </g>
+
+            <g class="ch12-dnode" data-node="1" tabindex="0" data-tip="node 1 · disc 1 · low 1" transform="translate(320 48)"><circle r="18"/><text class="ch12-dn" y="4">1</text><text class="ch12-dt" y="34">low 1</text></g>
+            <g class="ch12-dnode" data-node="2" tabindex="0" data-tip="node 2 · disc 2 · low 1" transform="translate(190 136)"><circle r="18"/><text class="ch12-dn" y="4">2</text><text class="ch12-dt" y="34">low 1</text></g>
+            <g class="ch12-dnode" data-node="3" tabindex="0" data-tip="node 3 · disc 10 · low 1" transform="translate(450 136)"><circle r="18"/><text class="ch12-dn" y="4">3</text><text class="ch12-dt" y="34">low 1</text></g>
+            <g class="ch12-dnode" data-node="4" tabindex="0" data-tip="node 4 · disc 3 · low 1" transform="translate(158 238)"><circle r="18"/><text class="ch12-dn" y="4">4</text><text class="ch12-dt" y="34">low 1</text></g>
+            <g class="ch12-dnode" data-node="5" tabindex="0" data-tip="node 5 · disc 7 · low 7" transform="translate(250 238)"><circle r="18"/><text class="ch12-dn" y="4">5</text><text class="ch12-dt" y="34">low 7</text></g>
+            <g class="ch12-dnode" data-node="6" tabindex="0" data-tip="node 6 · disc 11 · low 1" transform="translate(394 238)"><circle r="18"/><text class="ch12-dn" y="4">6</text><text class="ch12-dt" y="34">low 1</text></g>
+            <g class="ch12-dnode" data-node="7" tabindex="0" data-tip="node 7 · disc 13 · low 13" transform="translate(520 238)"><circle r="18"/><text class="ch12-dn" y="4">7</text><text class="ch12-dt" y="34">low 13</text></g>
+            <g class="ch12-dnode" data-node="8" tabindex="0" data-tip="node 8 · disc 4 · low 2" transform="translate(100 334)"><circle r="18"/><text class="ch12-dn" y="4">8</text><text class="ch12-dt" y="34">low 2</text></g>
+
+            <g class="ch12-cut-rings" hidden>
+              <circle cx="320" cy="48" r="25"/><circle cx="190" cy="136" r="25"/><circle cx="450" cy="136" r="25"/>
+            </g>
+          </svg>
+          <div class="ch12-lab__legend">
+            <span><i class="ch12-swatch ch12-swatch--line"></i>tree edge</span>
+            <span><i class="ch12-swatch ch12-swatch--back"></i>back edge</span>
+            <span><i class="ch12-swatch ch12-swatch--cut"></i>cut</span>
+          </div>
+        </div>
+        <div class="ch12-dfs__panel">
+          <p class="ch12-dfs__caption" id="ch12DfsCap" aria-live="polite">Every node stores the smallest discovery time reachable from its subtree. Back edges pull that value upward.</p>
+          <div class="ch12-dfs__facts" id="ch12DfsFacts"></div>
+          <div class="ch12-dfs__rule">
+            <span class="kicker">The rules</span>
+            <p id="ch12DfsRule">A tree edge <i>a</i> → <i>b</i> is a bridge when low(<i>b</i>) &gt; disc(<i>a</i>).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.4.1 ============ -->
+<section class="section section--sub" id="s1241" aria-labelledby="h1241">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.4.1</span>
+      <div class="section-head__body"><h2 id="h1241">Biconnectivity</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>A connected graph is <em>biconnected</em> if it stays connected after any single node and its edges are removed. The nodes whose removal breaks the graph are <em>articulation points</em>; the edges whose removal does so are <em>bridges</em>.</p>
+
+    <div class="split2">
+      <div data-reveal>
+        <h3 class="ch12-h3">Two tests on one tree</h3>
+        <p>Run DFS from any node. For each node <i>x</i>, <i>disc</i>(<i>x</i>) is the time it was discovered, and <i>low</i>(<i>x</i>) is the smallest discovery time reachable from the subtree of <i>x</i> using tree edges plus at most one back edge.</p>
+        <p>A tree edge <i>a</i> → <i>b</i> is a bridge exactly when no back edge from the subtree of <i>b</i> reaches <i>a</i> or above: low(<i>b</i>) &gt; disc(<i>a</i>).</p>
+        <p>For articulation points, the root is special: it is an articulation point exactly when it has two or more children. A non-root <i>x</i> is an articulation point when it has a child <i>b</i> with low(<i>b</i>) ≥ disc(<i>x</i>) — the subtree cannot escape above <i>x</i>.</p>
+        <p class="ch12-fine">In the example tree, the bridges are 2–5 and 3–7. The articulation points are 1, 2, and 3. Node 4 is not one, because node 8 has a back edge to 2, an ancestor of 4.</p>
+      </div>
+      <div class="ch12-bicon" data-reveal style="--d:.08s" aria-label="A biconnected graph and a graph with an articulation point">
+        <div class="ch12-bicon__card">
+          <span class="kicker">biconnected</span>
+          <svg viewBox="0 0 260 200" role="img" aria-label="A cycle with a chord; removing any node leaves it connected">
+            <g class="ch12-tnodes">
+              <circle cx="60" cy="100" r="14"/><text x="60" y="104">1</text>
+              <circle cx="130" cy="50" r="14"/><text x="130" y="54">2</text>
+              <circle cx="200" cy="100" r="14"/><text x="200" y="104">3</text>
+              <circle cx="130" cy="152" r="14"/><text x="130" y="156">4</text>
+            </g>
+            <g class="ch12-bicon__edges">
+              <path d="M74 96 Q100 68 116 58"/><path d="M144 58 Q170 70 188 92"/>
+              <path d="M196 114 Q176 140 144 148"/><path d="M116 150 Q84 140 68 114"/>
+              <path d="M74 100 L186 100"/><path d="M130 64 L130 138"/>
+            </g>
+            <text class="ch12-mini-sub" x="130" y="188" text-anchor="middle">no single node disconnects it</text>
+          </svg>
+        </div>
+        <div class="ch12-bicon__card">
+          <span class="kicker">not biconnected</span>
+          <svg viewBox="0 0 260 200" role="img" aria-label="Two triangles joined by a single node, which is an articulation point">
+            <g class="ch12-tnodes">
+              <circle cx="46" cy="72" r="14"/><text x="46" y="76">1</text>
+              <circle cx="112" cy="72" r="14"/><text x="112" y="76">2</text>
+              <circle cx="80" cy="128" r="14"/><text x="80" y="132">3</text>
+              <circle cx="184" cy="72" r="14"/><text x="184" y="76">4</text>
+              <circle cx="184" cy="146" r="14"/><text x="184" y="150">5</text>
+            </g>
+            <g class="ch12-bicon__edges">
+              <path d="M58 66 L98 66"/><path d="M104 84 L86 115"/><path d="M68 120 L48 87"/>
+              <path d="M92 74 L170 74"/><path d="M92 138 L172 143"/>
+            </g>
+            <circle cx="80" cy="100" r="24" class="ch12-art-ring"/>
+            <text class="ch12-mini-sub" x="130" y="188" text-anchor="middle">removing node 3 splits the graph</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12.4.2 ============ -->
+<section class="section section--sub" id="s1242" aria-labelledby="h1242">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">12.4.2</span>
+      <div class="section-head__body"><h2 id="h1242">Eulerian Subgraphs</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>An Eulerian subgraph keeps every node but chooses a subset of edges so that every degree is even. For a connected graph, counting them is surprisingly easy: the answer is 2<sup><i>k</i></sup>, where <i>k</i> is the number of back edges in a DFS tree.</p>
+
+    <div class="split2 split2--wide">
+      <div data-reveal>
+        <p>Since a tree on <i>n</i> nodes has <i>n</i> − 1 edges, a connected graph with <i>m</i> edges has <i>k</i> = <i>m</i> − (<i>n</i> − 1) back edges. Fix any subset of the back edges. Then choose the tree edges from the bottom of the tree upward: include a tree edge exactly when it points to a node whose degree would otherwise be odd. The root always ends up even, because the sum of all degrees is even.</p>
+        <p>So every subset of back edges extends to exactly one Eulerian subgraph, and there are 2<sup><i>k</i></sup> subsets.</p>
+        <p class="ch12-formula-line">2<sup><i>k</i></sup>, where <i>k</i> = <i>m</i> − <i>n</i> + 1</p>
+        <p class="ch12-fine">For the graph in the figure, <i>n</i> = 5 and <i>m</i> = 7, so <i>k</i> = 3 and there are 8 Eulerian subgraphs.</p>
+      </div>
+
+      <figure class="ch12-figure ch12-figure--flush" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 520 300" role="img" aria-label="A DFS tree on five nodes with three dashed back edges">
+            <g class="ch12-tree-edges">
+              <path d="M87 170 L158 170" marker-end="url(#ch12dfs-arrow)"/>
+              <path d="M192 170 L263 170" marker-end="url(#ch12dfs-arrow)"/>
+              <path d="M297 170 L368 170" marker-end="url(#ch12dfs-arrow)"/>
+              <path d="M402 170 L463 170" marker-end="url(#ch12dfs-arrow)"/>
+            </g>
+            <g class="ch12-back-edges">
+              <path d="M266 154 Q175 100 84 154" marker-end="url(#ch12dfs-arrow-back)"/>
+              <path d="M371 154 Q280 118 189 154" marker-end="url(#ch12dfs-arrow-back)"/>
+              <path d="M466 154 Q385 88 294 154" marker-end="url(#ch12dfs-arrow-back)"/>
+            </g>
+            <g class="ch12-tnodes">
+              <circle cx="70" cy="170" r="17"/><text x="70" y="174">1</text>
+              <circle cx="175" cy="170" r="17"/><text x="175" y="174">2</text>
+              <circle cx="280" cy="170" r="17"/><text x="280" y="174">3</text>
+              <circle cx="385" cy="170" r="17"/><text x="385" y="174">4</text>
+              <circle cx="480" cy="170" r="17"/><text x="480" y="174">5</text>
+            </g>
+            <text class="ch12-mini-sub" x="260" y="270" text-anchor="middle">3 back edges · 2³ = 8 subgraphs</text>
+          </svg>
+          <div class="ch12-subset" id="ch12Subset" aria-label="The eight subsets of three back edges"></div>
+        </div>
+        <figcaption class="figure__cap">Each of the eight subsets of back edges forces exactly one choice of tree edges. Hover a cell to see the subset.</figcaption>
+      </figure>
+    </div>
+
+    <p class="closing" data-reveal>The deepest structure in a directed graph is a DAG of components. The deepest structure in an undirected graph is a DFS tree with back edges. Both let a hard-looking problem collapse into a simple one.</p>
+  </div>
+</section>

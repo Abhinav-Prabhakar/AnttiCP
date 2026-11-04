@@ -1,0 +1,772 @@
+<!-- ============ hero ============ -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 01</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Introduction</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Introduction</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">This chapter shows what competitive programming is about, outlines the contents of the book, and discusses additional learning resources.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>4 sections</span><span>7 pages</span><span>≈ 18 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map" data-reveal style="--d:.2s" aria-label="A solution path from problem to accepted">
+      <svg viewBox="0 0 1200 260" role="img" aria-hidden="true">
+        <defs>
+          <pattern id="heroDots" width="26" height="26" patternUnits="userSpaceOnUse">
+            <circle cx="1.2" cy="1.2" r="1.1" fill="#e4e4e0"/>
+          </pattern>
+          <linearGradient id="heroFade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="white"/>
+            <stop offset=".12" stop-color="white" stop-opacity="0"/>
+            <stop offset=".88" stop-color="white" stop-opacity="0"/>
+            <stop offset="1" stop-color="white"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="260" fill="url(#heroDots)"/>
+        <rect width="1200" height="260" fill="url(#heroFade)"/>
+        <path class="hero-path hero-path--ghost" d="M70 188 C 200 188 225 72 360 72 S 520 188 650 188 S 810 70 950 70 S 1090 128 1140 128"/>
+        <path class="hero-path hero-path--live" d="M70 188 C 200 188 225 72 360 72 S 520 188 650 188 S 810 70 950 70 S 1090 128 1140 128"/>
+        <g class="hero-nodes">
+          <g class="hero-node" transform="translate(70 188)"><circle r="4.5"/><circle class="halo" r="13"/><text y="34">problem</text></g>
+          <g class="hero-node" transform="translate(360 72)"><circle r="4.5"/><circle class="halo" r="13"/><text y="34">idea</text></g>
+          <g class="hero-node" transform="translate(650 188)"><circle r="4.5"/><circle class="halo" r="13"/><text y="34">algorithm</text></g>
+          <g class="hero-node" transform="translate(950 70)"><circle r="4.5"/><circle class="halo" r="13"/><text y="34">implementation</text></g>
+          <g class="hero-node hero-node--last" transform="translate(1140 128)"><circle r="5.5"/><circle class="halo" r="16"/><text y="38" text-anchor="end">accepted</text></g>
+        </g>
+        <circle class="hero-traveller" r="2.4" cx="70" cy="188"/>
+      </svg>
+      <figcaption><span class="hero-map__hint">A problem is solved only when the implementation passes every test.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s11">
+          <span class="idx__num">1.1</span>
+          <span class="idx__body">
+            <span class="idx__title">What is Competitive Programming?</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s12">
+          <span class="idx__num">1.2</span>
+          <span class="idx__body">
+            <span class="idx__title">About This Book</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s13">
+          <span class="idx__num">1.3</span>
+          <span class="idx__body">
+            <span class="idx__title">CSES Problem Set</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s14">
+          <span class="idx__num">1.4</span>
+          <span class="idx__body">
+            <span class="idx__title">Other Resources</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.1 ============ -->
+<section class="section" id="s11" aria-labelledby="h11">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">1.1</span>
+      <div class="section-head__body">
+        <h2 id="h11">What is Competitive Programming?</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Competitive programming combines two topics: the <em>design</em> of algorithms and the <em>implementation</em> of algorithms.</p>
+
+    <div class="pillars">
+      <article class="pillar" data-reveal>
+        <div class="pillar__top">
+          <span class="pillar__num">01</span>
+          <svg class="pillar__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="5"/>
+            <circle cx="8" cy="10" r="3"/><circle cx="40" cy="10" r="3"/><circle cx="8" cy="38" r="3"/><circle cx="40" cy="38" r="3"/>
+            <path d="M11 12.5 20 21M37 12.5 28 21M11 35.5 20 27M37 35.5 28 27"/>
+          </svg>
+        </div>
+        <h3>Design of Algorithms</h3>
+        <p>The core of competitive programming is about inventing efficient algorithms that solve well-defined computational problems. The design of algorithms requires problem solving and mathematical skills. Often a solution to a problem is a combination of well-known methods and new insights.</p>
+        <details class="note">
+          <summary><span class="note__label">A note on mathematics</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>Mathematics plays an important role in competitive programming. Actually, there are no clear boundaries between algorithm design and mathematics. This book has been written so that not much background in mathematics is needed.</p>
+            <p>The appendix of the book reviews some mathematical concepts that are used throughout the book, such as sets, logic, and functions, and the appendix can be used as a reference when reading the book.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="pillar" data-reveal style="--d:.1s">
+        <div class="pillar__top">
+          <span class="pillar__num">02</span>
+          <svg class="pillar__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M17 13 7 24l10 11M31 13l10 11-10 11M27 8l-6 32"/>
+          </svg>
+        </div>
+        <h3>Implementation of Algorithms</h3>
+        <p>In competitive programming, the solutions to problems are evaluated by testing an implemented algorithm using a set of test cases. Thus, after coming up with an algorithm that solves the problem, the next step is to correctly implement it, which requires good programming skills.</p>
+        <p class="pillar__sub">Competitive programming greatly differs from traditional software engineering:</p>
+        <ul class="chips chips--tight" aria-label="Differences from software engineering">
+          <li class="chip chip--static">short programs</li>
+          <li class="chip chip--static">written quickly</li>
+          <li class="chip chip--static">no maintenance</li>
+        </ul>
+        <p class="pillar__small">Usually at most some hundreds of lines, and it is not needed to maintain them after the contest.</p>
+      </article>
+    </div>
+
+    <div class="loop" data-reveal>
+            <div class="loop__track">
+        <div class="loop__line"><span class="loop__pulse"></span></div>
+        <div class="loop__stages">
+          <div class="loop__stage" tabindex="0"><span class="loop__dot"></span><span class="loop__name">Problem</span><span class="loop__tip">A well-defined computational problem.</span></div>
+          <div class="loop__stage" tabindex="0"><span class="loop__dot"></span><span class="loop__name">Algorithm</span><span class="loop__tip">An efficient method, designed with problem solving and mathematics.</span></div>
+          <div class="loop__stage" tabindex="0"><span class="loop__dot"></span><span class="loop__name">Implementation</span><span class="loop__tip">Correct code, written quickly, with good programming skills.</span></div>
+          <div class="loop__stage" tabindex="0"><span class="loop__dot"></span><span class="loop__name">Test cases</span><span class="loop__tip">The solution is evaluated by testing it against a set of cases.</span></div>
+          <div class="loop__stage loop__stage--end" tabindex="0"><span class="loop__dot"></span><span class="loop__name">Accepted</span><span class="loop__tip">It passes every test. Only then is the problem solved.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="languages" data-reveal>
+      <div class="languages__head">
+        <div>
+          <h3>What the best 3,000 used</h3>
+        </div>
+        <div class="languages__source">Google Code Jam 2017<span>best 3,000 participants</span></div>
+      </div>
+      <div class="lang-chart" id="langChart">
+        <div class="lang-row" data-lang="C++" data-pct="79" data-count="2,370">
+          <span class="lang-name">C++</span>
+          <div class="lang-track"><span class="lang-fill" style="--w:79%"></span></div>
+          <span class="lang-pct"><b data-countup="79">0</b><span>%</span></span>
+        </div>
+        <div class="lang-row" data-lang="Python" data-pct="16" data-count="480">
+          <span class="lang-name">Python</span>
+          <div class="lang-track"><span class="lang-fill" style="--w:16%"></span></div>
+          <span class="lang-pct"><b data-countup="16">0</b><span>%</span></span>
+        </div>
+        <div class="lang-row" data-lang="Java" data-pct="8" data-count="240">
+          <span class="lang-name">Java</span>
+          <div class="lang-track"><span class="lang-fill" style="--w:8%"></span></div>
+          <span class="lang-pct"><b data-countup="8">0</b><span>%</span></span>
+        </div>
+      </div>
+      <div class="languages__foot">
+        <p>Many people regard C++ as the best choice for a competitive programmer. The benefits are that it is a very efficient language and its standard library contains a large collection of data structures and algorithms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.1.1 ============ -->
+<section class="section section--sub" id="s111" aria-labelledby="h111">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">1.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h111">Programming Contests</h2>
+      </div>
+    </div>
+
+    <div class="contest-grid">
+      <article class="contest" data-reveal>
+        <header class="contest__head">
+          <div>
+            <h3 class="contest__abbr">IOI</h3>
+            <p class="contest__full">International Olympiad in Informatics</p>
+          </div>
+          <span class="tag">Secondary school · Individual</span>
+        </header>
+
+        <div class="ioi-viz" aria-label="Eighty countries, four students each, about three hundred participants">
+          <div class="viz-label viz-label--top"><span>80 countries</span><span>× 4 students</span></div>
+          <svg id="ioiDots" viewBox="0 0 320 170" role="img" aria-label="A grid of eighty clusters of four dots"></svg>
+          <div class="viz-caption"><span class="viz-caption__line"></span>about 300 participants</div>
+        </div>
+
+        <div class="statline">
+          <div><span class="statline__value">2</span><span class="statline__label">five-hour contests</span></div>
+          <div><span class="statline__value">3</span><span class="statline__label">difficult tasks each</span></div>
+          <div><span class="statline__value">4</span><span class="statline__label">students per country</span></div>
+        </div>
+
+        <div class="contest__body">
+          <p>Each country is allowed to send a team of four students to the contest. There are usually about 300 participants from 80 countries.</p>
+          <p>The IOI consists of two five-hour long contests. In both contests, the participants are asked to solve three difficult programming tasks. The tasks are divided into subtasks, each of which has an assigned score. While the contestants are divided into teams, they compete as individuals.</p>
+        </div>
+
+        <div class="task-blocks" aria-label="Two contests, each with three tasks">
+          <div class="task-block">
+            <span class="task-block__label">Contest 1 <b>5 h</b></span>
+            <div class="task-block__tasks">
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T1</span>
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T2</span>
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T3</span>
+            </div>
+          </div>
+          <div class="task-block">
+            <span class="task-block__label">Contest 2 <b>5 h</b></span>
+            <div class="task-block__tasks">
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T1</span>
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T2</span>
+              <span class="task" data-tip="Tasks are divided into subtasks, each with an assigned score.">T3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contest__foot">
+          <span class="kicker">Selected through national contests</span>
+          <div class="chips">
+            <span class="chip" tabindex="0" data-tip="Baltic Olympiad in Informatics">BOI</span>
+            <span class="chip" tabindex="0" data-tip="Central European Olympiad in Informatics">CEOI</span>
+            <span class="chip" tabindex="0" data-tip="Asia-Pacific Informatics Olympiad">APIO</span>
+          </div>
+          <p class="contest__fine">Many regional contests are organized before the IOI.</p>
+        </div>
+      </article>
+
+      <article class="contest" data-reveal style="--d:.12s">
+        <header class="contest__head">
+          <div>
+            <h3 class="contest__abbr">ICPC</h3>
+            <p class="contest__full">International Collegiate Programming Contest</p>
+          </div>
+          <span class="tag">University · Teams of three</span>
+        </header>
+
+        <div class="icpc-viz" aria-label="Tens of thousands of participants narrow to 133 final slots">
+          <div class="viz-label viz-label--top"><span>tens of thousands</span><span>133 final slots<sup>1</sup></span></div>
+          <svg id="icpcDots" viewBox="0 0 320 170" role="img" aria-label="A funnel of dots converging from many to few"></svg>
+          <div class="viz-caption"><span class="viz-caption__line"></span>World Finals</div>
+        </div>
+
+        <div class="statline">
+          <div><span class="statline__value">3</span><span class="statline__label">students per team</span></div>
+          <div><span class="statline__value">1</span><span class="statline__label">computer per team</span></div>
+          <div><span class="statline__value">5</span><span class="statline__label">hours per contest</span></div>
+        </div>
+
+        <div class="contest__body">
+          <p>Each team in the contest consists of three students, and unlike in the IOI, the students work together; there is only one computer available for each team.</p>
+          <p>The ICPC consists of several stages, and finally the best teams are invited to the World Finals. While there are tens of thousands of participants in the contest, there are only a small number of final slots available, so even advancing to the finals is a great achievement.</p>
+        </div>
+
+        <div class="freeze" data-freeze>
+          <div class="freeze__head">
+            <span class="kicker">A five-hour contest</span>
+            <button class="freeze__toggle" id="freezeToggle" aria-pressed="false">
+              <span class="freeze__dot"></span><span id="freezeLabel">Show final hour</span>
+            </button>
+          </div>
+          <div class="freeze__bar" aria-hidden="true">
+            <span class="freeze__hour"></span><span class="freeze__hour"></span><span class="freeze__hour"></span><span class="freeze__hour"></span><span class="freeze__hour freeze__hour--last"></span>
+            <span class="freeze__lock" id="freezeLock"><svg class="icon"><use href="#i-lock"/></svg></span>
+          </div>
+          <div class="freeze__labels"><span>0 h</span><span>about ten problems</span><span>5 h</span></div>
+          <p class="freeze__note" id="freezeNote">During the contest, competitors may view the results of other teams.</p>
+        </div>
+
+        <div class="contest__foot">
+          <p class="contest__fine"><sup>1</sup> The exact number of final slots varies from year to year; in 2017, there were 133 final slots.</p>
+          <p class="contest__fine">A solution to a problem is accepted only if it solves all test cases efficiently.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="online" data-reveal>
+      <div class="online__head">
+        <div>
+          <h3>Open for everybody</h3>
+        </div>
+        <p class="online__lead">At the moment, the most active contest site is Codeforces, which organizes contests about weekly.</p>
+      </div>
+      <div class="online__body">
+        <div class="week" aria-label="A weekly contest calendar">
+          <div class="week__days">
+            <span class="week__day"><i>M</i><b></b></span>
+            <span class="week__day"><i>T</i><b></b></span>
+            <span class="week__day"><i>W</i><b></b></span>
+            <span class="week__day week__day--live"><i>T</i><b></b><em>Codeforces</em></span>
+            <span class="week__day"><i>F</i><b></b></span>
+            <span class="week__day"><i>S</i><b></b></span>
+            <span class="week__day"><i>S</i><b></b></span>
+          </div>
+          <p class="week__caption">about weekly</p>
+        </div>
+        <div class="sites">
+          <div class="sites__group">
+            <span class="kicker">Other popular contest sites</span>
+            <div class="chips">
+              <a class="chip chip--link" href="https://atcoder.jp" target="_blank" rel="noopener">AtCoder<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://www.codechef.com" target="_blank" rel="noopener">CodeChef<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://csacademy.com" target="_blank" rel="noopener">CS Academy<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://www.hackerrank.com" target="_blank" rel="noopener">HackerRank<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://www.topcoder.com" target="_blank" rel="noopener">Topcoder<svg class="icon"><use href="#i-external"/></svg></a>
+            </div>
+          </div>
+          <div class="sites__group">
+            <span class="kicker">Company contests · onsite finals</span>
+            <div class="chips">
+              <a class="chip chip--link" href="https://www.facebook.com/codingcompetitions/hacker-cup" target="_blank" rel="noopener">Facebook Hacker Cup<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://codingcompetitions.withgoogle.com/codejam" target="_blank" rel="noopener">Google Code Jam<svg class="icon"><use href="#i-external"/></svg></a>
+              <a class="chip chip--link" href="https://yandex.com/algorithm" target="_blank" rel="noopener">Yandex.Algorithm<svg class="icon"><use href="#i-external"/></svg></a>
+            </div>
+          </div>
+          <p class="online__recruit">Companies also use those contests for recruiting: performing well in a contest is a good way to prove one’s skills in programming.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.1.2 ============ -->
+<section class="section section--sub" id="s112" aria-labelledby="h112">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">1.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h112">Tips for Practicing</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Learning competitive programming requires a great amount of work. However, there are many ways to practice, and some of them are better than others.</p>
+
+    <div class="tips">
+      <article class="tip" data-reveal>
+        <div class="tip__text">
+          <span class="tip__num">01</span>
+          <h3>Quality, not quantity</h3>
+          <p>When solving problems, one should keep in mind that the number of solved problems is not so important as the quality of the problems. It is tempting to select problems that look nice and easy and solve them, and skip problems that look hard and tedious.</p>
+          <p>However, the way to really improve one’s skills is to focus on the latter type of problems.</p>
+        </div>
+        <div class="tip__viz">
+          <div class="matrix" id="matrix">
+            <div class="matrix__y"><span>tedious</span><span>nice</span></div>
+            <div class="matrix__plot">
+              <button class="quadrant" data-quad="tempting" aria-pressed="false"><span>comfort zone</span></button>
+              <button class="quadrant" data-quad="mixed-a" aria-pressed="false"><span></span></button>
+              <button class="quadrant" data-quad="mixed-b" aria-pressed="false"><span></span></button>
+              <button class="quadrant" data-quad="effective" aria-pressed="true"><span>where you improve</span></button>
+              <span class="matrix__dot" style="--x:18%;--y:72%"></span>
+              <span class="matrix__dot" style="--x:30%;--y:84%"></span>
+              <span class="matrix__dot" style="--x:12%;--y:60%"></span>
+              <span class="matrix__dot" style="--x:78%;--y:20%"></span>
+              <span class="matrix__dot" style="--x:88%;--y:34%"></span>
+              <span class="matrix__dot" style="--x:66%;--y:14%"></span>
+              <span class="matrix__dot" style="--x:54%;--y:42%"></span>
+            </div>
+            <div class="matrix__x"><span>easy</span><span>hard</span></div>
+          </div>
+          <div class="matrix__controls" role="group" aria-label="Highlight a practice strategy">
+            <button class="mini-toggle" data-matrix-mode="tempting">The tempting path</button>
+            <button class="mini-toggle is-active" data-matrix-mode="effective">The effective path</button>
+          </div>
+          <p class="viz-foot" id="matrixNote">Hard and tedious problems are where the learning is.</p>
+        </div>
+      </article>
+
+      <article class="tip tip--reverse" data-reveal>
+        <div class="tip__text">
+          <span class="tip__num">02</span>
+          <h3>Simple tools, difficult ideas</h3>
+          <p>Most programming contest problems can be solved using simple and short algorithms, but the difficult part is to invent the algorithm.</p>
+          <p>Competitive programming is not about learning complex and obscure algorithms by heart, but rather about learning problem solving and ways to approach difficult problems using simple tools.</p>
+        </div>
+        <div class="tip__viz">
+          <div class="ratio" id="ratio">
+            <div class="ratio__row">
+              <span class="ratio__label">The code</span>
+              <div class="ratio__track"><span class="ratio__fill" style="--w:18%"></span></div>
+              <span class="ratio__value">short</span>
+            </div>
+            <div class="ratio__row">
+              <span class="ratio__label">The idea</span>
+              <div class="ratio__track"><span class="ratio__fill" style="--w:92%"></span></div>
+              <span class="ratio__value">hard</span>
+            </div>
+          </div>
+          <div class="ratio__note">
+            <span class="tag tag--mono">not by heart</span>
+            <p>A few lines of code. The work is finding the right few lines.</p>
+          </div>
+          <p class="viz-foot">Simple tools, combined with new insights.</p>
+        </div>
+      </article>
+
+      <article class="tip" data-reveal>
+        <div class="tip__text">
+          <span class="tip__num">03</span>
+          <h3>Implementation is an asset</h3>
+          <p>Some people despise the implementation of algorithms: it is fun to design algorithms but boring to implement them. However, the ability to quickly and correctly implement algorithms is an important asset, and this skill can be practiced.</p>
+          <p>It is a bad idea to spend most of the contest time for writing code and finding bugs, instead of thinking of how to solve problems.</p>
+        </div>
+        <div class="tip__viz">
+          <div class="alloc" id="alloc">
+            <div class="alloc__head"><span class="kicker">A five-hour contest</span></div>
+            <div class="alloc__legend" aria-hidden="true"><span><i class="alloc__swatch"></i>Thinking</span><span><i class="alloc__swatch alloc__swatch--code"></i>Coding / debugging</span></div>
+            <div class="alloc__bar">
+              <span class="alloc__think" id="allocThink"><em>thinking</em><b id="thinkVal">70%</b></span>
+              <span class="alloc__code" id="allocCode"><em>coding / debugging</em><b id="codeVal">30%</b></span>
+            </div>
+            <input class="alloc__range" id="thinkRange" type="range" min="0" max="100" value="70" step="1" aria-label="Percentage of contest time spent thinking">
+            <div class="alloc__scale"><span>0%</span><span>50%</span><span>100%</span></div>
+            <p class="alloc__note" id="allocNote">Think first. The code is the easy part.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.2 ============ -->
+<section class="section" id="s12" aria-labelledby="h12">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">1.2</span>
+      <div class="section-head__body">
+        <h2 id="h12">About This Book</h2>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-copy" data-reveal>
+        <p>The IOI Syllabus <sup class="ref">[15]</sup> regulates the topics that may appear at the International Olympiad in Informatics, and the syllabus has been a starting point when selecting topics for this book. However, the book also discusses some advanced topics that are (as of 2017) excluded from the IOI but may appear in other contests.</p>
+        <div class="excluded">
+          <span class="kicker">Examples of such topics</span>
+          <div class="chips">
+            <span class="chip chip--static">maximum flows</span>
+            <span class="chip chip--static">nim theory</span>
+            <span class="chip chip--static">suffix arrays</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare" data-reveal style="--d:.1s">
+        <div class="compare__col">
+          <span class="kicker">In a textbook</span>
+          <h4>From scratch</h4>
+          <div class="compare__viz">
+            <span class="block"></span><span class="block"></span><span class="block"></span><span class="block"></span>
+          </div>
+          <p>Implementing sorting algorithms and fundamental data structures from scratch.</p>
+        </div>
+        <div class="compare__vs" aria-hidden="true">vs</div>
+        <div class="compare__col compare__col--dark">
+          <span class="kicker">In a contest</span>
+          <h4>The standard library</h4>
+          <div class="compare__viz compare__viz--code">
+            <code>#include</code><code>sort</code><code>vector</code><code>set</code>
+          </div>
+          <p>Standard library functionality can be used. This knowledge is not very relevant in competitive programming.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="community" data-reveal>
+      <div class="community__copy">
+                <h3>Topics well known in the community, rarely discussed in textbooks.</h3>
+        <p>An example is the segment tree data structure, which can be used to solve a large number of problems that would otherwise require tricky algorithms.</p>
+      </div>
+      <div class="segviz" aria-label="A segment tree over eight elements">
+        <svg viewBox="0 0 360 220" id="segTree" role="img" aria-label="Segment tree with ranges one to eight at the root">
+          <g class="seg-edges">
+            <path d="M180 38 100 98M180 38 260 98M100 98 56 160M100 98 144 160M260 98 216 160M260 98 304 160"/>
+          </g>
+          <g class="seg-node" data-range="1–8" transform="translate(180 38)"><circle r="21"/><text y="4">1–8</text></g>
+          <g class="seg-node" data-range="1–4" transform="translate(100 98)"><circle r="21"/><text y="4">1–4</text></g>
+          <g class="seg-node" data-range="5–8" transform="translate(260 98)"><circle r="21"/><text y="4">5–8</text></g>
+          <g class="seg-node" data-range="1–2" transform="translate(56 160)"><circle r="21"/><text y="4">1–2</text></g>
+          <g class="seg-node" data-range="3–4" transform="translate(144 160)"><circle r="21"/><text y="4">3–4</text></g>
+          <g class="seg-node" data-range="5–6" transform="translate(216 160)"><circle r="21"/><text y="4">5–6</text></g>
+          <g class="seg-node" data-range="7–8" transform="translate(304 160)"><circle r="21"/><text y="4">7–8</text></g>
+        </svg>
+      </div>
+    </div>
+
+    <blockquote class="folklore" data-reveal>
+      <p>Many techniques are now part of competitive programming folklore, and nobody knows who has originally discovered them.</p>
+      <cite>On documenting techniques that usually live in forums and blog posts</cite>
+    </blockquote>
+
+    <div class="bookmap" data-reveal>
+      <div class="bookmap__head">
+        <div>
+          <h3>Fourteen chapters ahead</h3>
+        </div>
+      </div>
+      <div class="bookmap__body">
+        <div class="bookmap__list" id="bookmapList"></div>
+        <aside class="bookmap__detail" id="bookmapDetail" aria-live="polite">
+          <span class="bookmap__big" id="bmNum">02</span>
+          <h4 id="bmTitle">Programming Techniques</h4>
+          <p id="bmDesc">Reviews features of the C++ programming language, and then discusses recursive algorithms and bit manipulation.</p>
+          <div class="chips" id="bmTags"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.3 ============ -->
+<section class="section" id="s13" aria-labelledby="h13">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">1.3</span>
+      <div class="section-head__body">
+        <h2 id="h13">CSES Problem Set</h2>
+      </div>
+    </div>
+
+    <div class="cses-intro" data-reveal>
+      <p>The CSES Problem Set provides a collection of problems that can be used to practice competitive programming. The problems have been arranged in order of difficulty, and all techniques needed for solving the problems are discussed in this book.</p>
+      <a class="link-arrow" href="https://cses.fi/problemset/" target="_blank" rel="noopener">cses.fi/problemset<svg class="icon"><use href="#i-external"/></svg></a>
+    </div>
+
+    <article class="problem" data-reveal>
+      <header class="problem__head">
+        <div class="problem__id"><span class="kicker">CSES · Problem 01</span><h3>Weird Algorithm</h3></div>
+        <span class="tag">simulation</span>
+      </header>
+      <div class="problem__body">
+        <div class="problem__statement">
+          <p>Consider an algorithm that takes as input a positive integer <i>n</i>. If <i>n</i> is even, the algorithm divides it by two, and if <i>n</i> is odd, the algorithm multiplies it by three and adds one. The algorithm repeats this, until <i>n</i> is one. For example, the sequence for <i>n</i> = 3 is as follows:</p>
+          <p class="problem__example-line"><span class="math">3</span><span class="seq-arrow"></span><span class="math">10</span><span class="seq-arrow"></span><span class="math">5</span><span class="seq-arrow"></span><span class="math">16</span><span class="seq-arrow"></span><span class="math">8</span><span class="seq-arrow"></span><span class="math">4</span><span class="seq-arrow"></span><span class="math">2</span><span class="seq-arrow"></span><span class="math">1</span></p>
+          <p>Your task is to simulate the execution of the algorithm for a given value of <i>n</i>.</p>
+        </div>
+        <div class="problem__spec">
+          <div class="spec"><span class="kicker">Input</span><p>The only input line contains an integer <i>n</i>.</p></div>
+          <div class="spec"><span class="kicker">Output</span><p>Print a line that contains all values of <i>n</i> during the algorithm.</p></div>
+          <div class="spec"><span class="kicker">Constraints</span><p class="math">1 ≤ <i>n</i> ≤ 10<sup>6</sup></p></div>
+          <div class="spec"><span class="kicker">Example</span><div class="io-example"><span><b>Input</b><code>3</code></span><span><b>Output</b><code>3 10 5 16 8 4 2 1</code></span></div></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- interactive lab -->
+    <div class="lab" id="lab" data-reveal>
+      <div class="lab__head">
+        <div>
+          <h3>Trace the algorithm</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Integer type">
+          <button class="seg__btn is-active" data-lab-mode="long" aria-pressed="true">long long</button>
+          <button class="seg__btn" data-lab-mode="int" aria-pressed="false">int</button>
+        </div>
+      </div>
+
+      <div class="lab__controls">
+        <label class="field" for="labInput">
+          <span class="field__label">n =</span>
+          <input class="field__input" id="labInput" type="number" min="1" max="1000000" value="3" inputmode="numeric" autocomplete="off">
+        </label>
+        <div class="presets" role="group" aria-label="Example inputs">
+          <button class="preset is-active" data-preset="3">3</button>
+          <button class="preset" data-preset="27">27</button>
+          <button class="preset" data-preset="138367">138,367</button>
+        </div>
+        <div class="lab__actions">
+          <button class="btn btn--primary" id="labPlay"><svg class="icon"><use href="#i-play"/></svg><span>Run</span></button>
+          <button class="btn" id="labStep"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn btn--icon" id="labReset" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="lab__stats">
+        <div class="lab-stat"><span class="kicker">Terms</span><strong id="labTerms">8</strong></div>
+        <div class="lab-stat"><span class="kicker">Peak</span><strong id="labPeak">16</strong><span class="lab-stat__tag" id="labPeakTag" hidden>before overflow</span></div>
+        <div class="lab-stat lab-stat--status"><span class="kicker">Status</span><strong id="labStatus"><span class="status-dot"></span>terminates at 1</strong></div>
+      </div>
+
+      <div class="chart-wrap" id="chartWrap">
+        <div class="chart-head">
+          <div class="chart-legend">
+            <span><i class="legend-line"></i>sequence</span>
+            <span id="limitLegend" hidden><i class="legend-dash"></i>int limit</span>
+          </div>
+        </div>
+        <svg id="collatzChart" viewBox="0 0 900 330" role="img" aria-label="A chart of the sequence values"></svg>
+        <div class="chart-tip" id="chartTip" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="readout">
+        <div class="readout__left">
+          <span class="readout__step" id="labIndex">term 8 / 8</span>
+          <span class="readout__op" id="labOp">end</span>
+        </div>
+        <div class="readout__value" id="labValue">1</div>
+              </div>
+
+      <div class="chain-wrap">
+        <div class="chain" id="labChain" aria-label="Sequence terms"></div>
+      </div>
+
+      <div class="lab__foot">
+        <p id="labFoot">The example from the problem statement. Eight terms, seven steps.</p>
+        <button class="text-btn" id="labLoadFailing">Load the failing test <span>n = 138,367</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <aside class="conjecture" data-reveal>
+      <div class="conjecture__mark" aria-hidden="true">?</div>
+      <div>
+        <h3 class="conjecture__title">The Collatz conjecture</h3>
+        <p>This problem is connected to the famous Collatz conjecture, which states that the above algorithm terminates for every value of <i>n</i>. However, nobody has been able to prove it. In this problem, however, we know that the initial value of <i>n</i> will be at most one million, which makes the problem much easier to solve.</p>
+      </div>
+    </aside>
+
+    <div class="solution" data-reveal>
+      <div class="solution__intro">
+                <p>This problem is a simple simulation, which does not require much thinking. Here is one way to solve it — switch languages to compare the same idea.</p>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Solution language">
+            <button class="code-tab is-active" data-code-lang="cpp" role="tab" aria-selected="true">C++</button>
+            <button class="code-tab" data-code-lang="python" role="tab" aria-selected="false">Python</button>
+            <button class="code-tab" data-code-lang="java" role="tab" aria-selected="false">Java</button>
+            <button class="code-tab" data-code-lang="js" role="tab" aria-selected="false">JavaScript</button>
+            <button class="code-tab" data-code-lang="rust" role="tab" aria-selected="false">Rust</button>
+          </div>
+          <div class="code-card__meta">
+            <span class="code-card__file" id="codeFile">weird.cpp</span>
+            <button class="copy-btn" id="copyCode" aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+          </div>
+        </div>
+        <pre class="code" id="codeBlock" aria-label="C++ solution"><code id="codeLines"></code></pre>
+        <div class="code-card__foot">
+          <p id="codeNote">Reads n, simulates the algorithm, and prints each value.</p>
+          <span class="code-card__hint" id="codeTypeNote">int · 32-bit</span>
+        </div>
+      </div>
+
+      <p class="solution__after">The code first reads in the input number <i>n</i>, and then simulates the algorithm and prints the value of <i>n</i> after each step. It is easy to test that the algorithm correctly handles the example case <i>n</i> = 3 given in the problem statement.</p>
+    </div>
+
+    <div class="submission" data-reveal>
+      <div class="submission__intro">
+        <p>Now is time to submit the code to CSES. Then the code will be compiled and tested using a set of test cases. For each test case, CSES will tell us whether our code passed it or not, and we can also examine the input, the expected output, and the output produced by our code.</p>
+        <p>After testing our code, CSES gives the following report:</p>
+      </div>
+
+      <div class="report" id="report">
+        <div class="report__head">
+          <div>
+            <h3 id="reportTitle">10 test cases · <span>int</span></h3>
+          </div>
+          <div class="seg" role="group" aria-label="Report for integer type">
+            <button class="seg__btn is-active" data-report-mode="int" aria-pressed="true">int</button>
+            <button class="seg__btn" data-report-mode="long" aria-pressed="false">long long</button>
+          </div>
+        </div>
+        <div class="report__body">
+          <div class="report__table-wrap">
+            <table class="report-table">
+              <thead><tr><th>test</th><th>verdict</th><th>time (s)</th></tr></thead>
+              <tbody id="reportRows"></tbody>
+            </table>
+          </div>
+          <aside class="report__summary">
+            <div class="report-strip" id="reportStrip" aria-label="Ten test results"></div>
+            <div class="report-counts">
+              <div><span class="kicker">Accepted</span><strong id="reportAccepted">6 / 10</strong></div>
+              <div><span class="kicker">Issues</span><strong id="reportIssues">3 TLE · 1 WA</strong></div>
+            </div>
+            <p class="report__verdict" id="reportVerdict">This means that our code passed some of the test cases (ACCEPTED), was sometimes too slow (TIME LIMIT EXCEEDED), and also produced an incorrect output (WRONG ANSWER). This is quite surprising!</p>
+            <button class="text-btn" id="reportLoad">Test the first failure <span>n = 138,367</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="bug" data-reveal>
+      <div class="bug__copy">
+        <h3>n can become quite large.</h3>
+        <p>The first test case that fails has <i>n</i> = 138367. If we test our code locally using this input, it turns out that the code is indeed slow. In fact, it never terminates.</p>
+        <p>The reason why our code fails is that <i>n</i> can become quite large during the simulation. In particular, it can become larger than the upper limit of an <code>int</code> variable. To fix the problem, it suffices to change our code so that the type of <i>n</i> is <code>long long</code>.</p>
+      </div>
+      <div class="gauge" id="gauge">
+        <div class="gauge__head"><span class="gauge__label">Peak for n = 138,367</span><span class="gauge__tag" id="gaugeTag">overflows int</span></div>
+        <div class="gauge__value" id="gaugeValue">2,798,323,360</div>
+        <div class="gauge__track">
+          <span class="gauge__fill" id="gaugeFill"></span>
+          <span class="gauge__limit" id="gaugeLimit"><i></i><em>int limit · 2,147,483,647</em></span>
+        </div>
+        <div class="gauge__foot">
+          <span id="gaugeFoot">The true value, before it is stored in an <code>int</code>.</span>
+          <span class="gauge__wrap" id="gaugeWrap">wraps to −1,496,643,936</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fix" data-reveal>
+      <div class="fix__head">
+        <p>Then we will get the desired result:</p>
+      </div>
+      <div class="fix__grid">
+        <div class="fix__code">
+          <h4 class="fix__label">One word changes</h4>
+          <div class="fix__line"><span class="tok-type">int</span> n; <span class="fix__arrow">→</span> <span class="tok-type">long long</span> n;</div>
+          <p>The type of <i>n</i> is changed to <code>long long</code>. Everything else stays the same.</p>
+          <button class="btn" id="applyFix">Apply the fix <svg class="icon"><use href="#i-arrow"/></svg></button>
+        </div>
+        <div class="fix__result" id="fixResult">
+          <div class="fix__dots" id="fixDots" aria-hidden="true"></div>
+          <div class="fix__result-copy"><strong>10 / 10</strong><span>accepted</span></div>
+          <p>The same code, one type change.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="closing" data-reveal>As this example shows, even very simple algorithms may contain subtle bugs. Competitive programming teaches how to write algorithms that really work.</p>
+  </div>
+</section>
+
+<!-- ============ 1.4 ============ -->
+<section class="section" id="s14" aria-labelledby="h14">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">1.4</span>
+      <div class="section-head__body">
+        <h2 id="h14">Other Resources</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Besides this book, there are already several other books on competitive programming.</p>
+
+    <div class="shelf" data-reveal>
+      <div class="shelf__stage">
+        <div class="shelf__books" id="shelfBooks"></div>
+        <div class="shelf__plank" aria-hidden="true"></div>
+      </div>
+      <aside class="shelf__detail" id="shelfDetail" aria-live="polite">
+        <span class="kicker" id="bookTag">Pioneering</span>
+        <h3 id="bookTitle">Programming Challenges</h3>
+        <p class="shelf__authors" id="bookAuthors">Steven S. Skiena · Miguel A. Revilla</p>
+        <p class="shelf__desc" id="bookDesc">A pioneering book in the field, published in 2003. Intended for readers with no background in competitive programming.</p>
+        <span class="shelf__year" id="bookYear">2003</span>
+      </aside>
+    </div>
+  </div>
+</section>

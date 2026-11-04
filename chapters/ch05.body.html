@@ -1,0 +1,452 @@
+<!-- ============ hero ============ -->
+<section class="hero ch05-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 05</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Data Structures</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Data Structures</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Dynamic arrays, sets, maps, and the experiments that choose between them.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>12 pages</span><span>≈ 31 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch05-hero-map" data-reveal style="--d:.2s" aria-label="The same keys held by a vector, an ordered set, a hash table, and a priority queue">
+      <svg viewBox="0 0 1200 268" role="img" aria-hidden="true">
+        <defs>
+          <pattern id="ch05HeroDots" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1.1" cy="1.1" r="1" fill="#e7e7e2"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="268" fill="url(#ch05HeroDots)"/>
+
+        <!-- vector -->
+        <text class="ch05-hero-label" x="30" y="34">vector · sequence</text>
+        <g class="ch05-hero-vector">
+          <rect x="30" y="92" width="44" height="38" rx="2"/><text x="52" y="116">3</text>
+          <rect x="82" y="92" width="44" height="38" rx="2"/><text x="104" y="116">1</text>
+          <rect x="134" y="92" width="44" height="38" rx="2"/><text x="156" y="116">4</text>
+          <rect x="186" y="92" width="44" height="38" rx="2"/><text x="208" y="116">1</text>
+          <rect x="238" y="92" width="44" height="38" rx="2"/><text x="260" y="116">5</text>
+          <rect class="is-capacity" x="290" y="92" width="44" height="38" rx="2"/><text class="is-faint" x="312" y="116">·</text>
+          <rect class="is-capacity" x="342" y="92" width="44" height="38" rx="2"/><text class="is-faint" x="364" y="116">·</text>
+        </g>
+        <path class="ch05-hero-bracket" d="M30 150v8h336v-8"/>
+        <text class="ch05-hero-cap" x="30" y="184">size 5 · capacity 7</text>
+
+        <!-- ordered set -->
+        <text class="ch05-hero-label" x="430" y="34">set · order</text>
+        <g class="ch05-hero-tree">
+          <path d="M540 78 480 132M540 78 600 132M480 132 450 190M480 132 510 190M600 132 570 190M600 132 630 190"/>
+          <g><circle cx="540" cy="78" r="20"/><text x="540" y="82">4</text></g>
+          <g><circle cx="480" cy="132" r="20"/><text x="480" y="136">2</text></g>
+          <g><circle cx="600" cy="132" r="20"/><text x="600" y="136">6</text></g>
+          <g><circle cx="450" cy="190" r="18"/><text x="450" y="194">1</text></g>
+          <g><circle cx="510" cy="190" r="18"/><text x="510" y="194">3</text></g>
+          <g><circle cx="570" cy="190" r="18"/><text x="570" y="194">5</text></g>
+          <g><circle cx="630" cy="190" r="18"/><text x="630" y="194">7</text></g>
+        </g>
+        <text class="ch05-hero-cap" x="430" y="230">in-order: 1 2 3 4 5 6 7</text>
+
+        <!-- hash table -->
+        <text class="ch05-hero-label" x="720" y="34">unordered_set · hash</text>
+        <g class="ch05-hero-hash">
+          <rect x="720" y="76" width="30" height="26"/><text x="735" y="94">0</text>
+          <rect x="754" y="76" width="30" height="26"/><text x="769" y="94">1</text>
+          <rect x="788" y="76" width="30" height="26"/><text x="803" y="94">2</text>
+          <rect x="822" y="76" width="30" height="26"/><text x="837" y="94">3</text>
+          <rect x="856" y="76" width="30" height="26"/><text x="871" y="94">4</text>
+          <rect x="890" y="76" width="30" height="26"/><text x="905" y="94">5</text>
+          <rect x="924" y="76" width="30" height="26"/><text x="939" y="94">6</text>
+          <rect class="is-key" x="822" y="112" width="30" height="24"/><text x="837" y="128">3</text>
+          <rect class="is-key" x="822" y="140" width="30" height="24"/><text x="837" y="156">10</text>
+          <rect class="is-key" x="822" y="168" width="30" height="24"/><text x="837" y="184">17</text>
+          <rect class="is-key" x="856" y="112" width="30" height="24"/><text x="871" y="128">4</text>
+          <rect class="is-key" x="856" y="140" width="30" height="24"/><text x="871" y="156">11</text>
+        </g>
+        <text class="ch05-hero-cap" x="720" y="230">collisions become chains</text>
+
+        <!-- heap -->
+        <text class="ch05-hero-label" x="1000" y="34">priority_queue · top</text>
+        <g class="ch05-hero-heap">
+          <path d="M1068 76 1020 134M1068 76 1116 134M1020 134 992 192M1020 134 1048 192"/>
+          <g><circle cx="1068" cy="76" r="21"/><text x="1068" y="81">7</text></g>
+          <g><circle cx="1020" cy="134" r="20"/><text x="1020" y="139">5</text></g>
+          <g><circle cx="1116" cy="134" r="20"/><text x="1116" y="139">6</text></g>
+          <g><circle cx="992" cy="192" r="18"/><text x="992" y="197">2</text></g>
+          <g><circle cx="1048" cy="192" r="18"/><text x="1048" y="197">4</text></g>
+        </g>
+        <text class="ch05-hero-cap" x="1000" y="230">largest at the root</text>
+      </svg>
+      <div class="ch05-hero-mobile" aria-hidden="true">
+        <div class="ch05-hm-row">
+          <span>vector</span>
+          <span class="ch05-hm-cells"><i>3</i><i>1</i><i>4</i><i>1</i><i>5</i><i class="is-empty"></i><i class="is-empty"></i></span>
+        </div>
+        <div class="ch05-hm-row">
+          <span>set</span>
+          <span class="ch05-hm-tokens"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i></span>
+        </div>
+        <div class="ch05-hm-row">
+          <span>hash</span>
+          <span class="ch05-hm-tokens"><i>3</i><i>10</i><i>17</i><i>4</i><i>11</i><i>5</i><i>12</i></span>
+        </div>
+        <div class="ch05-hm-row">
+          <span>priority</span>
+          <span class="ch05-hm-tokens"><i class="ch05-hm-top">7</i><i>5</i><i>6</i><i>2</i><i>4</i></span>
+        </div>
+      </div>
+      <figcaption><span class="hero-map__hint">Same keys, four different promises about order, speed, and access.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s51">
+          <span class="idx__num">5.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Dynamic Arrays</span>
+            <span class="idx__desc">Vectors, iterators, ranges, and the structures built on both ends.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s52">
+          <span class="idx__num">5.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Set Structures</span>
+            <span class="idx__desc">Sets, maps, priority queues, and the policy-based indexed set.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s53">
+          <span class="idx__num">5.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Experiments</span>
+            <span class="idx__desc">Measured times for sets, maps, and priority queues — and when to choose each.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5.1 ============ -->
+<section class="section" id="s51" aria-labelledby="h51">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">5.1</span>
+      <div class="section-head__body">
+        <h2 id="h51">Dynamic Arrays</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A vector is an array that keeps its promises at the end.</p>
+
+    <p class="lead" data-reveal>An ordinary C++ array has a fixed size. A dynamic array can grow and shrink while the program runs. The standard library’s <span class="ch05-mono">vector</span> is the one to know: it adds and removes at the end in constant time on average, and it is almost as fast as an ordinary array.</p>
+
+    <h3 class="ch05-h3" data-reveal>Vectors: size, capacity, and the cost of growing</h3>
+    <p data-reveal><span class="ch05-mono">push_back</span> appends an element, <span class="ch05-mono">back</span> reads the last one, <span class="ch05-mono">size</span> returns how many there are, and <span class="ch05-mono">pop_back</span> removes the last. Elements are indexed like an ordinary array. The implementation keeps a capacity larger than the size; when the vector is full, it allocates a bigger block and copies the old elements across.</p>
+
+    <figure class="figure ch05-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch05-vector" id="ch05Vector">
+          <div class="ch05-vector-head">
+            <div>
+              <span class="kicker">vector&lt;int&gt; v</span>
+              <h3 class="ch05-subhead">Grow at the end</h3>
+            </div>
+            <div class="ch05-vector-stats" aria-live="polite">
+              <span><em>size</em><b id="ch05VecSize">0</b></span>
+              <span><em>capacity</em><b id="ch05VecCap">1</b></span>
+              <span><em>reallocations</em><b id="ch05VecRealloc">0</b></span>
+              <span><em>copied</em><b id="ch05VecCopies">0</b></span>
+            </div>
+          </div>
+          <div class="ch05-vector-cells" id="ch05VecCells" aria-label="Vector storage"></div>
+          <div class="ch05-vector-foot">
+            <span id="ch05VecFoot">capacity 1 · size 0</span>
+            <span>amortized <i>O</i>(1) per push</span>
+          </div>
+          <div class="ch05-vector-controls">
+            <button class="btn btn--primary" id="ch05VecPush" type="button"><svg class="icon"><use href="#i-arrow-down"/></svg><span>push_back</span></button>
+            <button class="btn" id="ch05VecPop" type="button">pop_back</button>
+            <button class="btn btn--icon" id="ch05VecReset" type="button" aria-label="Reset the vector"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+          <p class="ch05-vector-note" id="ch05VecNote" role="status" aria-live="polite">An empty vector. Push a few values and watch the capacity double.</p>
+        </div>
+      </div>
+      <figcaption class="figure__cap">A doubling strategy copies at most 1 + 2 + 4 + … + <i>n</i> = <i>O</i>(<i>n</i>) elements over <i>n</i> pushes. That is why <span class="ch05-mono">push_back</span> is <i>O</i>(1) on average even though one push occasionally copies everything.</figcaption>
+    </figure>
+
+    <h3 class="ch05-h3" data-reveal>Iterators and ranges: begin, end, and one past the last</h3>
+    <p data-reveal>An iterator points to an element of a structure. <span class="ch05-mono">begin()</span> points to the first element; <span class="ch05-mono">end()</span> points to the position <em>after</em> the last one. That asymmetry is deliberate: the pair <span class="ch05-mono">[begin, end)</span> names the whole structure, and an empty range has <span class="ch05-mono">begin() == end()</span>. Library functions such as <span class="ch05-mono">sort</span>, <span class="ch05-mono">reverse</span>, and <span class="ch05-mono">lower_bound</span> take ranges, not containers.</p>
+
+    <figure class="figure ch05-figure" data-reveal>
+      <div class="figure__frame">
+        <svg class="ch05-iter" viewBox="0 0 640 162" role="img" aria-label="Eight vector cells with begin at the first and end one past the last">
+          <g class="ch05-iter-cells">
+            <rect x="20" y="42" width="52" height="38" rx="2"/><text x="46" y="66">5</text>
+            <rect x="80" y="42" width="52" height="38" rx="2"/><text x="106" y="66">2</text>
+            <rect x="140" y="42" width="52" height="38" rx="2"/><text x="166" y="66">3</text>
+            <rect x="200" y="42" width="52" height="38" rx="2"/><text x="226" y="66">1</text>
+            <rect x="260" y="42" width="52" height="38" rx="2"/><text x="286" y="66">2</text>
+            <rect x="320" y="42" width="52" height="38" rx="2"/><text x="346" y="66">5</text>
+            <rect x="380" y="42" width="52" height="38" rx="2"/><text x="406" y="66">7</text>
+            <rect x="440" y="42" width="52" height="38" rx="2"/><text x="466" y="66">1</text>
+          </g>
+          <path class="ch05-iter-bracket" d="M20 28v-8h472v8"/>
+          <text class="ch05-iter-range" x="256" y="16">the range [begin, end)</text>
+          <g class="ch05-iter-mark" tabindex="0" data-tip="begin() points to the first element, index 0." aria-label="begin points to the first element">
+            <path d="M46 86v22"/><circle cx="46" cy="108" r="2.4"/><text x="46" y="130">v.begin()</text>
+          </g>
+          <g class="ch05-iter-mark is-end" tabindex="0" data-tip="end() points one past the last element; it is not an element you can read." aria-label="end points one past the last element">
+            <path d="M512 86v22"/><circle cx="512" cy="108" r="2.4"/><text x="512" y="130">v.end()</text>
+          </g>
+          <path class="ch05-iter-dash" d="M492 60h20"/>
+        </svg>
+        <div class="ch05-bounds" aria-label="lower_bound and upper_bound on a sorted vector">
+          <span class="ch05-bounds-label">sorted v</span>
+          <div class="ch05-bounds-cells">
+            <i>2</i><i>3</i><i>3</i><i class="is-low">5</i><i class="is-up">7</i><i>8</i><i>8</i><i>8</i>
+          </div>
+          <p class="ch05-bounds-note"><span class="ch05-mono">lower_bound(5)</span> → 5 &nbsp;·&nbsp; <span class="ch05-mono">upper_bound(5)</span> → 7. Both use binary search and require a sorted range.</p>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The brackets are half-open. Reading through <span class="ch05-mono">*it</span> is safe only while <span class="ch05-mono">it != end()</span>.</figcaption>
+    </figure>
+
+    <h3 class="ch05-h3" data-reveal>Deques, stacks, and queues</h3>
+    <p data-reveal>A <span class="ch05-mono">deque</span> can grow at both ends: it adds <span class="ch05-mono">push_front</span> and <span class="ch05-mono">pop_front</span> to the vector interface, at the cost of larger constant factors. A <span class="ch05-mono">stack</span> exposes only the most recently inserted element; a <span class="ch05-mono">queue</span> inserts at the back and removes from the front. Both are usually built on a deque.</p>
+
+    <div class="ch05-ends" data-reveal>
+      <article class="ch05-end">
+        <span class="kicker">deque</span>
+        <div class="ch05-end-row">
+          <span class="ch05-end-arrow">push_front →</span>
+          <span class="ch05-end-cells"><i>3</i><i>5</i><i>2</i></span>
+          <span class="ch05-end-arrow">← push_back</span>
+        </div>
+        <p>Both ends, <i>O</i>(1) average.</p>
+      </article>
+      <article class="ch05-end">
+        <span class="kicker">stack</span>
+        <div class="ch05-end-stack"><i class="is-top" tabindex="0" data-tip="top() reads the most recently pushed element.">5</i><i>2</i></div>
+        <p>Last in, first out.</p>
+      </article>
+      <article class="ch05-end">
+        <span class="kicker">queue</span>
+        <div class="ch05-end-row">
+          <span class="ch05-end-arrow">pop ←</span>
+          <span class="ch05-end-cells"><i>2</i><i>5</i><i>7</i></span>
+          <span class="ch05-end-arrow">← push</span>
+        </div>
+        <p>First in, first out.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5.2 ============ -->
+<section class="section" id="s52" aria-labelledby="h52">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">5.2</span>
+      <div class="section-head__body">
+        <h2 id="h52">Set Structures</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A set trades order for speed — or speed for order. Know which one you are buying.</p>
+
+    <p class="lead" data-reveal>A set stores a collection of elements and supports insertion, search, and removal. The C++ library offers two flavours: <span class="ch05-mono">set</span>, a balanced binary search tree with <i>O</i>(log <i>n</i>) operations and sorted iteration; and <span class="ch05-mono">unordered_set</span>, a hash table with <i>O</i>(1) average operations and no useful order.</p>
+
+    <h3 class="ch05-h3" data-reveal>Sets and multisets</h3>
+    <p data-reveal>All elements of a <span class="ch05-mono">set</span> are distinct. <span class="ch05-mono">insert</span> adds a value, <span class="ch05-mono">count</span> returns 0 or 1, <span class="ch05-mono">erase</span> removes it, and <span class="ch05-mono">find</span> returns an iterator or <span class="ch05-mono">end()</span>. Because the tree is ordered, iteration is sorted, and <span class="ch05-mono">lower_bound</span> and <span class="ch05-mono">upper_bound</span> are available. A <span class="ch05-mono">multiset</span> allows duplicates; <span class="ch05-mono">erase(value)</span> removes all copies, while <span class="ch05-mono">erase(find(value))</span> removes one.</p>
+
+    <div class="split2 ch05-set-split">
+      <figure class="figure ch05-figure" data-reveal>
+        <div class="figure__frame">
+          <svg class="ch05-bst" viewBox="0 0 440 246" role="img" aria-label="A balanced binary search tree containing one to seven">
+            <g class="ch05-bst-edges">
+              <path d="M220 48 130 112M220 48 310 112M130 112 78 184M130 112 182 184M310 112 258 184M310 112 362 184"/>
+            </g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="Root 4. Every value in the left subtree is smaller; every value in the right subtree is larger."><circle cx="220" cy="48" r="22"/><text x="220" y="53">4</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="2 is the left child of 4. Its own left child is 1 and its right child is 3."><circle cx="130" cy="112" r="22"/><text x="130" y="117">2</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="6 is the right child of 4. Its own left child is 5 and its right child is 7."><circle cx="310" cy="112" r="22"/><text x="310" y="117">6</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="1 is the smallest value in the set."><circle cx="78" cy="184" r="19"/><text x="78" y="189">1</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="3 lies between 2 and 4."><circle cx="182" cy="184" r="19"/><text x="182" y="189">3</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="5 lies between 4 and 6."><circle cx="258" cy="184" r="19"/><text x="258" y="189">5</text></g>
+            <g class="ch05-bst-node" tabindex="0" data-tip="7 is the largest value in the set."><circle cx="362" cy="184" r="19"/><text x="362" y="189">7</text></g>
+            <text class="ch05-bst-note" x="220" y="232">in-order: 1 2 3 4 5 6 7</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">The shape of the tree is not the order; the in-order traversal is. <span class="ch05-mono">set</span> keeps it balanced.</figcaption>
+      </figure>
+      <div>
+        <p data-reveal>An <span class="ch05-mono">unordered_set</span> uses hashing. It does not know which element is smallest, but it can usually answer “is <i>x</i> present?” without walking a path. The average cost is <i>O</i>(1); the worst case is <i>O</i>(<i>n</i>), though that is unlikely with a reasonable hash function.</p>
+        <div class="chips" data-reveal>
+          <span class="chip chip--static">set · O(log n)</span>
+          <span class="chip chip--static">unordered_set · O(1) average</span>
+          <span class="chip chip--static">multiset · duplicates</span>
+        </div>
+        <details class="note ch05-note" data-reveal>
+          <summary><span class="note__label">Which one should you use?</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>Use <span class="ch05-mono">set</span> when you need the smallest element, a lower bound, or sorted iteration. Use <span class="ch05-mono">unordered_set</span> when you only need membership and the constant factor matters. The two are used in the same way; the difference is the promise, not the syntax.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <h3 class="ch05-h3" data-reveal>Hash tables: buckets and collisions</h3>
+    <p data-reveal>A hash table maps each key to a bucket, usually with a function such as <span class="ch05-mono">h(k) = k mod m</span>. Different keys can land in the same bucket; the table resolves the collision by chaining the values together. With a good hash function the chains stay short, which is where the average <i>O</i>(1) comes from.</p>
+
+    <figure class="figure ch05-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch05-hash" aria-label="A hash table with seven buckets and chained collisions">
+          <div class="ch05-bucket"><span class="ch05-bucket-index">0</span><div class="ch05-chain"></div></div>
+          <div class="ch05-bucket"><span class="ch05-bucket-index">1</span><div class="ch05-chain"></div></div>
+          <div class="ch05-bucket"><span class="ch05-bucket-index">2</span><div class="ch05-chain"></div></div>
+          <div class="ch05-bucket" tabindex="0" data-tip="Keys 3, 10 and 17 all hash to bucket 3. Searching the bucket scans three values."><span class="ch05-bucket-index">3</span><div class="ch05-chain"><i>3</i><i>10</i><i>17</i></div></div>
+          <div class="ch05-bucket" tabindex="0" data-tip="Keys 4 and 11 collide in bucket 4."><span class="ch05-bucket-index">4</span><div class="ch05-chain"><i>4</i><i>11</i></div></div>
+          <div class="ch05-bucket" tabindex="0" data-tip="Keys 5 and 12 collide in bucket 5."><span class="ch05-bucket-index">5</span><div class="ch05-chain"><i>5</i><i>12</i></div></div>
+          <div class="ch05-bucket"><span class="ch05-bucket-index">6</span><div class="ch05-chain"></div></div>
+        </div>
+        <p class="ch05-hash-note"><span class="ch05-mono">h(k) = k mod 7</span> &nbsp;·&nbsp; the chains are what keep the table from needing one slot per possible key.</p>
+      </div>
+      <figcaption class="figure__cap">Collisions are normal. A hash table is fast because the chains are short on average, not because collisions never happen.</figcaption>
+    </figure>
+
+    <h3 class="ch05-h3" data-reveal>Maps: keys that are not indices</h3>
+    <p data-reveal>A map is a set of key–value pairs. An ordinary array is a map whose keys are <span class="ch05-mono">0, 1, …, n − 1</span>; a <span class="ch05-mono">map</span> allows any ordered key, and <span class="ch05-mono">unordered_map</span> allows any hashable key. Access with <span class="ch05-mono">m[key]</span> returns the value — and if the key is missing, it inserts it with a default value. Use <span class="ch05-mono">count</span> when you only want to test whether the key exists.</p>
+
+    <div class="split2 ch05-map-split">
+      <div>
+        <p data-reveal>The default insertion is convenient and dangerous. Reading <span class="ch05-mono">m["aybabtu"]</span> creates the key with value 0; a later loop over the map will see it. In a contest, that can turn a lookup into a silent update.</p>
+        <p data-reveal><span class="ch05-mono">map</span> is a balanced tree, so keys iterate in order and access costs <i>O</i>(log <i>n</i>). <span class="ch05-mono">unordered_map</span> uses hashing and averages <i>O</i>(1), but loses the order.</p>
+      </div>
+      <div class="ch05-map" data-reveal aria-label="A map from strings to integers">
+        <div class="ch05-map-row"><code>monkey</code><b>4</b></div>
+        <div class="ch05-map-row"><code>banana</code><b>3</b></div>
+        <div class="ch05-map-row"><code>harpsichord</code><b>9</b></div>
+        <div class="ch05-map-row is-inserted" tabindex="0" data-tip="m[&quot;aybabtu&quot;] was read but never assigned. The key now exists with value 0."><code>aybabtu</code><b>0</b><em>inserted by []</em></div>
+      </div>
+    </div>
+
+    <h3 class="ch05-h3" data-reveal>Priority queues: only the top matters</h3>
+    <p data-reveal>A priority queue is a multiset that supports insertion and removal of the largest element (or the smallest, with a comparator). Retrieval is <i>O</i>(1), insertion and removal are <i>O</i>(log <i>n</i>). It is usually a heap, and its smaller constant factor is the reason to use it instead of a multiset when you only need the extreme value.</p>
+
+    <figure class="figure ch05-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch05-heap">
+          <svg viewBox="0 0 440 230" role="img" aria-label="A max-heap with seven at the root">
+            <g class="ch05-heap-edges">
+              <path d="M220 44 130 108M220 44 310 108M130 108 80 176M130 108 180 176M310 108 260 176M310 108 360 176"/>
+            </g>
+            <g class="ch05-heap-node" tabindex="0" data-tip="top() returns 7 in O(1)."><circle cx="220" cy="44" r="22"/><text x="220" y="49">7</text></g>
+            <g class="ch05-heap-node"><circle cx="130" cy="108" r="21"/><text x="130" y="113">5</text></g>
+            <g class="ch05-heap-node"><circle cx="310" cy="108" r="21"/><text x="310" y="113">6</text></g>
+            <g class="ch05-heap-node"><circle cx="80" cy="176" r="19"/><text x="80" y="181">2</text></g>
+            <g class="ch05-heap-node"><circle cx="180" cy="176" r="19"/><text x="180" y="181">4</text></g>
+            <g class="ch05-heap-node"><circle cx="260" cy="176" r="19"/><text x="260" y="181">3</text></g>
+            <g class="ch05-heap-node"><circle cx="360" cy="176" r="19"/><text x="360" y="181">1</text></g>
+          </svg>
+          <div class="ch05-heap-array">
+            <span class="ch05-heap-array-label">array</span>
+            <span class="ch05-heap-array-cells"><i>7</i><i>5</i><i>6</i><i>2</i><i>4</i><i>3</i><i>1</i></span>
+          </div>
+        </div>
+        <p class="ch05-heap-note">The heap is stored as an array: children of index <i>i</i> sit at <span class="ch05-mono">2i+1</span> and <span class="ch05-mono">2i+2</span>.</p>
+      </div>
+      <figcaption class="figure__cap">Every parent is at least as large as its children. The maximum is always at the root; the rest of the order is deliberately unspecified.</figcaption>
+    </figure>
+
+    <h3 class="ch05-h3" data-reveal>Policy-based sets</h3>
+    <p data-reveal>The g++ compiler adds structures outside the C++ standard. An <span class="ch05-mono">indexed_set</span> behaves like a set but also supports order statistics: <span class="ch05-mono">find_by_order(k)</span> returns an iterator to the element at position <i>k</i>, and <span class="ch05-mono">order_of_key(x)</span> returns the position <i>x</i> would have. Both are logarithmic. They are a g++ extension, not portable standard C++.</p>
+
+    <div class="ch05-policy" data-reveal>
+      <span class="ch05-policy-title">indexed_set s = {2, 3, 7, 9}</span>
+      <code>s.find_by_order(2) → 7</code>
+      <code>s.order_of_key(6) → 2</code>
+      <span class="ch05-policy-note">position, not value</span>
+    </div>
+
+    <div class="code-card ch05-code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5.3 ============ -->
+<section class="section" id="s53" aria-labelledby="h53">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">5.3</span>
+      <div class="section-head__body">
+        <h2 id="h53">Experiments</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Two <i>O</i>(<i>n</i> log <i>n</i>) algorithms can differ by a factor of ten.</p>
+
+    <p class="lead" data-reveal>Time complexity is a shape, not a stopwatch. The book measured the same tasks with different containers. The results are a useful correction to the idea that the fastest-growing term is the whole story: constant factors decide which structure wins in practice.</p>
+
+    <div class="ch05-exp" id="ch05Exp" data-reveal>
+      <div class="ch05-exp-head">
+        <div class="ch05-exp-tabs" id="ch05ExpTabs" role="tablist" aria-label="Experiment">
+          <button class="ch05-exp-tab is-active" type="button" role="tab" data-exp="unique" aria-selected="true">Unique elements</button>
+          <button class="ch05-exp-tab" type="button" role="tab" data-exp="freq" aria-selected="false">Most frequent</button>
+          <button class="ch05-exp-tab" type="button" role="tab" data-exp="pq" aria-selected="false">Priority queue</button>
+        </div>
+        <span class="ch05-exp-source" id="ch05ExpSource">Book · Table 5.1</span>
+      </div>
+      <div class="ch05-exp-chart-wrap">
+        <span class="ch05-exp-y">seconds</span>
+        <div class="ch05-exp-chart" id="ch05ExpChart" role="img" aria-label="Grouped bar chart of measured times"></div>
+      </div>
+      <div class="ch05-exp-legend" id="ch05ExpLegend"></div>
+      <p class="ch05-exp-note" id="ch05ExpNote"></p>
+    </div>
+
+    <h3 class="ch05-h3" data-reveal>What the measurements say</h3>
+    <p data-reveal>Sorting was more than ten times faster than <span class="ch05-mono">set</span> for counting unique elements, even though both take <i>O</i>(<i>n</i> log <i>n</i>) time. The tree inside <span class="ch05-mono">set</span> is a complex structure; sorting is a tight loop over contiguous memory. The same pattern appears with maps: an ordinary array was almost a hundred times faster than <span class="ch05-mono">map</span> for counting frequencies, and <span class="ch05-mono">unordered_map</span> was about three times faster than <span class="ch05-mono">map</span>.</p>
+    <p data-reveal>For repeated removal of the smallest element, a <span class="ch05-mono">priority_queue</span> was about five times faster than a <span class="ch05-mono">multiset</span>. The lesson is not that asymptotics are wrong. It is that a structure with a simpler job has less work to do per operation.</p>
+
+    <h3 class="ch05-h3" data-reveal>Choose by the operation you need</h3>
+    <div class="ch05-table-wrap" data-reveal>
+      <table class="ch05-cost">
+        <thead>
+          <tr><th>structure</th><th>find</th><th>insert / erase</th><th>ordered iteration</th><th>best at</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>vector</td><td><i>O</i>(<i>n</i>)</td><td><i>O</i>(1) at the end</td><td>no</td><td>contiguous storage, index access</td></tr>
+          <tr><td>set</td><td><i>O</i>(log <i>n</i>)</td><td><i>O</i>(log <i>n</i>)</td><td>yes</td><td>order, lower bounds, nearest values</td></tr>
+          <tr><td>unordered_set</td><td><i>O</i>(1) average</td><td><i>O</i>(1) average</td><td>no</td><td>membership with a small constant</td></tr>
+          <tr><td>map</td><td><i>O</i>(log <i>n</i>)</td><td><i>O</i>(log <i>n</i>)</td><td>by key</td><td>key–value pairs, ordered keys</td></tr>
+          <tr><td>priority_queue</td><td><i>O</i>(1) top</td><td><i>O</i>(log <i>n</i>)</td><td>no</td><td>repeatedly taking the extreme</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ch05-table-foot" data-reveal>Average costs for <span class="ch05-mono">unordered_*</span>; the worst case can degrade to <i>O</i>(<i>n</i>). A vector’s insert and erase in the middle cost <i>O</i>(<i>n</i>) because the elements shift.</p>
+
+    <p class="closing" data-reveal>The best data structure is the one whose promises match the question. A vector gives you a sequence; a set gives you order; a hash table gives you speed; a priority queue gives you the top. Choose the promise, then the container.</p>
+  </div>
+</section>

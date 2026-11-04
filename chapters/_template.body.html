@@ -1,0 +1,124 @@
+<!-- ============================================================
+     CHAPTER TEMPLATE — copy to chapters/chNN.body.html and edit.
+     Replace every NN/placeholder. Keep the section pattern.
+     ============================================================ -->
+
+<!-- ============ hero ============ -->
+<section class="hero chNN-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter NN</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Chapter title</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Chapter title</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">One sentence that states the chapter's promise.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>12 pages</span><span>≈ 30 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map" data-reveal style="--d:.2s" aria-label="Visual summary of the chapter">
+      <div class="figure__frame">
+        <svg viewBox="0 0 1200 240" role="img" aria-hidden="true">
+          <!-- a bespoke hero diagram, not decoration -->
+          <path d="M60 180 C 220 180 240 60 420 60 S 660 180 840 180 S 1040 80 1140 80" fill="none" stroke="#e2e2dc" stroke-width="1.3"/>
+          <circle cx="60" cy="180" r="4.5" fill="#fff" stroke="#171717"/>
+          <circle cx="420" cy="60" r="4.5" fill="#fff" stroke="#171717"/>
+          <circle cx="840" cy="180" r="4.5" fill="#fff" stroke="#171717"/>
+          <circle cx="1140" cy="80" r="5.5" fill="#171717"/>
+        </svg>
+      </div>
+      <figcaption><span class="hero-map__hint">A caption that tells the reader what the diagram says.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#sNN1">
+          <span class="idx__num">NN.1</span>
+          <span class="idx__body"><span class="idx__title">First section</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#sNN2">
+          <span class="idx__num">NN.2</span>
+          <span class="idx__body"><span class="idx__title">Second section</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NN.1 ============ -->
+<section class="section" id="sNN1" aria-labelledby="hNN1">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">NN.1</span>
+      <div class="section-head__body"><h2 id="hNN1">First section</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>The single idea this section is built around.</p>
+
+    <p class="lead" data-reveal>Two or three sentences of context. Keep it short; the diagram carries the rest.</p>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame chNN-figure">
+        <svg viewBox="0 0 640 320" role="img" aria-label="Describe the diagram">
+          <!-- diagram: arrays, nodes, bars, etc. -->
+        </svg>
+      </div>
+      <figcaption class="figure__cap">The insight the reader should take from the diagram.</figcaption>
+    </figure>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">The detail behind it</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body"><p>Secondary explanation, edge cases, or proof idea.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ NN.2 ============ -->
+<section class="section" id="sNN2" aria-labelledby="hNN2">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">NN.2</span>
+      <div class="section-head__body"><h2 id="hNN2">Second section</h2></div>
+    </div>
+
+    <div class="split2">
+      <div>
+        <p class="lead" data-reveal>Prose on the left.</p>
+        <ul class="chips" data-reveal>
+          <li class="chip chip--static">O(n)</li>
+          <li class="chip chip--static">one pass</li>
+        </ul>
+      </div>
+      <figure class="figure chNN-interactive" data-reveal>
+        <div class="figure__frame">
+          <!-- an interactive visual: buttons, slider, or a stepper -->
+        </div>
+        <figcaption class="figure__cap">Instruction for the interaction.</figcaption>
+      </figure>
+    </div>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>

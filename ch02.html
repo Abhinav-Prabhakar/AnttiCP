@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 02 — Programming Techniques · Guide to Competitive Programming</title>
+<meta name="description" content="C++ language features, recursive algorithms, and bit manipulation — the toolkit the rest of the book builds on.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E02%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch02.css">
+</head>
+<body data-chapter="02">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 02 <span>— Programming Techniques</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s21" class="siderail__item" data-section="s21"><span class="siderail__num">2.1</span><span class="siderail__label">Language Features</span></a>
+  <a href="#s211" class="siderail__item" data-section="s211"><span class="siderail__num">2.1.1</span><span class="siderail__label">Input and Output</span></a>
+  <a href="#s212" class="siderail__item" data-section="s212"><span class="siderail__num">2.1.2</span><span class="siderail__label">Working with Numbers</span></a>
+  <a href="#s213" class="siderail__item" data-section="s213"><span class="siderail__num">2.1.3</span><span class="siderail__label">Shortening Code</span></a>
+  <a href="#s22" class="siderail__item" data-section="s22"><span class="siderail__num">2.2</span><span class="siderail__label">Recursive Algorithms</span></a>
+  <a href="#s221" class="siderail__item" data-section="s221"><span class="siderail__num">2.2.1</span><span class="siderail__label">Generating Subsets</span></a>
+  <a href="#s222" class="siderail__item" data-section="s222"><span class="siderail__num">2.2.2</span><span class="siderail__label">Generating Permutations</span></a>
+  <a href="#s223" class="siderail__item" data-section="s223"><span class="siderail__num">2.2.3</span><span class="siderail__label">Backtracking</span></a>
+  <a href="#s23" class="siderail__item" data-section="s23"><span class="siderail__num">2.3</span><span class="siderail__label">Bit Manipulation</span></a>
+  <a href="#s231" class="siderail__item" data-section="s231"><span class="siderail__num">2.3.1</span><span class="siderail__label">Bit Operations</span></a>
+  <a href="#s232" class="siderail__item" data-section="s232"><span class="siderail__num">2.3.2</span><span class="siderail__label">Representing Sets</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero ch02-hero ch02-hero--long" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 02</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Programming Techniques</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Programming Techniques</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">C++ language features, recursive algorithms, and bit manipulation — the toolkit the rest of the book builds on.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>17 pages</span><span>≈ 45 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch02-hero-map" data-reveal style="--d:.2s" aria-label="A recursion tree for the subsets of one, two and three; the highlighted path spells the subset one and three">
+      <svg class="ch02-hero-svg" viewBox="0 0 1200 390" role="img" aria-label="A binary recursion tree. Each level decides whether to include one more element. The highlighted path include one, skip two, include three ends at the subset one and three, binary 101.">
+        <text class="ch02-hero-col" x="70" y="18" text-anchor="middle">start</text>
+        <text class="ch02-hero-col" x="300" y="18" text-anchor="middle">element 1</text>
+        <text class="ch02-hero-col" x="540" y="18" text-anchor="middle">element 2</text>
+        <text class="ch02-hero-col" x="790" y="18" text-anchor="middle">element 3 · subset</text>
+
+        <g class="ch02-hero-edges">
+          <path class="ch02-hero-edge" d="M70 200 C 170 200 200 110 300 110"/>
+          <path class="ch02-hero-edge" d="M70 200 C 170 200 200 290 300 290"/>
+          <path class="ch02-hero-edge" d="M300 110 C 400 110 440 65 540 65"/>
+          <path class="ch02-hero-edge" d="M300 110 C 400 110 440 155 540 155"/>
+          <path class="ch02-hero-edge" d="M300 290 C 400 290 440 245 540 245"/>
+          <path class="ch02-hero-edge" d="M300 290 C 400 290 440 335 540 335"/>
+          <path class="ch02-hero-edge" d="M540 65 C 640 65 690 45 790 45"/>
+          <path class="ch02-hero-edge" d="M540 65 C 640 65 690 85 790 85"/>
+          <path class="ch02-hero-edge" d="M540 155 C 640 155 690 125 790 125"/>
+          <path class="ch02-hero-edge" d="M540 155 C 640 155 690 165 790 165"/>
+          <path class="ch02-hero-edge" d="M540 245 C 640 245 690 205 790 205"/>
+          <path class="ch02-hero-edge" d="M540 245 C 640 245 690 245 790 245"/>
+          <path class="ch02-hero-edge" d="M540 335 C 640 335 690 285 790 285"/>
+          <path class="ch02-hero-edge" d="M540 335 C 640 335 690 325 790 325"/>
+        </g>
+
+        <g class="ch02-hero-live">
+          <path id="ch02HeroLive" class="ch02-hero-edge ch02-hero-edge--live" d="M70 200 C 170 200 200 110 300 110 C 400 110 440 155 540 155 C 640 155 690 125 790 125"/>
+          <text class="ch02-hero-decision" x="158" y="166">include 1</text>
+          <text class="ch02-hero-decision" x="388" y="142">skip 2</text>
+          <text class="ch02-hero-decision" x="648" y="152">include 3</text>
+        </g>
+
+        <g class="ch02-hero-nodes">
+          <g transform="translate(70 200)"><circle r="5"/></g>
+          <g transform="translate(300 110)"><circle r="4"/></g>
+          <g transform="translate(300 290)"><circle r="4"/></g>
+          <g transform="translate(540 65)"><circle r="3.5"/></g>
+          <g transform="translate(540 155)"><circle r="3.5"/></g>
+          <g transform="translate(540 245)"><circle r="3.5"/></g>
+          <g transform="translate(540 335)"><circle r="3.5"/></g>
+        </g>
+
+        <g class="ch02-hero-leaves">
+          <g transform="translate(790 45)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">111</text><text class="ch02-hero-leaf-set" x="90" y="4">{1, 2, 3}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">7</text></g>
+          <g transform="translate(790 85)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">110</text><text class="ch02-hero-leaf-set" x="90" y="4">{1, 2}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">6</text></g>
+          <g class="ch02-hero-leaf--live" transform="translate(790 125)"><rect class="ch02-hero-leaf-bg" x="14" y="-14" width="352" height="26" rx="3"/><circle r="3.8"/><text class="ch02-hero-leaf-bits" x="22" y="4">101</text><text class="ch02-hero-leaf-set" x="90" y="4">{1, 3}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">5</text></g>
+          <g transform="translate(790 165)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">100</text><text class="ch02-hero-leaf-set" x="90" y="4">{1}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">4</text></g>
+          <g transform="translate(790 205)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">011</text><text class="ch02-hero-leaf-set" x="90" y="4">{2, 3}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">3</text></g>
+          <g transform="translate(790 245)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">010</text><text class="ch02-hero-leaf-set" x="90" y="4">{2}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">2</text></g>
+          <g transform="translate(790 285)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">001</text><text class="ch02-hero-leaf-set" x="90" y="4">{3}</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">1</text></g>
+          <g transform="translate(790 325)"><circle r="3.2"/><text class="ch02-hero-leaf-bits" x="22" y="4">000</text><text class="ch02-hero-leaf-set" x="90" y="4">{ }</text><text class="ch02-hero-leaf-dec" x="362" y="4" text-anchor="end">0</text></g>
+        </g>
+
+        <circle class="ch02-hero-traveller" r="2.8" cx="70" cy="200"/>
+      </svg>
+      <figcaption><span class="hero-map__hint">The recursion tree and the bitmask are the same object: every path of include/skip decisions spells a binary number.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index ch02-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s21">
+          <span class="idx__num">2.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Language Features</span>
+            <span class="idx__desc">The contest template, fast input, number ranges, and shorter code.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s22">
+          <span class="idx__num">2.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Recursive Algorithms</span>
+            <span class="idx__desc">Subsets, permutations, and the pruning that makes search practical.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s23">
+          <span class="idx__num">2.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Bit Manipulation</span>
+            <span class="idx__desc">Binary words, bit operations, and sets that fit in an integer.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.1 ============ -->
+<section class="section" id="s21" aria-labelledby="h21">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">2.1</span>
+      <div class="section-head__body">
+        <h2 id="h21">Language Features</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A contest program is short. The language is therefore squeezed for speed: one include, one namespace, and a template you can type from memory.</p>
+
+    <div class="split2 ch02-io-split">
+      <div>
+        <p class="lead" data-reveal>The usual C++ starting point includes the entire standard library and puts its names in scope. A single compile command turns it into a binary, with warnings and optimisation enabled.</p>
+        <ul class="chips" data-reveal aria-label="Compile flags">
+          <li class="chip chip--static">-std=c++11</li>
+          <li class="chip chip--static">-O2</li>
+          <li class="chip chip--static">-Wall</li>
+        </ul>
+        <div class="ch02-compile" data-reveal>
+          <span class="kicker">Compile</span>
+          <code>g++ -std=c++11 -O2 -Wall test.cpp -o test</code>
+        </div>
+      </div>
+      <div class="ch02-io-note" data-reveal style="--d:.08s">
+        <span class="kicker">Three lines, three jobs</span>
+        <div class="ch02-io-note__row"><code>#include &lt;bits/stdc++.h&gt;</code><span>the whole standard library</span></div>
+        <div class="ch02-io-note__row"><code>using namespace std;</code><span>write <b>cout</b>, not <code>std::cout</code></span></div>
+        <div class="ch02-io-note__row"><code>int main() { … }</code><span>where the solution lives</span></div>
+        <p>The include is a g++ feature, not a portable C++ guarantee. In a contest it is available, and it saves a row of includes.</p>
+      </div>
+    </div>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.1.1 ============ -->
+<section class="section section--sub" id="s211" aria-labelledby="h211">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h211">Input and Output</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch02-io">
+      <div>
+        <p data-reveal>Most contests use the standard streams. In C++, <code>cin</code> reads and <code>cout</code> writes. Input is a sequence of numbers and strings separated by spaces or newlines; the stream does not care which.</p>
+
+        <div class="ch02-token-demo" data-reveal aria-label="Three input tokens read into two integers and a string">
+          <div class="ch02-token-demo__input">
+            <span>123</span><span>456</span><span>monkey</span>
+          </div>
+          <div class="ch02-token-demo__arrows" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="ch02-token-demo__out">
+            <span><i>int</i> a</span><span><i>int</i> b</span><span><i>string</i> x</span>
+          </div>
+          <p class="ch02-token-demo__note"><code>cin &gt;&gt; a &gt;&gt; b &gt;&gt; x;</code> works for both <span class="ch02-mono">123 456 monkey</span> and the same three tokens on three lines.</p>
+        </div>
+
+        <p data-reveal>Output uses the same insertion style: <code>cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; "\n";</code>. Prefer <code>"\n"</code> to <code>endl</code>: <code>endl</code> always flushes the stream, which can be slow when the output is large.</p>
+
+        <details class="note" data-reveal>
+          <summary><span class="note__label">When cin is too slow</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>At the start of <code>main</code>, these two lines detach the C and C++ streams and stop <code>cin</code> from flushing <code>cout</code> before every read:</p>
+            <p><code>ios::sync_with_stdio(0);</code><br><code>cin.tie(0);</code></p>
+            <p>After that, <code>cin</code> and <code>cout</code> should not be mixed with <code>scanf</code> and <code>printf</code>. The C functions are still an alternative and are usually slightly faster, but they are more difficult to use.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ch02-io-side" data-reveal style="--d:.08s">
+        <div class="ch02-io-card">
+          <span class="kicker">Read a whole line</span>
+          <pre><code>string s;
+getline(cin, s);</code></pre>
+          <p>Useful when the line itself matters, spaces included. The newline is consumed by <code>getline</code>, not left for the next read.</p>
+        </div>
+        <div class="ch02-io-card">
+          <span class="kicker">Read until the input ends</span>
+          <pre><code>while (cin &gt;&gt; x) {
+    // process x
+}</code></pre>
+          <p>The stream converts to false when no more data is available.</p>
+        </div>
+        <div class="ch02-io-card">
+          <span class="kicker">Files instead of streams</span>
+          <pre><code>freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);</code></pre>
+          <p>Some contest systems expect file names. This redirects the standard streams without changing the rest of the code.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.1.2 ============ -->
+<section class="section section--sub" id="s212" aria-labelledby="h212">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h212">Working with Numbers</h2>
+      </div>
+    </div>
+
+    <p class="statement ch02-statement-sm" data-reveal>Choosing the type is part of the algorithm. A result that fits in 64 bits can still be computed in 32.</p>
+
+    <figure class="figure ch02-ruler-figure" data-reveal>
+      <div class="figure__frame ch02-ruler">
+        <div class="ch02-ruler__head">
+          <span class="kicker">Integer widths on a logarithmic magnitude scale</span>
+          <span class="ch02-ruler__hint">hover a row for the exact range</span>
+        </div>
+        <div class="ch02-ruler__scroll">
+        <svg class="ch02-ruler__svg" viewBox="0 0 900 330" role="img" aria-label="Three integer types compared on a logarithmic scale. int reaches about 2.1 times 10 to the 9, long long about 9.2 times 10 to the 18, and int128 about 1.7 times 10 to the 38. The product of two large ints lands beyond the int range.">
+          <g class="ch02-ruler__grid">
+            <line x1="180" x2="180" y1="48" y2="268"/>
+            <line x1="341" x2="341" y1="48" y2="268"/>
+            <line x1="502" x2="502" y1="48" y2="268"/>
+            <line x1="663" x2="663" y1="48" y2="268"/>
+            <line x1="824" x2="824" y1="48" y2="268"/>
+          </g>
+
+          <g class="ch02-ruler__row" tabindex="0" data-tip="int: −2,147,483,648 … 2,147,483,647">
+            <text class="ch02-ruler__name" x="8" y="92">int</text>
+            <text class="ch02-ruler__meta" x="8" y="108">32-bit</text>
+            <rect class="ch02-ruler__track" x="180" y="81" width="680" height="10"/>
+            <rect class="ch02-ruler__bar ch02-ruler__bar--int" x="180" y="81" width="167" height="10"/>
+            <text class="ch02-ruler__value" x="860" y="72" text-anchor="end">± 2.1 × 10<tspan baseline-shift="super" font-size="7">9</tspan></text>
+            <circle class="ch02-ruler__end" cx="347" cy="86" r="3"/>
+            <text class="ch02-ruler__end-label" x="355" y="104">wraps here</text>
+          </g>
+
+          <g class="ch02-ruler__row" tabindex="0" data-tip="long long: −9,223,372,036,854,775,808 … 9,223,372,036,854,775,807">
+            <text class="ch02-ruler__name" x="8" y="162">long long</text>
+            <text class="ch02-ruler__meta" x="8" y="178">64-bit</text>
+            <rect class="ch02-ruler__track" x="180" y="151" width="680" height="10"/>
+            <rect class="ch02-ruler__bar ch02-ruler__bar--long" x="180" y="151" width="339" height="10"/>
+            <text class="ch02-ruler__value" x="860" y="142" text-anchor="end">± 9.2 × 10<tspan baseline-shift="super" font-size="7">18</tspan></text>
+          </g>
+
+          <g class="ch02-ruler__row" tabindex="0" data-tip="__int128: about −1.7 × 10^38 … 1.7 × 10^38. Available in g++, not in every contest system.">
+            <text class="ch02-ruler__name" x="8" y="232">__int128</text>
+            <text class="ch02-ruler__meta" x="8" y="248">128-bit · g++</text>
+            <rect class="ch02-ruler__track" x="180" y="221" width="680" height="10"/>
+            <rect class="ch02-ruler__bar ch02-ruler__bar--wide" x="180" y="221" width="680" height="10"/>
+            <text class="ch02-ruler__value" x="860" y="212" text-anchor="end">± 1.7 × 10<tspan baseline-shift="super" font-size="7">38</tspan></text>
+          </g>
+
+          <line class="ch02-ruler__marker" x1="470" x2="470" y1="42" y2="270"/>
+          <text class="ch02-ruler__marker-label" x="470" y="34" text-anchor="middle">a · a = 1.52 × 10<tspan baseline-shift="super" font-size="7">16</tspan></text>
+          <line class="ch02-ruler__ghost" x1="347" x2="470" y1="86" y2="86"/>
+          <circle class="ch02-ruler__ghost-end" cx="470" cy="86" r="3.5"/>
+
+          <g class="ch02-ruler__axis">
+            <line x1="180" x2="860" y1="268" y2="268"/>
+            <text x="180" y="288" text-anchor="middle">1</text>
+            <text x="341" y="288" text-anchor="middle">10⁹</text>
+            <text x="502" y="288" text-anchor="middle">10¹⁸</text>
+            <text x="663" y="288" text-anchor="middle">10²⁷</text>
+            <text x="824" y="288" text-anchor="middle">10³⁶</text>
+            <text x="860" y="308" text-anchor="end">magnitude</text>
+          </g>
+        </svg>
+        </div>
+
+        <div class="ch02-ruler__example">
+          <code>int a = 123456789;</code>
+          <code>long long b = a * a;</code>
+          <span class="ch02-ruler__wrong">b = −1,757,895,751</span>
+          <span class="ch02-ruler__right">(long long)a * a</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The product needs about 54 bits. <code>long long</code> can hold it, but <code>a * a</code> is evaluated as <code>int</code> before the assignment, so it has already wrapped.</figcaption>
+    </figure>
+
+    <div class="split2 ch02-numbers">
+      <div>
+        <h3 data-reveal>Integers and modular arithmetic</h3>
+        <p data-reveal>The most used type is <code>int</code>, a signed 32-bit integer from −2<sup>31</sup> to 2<sup>31</sup> − 1. When that is not enough, <code>long long</code> is signed 64-bit, from −2<sup>63</sup> to 2<sup>63</sup> − 1. The suffix <code>LL</code> marks a literal as <code>long long</code>.</p>
+        <div class="ch02-snippet" data-reveal><code>long long x = 123456789123456789LL;</code></div>
+        <p data-reveal>If even 64 bits are insufficient, g++ provides <code>__int128_t</code>, but it is not available in every contest system. Usually problems are set so that <code>long long</code> is enough.</p>
+        <p data-reveal>A large answer is often requested modulo <i>m</i>. Remainders can be taken after every operation, so the intermediate values never grow:</p>
+        <div class="ch02-formulas" data-reveal>
+          <div><span>(a + b) mod m</span><span>=</span><span>((a mod m) + (b mod m)) mod m</span></div>
+          <div><span>(a − b) mod m</span><span>=</span><span>((a mod m) − (b mod m)) mod m</span></div>
+          <div><span>(a · b) mod m</span><span>=</span><span>((a mod m) · (b mod m)) mod m</span></div>
+        </div>
+        <p data-reveal>For example, <code>x = (x * i) % m;</code> computes <i>n</i>! modulo <i>m</i> in one loop. In C++ the remainder of a negative number is zero or negative, so after a subtraction add <i>m</i> if the result is below zero.</p>
+      </div>
+
+      <div class="ch02-numbers-side">
+        <div class="ch02-float" data-reveal>
+          <span class="kicker">Floating point is not exact</span>
+          <pre><code>double x = 0.3 * 3 + 0.1;
+printf("%.20f\n", x);
+// 0.99999999999999988898</code></pre>
+          <p>The correct value is 1. Compare with a tolerance instead of <code>==</code>:</p>
+          <pre><code>if (abs(a - b) &lt; 1e-9) {
+    // a and b are equal
+}</code></pre>
+          <p><code>double</code> is 64-bit; <code>long double</code> is an 80-bit g++ extension and is more accurate. Integers up to 2<sup>53</sup> are represented exactly by <code>double</code>.</p>
+        </div>
+        <div class="ch02-formula-note" data-reveal>
+          <span class="kicker">Print with precision</span>
+          <code>printf("%.9f\n", x);</code>
+          <p>The number of decimals belongs in the formatting string, not in the value.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.1.3 ============ -->
+<section class="section section--sub" id="s213" aria-labelledby="h213">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.1.3</span>
+      <div class="section-head__body">
+        <h2 id="h213">Shortening Code</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch02-shorten">
+      <div>
+        <p class="lead" data-reveal>Short names save typing, and in a contest typing is time. <code>typedef</code> gives a type a shorter name; a macro rewrites text before compilation.</p>
+        <div class="ch02-snippet" data-reveal><code>typedef long long ll;<br>typedef vector&lt;int&gt; vi;<br>typedef pair&lt;int,int&gt; pi;</code></div>
+        <p data-reveal>After the first line, <code>ll a = 123456789;</code> means the same as <code>long long a = 123456789;</code>. The other two name a vector of integers and a pair of integers.</p>
+        <details class="note" data-reveal>
+          <summary><span class="note__label">What a macro really does</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p><code>#define</code> performs textual substitution before the compiler sees the code. It is fast and blunt: there is no type checking, and a badly parenthesised macro can surprise you.</p>
+            <p>The book’s loop macro is <code>#define REP(i,a,b) for (int i = a; i &lt;= b; i++)</code>, so <code>REP(i,1,n)</code> expands to a normal counting loop.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ch02-macro" data-reveal style="--d:.08s">
+        <div class="ch02-macro__head"><span class="kicker">Before / after the preprocessor</span><span class="ch02-macro__hint">hover a macro</span></div>
+        <div class="ch02-macro__row">
+          <code class="ch02-macro__from">v.<span class="ch02-macro__tok" tabindex="0" data-tip="PB = push_back">PB</span>(<span class="ch02-macro__tok" tabindex="0" data-tip="MP = make_pair">MP</span>(y1,x1));</code>
+          <span class="ch02-macro__arrow" aria-hidden="true">→</span>
+          <code class="ch02-macro__to">v.push_back(make_pair(y1,x1));</code>
+        </div>
+        <div class="ch02-macro__row">
+          <code class="ch02-macro__from">int d = v[i].<span class="ch02-macro__tok" tabindex="0" data-tip="F = first">F</span> + v[i].<span class="ch02-macro__tok" tabindex="0" data-tip="S = second">S</span>;</code>
+          <span class="ch02-macro__arrow" aria-hidden="true">→</span>
+          <code class="ch02-macro__to">int d = v[i].first + v[i].second;</code>
+        </div>
+        <div class="ch02-macro__row">
+          <code class="ch02-macro__from"><span class="ch02-macro__tok" tabindex="0" data-tip="REP(i,a,b) = for (int i = a; i <= b; i++)">REP</span>(i,1,n) { search(i); }</code>
+          <span class="ch02-macro__arrow" aria-hidden="true">→</span>
+          <code class="ch02-macro__to">for (int i = 1; i &lt;= n; i++) { search(i); }</code>
+        </div>
+        <div class="ch02-macro__defs">
+          <code>#define F first</code><code>#define S second</code><code>#define PB push_back</code><code>#define MP make_pair</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.2 ============ -->
+<section class="section" id="s22" aria-labelledby="h22">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">2.2</span>
+      <div class="section-head__body">
+        <h2 id="h22">Recursive Algorithms</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Recursion describes a solution in terms of a smaller version of itself. In search, the recursion tree is the set of all candidate solutions.</p>
+
+    <div class="ch02-recursion">
+      <div class="ch02-recursion__copy">
+        <p class="lead" data-reveal>A recursive function has a base case and a step that calls itself on a smaller input. The call stack holds one frame per active call: the arguments, the local variables, and the place to return to.</p>
+        <p data-reveal>Factorial is the smallest example. <code>fact(n) = n * fact(n - 1)</code>, with <code>fact(0) = 1</code> as the base case. The multiplication waits on the stack until the base case returns.</p>
+        <p data-reveal>Plain recursion can repeat work. Fibonacci is the classic warning: <code>fib(n) = fib(n - 1) + fib(n - 2)</code> solves the same subproblem again and again. Store each answer in an array after computing it, and the repeated branches disappear. That technique is <em>memoisation</em>; it returns in Chapter 6 as dynamic programming.</p>
+        <p data-reveal>This chapter uses recursion for a different job: not to compute one number, but to enumerate every candidate solution. The same call stack becomes a search tree.</p>
+      </div>
+
+      <div class="ch02-fib" data-reveal style="--d:.08s">
+        <div class="ch02-fib__head">
+          <div>
+            <span class="kicker">The same call, twice</span>
+            <h3>Naive versus memoised</h3>
+          </div>
+          <div class="seg" role="group" aria-label="Fibonacci strategy">
+            <button class="seg__btn is-active" type="button" data-fib-mode="naive" aria-pressed="true">Naive</button>
+            <button class="seg__btn" type="button" data-fib-mode="memo" aria-pressed="false">Memoised</button>
+          </div>
+        </div>
+        <div class="ch02-fib__body">
+          <svg class="ch02-fib__tree" id="ch02FibTree" viewBox="0 0 430 250" role="img" aria-label="A call tree for fib of five. Several fib of two and fib of three calls are repeated.">
+            <g class="ch02-fib__edges">
+              <path d="M215 36 C 215 55 185 55 165 72"/>
+              <path d="M215 36 C 215 55 275 55 325 72"/>
+              <path d="M165 94 C 165 113 120 113 95 130"/>
+              <path d="M165 94 C 165 113 205 113 210 130"/>
+              <path d="M325 94 C 325 113 295 113 285 130"/>
+              <path d="M325 94 C 325 113 355 113 370 130"/>
+              <path d="M95 152 C 95 171 70 171 62 188"/>
+              <path d="M95 152 C 95 171 125 171 130 188"/>
+            </g>
+            <g class="ch02-fib__nodes">
+              <g transform="translate(215 24)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(5)</text></g>
+              <g transform="translate(165 83)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(4)</text></g>
+              <g class="is-dup" transform="translate(325 83)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(3)</text></g>
+              <g transform="translate(95 141)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(3)</text></g>
+              <g class="is-dup" transform="translate(210 141)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(2)</text></g>
+              <g class="is-dup" transform="translate(285 141)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(2)</text></g>
+              <g transform="translate(370 141)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(1)</text></g>
+              <g class="is-dup" transform="translate(62 199)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(2)</text></g>
+              <g transform="translate(130 199)"><rect x="-27" y="-11" width="54" height="22" rx="3"/><text y="3.5">fib(1)</text></g>
+            </g>
+            <text class="ch02-fib__annotation" x="215" y="238" text-anchor="middle">fib(2) is solved three times in this small tree</text>
+          </svg>
+
+          <div class="ch02-fib__side">
+            <div class="ch02-fib__count"><strong id="ch02FibCount">15</strong><span id="ch02FibCountLabel">calls for fib(5)</span></div>
+            <div class="ch02-fib__memo" id="ch02FibMemo" aria-live="polite">
+              <div><span>f(0)</span><b>?</b></div>
+              <div><span>f(1)</span><b>?</b></div>
+              <div><span>f(2)</span><b>?</b></div>
+              <div><span>f(3)</span><b>?</b></div>
+              <div><span>f(4)</span><b>?</b></div>
+              <div><span>f(5)</span><b>?</b></div>
+            </div>
+            <p class="ch02-fib__note" id="ch02FibNote">The same states are recomputed from scratch. Only the base cases stop a branch.</p>
+            <span class="tag tag--mono">bridge to dynamic programming</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.2.1 ============ -->
+<section class="section section--sub" id="s221" aria-labelledby="h221">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h221">Generating Subsets</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch02-subset-intro">
+      <div>
+        <p data-reveal>The subsets of <span class="ch02-mono">{1, 2, 3}</span> are <span class="ch02-mono">∅, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}</span>. A recursive function can generate them by deciding, for each element, whether to include it.</p>
+        <p data-reveal>The function keeps a vector <code>subset</code>. At level <i>k</i> it pushes <i>k</i>, recurses, pops, then recurses again without <i>k</i>. When <i>k</i> = <i>n</i> + 1, all elements have been decided and the vector is one subset.</p>
+        <ul class="chips" data-reveal>
+          <li class="chip chip--static">2<sup>n</sup> leaves</li>
+          <li class="chip chip--static">include / exclude</li>
+          <li class="chip chip--static">depth n</li>
+        </ul>
+      </div>
+      <div class="ch02-callstack" data-reveal style="--d:.08s">
+        <span class="kicker">One path through the tree</span>
+        <div class="ch02-callstack__frames">
+          <div><span>search(1)</span><b>include 1</b></div>
+          <div><span>search(2)</span><b>skip 2</b></div>
+          <div><span>search(3)</span><b>include 3</b></div>
+          <div class="is-base"><span>search(4)</span><b>process {1, 3}</b></div>
+        </div>
+        <p>The vector is the stack: push on the way down, pop on the way back up.</p>
+      </div>
+    </div>
+
+    <figure class="figure ch02-subset-figure" data-reveal>
+      <div class="figure__frame ch02-subset">
+        <div class="ch02-subset__head">
+          <div>
+            <span class="kicker">The recursion tree for n = 3</span>
+            <h3>Hover or focus a leaf</h3>
+          </div>
+          <span class="ch02-subset__hint">click to keep a path</span>
+        </div>
+        <div class="ch02-subset__scroll">
+          <svg id="ch02SubsetTree" viewBox="0 0 900 390" role="group" aria-label="Subset recursion tree. Choose a leaf to highlight the include and skip decisions that produce it."></svg>
+        </div>
+        <div class="ch02-subset__readout" aria-live="polite">
+          <div class="ch02-subset__set" id="ch02SubsetSet">{1, 3}</div>
+          <div class="ch02-subset__meta"><span id="ch02SubsetBits">binary 101</span><span id="ch02SubsetDec">decimal 5</span></div>
+          <div class="ch02-subset__path" id="ch02SubsetPath"></div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Every root-to-leaf path is one sequence of decisions. The upper branch includes the element; the lower branch skips it.</figcaption>
+    </figure>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.2.2 ============ -->
+<section class="section section--sub" id="s222" aria-labelledby="h222">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h222">Generating Permutations</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch02-perm-split">
+      <div>
+        <p class="lead" data-reveal>A permutation is an ordering. For <span class="ch02-mono">{1, 2, 3}</span> there are six: <span class="ch02-mono">(1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), (3,2,1)</span>.</p>
+        <p data-reveal>The recursive search keeps a vector <code>permutation</code> and a boolean array <code>chosen</code>. At each call it appends every element that is not yet chosen, marks it, recurses, then unmarks it. When the vector length reaches <i>n</i>, a complete permutation has been found.</p>
+        <p data-reveal>The standard library can also do the work: <code>next_permutation</code> produces the next ordering in lexicographic order. Start from the sorted sequence and loop with <code>do … while</code>.</p>
+        <div class="ch02-inline-code" data-reveal>
+          <code>do { <i>// process permutation</i> }</code>
+          <code>while (next_permutation(p.begin(), p.end()));</code>
+        </div>
+      </div>
+
+      <div class="ch02-perms" data-reveal style="--d:.08s">
+        <div class="ch02-perms__head">
+          <span class="kicker">Lexicographic order · n = 3</span>
+          <span class="ch02-perms__hint">six permutations</span>
+        </div>
+        <div class="ch02-perms__grid">
+          <span class="ch02-perm is-active" tabindex="0" data-tip="The first permutation: 123">123</span>
+          <span class="ch02-perm" tabindex="0" data-tip="next_permutation(123) = 132">132</span>
+          <span class="ch02-perm" tabindex="0" data-tip="next_permutation(132) = 213">213</span>
+          <span class="ch02-perm" tabindex="0" data-tip="next_permutation(213) = 231">231</span>
+          <span class="ch02-perm" tabindex="0" data-tip="next_permutation(231) = 312">312</span>
+          <span class="ch02-perm" tabindex="0" data-tip="next_permutation(312) = 321">321</span>
+        </div>
+        <div class="ch02-perms__foot">
+          <span class="ch02-perms__arrow" aria-hidden="true">→</span>
+          <p>Each step is the next arrangement in dictionary order. A recursive search visits the same six leaves in its own order.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.2.3 ============ -->
+<section class="section section--sub" id="s223" aria-labelledby="h223">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h223">Backtracking</h2>
+      </div>
+    </div>
+
+    <p class="statement ch02-statement-sm" data-reveal>Backtracking builds a solution one step at a time and abandons a branch as soon as it cannot lead anywhere.</p>
+
+    <p class="lead" data-reveal>The <i>n</i>-queens problem asks how many ways <i>n</i> queens can be placed on an <i>n</i> × <i>n</i> board so that no two attack each other. Place exactly one queen per row; when a row has no safe column, return and try the next column above.</p>
+
+    <div class="ch02-queens" data-reveal>
+      <div class="ch02-queens__boards" id="ch02Queens"></div>
+      <div class="ch02-queens__side">
+        <div class="ch02-queens__head">
+          <span class="kicker">The two solutions for n = 4</span>
+          <h3>Select a board, then show what it attacks.</h3>
+        </div>
+        <div class="ch02-queens__actions">
+          <button class="btn" id="ch02Attacks" type="button" aria-pressed="false">Show the last queen’s lines</button>
+        </div>
+        <p class="ch02-queens__note" id="ch02QueenNote">Solution 1 places queens at (0,1), (1,3), (2,0), (3,2).</p>
+        <div class="ch02-queens__stats">
+          <div><strong data-countup="92">0</strong><span>ways for n = 8</span></div>
+          <div><strong data-countup="14772512">0</strong><span>ways for n = 16 · about a minute</span></div>
+          <div><strong>234,907,967,154,122,528</strong><span>ways for n = 27 · found in 2016</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="split2 ch02-prune">
+      <div>
+        <p data-reveal>The arrays <code>col</code>, <code>diag1</code>, and <code>diag2</code> remember the columns and diagonals that already contain a queen. A candidate square is rejected in constant time, before the recursion goes any deeper. This is <em>pruning</em>: the search never builds a partial board that is already illegal.</p>
+        <p data-reveal>On the 8 × 8 board the search finds 92 solutions. Its running time still grows exponentially; for 16 queens the count is 14,772,512, and the largest value known is for 27 queens. The 2016 computation used a cluster of computers.</p>
+      </div>
+      <div class="ch02-prune__viz" data-reveal style="--d:.08s">
+        <span class="kicker">Why pruning matters</span>
+        <div class="ch02-prune__row"><span>without pruning</span><span class="ch02-bar"><i style="--w:96%"></i></span><b>try every square</b></div>
+        <div class="ch02-prune__row"><span>with pruning</span><span class="ch02-bar"><i style="--w:31%"></i></span><b>only safe squares</b></div>
+        <p>The bar is a sketch of the search space, not a measured timing. The point is the shape: pruning removes whole subtrees.</p>
+      </div>
+    </div>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.3 ============ -->
+<section class="section" id="s23" aria-labelledby="h23">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">2.3</span>
+      <div class="section-head__body">
+        <h2 id="h23">Bit Manipulation</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>An <i>n</i>-bit integer is a binary number. A signed <i>n</i>-bit integer is a window of 2<sup>n</sup> values that wraps at both ends.</p>
+
+    <div class="split2 ch02-binary">
+      <div>
+        <p class="lead" data-reveal>In C++ an <code>int</code> is 32 bits. The bits are indexed from right to left, and the value is <i>b<sub>k</sub></i>2<sup><i>k</i></sup> + … + <i>b</i><sub>2</sub>2<sup>2</sup> + <i>b</i><sub>1</sub>2<sup>1</sup> + <i>b</i><sub>0</sub>2<sup>0</sup>. For example, 43 is <span class="ch02-mono">00101011</span> in 8 bits.</p>
+        <p data-reveal>A signed <i>n</i>-bit value runs from −2<sup><i>n</i>−1</sup> to 2<sup><i>n</i>−1</sup> − 1; an unsigned one runs from 0 to 2<sup><i>n</i></sup> − 1. The first bit of a signed value is the sign. Negative numbers use two’s complement: invert every bit, then add one.</p>
+        <p data-reveal>Adding one past the largest signed value wraps to the smallest. In 32 bits, <code>2147483647 + 1</code> becomes <code>-2147483648</code>. The same bit pattern read as unsigned is a different number: signed −43 equals unsigned 2<sup>32</sup> − 43.</p>
+      </div>
+
+      <div class="ch02-twos" data-reveal style="--d:.08s">
+        <div class="ch02-twos__head"><span class="kicker">Two’s complement in 8 bits</span><span class="ch02-twos__hint">leftmost bit is the sign</span></div>
+        <div class="ch02-twos__row">
+          <span class="ch02-twos__label">43</span>
+          <div class="ch02-twos__bits" aria-label="43 in binary"><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span></div>
+        </div>
+        <div class="ch02-twos__step"><span>invert every bit</span><span class="ch02-twos__arrow" aria-hidden="true">↓</span></div>
+        <div class="ch02-twos__row">
+          <span class="ch02-twos__label">~43</span>
+          <div class="ch02-twos__bits" aria-label="the bitwise not of 43"><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span></div>
+        </div>
+        <div class="ch02-twos__step"><span>add one</span><span class="ch02-twos__plus">+1</span></div>
+        <div class="ch02-twos__row ch02-twos__row--final">
+          <span class="ch02-twos__label">−43</span>
+          <div class="ch02-twos__bits" aria-label="minus 43 in two's complement"><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span></div>
+        </div>
+        <p class="ch02-twos__note">The leftmost bit is the sign: 1 means negative. <span class="ch02-mono">int x = -43;</span> printed as unsigned is 4,294,967,253.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.3.1 ============ -->
+<section class="section section--sub" id="s231" aria-labelledby="h231">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.3.1</span>
+      <div class="section-head__body">
+        <h2 id="h231">Bit Operations</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Four operators work column by column, exactly like the arithmetic you did in binary at school.</p>
+
+    <div class="split2 ch02-ops">
+      <div class="ch02-oplab" data-reveal>
+        <div class="ch02-oplab__head">
+          <span class="kicker">One column at a time</span>
+          <div class="seg" role="group" aria-label="Bit operation">
+            <button class="seg__btn is-active" type="button" data-op="and" aria-pressed="true">AND</button>
+            <button class="seg__btn" type="button" data-op="or" aria-pressed="false">OR</button>
+            <button class="seg__btn" type="button" data-op="xor" aria-pressed="false">XOR</button>
+          </div>
+        </div>
+        <div class="ch02-oplab__rows" id="ch02OpRows" aria-live="polite"></div>
+        <div class="ch02-oplab__eq" id="ch02OpEq">22 &amp; 26 = 18</div>
+        <p class="ch02-oplab__note" id="ch02OpNote">AND keeps a one only where both rows have a one.</p>
+      </div>
+
+      <div class="ch02-op-copy">
+        <p data-reveal><b>And</b> <code>x &amp; y</code> has a one where both inputs have a one. <b>Or</b> <code>x | y</code> has a one where at least one input does. <b>Xor</b> <code>x ^ y</code> has a one where exactly one input does.</p>
+        <p data-reveal><b>Not</b> <code>~x</code> inverts every bit. The identity <code>~x = −x − 1</code> holds, so <code>~29 = −30</code>; the printed result depends on the width of the type.</p>
+        <p data-reveal>A <b>left shift</b> <code>x &lt;&lt; k</code> appends <i>k</i> zero bits, multiplying by 2<sup><i>k</i></sup>. A <b>right shift</b> <code>x &gt;&gt; k</code> removes the last <i>k</i> bits, dividing by 2<sup><i>k</i></sup> and rounding down. Thus <code>14 &lt;&lt; 2 = 56</code>, and <code>49 &gt;&gt; 3 = 6</code>.</p>
+        <div class="ch02-shifts" data-reveal>
+          <span><code>14 &lt;&lt; 2</code><b>1110 → 111000</b></span>
+          <span><code>49 &gt;&gt; 3</code><b>110001 → 110</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch02-masklab" data-reveal>
+      <div class="ch02-masklab__head">
+        <span class="kicker">Bit masks · the working set</span>
+        <span class="ch02-masklab__hint">1 &lt;&lt; k has one bit at position k</span>
+      </div>
+      <div class="ch02-masks">
+        <div class="ch02-mask"><code>x | (1 &lt;&lt; k)</code><span>set bit k to one</span></div>
+        <div class="ch02-mask"><code>x &amp; ~(1 &lt;&lt; k)</code><span>set bit k to zero</span></div>
+        <div class="ch02-mask"><code>x ^ (1 &lt;&lt; k)</code><span>invert bit k</span></div>
+        <div class="ch02-mask"><code>x &amp; (x − 1)</code><span>clear the last one bit</span></div>
+        <div class="ch02-mask"><code>x &amp; −x</code><span>isolate the last one bit</span></div>
+        <div class="ch02-mask"><code>x | (x − 1)</code><span>invert all bits after the last one</span></div>
+        <div class="ch02-mask"><code>x &amp; (1 &lt;&lt; k)</code><span>test bit k</span></div>
+        <div class="ch02-mask"><code>(x &amp; (x − 1)) == 0</code><span>positive x is a power of two</span></div>
+      </div>
+      <div class="ch02-builtins">
+        <div class="ch02-builtins__copy">
+          <span class="kicker">Counting bits with g++</span>
+          <p><code>__builtin_clz(x)</code> counts leading zeros, <code>__builtin_ctz(x)</code> trailing zeros, <code>__builtin_popcount(x)</code> the ones, and <code>__builtin_parity(x)</code> their parity. For <code>x = 5328</code> the answers are 19, 4, 5 and 1. Add the <code>ll</code> suffix for <code>long long</code> versions.</p>
+        </div>
+        <div class="ch02-builtins__viz" aria-label="5328 in binary with five one bits">
+          <div class="ch02-builtins__bits"><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>0</span></div>
+          <span class="ch02-builtins__cap">5328 · 19 leading zeros · 5 ones · 4 trailing zeros</span>
+        </div>
+      </div>
+      <p class="ch02-masklab__pitfall" data-reveal><b>One pitfall.</b> <code>1 &lt;&lt; k</code> is always an <code>int</code> mask. For a <code>long long</code> mask, write <code>1LL &lt;&lt; k</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2.3.2 ============ -->
+<section class="section section--sub" id="s232" aria-labelledby="h232">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">2.3.2</span>
+      <div class="section-head__body">
+        <h2 id="h232">Representing Sets</h2>
+      </div>
+    </div>
+
+    <p class="statement ch02-statement-sm" data-reveal>Every subset of <span class="ch02-mono">{0, 1, …, n−1}</span> is an <i>n</i>-bit integer. One bit per element; one integer per set.</p>
+
+    <p class="lead" data-reveal>An <code>int</code> can represent any subset of <span class="ch02-mono">{0, 1, …, 31}</span>. The set <span class="ch02-mono">{1, 3, 4, 8}</span> is <span class="ch02-mono">00000000000000000000000100011010</span>, which is 2<sup>8</sup> + 2<sup>4</sup> + 2<sup>3</sup> + 2<sup>1</sup> = 282.</p>
+
+    <figure class="figure ch02-bits-figure" data-reveal>
+      <div class="figure__frame ch02-bits">
+        <div class="ch02-bits__head">
+          <div>
+            <span class="kicker">Interactive</span>
+            <h3>Toggle a bit, name the subset</h3>
+          </div>
+          <div class="ch02-bits__controls" role="group" aria-label="Bitmask actions">
+            <button class="btn" id="ch02BitsClear" type="button">Clear</button>
+            <button class="btn" id="ch02BitsAll" type="button">All</button>
+            <button class="btn btn--primary" id="ch02BitsNext" type="button">Next subset <svg class="icon"><use href="#i-arrow"/></svg></button>
+          </div>
+        </div>
+
+        <div class="ch02-bits__cells" id="ch02BitsCells" role="group" aria-label="Bits of x, from bit 7 to bit 0"></div>
+
+        <div class="ch02-bits__readout" aria-live="polite">
+          <div class="ch02-readout"><span>decimal</span><strong id="ch02BitsDec">45</strong></div>
+          <div class="ch02-readout"><span>binary</span><strong id="ch02BitsBin">0010 1101</strong></div>
+          <div class="ch02-readout ch02-readout--wide"><span>set</span><strong id="ch02BitsSet">{0, 2, 3, 5}</strong></div>
+          <div class="ch02-readout"><span>popcount</span><strong id="ch02BitsPop">4</strong></div>
+        </div>
+
+        <div class="ch02-bits__body">
+          <div class="ch02-trace">
+            <div class="ch02-trace__head"><span>i</span><span>1 &lt;&lt; i</span><span>x &amp; (1 &lt;&lt; i)</span></div>
+            <div class="ch02-trace__rows" id="ch02BitsTrace"></div>
+            <p class="ch02-trace__note">The loop tests one bit at a time. A non-zero result means the element belongs to the set.</p>
+          </div>
+          <div class="ch02-bits__code">
+            <span class="kicker">The loop that reads it</span>
+            <pre><code>for (int i = 0; i &lt; 8; i++) {
+    if (x &amp; (1 &lt;&lt; i))
+        cout &lt;&lt; i &lt;&lt; " ";
+}</code></pre>
+            <p id="ch02BitsNote">Set bits 0, 2, 3 and 5 print <b>0 2 3 5</b>.</p>
+          </div>
+        </div>
+        <div class="ch02-bits__foot">
+          <span class="ch02-bits__foot-label">Enumerate every subset</span>
+          <code>for (int b = 0; b &lt; (1 &lt;&lt; n); b++) …</code>
+          <span class="ch02-bits__foot-label">Only subsets of x</span>
+          <code>do { … } while (b = (b − x) &amp; x);</code>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Click a bit to include or exclude an element. The decimal value, the binary word, and the set stay in sync; <b>Next subset</b> walks the enumeration in order.</figcaption>
+    </figure>
+
+    <div class="split2 ch02-setops">
+      <div>
+        <h3 data-reveal>Set operations are bit operations</h3>
+        <p data-reveal>Intersection, union, complement, and difference all have a one-line bit equivalent. Every element costs one bit, and the whole set operation runs in a handful of machine instructions.</p>
+        <div class="ch02-settable" data-reveal>
+          <div class="ch02-settable__head"><span>operation</span><span>set</span><span>bits</span></div>
+          <div><span>intersection</span><span>a ∩ b</span><code>a &amp; b</code></div>
+          <div><span>union</span><span>a ∪ b</span><code>a | b</code></div>
+          <div><span>complement</span><span>ā</span><code>~a</code></div>
+          <div><span>difference</span><span>a \ b</span><code>a &amp; (~b)</code></div>
+        </div>
+      </div>
+      <div>
+        <h3 data-reveal>Walking the subsets</h3>
+        <p data-reveal>If the universe is <span class="ch02-mono">{0, …, n−1}</span>, the masks 0 through 2<sup><i>n</i></sup> − 1 visit every subset. Filter with <code>__builtin_popcount(b) == k</code> to keep only the subsets of size <i>k</i>.</p>
+        <p data-reveal>To visit only the subsets of a set <i>x</i>, the expression <code>b = (b − x) &amp; x</code> steps through them without testing unrelated masks. It is a compact trick worth memorising.</p>
+        <div class="ch02-bitset" data-reveal>
+          <span class="kicker">C++ bitset</span>
+          <p><code>bitset&lt;10&gt; s;</code> is an array of bits with <code>s[i]</code>, <code>s.count()</code>, and the same <code>&amp;</code>, <code>|</code>, <code>^</code> operators. It is another way to write the same idea when the width is fixed at compile time.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="closing" data-reveal>A recursive search and a bitmask are two descriptions of the same tree. One walks the branches; the other numbers the leaves.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 02</span>
+    <h2 id="endTitle">The toolkit.</h2>
+    <p>Language features, recursion, and bits — the three ideas the rest of the book leans on.</p>
+    <a class="end__next end__next--link" href="ch03.html">
+      <div class="end__next-copy">
+        <span class="kicker">Next · Chapter 03</span>
+        <h3>Efficiency</h3>
+        <p>How to estimate the running time of an algorithm before writing a line of code.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 02 · Programming Techniques</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 02 · Programming Techniques</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s21" data-close-drawer><span>2.1</span>Language Features</a>
+            <a href="#s211" data-close-drawer><span>2.1.1</span>Input and Output</a>
+            <a href="#s212" data-close-drawer><span>2.1.2</span>Working with Numbers</a>
+            <a href="#s213" data-close-drawer><span>2.1.3</span>Shortening Code</a>
+            <a href="#s22" data-close-drawer><span>2.2</span>Recursive Algorithms</a>
+            <a href="#s221" data-close-drawer><span>2.2.1</span>Generating Subsets</a>
+            <a href="#s222" data-close-drawer><span>2.2.2</span>Generating Permutations</a>
+            <a href="#s223" data-close-drawer><span>2.2.3</span>Backtracking</a>
+            <a href="#s23" data-close-drawer><span>2.3</span>Bit Manipulation</a>
+            <a href="#s231" data-close-drawer><span>2.3.1</span>Bit Operations</a>
+            <a href="#s232" data-close-drawer><span>2.3.2</span>Representing Sets</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch02.html" aria-current="page">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row" href="ch03.html">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row" href="ch07.html">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row" href="ch09.html">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch11.html">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch15.html">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch02.js"></script>
+</body>
+</html>

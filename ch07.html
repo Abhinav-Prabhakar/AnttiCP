@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 07 — Graph Algorithms · Guide to Competitive Programming</title>
+<meta name="description" content="Traversal, shortest paths, DAGs, successor graphs, and minimum spanning trees.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E07%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch07.css">
+</head>
+<body data-chapter="07">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 07 <span>— Graph Algorithms</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s71" class="siderail__item" data-section="s71"><span class="siderail__num">7.1</span><span class="siderail__label">Basics of Graphs</span></a>
+  <a href="#s72" class="siderail__item" data-section="s72"><span class="siderail__num">7.2</span><span class="siderail__label">Graph Traversal</span></a>
+  <a href="#s73" class="siderail__item" data-section="s73"><span class="siderail__num">7.3</span><span class="siderail__label">Shortest Paths</span></a>
+  <a href="#s74" class="siderail__item" data-section="s74"><span class="siderail__num">7.4</span><span class="siderail__label">Directed Acyclic Graphs</span></a>
+  <a href="#s75" class="siderail__item" data-section="s75"><span class="siderail__num">7.5</span><span class="siderail__label">Successor Graphs</span></a>
+  <a href="#s76" class="siderail__item" data-section="s76"><span class="siderail__num">7.6</span><span class="siderail__label">Minimum Spanning Trees</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero ch07-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 07</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Graph Algorithms</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" class="ch07-hero__title" data-reveal>Graph Algorithms</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Graphs describe what connects to what. The algorithms in this chapter ask what is reachable, what it costs, what must come first, and which edges are essential.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>6 sections</span><span>30 pages</span><span>≈ 75 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch07-hero__map" data-reveal style="--d:.2s" aria-label="A weighted graph with a shortest path highlighted from node 1 to node 8">
+      <svg viewBox="0 0 1200 300" role="img" aria-hidden="true">
+        <defs>
+          <pattern id="ch07HeroDots" width="26" height="26" patternUnits="userSpaceOnUse">
+            <circle cx="1.2" cy="1.2" r="1.1" fill="#e7e7e1"/>
+          </pattern>
+          <linearGradient id="ch07HeroFade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset=".1" stop-color="#fff" stop-opacity="0"/>
+            <stop offset=".9" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="1" stop-color="#fff"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="300" fill="url(#ch07HeroDots)"/>
+        <rect width="1200" height="300" fill="url(#ch07HeroFade)"/>
+        <g class="ch07-hero__edges">
+          <path d="M70 190 250 90M250 90 350 220M350 220 500 120M350 220 640 230M500 120 640 230M640 230 780 90M640 230 910 180M780 90 910 180M910 180 1120 120M780 90 1120 120"/>
+        </g>
+        <path class="ch07-hero__ghost" d="M70 190 250 90 500 120 910 180 1120 120"/>
+        <path class="ch07-hero__live" d="M70 190 250 90 500 120 910 180 1120 120"/>
+        <g class="hero-nodes">
+          <g class="hero-node ch07-hero__node ch07-hero__node--source" transform="translate(70 190)"><circle r="5"/><circle class="halo" r="14"/><text y="28">1</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(250 90)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">2</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(350 220)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">3</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(500 120)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">4</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(640 230)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">5</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(780 90)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">6</text></g>
+          <g class="hero-node ch07-hero__node" transform="translate(910 180)"><circle r="4.5"/><circle class="halo" r="13"/><text y="27">7</text></g>
+          <g class="hero-node ch07-hero__node ch07-hero__node--last" transform="translate(1120 120)"><circle r="5.5"/><circle class="halo" r="16"/><text y="30">8</text></g>
+        </g>
+        <g class="ch07-hero__weights">
+          <text x="152" y="130">4</text>
+          <text x="366" y="94">2</text>
+          <text x="698" y="140">3</text>
+          <text x="1022" y="140">1</text>
+        </g>
+        <circle class="hero-traveller ch07-hero__traveller" r="2.6" cx="70" cy="190"/>
+      </svg>
+      <figcaption><span class="hero-map__hint">The highlighted route from 1 to 8 costs 4 + 2 + 3 + 1 = 10. A different route may use fewer edges and still cost more.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s71"><span class="idx__num">7.1</span><span class="idx__body"><span class="idx__title">Basics of Graphs</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+        <a class="idx" href="#s72"><span class="idx__num">7.2</span><span class="idx__body"><span class="idx__title">Graph Traversal</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+        <a class="idx" href="#s73"><span class="idx__num">7.3</span><span class="idx__body"><span class="idx__title">Shortest Paths</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+        <a class="idx" href="#s74"><span class="idx__num">7.4</span><span class="idx__body"><span class="idx__title">Directed Acyclic Graphs</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+        <a class="idx" href="#s75"><span class="idx__num">7.5</span><span class="idx__body"><span class="idx__title">Successor Graphs</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+        <a class="idx" href="#s76"><span class="idx__num">7.6</span><span class="idx__body"><span class="idx__title">Minimum Spanning Trees</span></span><svg class="icon idx__arrow"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.1 ============ -->
+<section class="section" id="s71" aria-labelledby="h71">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.1</span>
+      <div class="section-head__body"><h2 id="h71">Basics of Graphs</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A graph is a set of nodes, a set of edges, and a question about how they connect.</p>
+    <p class="lead" data-reveal>The same picture can be a road network, a dependency list, a state machine, or a set of friendships. What changes is the question: what is reachable, what is the shortest route, and which edges hold everything together.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.1</span><span>Graph Terminology</span></h3>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 640 260" class="ch07-svg" role="img" aria-label="Three small graphs illustrating a path, a cycle, and three components">
+            <g class="ch07-panel-label"><text x="8" y="20">a · path</text><text x="218" y="20">b · cycle</text><text x="448" y="20">c · components</text></g>
+            <g class="ch07-pane">
+              <path class="ch07-edge" d="M40 70 95 150 155 70 205 150"/>
+              <path class="ch07-edge ch07-edge--ink" d="M40 70 95 150 155 70 205 150"/>
+              <g class="ch07-node" tabindex="0" data-tip="Node 1 · degree 1 · endpoint of the path"><circle cx="40" cy="70" r="14"/><text x="40" y="74">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 2 · degree 2 · inside the path"><circle cx="95" cy="150" r="14"/><text x="95" y="154">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 3 · degree 2 · inside the path"><circle cx="155" cy="70" r="14"/><text x="155" y="74">3</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 4 · degree 1 · endpoint of the path"><circle cx="205" cy="150" r="14"/><text x="205" y="154">4</text></g>
+              <text class="ch07-fig-note" x="122" y="205" text-anchor="middle">1 → 2 → 3 → 4 · length 3</text>
+            </g>
+            <g class="ch07-pane">
+              <path class="ch07-edge ch07-edge--ink" d="M270 70 270 170 360 120 270 70"/>
+              <g class="ch07-node" tabindex="0" data-tip="Node 1 · degree 2 · on the cycle"><circle cx="270" cy="70" r="14"/><text x="270" y="74">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 2 · degree 2 · on the cycle"><circle cx="270" cy="170" r="14"/><text x="270" y="174">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 3 · degree 2 · on the cycle"><circle cx="360" cy="120" r="14"/><text x="360" y="124">3</text></g>
+              <text class="ch07-fig-note" x="315" y="205" text-anchor="middle">1 → 2 → 3 → 1</text>
+            </g>
+            <g class="ch07-pane">
+              <path class="ch07-edge" d="M480 70 468 160 545 128M585 60 602 160"/>
+              <g class="ch07-node" tabindex="0" data-tip="Node 1 · component {1, 2, 3}"><circle cx="480" cy="70" r="14"/><text x="480" y="74">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 2 · component {1, 2, 3}"><circle cx="468" cy="160" r="14"/><text x="468" y="164">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 3 · component {1, 2, 3}"><circle cx="545" cy="128" r="14"/><text x="545" y="132">3</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 4 · component {4, 5}"><circle cx="585" cy="60" r="14"/><text x="585" y="64">4</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 5 · component {4, 5}"><circle cx="602" cy="160" r="14"/><text x="602" y="164">5</text></g>
+              <g class="ch07-node ch07-node--ghost" tabindex="0" data-tip="Node 6 · a component of its own"><circle cx="600" cy="222" r="12" stroke-dasharray="3 3"/><text x="600" y="226">6</text></g>
+              <text class="ch07-fig-note" x="530" y="250" text-anchor="middle">3 components</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <figcaption class="figure__cap">A path is a walk with no repeated nodes; its length is the number of edges. A cycle returns to its starting node. A disconnected graph falls into components — here {1, 2, 3}, {4, 5}, and the isolated node 6.</figcaption>
+    </figure>
+
+    <div class="ch07-defs" data-reveal>
+      <div class="ch07-def"><span class="ch07-def__term">Path</span><p>A sequence of edges from one node to another. Length is the number of edges.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Cycle</span><p>A path whose first and last node are the same.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Connected</span><p>There is a path between every pair of nodes. The connected parts are the components.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Tree</span><p>A connected graph with no cycle. On <i>c</i> nodes it has exactly <i>c</i> − 1 edges.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Directed</span><p>Every edge can be traversed one way only. A node has an indegree and an outdegree.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Weighted</span><p>Every edge carries a weight. The length of a path is the sum of its weights.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Neighbours</span><p>Two nodes are adjacent if an edge joins them. The degree counts the neighbours.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Bipartite</span><p>The nodes can be split into two sides so that every edge crosses. Equivalently, there is no odd cycle.</p></div>
+    </div>
+
+    <details class="note ch07-note" data-reveal>
+      <summary><span class="note__label">Two facts worth keeping</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>The degrees of a graph always sum to 2<i>m</i>: every edge raises the degree of both endpoints by one. So the sum is even, and the number of odd-degree nodes is even too.</p>
+        <p>A graph is <em>regular</em> if every node has the same degree <i>d</i>, and <em>complete</em> if every node is adjacent to every other, so every degree is <i>n</i> − 1. In a directed graph, the indegree counts edges arriving and the outdegree counts edges leaving; their totals are both <i>m</i>.</p>
+      </div>
+    </details>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.2</span><span>Graph Representation</span></h3>
+
+    <p data-reveal>An algorithm never sees the drawing — it sees a data structure. The three standard representations trade memory for the speed of different questions.</p>
+
+    <div class="ch07-rep" id="ch07-rep" data-reveal>
+      <div class="ch07-rep__head">
+        <div>
+          <span class="kicker">The same directed graph, three ways</span>
+          <h4 class="ch07-rep__title">Weights on, weights off</h4>
+        </div>
+        <div class="seg ch07-seg" role="group" aria-label="Edge data shown">
+          <button class="seg__btn is-active" type="button" data-rep-mode="weighted" aria-pressed="true">weighted</button>
+          <button class="seg__btn" type="button" data-rep-mode="unweighted" aria-pressed="false">unweighted</button>
+        </div>
+      </div>
+
+      <div class="ch07-rep__graph">
+        <svg viewBox="40 40 390 200" class="ch07-svg ch07-rep__svg" role="img" aria-label="A directed graph with four nodes and five weighted edges">
+          <defs>
+            <marker id="ch07ArrowRep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+            </marker>
+          </defs>
+          <g class="ch07-edges">
+            <path class="ch07-edge ch07-edge--arrow" d="M88 112 212 72" marker-end="url(#ch07ArrowRep)"/>
+            <path class="ch07-edge ch07-edge--arrow" d="M248 72 382 95" marker-end="url(#ch07ArrowRep)"/>
+            <path class="ch07-edge ch07-edge--arrow" d="M236 78 236 160" marker-end="url(#ch07ArrowRep)"/>
+            <path class="ch07-edge ch07-edge--arrow" d="M400 116 256 178" marker-end="url(#ch07ArrowRep)"/>
+            <path class="ch07-edge ch07-edge--arrow" d="M212 190 Q 140 220 92 140" marker-end="url(#ch07ArrowRep)"/>
+          </g>
+          <g class="ch07-weights">
+            <text x="148" y="83">5</text>
+            <text x="312" y="72">7</text>
+            <text x="248" y="120">6</text>
+            <text x="322" y="158">5</text>
+            <text x="138" y="214">2</text>
+          </g>
+          <g class="ch07-node" tabindex="0" data-tip="Node 1 · outdegree 1 · edge to 2 with weight 5"><circle cx="70" cy="120" r="18"/><text x="70" y="124">1</text></g>
+          <g class="ch07-node" tabindex="0" data-tip="Node 2 · outdegree 2 · edges to 3 (7) and 4 (6)"><circle cx="230" cy="70" r="18"/><text x="230" y="74">2</text></g>
+          <g class="ch07-node" tabindex="0" data-tip="Node 3 · outdegree 1 · edge to 4 with weight 5"><circle cx="400" cy="105" r="18"/><text x="400" y="109">3</text></g>
+          <g class="ch07-node" tabindex="0" data-tip="Node 4 · outdegree 1 · edge back to 1 with weight 2"><circle cx="230" cy="180" r="18"/><text x="230" y="184">4</text></g>
+        </svg>
+      </div>
+
+      <div class="ch07-rep__panels">
+        <div class="ch07-rep__panel">
+          <span class="kicker">Adjacency list</span>
+          <pre class="ch07-replist" id="ch07-rep-list" aria-label="Adjacency list"></pre>
+        </div>
+        <div class="ch07-rep__panel">
+          <span class="kicker">Adjacency matrix</span>
+          <div class="ch07-matrix" id="ch07-rep-matrix" aria-label="Adjacency matrix"></div>
+        </div>
+        <div class="ch07-rep__panel">
+          <span class="kicker">Edge list</span>
+          <pre class="ch07-replist" id="ch07-rep-edges" aria-label="Edge list"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch07-rep__costs" data-reveal>
+      <div class="ch07-cost"><span class="kicker">Adjacency list</span><strong><i>O</i>(<i>n</i> + <i>m</i>)</strong><p>Memory. Walk the neighbours of a node directly — the default for most graph algorithms.</p></div>
+      <div class="ch07-cost"><span class="kicker">Adjacency matrix</span><strong><i>O</i>(<i>n</i><sup>2</sup>)</strong><p>Memory, but an edge check is <i>O</i>(1). Practical only for small or dense graphs.</p></div>
+      <div class="ch07-cost"><span class="kicker">Edge list</span><strong><i>O</i>(<i>m</i>)</strong><p>Memory. No neighbour queries, but ideal when an algorithm sweeps every edge once.</p></div>
+    </div>
+
+    <p data-reveal class="ch07-after">Adjacency lists are the workhorse: <code>vector&lt;int&gt; adj[N]</code> for unweighted graphs and <code>vector&lt;pair&lt;int,int&gt;&gt; adj[N]</code> when each edge also carries a weight. An adjacency matrix answers “is there an edge?” instantly, but its <i>n</i><sup>2</sup> cells are mostly zero. An edge list — <code>vector&lt;tuple&lt;int,int,int&gt;&gt;</code> — is the natural input for Bellman–Ford and Kruskal, which never ask who a node’s neighbours are.</p>
+  </div>
+</section>
+
+<!-- ============ 7.2 ============ -->
+<section class="section" id="s72" aria-labelledby="h72">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.2</span>
+      <div class="section-head__body"><h2 id="h72">Graph Traversal</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Both traversals visit everything reachable. The difference is the order — and the order is the algorithm.</p>
+    <p class="lead" data-reveal>Depth-first search commits to a path; breadth-first search expands in rings. Both run in <i>O</i>(<i>n</i> + <i>m</i>) time and both are built on the same three ingredients: adjacency lists, a visited array, and a way to remember what comes next.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.1</span><span>Depth-First Search</span></h3>
+
+    <p data-reveal>Depth-first search follows a single path as long as it keeps finding new nodes. At each node it picks an unvisited neighbour and recurses; when there is nothing left to explore, it returns to the previous node and tries the next branch. The visited array guarantees that every node and every edge is processed once, so the running time is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+
+    <div class="code-card" data-code-card id="ch07-code">
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Traversal implementation" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.2</span><span>Breadth-First Search</span></h3>
+
+    <p data-reveal>Breadth-first search moves in layers: first the start node, then every node at distance 1, then distance 2, and so on. A FIFO queue holds the frontier. When a node is taken from the front, each unvisited neighbour is marked and pushed to the back with distance one greater. The first time a node is reached is therefore along a shortest path — in an unweighted graph, where every edge costs the same.</p>
+
+    <figure class="figure ch07-figure ch07-figure--wide" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 900 330" class="ch07-svg" role="img" aria-label="The same six-node graph traversed by depth-first search on the left and breadth-first search on the right">
+            <defs>
+              <marker id="ch07ArrowDfs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+            </defs>
+            <text class="ch07-panel-title" x="8" y="20">Depth-first · one path at a time</text>
+            <g class="ch07-pane">
+              <path class="ch07-edge" d="M65 170 175 90 305 90M65 170 175 250M175 90 305 90M175 250 305 250M305 90 405 170M305 250 405 170"/>
+              <path class="ch07-edge ch07-edge--ink ch07-edge--arrow" d="M65 170 175 90 305 90 405 170" marker-end="url(#ch07ArrowDfs)"/>
+              <path class="ch07-edge ch07-edge--ink ch07-edge--arrow" d="M405 170 305 250 175 250" marker-end="url(#ch07ArrowDfs)"/>
+              <g class="ch07-node" tabindex="0" data-tip="Node 1 · discovered first"><circle cx="65" cy="170" r="17"/><text x="65" y="174">1</text><text class="ch07-order-badge" x="42" y="146">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 2 · discovered second"><circle cx="175" cy="90" r="17"/><text x="175" y="94">2</text><text class="ch07-order-badge" x="152" y="66">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 3 · discovered third"><circle cx="305" cy="90" r="17"/><text x="305" y="94">3</text><text class="ch07-order-badge" x="282" y="66">3</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 4 · discovered last, after backtracking"><circle cx="175" cy="250" r="17"/><text x="175" y="254">4</text><text class="ch07-order-badge" x="152" y="226">6</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 5 · discovered fifth"><circle cx="305" cy="250" r="17"/><text x="305" y="254">5</text><text class="ch07-order-badge" x="282" y="226">5</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 6 · discovered fourth"><circle cx="405" cy="170" r="17"/><text x="405" y="174">6</text><text class="ch07-order-badge" x="422" y="146">4</text></g>
+              <text class="ch07-fig-note" x="220" y="305" text-anchor="middle">1 2 3 6 5 4</text>
+            </g>
+
+            <text class="ch07-panel-title" x="468" y="20">Breadth-first · rings of distance</text>
+            <g class="ch07-pane">
+              <g class="ch07-bands">
+                <rect x="470" y="36" width="72" height="250" rx="2"/>
+                <rect x="568" y="36" width="100" height="250" rx="2"/>
+                <rect x="694" y="36" width="100" height="250" rx="2"/>
+                <rect x="820" y="36" width="72" height="250" rx="2"/>
+              </g>
+              <g class="ch07-band-labels"><text x="506" y="52">0</text><text x="618" y="52">1</text><text x="744" y="52">2</text><text x="856" y="52">3</text></g>
+              <path class="ch07-edge" d="M500 170 620 90 740 90M500 170 620 250M620 90 740 90M620 250 740 250M740 90 860 170M740 250 860 170"/>
+              <path class="ch07-edge ch07-edge--ink" d="M500 170 620 90 740 90 860 170M500 170 620 250 740 250 860 170"/>
+              <g class="ch07-node" tabindex="0" data-tip="Node 1 · distance 0"><circle cx="500" cy="170" r="17"/><text x="500" y="174">1</text><text class="ch07-dist-badge" x="520" y="148">0</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 2 · distance 1"><circle cx="620" cy="90" r="17"/><text x="620" y="94">2</text><text class="ch07-dist-badge" x="640" y="68">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 4 · distance 1"><circle cx="620" cy="250" r="17"/><text x="620" y="254">4</text><text class="ch07-dist-badge" x="640" y="228">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 3 · distance 2"><circle cx="740" cy="90" r="17"/><text x="740" y="94">3</text><text class="ch07-dist-badge" x="760" y="68">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 5 · distance 2"><circle cx="740" cy="250" r="17"/><text x="740" y="254">5</text><text class="ch07-dist-badge" x="760" y="228">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Node 6 · distance 3"><circle cx="860" cy="170" r="17"/><text x="860" y="174">6</text><text class="ch07-dist-badge" x="880" y="148">3</text></g>
+              <circle class="ch07-pulse" cx="500" cy="170" r="18"/>
+              <text class="ch07-fig-note" x="680" y="305" text-anchor="middle">0 · 1 1 · 2 2 · 3</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The same six nodes and six edges, two orders. DFS dives to 6, backtracks to 5, then reaches 4. BFS finishes every node at distance 1 before touching a node at distance 2.</figcaption>
+    </figure>
+
+    <div class="ch07-sim" id="ch07-sim" data-reveal>
+      <div class="ch07-sim__head">
+        <div>
+          <span class="kicker">Interactive · one graph, three orders</span>
+          <h3 class="ch07-sim__title">Walk the graph</h3>
+          <p class="ch07-sim__intro">Click any node to make it the source. Step through BFS, DFS, or Dijkstra on the same weighted graph. BFS and DFS ignore the weights; Dijkstra uses them.</p>
+          <span class="ch07-swipe">swipe the graph to reach every node →</span>
+        </div>
+        <div class="seg ch07-seg ch07-sim__modes" role="group" aria-label="Traversal algorithm">
+          <button class="seg__btn is-active" type="button" data-sim-mode="bfs" aria-pressed="true">BFS</button>
+          <button class="seg__btn" type="button" data-sim-mode="dfs" aria-pressed="false">DFS</button>
+          <button class="seg__btn" type="button" data-sim-mode="dijkstra" aria-pressed="false">Dijkstra</button>
+        </div>
+      </div>
+
+      <div class="ch07-sim__stage">
+        <svg id="ch07-sim-svg" viewBox="0 0 780 430" class="ch07-sim__svg" role="img" aria-label="An interactive weighted graph"></svg>
+      </div>
+
+      <div class="ch07-sim__controls">
+        <div class="ch07-sim__actions">
+          <button class="btn btn--primary" type="button" id="ch07-sim-play"><svg class="icon"><use href="#i-play"/></svg><span>Play</span></button>
+          <button class="btn" type="button" id="ch07-sim-step"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn btn--icon" type="button" id="ch07-sim-reset" aria-label="Reset the traversal"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+        <div class="ch07-sim__status">
+          <span class="kicker" id="ch07-sim-count">step 0 / 0</span>
+          <span class="ch07-sim__source">source <b id="ch07-sim-source">1</b></span>
+        </div>
+      </div>
+
+      <p class="ch07-sim__msg" id="ch07-sim-msg" role="status" aria-live="polite">Start at node 1. Press Step or Play.</p>
+
+      <div class="ch07-sim__frontier">
+        <span class="ch07-sim__frontier-label" id="ch07-sim-frontier-label">queue · FIFO</span>
+        <span class="ch07-sim__frontier-value" id="ch07-sim-frontier">1</span>
+      </div>
+
+      <div class="ch07-sim__legend">
+        <span><i class="ch07-key ch07-key--visited"></i>visited</span>
+        <span><i class="ch07-key ch07-key--active"></i>current</span>
+        <span><i class="ch07-key ch07-key--tree"></i>tree edge</span>
+        <span id="ch07-sim-badge-legend"><i class="ch07-key ch07-key--badge"></i>distance label</span>
+        <span class="ch07-sim__hint">Hover a node or an edge for its data.</span>
+      </div>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.3</span><span>Applications</span></h3>
+
+    <div class="ch07-apps" data-reveal>
+      <article class="ch07-app">
+        <span class="ch07-app__num">01</span>
+        <h4>Connectivity</h4>
+        <p>Run a traversal from any node. If every node is reached, the graph is connected. Otherwise restart at each unvisited node: every restart discovers one new component.</p>
+      </article>
+      <article class="ch07-app">
+        <span class="ch07-app__num">02</span>
+        <h4>Cycle detection</h4>
+        <p>During a traversal, an edge to an already visited node that is not the node we came from closes a cycle. Equivalently, a component with <i>c</i> nodes and at least <i>c</i> edges must contain a cycle.</p>
+      </article>
+      <article class="ch07-app">
+        <span class="ch07-app__num">03</span>
+        <h4>Bipartiteness</h4>
+        <p>Colour the start node X, its neighbours Y, their neighbours X, and so on. If two adjacent nodes ever get the same colour, the graph is not bipartite.</p>
+      </article>
+    </div>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 520 280" class="ch07-svg" role="img" aria-label="A bipartite graph with two colours, and an odd cycle that cannot be coloured with two colours">
+            <text class="ch07-panel-title" x="8" y="20">A two-colouring</text>
+            <g class="ch07-edges">
+              <path class="ch07-edge" d="M108 70 262 52M108 70 262 140M108 150 262 140M108 150 262 230M108 230 262 230M108 230 262 52"/>
+            </g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Colour X · neighbours 4, 5, 6"><circle cx="90" cy="70" r="17"/><text x="90" y="74">1</text></g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Colour X · neighbours 5, 6"><circle cx="90" cy="150" r="17"/><text x="90" y="154">2</text></g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Colour X · neighbours 4, 6"><circle cx="90" cy="230" r="17"/><text x="90" y="234">3</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Colour Y · adjacent only to X"><circle cx="280" cy="52" r="17"/><text x="280" y="56">4</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Colour Y · adjacent only to X"><circle cx="280" cy="140" r="17"/><text x="280" y="144">5</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Colour Y · adjacent only to X"><circle cx="280" cy="230" r="17"/><text x="280" y="234">6</text></g>
+
+            <line x1="330" y1="30" x2="330" y2="250" class="ch07-rule"/>
+            <text class="ch07-panel-title" x="352" y="20">An odd cycle</text>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--ink" d="M396 92 362 190 470 190 396 92"/>
+              <path class="ch07-edge ch07-edge--signal" d="M470 190 396 92"/>
+            </g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Node 1 · colour X"><circle cx="396" cy="92" r="16"/><text x="396" y="96">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 2 · must be colour Y"><circle cx="362" cy="190" r="16"/><text x="362" y="194">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 3 · colour X would clash with node 1"><circle cx="470" cy="190" r="16"/><text x="470" y="194">3</text></g>
+            <text class="ch07-fig-note ch07-fig-note--signal" x="416" y="228" text-anchor="middle">1 and 3 must share a colour</text>
+            <text class="ch07-fig-note" x="416" y="258" text-anchor="middle">→ not bipartite</text>
+          </svg>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Left: every edge crosses the divide, so two colours suffice. Right: in a triangle, the colours alternate around the cycle and the last edge is forced to join two nodes of the same colour. A graph is bipartite exactly when it has no odd cycle.</figcaption>
+    </figure>
+
+    <details class="note ch07-note" data-reveal>
+      <summary><span class="note__label">Why two colours are easy and three are not</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Once the first node of a component is coloured, the colour of every other node in that component is forced: each edge flips it. There is no choice left to make, which is why the traversal decides bipartiteness in linear time.</p>
+        <p>With three colours the problem changes character. Deciding whether a graph can be coloured with <i>k</i> colours is NP-hard already for <i>k</i> = 3; no traversal-style algorithm is known.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 7.3 ============ -->
+<section class="section" id="s73" aria-labelledby="h73">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.3</span>
+      <div class="section-head__body"><h2 id="h73">Shortest Paths</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>Weights turn a graph into a cost model. The shortest path is the cheapest way through, not necessarily the one with the fewest edges.</p>
+    <p class="lead" data-reveal>In an unweighted graph, BFS already finds shortest paths. With weights, the problem needs more care: a light edge can be a detour, and a heavy edge can be the only way forward.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.1</span><span>Bellman–Ford Algorithm</span></h3>
+
+    <p data-reveal>Bellman–Ford is the patient version. It keeps a distance array — 0 at the source, infinity everywhere else — and sweeps the entire edge list <i>n</i> − 1 times. On each sweep, every edge (<i>a</i>, <i>b</i>, <i>w</i>) offers the candidate <i>distance</i>[<i>a</i>] + <i>w</i> to <i>b</i>. A shortest path can contain at most <i>n</i> − 1 edges, so after <i>n</i> − 1 sweeps every distance is final. The cost is <i>O</i>(<i>nm</i>).</p>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-bf">
+          <div class="ch07-bf__graph">
+            <svg viewBox="0 0 470 230" class="ch07-svg" role="img" aria-label="A directed graph with one negative edge and its distances">
+              <defs>
+                <marker id="ch07ArrowBf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+                </marker>
+              </defs>
+              <g class="ch07-edges">
+                <path class="ch07-edge ch07-edge--arrow" d="M88 62 172 52" marker-end="url(#ch07ArrowBf)"/>
+                <path class="ch07-edge ch07-edge--arrow" d="M82 76 170 142" marker-end="url(#ch07ArrowBf)"/>
+                <path class="ch07-edge ch07-edge--arrow" d="M86 88 292 142" marker-end="url(#ch07ArrowBf)"/>
+                <path class="ch07-edge ch07-edge--arrow" d="M208 56 382 76" marker-end="url(#ch07ArrowBf)"/>
+                <path class="ch07-edge ch07-edge--arrow" d="M208 160 292 150" marker-end="url(#ch07ArrowBf)"/>
+                <path class="ch07-edge ch07-edge--arrow" d="M328 158 384 96" marker-end="url(#ch07ArrowBf)"/>
+              </g>
+              <g class="ch07-weights">
+                <text x="126" y="45">2</text>
+                <text x="136" y="112">3</text>
+                <text x="180" y="106">7</text>
+                <text x="292" y="54">3</text>
+                <text x="246" y="170">−2</text>
+                <text x="372" y="134">2</text>
+              </g>
+              <g class="ch07-node" tabindex="0" data-tip="Source · distance 0"><circle cx="70" cy="70" r="17"/><text x="70" y="74">1</text><text class="ch07-dist-badge" x="48" y="46">0</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Distance 2 through 1 → 2"><circle cx="190" cy="52" r="17"/><text x="190" y="56">2</text><text class="ch07-dist-badge" x="208" y="34">2</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Distance 3 through 1 → 3"><circle cx="190" cy="155" r="17"/><text x="190" y="159">3</text><text class="ch07-dist-badge" x="208" y="137">3</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Distance 1 through 1 → 3 → 4"><circle cx="310" cy="155" r="17"/><text x="310" y="159">4</text><text class="ch07-dist-badge" x="328" y="137">1</text></g>
+              <g class="ch07-node" tabindex="0" data-tip="Distance 3 through 4 → 5"><circle cx="400" cy="80" r="17"/><text x="400" y="84">5</text><text class="ch07-dist-badge" x="418" y="64">3</text></g>
+            </svg>
+          </div>
+          <div class="ch07-table-wrap">
+            <table class="ch07-table ch07-table--bf">
+              <thead><tr><th scope="col">sweep</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">start</th><td>0</td><td class="is-faint">∞</td><td class="is-faint">∞</td><td class="is-faint">∞</td><td class="is-faint">∞</td></tr>
+                <tr><th scope="row">1</th><td>0</td><td class="is-changed">2</td><td class="is-changed">3</td><td class="is-changed">7</td><td class="is-faint">∞</td></tr>
+                <tr><th scope="row">2</th><td>0</td><td>2</td><td>3</td><td class="is-changed">1</td><td class="is-changed">5</td></tr>
+                <tr><th scope="row">3</th><td>0</td><td>2</td><td>3</td><td>1</td><td class="is-changed">3</td></tr>
+                <tr><th scope="row">4</th><td>0</td><td>2</td><td>3</td><td>1</td><td>3</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Edges are relaxed in the order 4→5, 3→4, 2→5, 1→4, 1→3, 1→2. The third sweep finds 1 + 2 = 3 for node 5; the fourth changes nothing, so the algorithm stops early. The negative edge 3→4 is safe here because the graph has no negative cycle.</figcaption>
+    </figure>
+
+    <p data-reveal>One more sweep is a negative-cycle test. If any distance still improves after <i>n</i> − 1 rounds, the graph contains a cycle of negative total weight: walking around it makes the path cheaper forever, so a shortest path does not exist. The test works from any starting node, because a negative cycle eventually affects a reachable distance — or reveals itself in the component it belongs to.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.2</span><span>Dijkstra’s Algorithm</span></h3>
+
+    <p data-reveal>Dijkstra’s algorithm is the greedy version, and it is faster when every edge weight is non-negative. It repeatedly settles the unprocessed node with the smallest known distance, then relaxes every edge leaving that node. A priority queue holds the candidates; in the standard competitive-programming implementation a node is pushed again whenever its distance improves, and stale entries are skipped. Each edge is used once, so the running time is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>).</p>
+
+    <div class="ch07-why" data-reveal>
+      <span class="kicker">Why the greedy step is safe</span>
+      <p>When the smallest tentative distance is <i>d</i>, no route through an unsettled node can be shorter: every edge is non-negative, so any detour only adds to <i>d</i>. The node can be settled, and its distance will never change again.</p>
+      <button class="text-btn ch07-jump" type="button" id="ch07-open-dijkstra">Trace Dijkstra on the graph <svg class="icon"><use href="#i-arrow"/></svg></button>
+    </div>
+
+    <div class="split2 ch07-split" data-reveal>
+      <div>
+        <p>Bellman–Ford can afford negative edges because it keeps revising; Dijkstra cannot. In the graph below the shortest route from 1 to 4 is 1 → 3 → 4, of length 1. Dijkstra settles node 2 at distance 2 first, relaxes 2 → 4 to 5, and never reconsiders node 4 after the negative edge becomes available.</p>
+        <p>This is not a bug to patch: it is the assumption that makes the algorithm fast. If negative edges are present, use Bellman–Ford, or reweight the graph when the structure allows it.</p>
+      </div>
+      <figure class="ch07-mini" aria-label="A graph where Dijkstra fails because of a negative edge">
+        <div class="figure__frame">
+          <svg viewBox="0 0 380 200" class="ch07-svg" role="img" aria-label="A four-node graph where the greedy route costs more than the route through a negative edge">
+            <defs>
+              <marker id="ch07ArrowNeg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              </marker>
+            </defs>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--arrow" d="M66 58 170 46" marker-end="url(#ch07ArrowNeg)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M196 62 292 94" marker-end="url(#ch07ArrowNeg)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M62 74 168 150" marker-end="url(#ch07ArrowNeg)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--signal" d="M196 156 290 106" marker-end="url(#ch07ArrowNeg)"/>
+            </g>
+            <g class="ch07-weights">
+              <text x="118" y="40">2</text>
+              <text x="242" y="66">3</text>
+              <text x="110" y="128">6</text>
+              <text x="240" y="146">−5</text>
+            </g>
+            <g class="ch07-node" tabindex="0" data-tip="Source · distance 0"><circle cx="50" cy="66" r="16"/><text x="50" y="70">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Dijkstra settles this node at distance 2"><circle cx="182" cy="52" r="16"/><text x="182" y="56">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Distance 6 — the negative edge leaves from here"><circle cx="182" cy="158" r="16"/><text x="182" y="162">3</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="True distance 1, greedy distance 5"><circle cx="310" cy="100" r="16"/><text x="310" y="104">4</text></g>
+            <text class="ch07-fig-note" x="190" y="190" text-anchor="middle">greedy 5 · true 1</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap ch07-mini__cap">One negative edge is enough to break the greedy argument.</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.3</span><span>Floyd–Warshall Algorithm</span></h3>
+
+    <p data-reveal>Floyd–Warshall answers all pairs at once. It starts from the adjacency matrix — 0 on the diagonal, the edge weight where an edge exists, infinity elsewhere — and admits nodes as intermediate stops one at a time. When node <i>k</i> becomes allowed, every pair (<i>i</i>, <i>j</i>) is offered the route <i>i</i> → <i>k</i> → <i>j</i>. After <i>n</i> rounds the matrix holds every shortest distance. Three nested loops give <i>O</i>(<i>n</i><sup>3</sup>), so the method is reserved for graphs small enough to afford it.</p>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-fw">
+          <div class="ch07-fw__matrix"><span class="kicker">start</span><div id="ch07-fw-0"></div></div>
+          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="#b9b9b1" stroke-width="1.2"/></svg><span>k = 1, 2</span></div>
+          <div class="ch07-fw__matrix"><span class="kicker">after k = 2</span><div id="ch07-fw-2"></div></div>
+          <div class="ch07-fw__arrow" aria-hidden="true"><svg viewBox="0 0 60 20"><path d="M2 10h52M48 4l7 6-7 6" fill="none" stroke="#b9b9b1" stroke-width="1.2"/></svg><span>k = 3, 4, 5</span></div>
+          <div class="ch07-fw__matrix"><span class="kicker">final</span><div id="ch07-fw-5"></div></div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The 5-node graph from the book. Shaded cells changed in that round. After node 2 is admitted, the route 2 → 1 → 5 costs 6 and 2 → 1 → 4 costs 14; after all nodes are admitted, 2 → 1 → 4 becomes 8 via node 3. The diagonal stays zero.</figcaption>
+    </figure>
+
+    <p data-reveal class="ch07-formula"><span class="ch07-formula__label">the update</span><span class="ch07-formula__math"><i>dist</i>[<i>i</i>][<i>j</i>] ← min(<i>dist</i>[<i>i</i>][<i>j</i>], <i>dist</i>[<i>i</i>][<i>k</i>] + <i>dist</i>[<i>k</i>][<i>j</i>])</span><span class="ch07-formula__note">for every <i>k</i>, then every <i>i</i>, then every <i>j</i></span></p>
+  </div>
+</section>
+
+<!-- ============ 7.4 ============ -->
+<section class="section" id="s74" aria-labelledby="h74">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.4</span>
+      <div class="section-head__body"><h2 id="h74">Directed Acyclic Graphs</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A directed acyclic graph has a direction and no way back. That single restriction makes ordering — and dynamic programming — possible.</p>
+    <p class="lead" data-reveal>Many problems become easier when the dependencies form a DAG: courses before prerequisites, tasks before deadlines, states before transitions. A DAG always has a topological order, and a topological order turns a graph DP into an array DP.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.4.1</span><span>Topological Sorting</span></h3>
+
+    <p data-reveal>A topological sort lists the nodes so that every edge points forward: if there is a path from <i>a</i> to <i>b</i>, then <i>a</i> appears before <i>b</i>. Such an order exists exactly when the graph is acyclic. If a cycle exists, no node of the cycle can come before the others, and no order can satisfy every edge.</p>
+
+    <p data-reveal>DFS constructs the order with three states: 0 for unprocessed, 1 for in progress, 2 for finished. A node enters state 1 when the search arrives and state 2 after all its outgoing edges are done. Appending nodes in finish order and reversing the list puts every node before its descendants. An edge to a node still in state 1 closes a cycle, and the graph has no topological sort.</p>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 620 290" class="ch07-svg" role="img" aria-label="A six-node directed acyclic graph and its DFS finish order">
+            <defs>
+              <marker id="ch07ArrowDag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              </marker>
+            </defs>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--arrow" d="M104 236 104 122" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M104 236 232 224" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M108 100 232 72" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M112 112 230 208" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M268 214 268 92" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M268 72 382 84" marker-end="url(#ch07ArrowDag)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M418 96 502 148" marker-end="url(#ch07ArrowDag)"/>
+            </g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 4 · indegree 0 · starts the second DFS"><circle cx="90" cy="250" r="18"/><text x="90" y="254">4</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 1 · finished after 2, 3, 6 and 5"><circle cx="90" cy="110" r="18"/><text x="90" y="114">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 5 · finished third in the first search"><circle cx="250" cy="220" r="18"/><text x="250" y="224">5</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 2 · finished second"><circle cx="250" cy="70" r="18"/><text x="250" y="74">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 3 · finished first"><circle cx="400" cy="82" r="18"/><text x="400" y="86">3</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 6 · a sink"><circle cx="520" cy="160" r="18"/><text x="520" y="164">6</text></g>
+          </svg>
+        </div>
+        <div class="ch07-order">
+          <div class="ch07-order__row">
+            <span class="kicker">finish order</span>
+            <div class="ch07-order__chips"><span>6</span><span>3</span><span>2</span><span>5</span><span>1</span><span>4</span></div>
+          </div>
+          <div class="ch07-order__row ch07-order__row--final">
+            <span class="kicker">reversed</span>
+            <div class="ch07-order__chips"><span>4</span><span>1</span><span>5</span><span>2</span><span>3</span><span>6</span></div>
+            <span class="ch07-order__tag">topological sort</span>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The first DFS from node 1 finishes 6, 3, 2, then 5, then 1; the second starts at 4. Reversing the finish order puts every node before everything it can reach. Other topological sorts may exist — this is not the only one.</figcaption>
+    </figure>
+
+    <details class="note ch07-note" data-reveal>
+      <summary><span class="note__label">Cycle found during the search</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>If a DFS edge leads to a node whose state is 1, the search has returned to a node on its own current path. That closes a cycle, so no topological order exists. This is the cheapest way to test whether a directed graph is acyclic; the same traversal that would build the order reports the failure.</p>
+      </div>
+    </details>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.4.2</span><span>Dynamic Programming</span></h3>
+
+    <p data-reveal>Once the nodes are in topological order, a DP over the graph is just a DP over an array. Let <i>paths</i>(<i>x</i>) be the number of routes from a fixed start <i>a</i> to <i>x</i>. The base case is <i>paths</i>(<i>a</i>) = 1, and every other value is the sum over the nodes with an edge into <i>x</i>. Topological order guarantees those predecessors are already computed.</p>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 620 300" class="ch07-svg" role="img" aria-label="A DAG with the number of paths from node 1 to every node">
+            <defs>
+              <marker id="ch07ArrowPaths" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              </marker>
+            </defs>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--arrow" d="M102 112 222 82" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M88 136 133 234" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M258 80 382 80" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M258 84 503 146" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M418 80 502 150" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M158 250 292 250" marker-end="url(#ch07ArrowPaths)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M303 233 247 97" marker-end="url(#ch07ArrowPaths)"/>
+            </g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(1) = 1 · the base case"><circle cx="80" cy="120" r="18"/><text x="80" y="124">1</text><text class="ch07-path-badge" x="56" y="94">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(2) = paths(1) + paths(5) = 1 + 1 = 2"><circle cx="240" cy="80" r="18"/><text x="240" y="84">2</text><text class="ch07-path-badge" x="216" y="54">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(3) = paths(2) = 2"><circle cx="400" cy="80" r="18"/><text x="400" y="84">3</text><text class="ch07-path-badge" x="376" y="54">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(4) = paths(1) = 1"><circle cx="140" cy="250" r="18"/><text x="140" y="254">4</text><text class="ch07-path-badge" x="116" y="224">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(5) = paths(4) = 1"><circle cx="310" cy="250" r="18"/><text x="310" y="254">5</text><text class="ch07-path-badge" x="286" y="224">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="paths(6) = paths(2) + paths(3) = 2 + 2 = 4"><circle cx="520" cy="150" r="18"/><text x="520" y="154">6</text><text class="ch07-path-badge ch07-path-badge--end" x="496" y="124">4</text></g>
+          </svg>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Processing in topological order gives <i>paths</i>(2) = 1 + 1 = 2, then <i>paths</i>(3) = 2, and finally <i>paths</i>(6) = 2 + 2 = 4. The four routes are listed below; each one uses only forward edges.</figcaption>
+    </figure>
+
+    <details class="note ch07-note" data-reveal>
+      <summary><span class="note__label">The four routes from 1 to 6</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <div class="ch07-paths-list">
+          <span>1 → 2 → 3 → 6</span>
+          <span>1 → 2 → 6</span>
+          <span>1 → 4 → 5 → 2 → 3 → 6</span>
+          <span>1 → 4 → 5 → 2 → 6</span>
+        </div>
+        <p>Counting paths is only well-defined because the graph is acyclic. In a graph with a cycle, a single walk could be extended by going around the cycle any number of times.</p>
+      </div>
+    </details>
+
+    <p data-reveal>The same translation works for many problems: shortest and longest paths, the fewest or most edges, and even the coin problem from Chapter 6. There, each node is a sum of money and each edge is a coin; the shortest path from 0 to <i>n</i> uses the fewest coins, and the number of paths counts the solutions. When a graph is not acyclic, Dijkstra can first build the shortest-path graph — keep only the edges that lie on a shortest route — and that graph is a DAG.</p>
+  </div>
+</section>
+
+<!-- ============ 7.5 ============ -->
+<section class="section" id="s75" aria-labelledby="h75">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.5</span>
+      <div class="section-head__body"><h2 id="h75">Successor Graphs</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A successor graph gives every node exactly one outgoing edge. Each component is a single cycle with paths feeding into it.</p>
+    <p class="lead" data-reveal>Successor graphs — also called functional graphs — are the shape of a function iterated on itself. They appear in simulations, in “follow the pointer” problems, and wherever a state has exactly one next state.</p>
+
+    <div class="ch07-succ-table" data-reveal>
+      <div class="ch07-table-wrap">
+        <table class="ch07-table ch07-table--succ">
+          <thead><tr><th scope="col"><i>x</i></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>
+          <tbody><tr><th scope="row"><i>succ</i>(<i>x</i>)</th><td>3</td><td>5</td><td>7</td><td>6</td><td>2</td><td>2</td><td>1</td><td>6</td><td>3</td></tr></tbody>
+        </table>
+      </div>
+      <span class="ch07-table__note">the function that defines the graph below</span>
+      <span class="ch07-swipe">swipe the table →</span>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.5.1</span><span>Finding Successors</span></h3>
+
+    <p data-reveal>Walking <i>k</i> steps one at a time costs <i>O</i>(<i>k</i>). Binary lifting precomputes the answer for every power of two, using the recurrence <i>succ</i>(<i>x</i>, 2<i>k</i>) = <i>succ</i>(<i>succ</i>(<i>x</i>, <i>k</i>), <i>k</i>). Any step count is a sum of powers of two, so a query becomes <i>O</i>(log <i>k</i>) jumps after <i>O</i>(<i>n</i> log <i>u</i>) preprocessing, where <i>u</i> is the largest number of steps ever requested.</p>
+
+    <figure class="figure ch07-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch07-figscroll">
+          <svg viewBox="0 0 640 350" class="ch07-svg" role="img" aria-label="A nine-node successor graph with two cycles and paths leading into them">
+            <defs>
+              <marker id="ch07ArrowSucc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              </marker>
+              <marker id="ch07ArrowSuccInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+            </defs>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M108 70 152 122" marker-end="url(#ch07ArrowSuccInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M152 156 104 186" marker-end="url(#ch07ArrowSuccInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M82 180 92 94" marker-end="url(#ch07ArrowSuccInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M372 92 Q 450 104 438 142" marker-end="url(#ch07ArrowSuccInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M436 158 Q 356 146 366 104" marker-end="url(#ch07ArrowSuccInk)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M344 202 362 106" marker-end="url(#ch07ArrowSucc)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M265 222 323 218" marker-end="url(#ch07ArrowSucc)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M473 236 357 218" marker-end="url(#ch07ArrowSucc)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M164 278 156 160" marker-end="url(#ch07ArrowSucc)"/>
+            </g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 1 · succ(1) = 3 · part of the 1–3–7 cycle"><circle cx="96" cy="76" r="17"/><text x="96" y="80">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 3 · succ(3) = 7 · part of the 1–3–7 cycle"><circle cx="166" cy="140" r="17"/><text x="166" y="144">3</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 7 · succ(7) = 1 · closes the 3-cycle"><circle cx="86" cy="202" r="17"/><text x="86" y="206">7</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 2 · succ(2) = 5 · part of the 2–5 cycle"><circle cx="366" cy="90" r="17"/><text x="366" y="94">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 5 · succ(5) = 2 · closes the 2-cycle"><circle cx="448" cy="150" r="17"/><text x="448" y="154">5</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 6 · succ(6) = 2 · a path into the 2-cycle"><circle cx="340" cy="216" r="17"/><text x="340" y="220">6</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 4 · succ(4) = 6 · three steps from the 2-cycle"><circle cx="248" cy="224" r="17"/><text x="248" y="228">4</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 8 · succ(8) = 6"><circle cx="490" cy="238" r="17"/><text x="490" y="242">8</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Node 9 · succ(9) = 3"><circle cx="160" cy="294" r="17"/><text x="160" y="298">9</text></g>
+            <text class="ch07-fig-note" x="96" y="248" text-anchor="middle">cycle of 3</text>
+            <text class="ch07-fig-note" x="420" y="192" text-anchor="middle">cycle of 2</text>
+          </svg>
+        </div>
+
+        <div class="ch07-lift">
+          <div class="ch07-table-wrap">
+            <table class="ch07-table ch07-table--lift">
+              <thead><tr><th scope="col"><i>x</i></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><i>k</i> = 1</th><td>3</td><td>5</td><td>7</td><td>6</td><td>2</td><td>2</td><td>1</td><td>6</td><td>3</td></tr>
+                <tr><th scope="row"><i>k</i> = 2</th><td>7</td><td>2</td><td>1</td><td>2</td><td>5</td><td>5</td><td>3</td><td>2</td><td>7</td></tr>
+                <tr><th scope="row"><i>k</i> = 4</th><td>3</td><td>2</td><td>7</td><td>2</td><td>5</td><td>5</td><td>1</td><td>2</td><td>3</td></tr>
+                <tr><th scope="row"><i>k</i> = 8</th><td>7</td><td>2</td><td>1</td><td>2</td><td>5</td><td>5</td><td>3</td><td>2</td><td>7</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <span class="ch07-swipe">swipe the table →</span>
+          <div class="ch07-lift__example">
+            <span class="kicker">one query</span>
+            <p><i>succ</i>(4, 11) = <i>succ</i>(<i>succ</i>(<i>succ</i>(4, 8), 2), 1) = 5</p>
+            <div class="ch07-decomp"><span>11</span><i>=</i><span class="is-used">8</span><i>+</i><span class="is-used">2</span><i>+</i><span class="is-used">1</span></div>
+            <p class="ch07-lift__walk">4 → 6 → 2 → 5 → 2 → 5 → 2 → 5 → 2 → 5 → 2 → 5</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The graph defined by the table above: two cycles, with the remaining nodes on paths that lead into them. The lifting table stores the node reached after 1, 2, 4 and 8 steps; the query for 11 uses three of those rows.</figcaption>
+    </figure>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.5.2</span><span>Cycle Detection</span></h3>
+
+    <p data-reveal>A graph that is one path ending in a cycle has two natural questions: which node is the first on the cycle, and how long is the cycle? Walking while remembering every visited node answers both in <i>O</i>(<i>n</i>) time and <i>O</i>(<i>n</i>) memory. Floyd’s algorithm gets the same time with <i>O</i>(1) memory by using two pointers.</p>
+
+    <div class="split2 ch07-split" data-reveal>
+      <div>
+        <p>Start both pointers at the start node. On every turn, <i>a</i> walks one step and <i>b</i> walks two. If the path ends in a cycle they eventually meet. At that moment <i>a</i> has walked <i>k</i> steps and <i>b</i> has walked 2<i>k</i>, so the cycle length divides <i>k</i>.</p>
+        <p>To find the first cycle node, put <i>a</i> back at the start and advance both pointers one step at a time. They meet exactly at the entrance. Then walk <i>b</i> around the cycle until it returns to <i>a</i> to measure the length.</p>
+        <div class="ch07-steps">
+          <span><b>1</b> a ← succ(a), b ← succ(succ(b))</span>
+          <span><b>2</b> repeat until a = b</span>
+          <span><b>3</b> a ← start; advance both until a = b</span>
+          <span><b>4</b> count steps from a back to a</span>
+        </div>
+      </div>
+      <figure class="ch07-mini" aria-label="A path of three nodes leading into a three-node cycle">
+        <div class="figure__frame">
+          <svg viewBox="0 0 420 280" class="ch07-svg" role="img" aria-label="A path from node 1 leading into a cycle of nodes 4, 5 and 6">
+            <defs>
+              <marker id="ch07ArrowCycle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#b9b9b1"/>
+              </marker>
+              <marker id="ch07ArrowCycleInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+            </defs>
+            <g class="ch07-edges">
+              <path class="ch07-edge ch07-edge--arrow" d="M58 140 128 140" marker-end="url(#ch07ArrowCycle)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M164 140 234 140" marker-end="url(#ch07ArrowCycle)"/>
+              <path class="ch07-edge ch07-edge--arrow" d="M270 136 344 106" marker-end="url(#ch07ArrowCycle)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M362 88 382 152" marker-end="url(#ch07ArrowCycleInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M370 174 302 196" marker-end="url(#ch07ArrowCycleInk)"/>
+              <path class="ch07-edge ch07-edge--arrow ch07-edge--ink" d="M282 184 270 160" marker-end="url(#ch07ArrowCycleInk)"/>
+            </g>
+            <g class="ch07-node" tabindex="0" data-tip="Start · not on the cycle"><circle cx="42" cy="140" r="16"/><text x="42" y="144">1</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Walk one step"><circle cx="146" cy="140" r="16"/><text x="146" y="144">2</text></g>
+            <g class="ch07-node" tabindex="0" data-tip="Walk one step"><circle cx="252" cy="140" r="16"/><text x="252" y="144">3</text></g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="First node of the cycle"><circle cx="358" cy="96" r="17"/><text x="358" y="100">4</text></g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Second node of the cycle"><circle cx="378" cy="170" r="17"/><text x="378" y="174">5</text></g>
+            <g class="ch07-node ch07-node--dark" tabindex="0" data-tip="Third node of the cycle"><circle cx="286" cy="202" r="17"/><text x="286" y="206">6</text></g>
+            <text class="ch07-fig-note" x="340" y="240" text-anchor="middle">first cycle node: 4 · length 3</text>
+            <text class="ch07-fig-note" x="146" y="250" text-anchor="middle">the path into the cycle</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap ch07-mini__cap">From node 1, the first node on the cycle is 4 and the cycle contains 4, 5 and 6.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.6 ============ -->
+<section class="section" id="s76" aria-labelledby="h76">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">7.6</span>
+      <div class="section-head__body"><h2 id="h76">Minimum Spanning Trees</h2></div>
+    </div>
+
+    <p class="statement" data-reveal>A spanning tree keeps every node and just enough edges to connect them. The minimum spanning tree is the cheapest such skeleton.</p>
+    <p class="lead" data-reveal>A spanning tree has <i>n</i> − 1 edges, is connected, and has no cycle. Its weight is the sum of its edge weights. A graph may have many spanning trees — and several minimum ones — but every minimum spanning tree has the same weight.</p>
+
+    <div class="ch07-mst" id="ch07-mst" data-reveal>
+      <div class="ch07-mst__head">
+        <div>
+          <span class="kicker">Same graph, three trees</span>
+          <h4 class="ch07-mst__title">Pick a tree</h4>
+        </div>
+        <div class="seg ch07-seg" role="group" aria-label="Spanning tree">
+          <button class="seg__btn" type="button" data-mst-mode="any" aria-pressed="false">any · 22</button>
+          <button class="seg__btn is-active" type="button" data-mst-mode="min" aria-pressed="true">minimum · 20</button>
+          <button class="seg__btn" type="button" data-mst-mode="max" aria-pressed="false">maximum · 32</button>
+        </div>
+      </div>
+      <div class="ch07-mst__stage">
+        <svg id="ch07-mst-svg" viewBox="0 0 640 340" class="ch07-svg" role="img" aria-label="A six-node weighted graph with a selected spanning tree"></svg>
+      </div>
+      <div class="ch07-mst__foot">
+        <span class="kicker">total weight</span>
+        <strong id="ch07-mst-weight">20</strong>
+        <span class="ch07-mst__note">Highlighted edges form the tree. Every tree has <i>n</i> − 1 = 5 edges.</span>
+      </div>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.1</span><span>Kruskal’s Algorithm</span></h3>
+
+    <p data-reveal>Kruskal sorts the edges by weight and walks the list. An edge is added when its endpoints are in different components; otherwise it would close a cycle and is skipped. After <i>n</i> − 1 additions the tree is complete. The only query the algorithm needs is “are these two nodes in the same component?” — and the structure that answers it is union-find.</p>
+
+    <div class="ch07-kruskal" id="ch07-kruskal" data-reveal>
+      <div class="ch07-kruskal__head">
+        <div>
+          <span class="kicker">Interactive · edge by edge</span>
+          <h4 class="ch07-kruskal__title">Build the tree</h4>
+        </div>
+        <div class="ch07-kruskal__actions">
+          <button class="btn btn--primary" type="button" id="ch07-kr-next"><svg class="icon"><use href="#i-step"/></svg><span>Next edge</span></button>
+          <button class="btn btn--icon" type="button" id="ch07-kr-reset" aria-label="Reset Kruskal's algorithm"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+      <div class="ch07-kruskal__body">
+        <div class="ch07-kruskal__stage">
+          <svg id="ch07-kr-svg" viewBox="0 0 640 340" class="ch07-svg" role="img" aria-label="The minimum spanning tree as Kruskal's algorithm builds it"></svg>
+        </div>
+        <div class="ch07-kruskal__side">
+          <div class="ch07-kruskal__list" id="ch07-kr-list" aria-label="Edges in weight order"></div>
+          <div class="ch07-kruskal__sets">
+            <span class="kicker">union-find sets</span>
+            <div class="ch07-sets" id="ch07-kr-sets"></div>
+          </div>
+          <p class="ch07-kruskal__status" id="ch07-kr-status" role="status" aria-live="polite">Sorted edges ready. Press Next edge.</p>
+          <div class="ch07-kruskal__total"><span class="kicker">tree weight</span><strong id="ch07-kr-total">0</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <details class="note ch07-note" data-reveal>
+      <summary><span class="note__label">Why the greedy choice is safe</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Let <i>e</i> be the lightest edge of the graph. If a minimum spanning tree does not contain <i>e</i>, add <i>e</i> to it: this creates a cycle, and some other edge <i>f</i> on that cycle can be removed. Since <i>e</i> is the lightest edge in the graph, <i>f</i> is at least as heavy, so the new tree is no heavier. Repeating the argument for the next edge in weight order shows that Kruskal’s greedy sequence always reaches a minimum spanning tree.</p>
+      </div>
+    </details>
+
+    <div class="code-card" data-code-card id="ch07-code-kruskal">
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Kruskal implementation" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot"><p data-code-note></p><span class="code-card__hint" data-code-type></span></div>
+    </div>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.2</span><span>Union-Find Structure</span></h3>
+
+    <p data-reveal>A union-find structure keeps disjoint sets. Each set has a representative, and every element has a path to it. <i>find</i>(<i>x</i>) follows the path and returns the representative; <i>unite</i> links the representative of one set to the representative of another. Two elements are in the same set exactly when their representatives are equal.</p>
+
+    <div class="ch07-uf" data-reveal>
+      <div class="ch07-uf__sets">
+        <div class="ch07-uf__set"><span class="kicker">set A</span><b>4</b><div><span>1</span><span class="is-rep">4</span><span>7</span></div><small>representative 4</small></div>
+        <div class="ch07-uf__set"><span class="kicker">set B</span><b>5</b><div><span class="is-rep">5</span></div><small>a singleton</small></div>
+        <div class="ch07-uf__set"><span class="kicker">set C</span><b>2</b><div><span class="is-rep">2</span><span>3</span><span>6</span><span>8</span></div><small>representative 2</small></div>
+      </div>
+      <div class="ch07-uf__walk">
+        <span class="kicker">find(6)</span>
+        <div class="ch07-uf__chain"><span>6</span><i>→</i><span>3</span><i>→</i><span class="is-rep">2</span></div>
+        <p>Two more links would reach 2. Keeping the tree shallow — always attach the smaller set to the larger — makes every path <i>O</i>(log <i>n</i>).</p>
+      </div>
+    </div>
+
+    <p data-reveal>Union by size is enough to keep the operations logarithmic. Path compression is the second optimisation: after <i>find</i>(<i>x</i>), point every node on the path directly at the representative. The amortised cost becomes <i>O</i>(α(<i>n</i>)), where α is the inverse Ackermann function — effectively a constant. Path compression is not always allowed: some applications, such as dynamic connectivity, depend on the structure of the links.</p>
+
+    <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.3</span><span>Prim’s Algorithm</span></h3>
+
+    <p data-reveal>Prim grows a single tree instead of a forest. Start at an arbitrary node; then repeatedly add the lightest edge that connects the current tree to a node outside it. A priority queue holds the frontier edges, ordered by weight. Like Kruskal, the result is a minimum spanning tree, and the running time is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>) — the same as Dijkstra’s.</p>
+
+    <div class="ch07-compare" data-reveal>
+      <div><span class="kicker">Dijkstra</span><p>The key of a node is the distance <em>from the source</em> to that node.</p></div>
+      <div><span class="kicker">Prim</span><p>The key of a node is the weight of <em>one edge</em> joining it to the growing tree.</p></div>
+    </div>
+
+    <p data-reveal class="ch07-after">In practice both Kruskal and Prim are efficient, and the choice is mostly a matter of taste. Kruskal needs an edge list and a union-find structure; Prim needs adjacency lists and a priority queue. Most competitive programmers reach for Kruskal, because the code is short and the union-find structure is useful elsewhere.</p>
+
+    <p class="closing ch07-closing" data-reveal>A graph is a compact way to write down what connects to what. Traversal tells you what is reachable, shortest paths tell you what it costs, topological order tells you what must come first, and a spanning tree tells you what is essential. The next chapter turns to algorithm design techniques that make these tools sharper.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 07</span>
+    <h2 id="endTitle">Everything is a graph.</h2>
+    <p>Traversal, distances, and spanning trees cover a surprising share of contest problems.</p>
+    <a class="end__next end__next--link" href="ch08.html">
+      <div class="end__next-copy">
+        <span class="kicker">Next · Chapter 08</span>
+        <h3>Algorithm Design Topics</h3>
+        <p>Bit-parallel tricks, amortized analysis, and finding minima in clever ways.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 07 · Graph Algorithms</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 07 · Graph Algorithms</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s71" data-close-drawer><span>7.1</span>Basics of Graphs</a>
+            <a href="#s72" data-close-drawer><span>7.2</span>Graph Traversal</a>
+            <a href="#s73" data-close-drawer><span>7.3</span>Shortest Paths</a>
+            <a href="#s74" data-close-drawer><span>7.4</span>Directed Acyclic Graphs</a>
+            <a href="#s75" data-close-drawer><span>7.5</span>Successor Graphs</a>
+            <a href="#s76" data-close-drawer><span>7.6</span>Minimum Spanning Trees</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row" href="ch02.html">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row" href="ch03.html">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch07.html" aria-current="page">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row" href="ch09.html">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch11.html">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch15.html">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch07.js"></script>
+</body>
+</html>

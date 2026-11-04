@@ -1,0 +1,712 @@
+<!-- ============ hero ============ -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 06</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Dynamic Programming</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" class="ch06-hero-title" data-reveal>Dynamic Programming</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">An algorithm design technique for finding optimal solutions and counting them — by combining the answers to smaller subproblems, each computed only once.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>2 sections</span><span>13 pages</span><span>≈ 34 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="ch06-hero" data-reveal style="--d:.2s">
+      <div class="ch06-hero__inner">
+        <div class="ch06-hero__stage">
+          <svg class="ch06-hero__grid" viewBox="0 0 300 300" role="img" aria-label="A five by five grid with values, and the optimal path from the top-left to the bottom-right corner">
+            <g class="ch06-hc is-path" style="--i:0" transform="translate(8 8)"><rect width="52" height="52" rx="1"/><text x="26" y="33">3</text></g>
+            <g class="ch06-hc" transform="translate(66 8)"><rect width="52" height="52" rx="1"/><text x="26" y="33">7</text></g>
+            <g class="ch06-hc" transform="translate(124 8)"><rect width="52" height="52" rx="1"/><text x="26" y="33">9</text></g>
+            <g class="ch06-hc" transform="translate(182 8)"><rect width="52" height="52" rx="1"/><text x="26" y="33">2</text></g>
+            <g class="ch06-hc" transform="translate(240 8)"><rect width="52" height="52" rx="1"/><text x="26" y="33">7</text></g>
+
+            <g class="ch06-hc is-path" style="--i:1" transform="translate(8 66)"><rect width="52" height="52" rx="1"/><text x="26" y="33">9</text></g>
+            <g class="ch06-hc is-path" style="--i:2" transform="translate(66 66)"><rect width="52" height="52" rx="1"/><text x="26" y="33">8</text></g>
+            <g class="ch06-hc" transform="translate(124 66)"><rect width="52" height="52" rx="1"/><text x="26" y="33">3</text></g>
+            <g class="ch06-hc" transform="translate(182 66)"><rect width="52" height="52" rx="1"/><text x="26" y="33">5</text></g>
+            <g class="ch06-hc" transform="translate(240 66)"><rect width="52" height="52" rx="1"/><text x="26" y="33">5</text></g>
+
+            <g class="ch06-hc" transform="translate(8 124)"><rect width="52" height="52" rx="1"/><text x="26" y="33">1</text></g>
+            <g class="ch06-hc is-path" style="--i:3" transform="translate(66 124)"><rect width="52" height="52" rx="1"/><text x="26" y="33">7</text></g>
+            <g class="ch06-hc is-path" style="--i:4" transform="translate(124 124)"><rect width="52" height="52" rx="1"/><text x="26" y="33">9</text></g>
+            <g class="ch06-hc is-path" style="--i:5" transform="translate(182 124)"><rect width="52" height="52" rx="1"/><text x="26" y="33">8</text></g>
+            <g class="ch06-hc is-path" style="--i:6" transform="translate(240 124)"><rect width="52" height="52" rx="1"/><text x="26" y="33">5</text></g>
+
+            <g class="ch06-hc" transform="translate(8 182)"><rect width="52" height="52" rx="1"/><text x="26" y="33">3</text></g>
+            <g class="ch06-hc" transform="translate(66 182)"><rect width="52" height="52" rx="1"/><text x="26" y="33">8</text></g>
+            <g class="ch06-hc" transform="translate(124 182)"><rect width="52" height="52" rx="1"/><text x="26" y="33">6</text></g>
+            <g class="ch06-hc" transform="translate(182 182)"><rect width="52" height="52" rx="1"/><text x="26" y="33">4</text></g>
+            <g class="ch06-hc is-path" style="--i:7" transform="translate(240 182)"><rect width="52" height="52" rx="1"/><text x="26" y="33">10</text></g>
+
+            <g class="ch06-hc" transform="translate(8 240)"><rect width="52" height="52" rx="1"/><text x="26" y="33">6</text></g>
+            <g class="ch06-hc" transform="translate(66 240)"><rect width="52" height="52" rx="1"/><text x="26" y="33">3</text></g>
+            <g class="ch06-hc" transform="translate(124 240)"><rect width="52" height="52" rx="1"/><text x="26" y="33">9</text></g>
+            <g class="ch06-hc" transform="translate(182 240)"><rect width="52" height="52" rx="1"/><text x="26" y="33">7</text></g>
+            <g class="ch06-hc is-path" style="--i:8" transform="translate(240 240)"><rect width="52" height="52" rx="1"/><text x="26" y="33">8</text></g>
+          </svg>
+        </div>
+        <div class="ch06-hero__side">
+          <span class="kicker">The best path · 5 × 5</span>
+          <p class="ch06-hero__value"><span class="ch06-hero__num" data-countup="67">67</span><span class="ch06-hero__unit">largest sum</span></p>
+          <p class="ch06-hero__formula">sum(<i>y</i>, <i>x</i>) = max(sum(<i>y</i>, <i>x</i>−1), sum(<i>y</i>−1, <i>x</i>)) + value[<i>y</i>][<i>x</i>]</p>
+          <p class="ch06-hero__note">The best path to a square is assembled from the best paths to its two neighbours. No path has to be searched twice.</p>
+        </div>
+      </div>
+      <figcaption class="ch06-hero__cap">Every square is a state. The recurrence turns a search over paths into a single pass over the grid.</figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+        <span class="chapter-index__hint">Two sections · eight examples</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s61">
+          <span class="idx__num">6.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Basic Concepts</span>
+            <span class="idx__desc">Greedy fails, recursion works, memoisation makes it fast. The coin problem, the state table, and counting ways.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s62">
+          <span class="idx__num">6.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Further Examples</span>
+            <span class="idx__desc">Longest increasing subsequence, grid paths, knapsack sums, subsets instead of permutations, and tilings.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.1 ============ -->
+<section class="section" id="s61" aria-labelledby="h61">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">6.1</span>
+      <div class="section-head__body">
+        <h2 id="h61">Basic Concepts</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Given a set of coin values and a target sum, use as few coins as possible. The obvious strategy is greedy — and it is wrong.</p>
+
+    <p class="lead" data-reveal>This is the coin problem. There are no limits on how many times each coin may be used. For example, with coins {1, 2, 5} and target 12, the optimal answer is 5 + 5 + 2 — three coins. The problem is small enough to see the whole idea of dynamic programming, and rich enough to need it.</p>
+
+    <div class="ch06-def" data-reveal>
+      <div class="ch06-def__head">
+        <span class="kicker">The coin problem</span>
+        <span class="tag tag--mono">coins may repeat</span>
+      </div>
+      <div class="ch06-def__body">
+        <p>coins = {<i>c</i><sub>1</sub>, <i>c</i><sub>2</sub>, …, <i>c</i><sub>k</sub>}, target <i>n</i>. Construct the sum <i>n</i> with the minimum number of coins.</p>
+        <div class="ch06-def__example">
+          <span class="ch06-def__label">coins</span>
+          <span class="ch06-coin">1</span><span class="ch06-coin">2</span><span class="ch06-coin">5</span>
+          <span class="ch06-def__label">n = 12</span>
+          <span class="ch06-coin ch06-coin--use">5</span><span class="ch06-coin ch06-coin--use">5</span><span class="ch06-coin ch06-coin--use">2</span>
+          <span class="ch06-def__answer">3 coins</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="closing-line" data-reveal>Greedy chooses the largest coin that fits. On some coin sets this happens to be optimal; on others it is not. Dynamic programming gives an answer that is always optimal, and the same technique carries over to counting.</p>
+  </div>
+</section>
+
+<!-- ============ 6.1.1 ============ -->
+<section class="section section--sub" id="s611" aria-labelledby="h611">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h611">When Greedy Fails</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch06-greedy-split">
+      <div data-reveal>
+        <p>The natural greedy algorithm always selects the largest possible coin so that the sum does not exceed the target. With coins {1, 2, 5} and <i>n</i> = 12 it selects 5, 5, and 2: three coins, which is optimal.</p>
+        <p class="ch06-gap">But consider coins {1, 3, 4} and <i>n</i> = 6. The greedy algorithm takes 4 first, then 1 and 1 — three coins. The optimal solution is 3 + 3, only two coins.</p>
+        <p class="ch06-gap">One counterexample is enough. The greedy algorithm is not correct for the general coin problem, and there is no other obvious greedy rule waiting to replace it.</p>
+        <details class="note ch06-note">
+          <summary><span class="note__label">Why not try every combination?</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>A brute force algorithm that enumerates every way to choose coins is certainly correct, but there may be an enormous number of ways to build the sum, and it becomes too slow on large inputs.</p>
+            <p>Dynamic programming is almost like brute force — it considers the same choices — but it stores the answer to each subproblem, so the total work stays small.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ch06-greedy" data-reveal style="--d:.1s">
+        <div class="ch06-greedy__head">
+          <span class="kicker">Coins {1, 3, 4} · target 6</span>
+          <span class="ch06-greedy__verdict">3 coins vs 2</span>
+        </div>
+        <div class="ch06-greedy__row">
+          <div class="ch06-greedy__label"><span>Greedy</span><em>largest coin first</em></div>
+          <div class="ch06-greedy__coins">
+            <span class="ch06-coin ch06-coin--greedy" tabindex="0" data-tip="4 is the largest coin that fits, but it leaves 2 — which can only be paid with 1 + 1.">4</span>
+            <span class="ch06-coin">1</span>
+            <span class="ch06-coin">1</span>
+          </div>
+          <span class="ch06-greedy__count">3</span>
+        </div>
+        <div class="ch06-greedy__row ch06-greedy__row--best">
+          <div class="ch06-greedy__label"><span>Optimal</span><em>smaller first coin</em></div>
+          <div class="ch06-greedy__coins">
+            <span class="ch06-coin ch06-coin--use">3</span>
+            <span class="ch06-coin ch06-coin--use">3</span>
+          </div>
+          <span class="ch06-greedy__count">2</span>
+        </div>
+        <p class="ch06-greedy__note">4 + 1 + 1 = 6, but 3 + 3 = 6. The choice that looks best now is not the choice that is best overall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.1.2 ============ -->
+<section class="section section--sub" id="s612" aria-labelledby="h612">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h612">Finding an Optimal Solution</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>To use dynamic programming, formulate the problem recursively: the answer must be computable from answers to smaller versions of the same problem. Let <i>solve</i>(<i>x</i>) be the minimum number of coins needed to form the sum <i>x</i>.</p>
+
+    <p data-reveal style="max-width:760px">For coins {1, 3, 4}, the first values are <i>solve</i>(0) = 0, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3. The key is to look at the <em>first</em> coin. If it is 1, the rest is a smaller instance: form <i>x</i> − 1 with as few coins as possible. The same holds for 3 and 4. So the answer is the best of three smaller answers, plus the coin just used.</p>
+
+    <div class="ch06-formula" data-reveal>
+      <div class="ch06-formula__head">
+        <span class="kicker">The recursive definition</span>
+        <span class="ch06-formula__name"><i>solve</i>(<i>x</i>)</span>
+      </div>
+      <div class="ch06-formula__grid">
+        <div class="ch06-formula__case"><span><i>x</i> &lt; 0</span><span class="ch06-formula__val">∞</span><span class="ch06-formula__why">impossible</span></div>
+        <div class="ch06-formula__case"><span><i>x</i> = 0</span><span class="ch06-formula__val">0</span><span class="ch06-formula__why">the empty sum</span></div>
+        <div class="ch06-formula__case ch06-formula__case--wide">
+          <span><i>x</i> &gt; 0</span>
+          <span class="ch06-formula__val">min<sub><i>c</i> ∈ coins</sub> <i>solve</i>(<i>x</i> − <i>c</i>) + 1</span>
+          <span class="ch06-formula__why">try every first coin</span>
+        </div>
+      </div>
+      <p class="ch06-formula__foot">For example: <i>solve</i>(10) = <i>solve</i>(7) + 1 = <i>solve</i>(4) + 2 = <i>solve</i>(0) + 3 = 3.</p>
+    </div>
+
+    <div class="ch06-memo" data-reveal>
+      <div class="ch06-memo__col">
+        <div class="ch06-memo__head">
+          <span class="kicker">Plain recursion</span>
+          <span class="ch06-memo__tag">exponential</span>
+        </div>
+        <pre class="ch06-code"><code>int solve(int x) {
+  if (x &lt; 0) return INF;
+  if (x == 0) return 0;
+  int best = INF;
+  for (auto c : coins) {
+    best = min(best,
+      solve(x - c) + 1);
+  }
+  return best;
+}</code></pre>
+      </div>
+      <div class="ch06-memo__col ch06-memo__col--memo">
+        <div class="ch06-memo__head">
+          <span class="kicker">With memoisation</span>
+          <span class="ch06-memo__tag">O(nk)</span>
+        </div>
+        <pre class="ch06-code"><code>int solve(int x) {
+  if (x &lt; 0) return INF;
+  if (x == 0) return 0;
+<span class="ch06-add">  if (ready[x]) return value[x];</span>
+  int best = INF;
+  for (auto c : coins) {
+    best = min(best,
+      solve(x - c) + 1);
+  }
+<span class="ch06-add">  ready[x] = true;</span>
+<span class="ch06-add">  value[x] = best;</span>
+  return best;
+}</code></pre>
+      </div>
+    </div>
+
+    <p data-reveal style="max-width:760px">The added lines are the whole idea. The first time <i>solve</i>(<i>x</i>) is called, its value is computed and stored; every later call returns the stored value. Each parameter is solved once, so the running time becomes <i>O</i>(<i>n</i><i>k</i>), where <i>k</i> is the number of coin values.</p>
+
+    <div class="ch06-lab" id="coinLab" data-reveal>
+      <div class="ch06-lab__head">
+        <div>
+          <span class="kicker">Interactive · coins {1, 3, 4}</span>
+          <h3 class="ch06-lab__title">Build <i>solve</i>(12) one cell at a time</h3>
+        </div>
+        <div class="ch06-lab__legend" aria-hidden="true">
+          <span><i class="ch06-swatch ch06-swatch--active"></i>current</span>
+          <span><i class="ch06-swatch ch06-swatch--dep"></i>read</span>
+          <span><i class="ch06-swatch ch06-swatch--used"></i>chosen</span>
+        </div>
+      </div>
+
+      <div class="ch06-lab__scroll">
+        <div class="ch06-cells" id="coinCells" role="group" aria-label="Values of solve from sum 0 to sum 12"></div>
+      </div>
+
+      <div class="ch06-rec" id="coinRec" aria-live="polite"></div>
+
+      <div class="ch06-lab__controls">
+        <div class="ch06-lab__buttons">
+          <button class="btn" id="coinPrev" type="button"><svg class="icon"><use href="#i-arrow"/></svg><span>Prev</span></button>
+          <button class="btn btn--primary" id="coinNext" type="button"><span>Next sum</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--icon" id="coinReset" type="button" aria-label="Reset to sum zero"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+        <span class="ch06-lab__count" id="coinCount">sum 0 / 12</span>
+      </div>
+
+      <p class="ch06-lab__foot" id="coinFoot">The base case: an empty sum needs no coins. Step forward to fill the table from left to right.</p>
+    </div>
+
+    <h3 class="ch06-h3" data-reveal>Iterative implementation</h3>
+    <p data-reveal style="max-width:760px">Most competitive programmers write the table with a loop. The base case <code>value[0] = 0</code> is placed first, then each sum is computed from smaller sums that are already known. The array <code>first</code> records which coin produced the best value, so an optimal solution can be printed afterwards.</p>
+
+    <div class="code-card" data-code-card="coins" data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <div class="ch06-construct" data-reveal>
+      <div class="ch06-construct__copy">
+        <span class="kicker">Constructing a solution</span>
+        <p>If the value alone is not enough, store the <em>first coin</em> of an optimal solution in <code>first[x]</code>. Walking the array from <i>n</i> down to zero prints one optimal set of coins.</p>
+      </div>
+      <pre class="ch06-code ch06-code--small"><code>while (n &gt; 0) {
+  cout &lt;&lt; first[n] &lt;&lt; "\n";
+  n -= first[n];
+}</code></pre>
+      <div class="ch06-construct__ex">
+        <span class="ch06-coin ch06-coin--use">4</span><span class="ch06-coin ch06-coin--use">4</span><span class="ch06-coin ch06-coin--use">4</span>
+        <span class="ch06-construct__eq">4 + 4 + 4 = 12</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.1.3 ============ -->
+<section class="section section--sub" id="s613" aria-labelledby="h613">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.1.3</span>
+      <div class="section-head__body">
+        <h2 id="h613">Counting Solutions</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The same structure answers a different question: in how many ways can the sum be formed? Order matters — 1 + 4 and 4 + 1 are different solutions.</p>
+
+    <p data-reveal style="max-width:760px">With coins {1, 3, 4} and <i>x</i> = 5 there are six ways. The recurrence is the same as before, with <em>min</em> replaced by a sum: the last coin is either 1, 3, or 4, and the number of ways is the sum of the counts for the remaining sums.</p>
+
+    <div class="ch06-ways" data-reveal>
+      <div class="ch06-ways__head">
+        <span class="kicker">Six ways to make 5</span>
+        <span class="ch06-ways__count">count[5] = 6</span>
+      </div>
+      <div class="ch06-ways__list">
+        <div class="ch06-way" tabindex="0" data-tip="Five coins: 1 + 1 + 1 + 1 + 1"><span class="ch06-way__n">01</span><span class="ch06-way__coins"><i>1</i><i>1</i><i>1</i><i>1</i><i>1</i></span><span class="ch06-way__len">5 coins</span></div>
+        <div class="ch06-way" tabindex="0" data-tip="Three coins: 1 + 1 + 3"><span class="ch06-way__n">02</span><span class="ch06-way__coins"><i>1</i><i>1</i><i>3</i></span><span class="ch06-way__len">3 coins</span></div>
+        <div class="ch06-way" tabindex="0" data-tip="Three coins: 1 + 3 + 1"><span class="ch06-way__n">03</span><span class="ch06-way__coins"><i>1</i><i>3</i><i>1</i></span><span class="ch06-way__len">3 coins</span></div>
+        <div class="ch06-way" tabindex="0" data-tip="Three coins: 3 + 1 + 1"><span class="ch06-way__n">04</span><span class="ch06-way__coins"><i>3</i><i>1</i><i>1</i></span><span class="ch06-way__len">3 coins</span></div>
+        <div class="ch06-way" tabindex="0" data-tip="Two coins: 1 + 4"><span class="ch06-way__n">05</span><span class="ch06-way__coins"><i>1</i><i>4</i></span><span class="ch06-way__len">2 coins</span></div>
+        <div class="ch06-way" tabindex="0" data-tip="Two coins: 4 + 1"><span class="ch06-way__n">06</span><span class="ch06-way__coins"><i>4</i><i>1</i></span><span class="ch06-way__len">2 coins</span></div>
+      </div>
+      <p class="ch06-ways__foot"><i>count</i>(5) = <i>count</i>(4) + <i>count</i>(2) + <i>count</i>(1) = 4 + 1 + 1 = 6.</p>
+    </div>
+
+    <div class="split2 ch06-count-split">
+      <div data-reveal>
+        <div class="ch06-formula ch06-formula--tight">
+          <div class="ch06-formula__grid">
+            <div class="ch06-formula__case"><span><i>x</i> &lt; 0</span><span class="ch06-formula__val">0</span><span class="ch06-formula__why">no solutions</span></div>
+            <div class="ch06-formula__case"><span><i>x</i> = 0</span><span class="ch06-formula__val">1</span><span class="ch06-formula__why">the empty sum</span></div>
+            <div class="ch06-formula__case ch06-formula__case--wide"><span><i>x</i> &gt; 0</span><span class="ch06-formula__val">Σ<sub><i>c</i> ∈ coins</sub> <i>solve</i>(<i>x</i> − <i>c</i>)</span><span class="ch06-formula__why">add the branches</span></div>
+          </div>
+        </div>
+        <p class="ch06-small-gap">The count can grow very large. It is often enough to report it modulo a prime such as 10<sup>9</sup> + 7; adding <code>count[x] %= m;</code> after each addition keeps the numbers bounded.</p>
+      </div>
+
+      <div data-reveal style="--d:.1s">
+        <pre class="ch06-code ch06-code--light"><code>count[0] = 1;
+for (int x = 1; x &lt;= n; x++) {
+  for (auto c : coins) {
+    if (x - c &gt;= 0) {
+      count[x] += count[x - c];
+      count[x] %= m;
+    }
+  }
+}</code></pre>
+        <div class="ch06-counts" aria-label="Values of count for sums zero to eight">
+          <span class="ch06-counts__label">count</span>
+          <div class="ch06-counts__cells">
+            <span><i>0</i><b>1</b></span><span><i>1</i><b>1</b></span><span><i>2</i><b>1</b></span><span><i>3</i><b>2</b></span><span><i>4</i><b>4</b></span><span><i>5</i><b>6</b></span><span><i>6</i><b>9</b></span><span><i>7</i><b>15</b></span><span><i>8</i><b>25</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2 ============ -->
+<section class="section" id="s62" aria-labelledby="h62">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">6.2</span>
+      <div class="section-head__body">
+        <h2 id="h62">Further Examples</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Define the state, write the transition, fill the table in an order that respects it. The same recipe solves a surprising range of problems.</p>
+
+    <p class="lead" data-reveal>The examples that follow are not variations on coin change. They are different shapes of the same idea: a sequence of states whose answers depend only on earlier states.</p>
+
+    <div class="ch06-agenda" data-reveal>
+      <span class="ch06-agenda__item"><i>6.2.1</i>Longest increasing subsequence</span>
+      <span class="ch06-agenda__item"><i>6.2.2</i>Paths in a grid</span>
+      <span class="ch06-agenda__item"><i>6.2.3</i>Knapsack sums</span>
+      <span class="ch06-agenda__item"><i>6.2.4</i>Permutations to subsets</span>
+      <span class="ch06-agenda__item"><i>6.2.5</i>Counting tilings</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2.1 ============ -->
+<section class="section section--sub" id="s621" aria-labelledby="h621">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h621">Longest Increasing Subsequence</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The longest increasing subsequence is a maximum-length sequence of array elements that goes from left to right, with every element larger than the one before it.</p>
+
+    <p data-reveal style="max-width:760px">Let <i>length</i>(<i>k</i>) be the length of the longest increasing subsequence that ends at position <i>k</i>. To compute it, look for an earlier position <i>i</i> with <code>array[i] &lt; array[k]</code> and the largest possible <i>length</i>(<i>i</i>). If no such position exists, the subsequence is just <code>array[k]</code>.</p>
+
+    <div class="ch06-lis" id="lisLab" data-reveal>
+      <div class="ch06-lis__head">
+        <span class="kicker">Array of eight elements</span>
+        <span class="ch06-lis__readout" id="lisReadout" aria-live="polite"></span>
+      </div>
+      <div class="ch06-lis__array" id="lisArray" role="group" aria-label="Array positions; choose one to trace its increasing subsequence"></div>
+      <div class="ch06-lis__foot">
+        <p id="lisNote"></p>
+        <p class="ch06-lis__hint">Select a position to trace its chain.</p>
+      </div>
+    </div>
+
+    <div class="split2 ch06-lis-split">
+      <div data-reveal>
+        <p>The values of <i>length</i> for the array are 1, 1, 2, 1, 3, 2, 4, 2. The maximum is 4, at the last selected position. Two nested loops compute every value in <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
+        <p class="ch06-gap">The same problem can be solved in <i>O</i>(<i>n</i> log <i>n</i>) time with a more careful structure. The quadratic version is the direct dynamic programming formulation.</p>
+      </div>
+      <div class="code-card" data-code-card="lis" data-reveal style="--d:.08s">
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2.2 ============ -->
+<section class="section section--sub" id="s622" aria-labelledby="h622">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h622">Paths in a Grid</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Find a path from the upper-left corner to the lower-right corner of an <i>n</i> × <i>n</i> grid, moving only down and right, so that the sum of the values on the path is as large as possible.</p>
+
+    <p data-reveal style="max-width:760px">Let <i>sum</i>(<i>y</i>, <i>x</i>) be the maximum sum on a path from the upper-left corner to square (<i>y</i>, <i>x</i>). A path that ends at (<i>y</i>, <i>x</i>) must come from the square above or the square to the left, so it is enough to know those two answers.</p>
+
+    <div class="ch06-gridlab" id="gridLab" data-reveal>
+      <div class="ch06-gridlab__main">
+        <div class="ch06-grid" id="pathGrid" role="group" aria-label="Five by five grid. Each square shows its value and the best sum reaching it."></div>
+        <div class="ch06-grid__legend" aria-hidden="true">
+          <span><i class="ch06-legend ch06-legend--sum"></i>best sum</span>
+          <span><i class="ch06-legend ch06-legend--path"></i>path</span>
+          <span><i class="ch06-legend ch06-legend--pick"></i>selected</span>
+        </div>
+      </div>
+      <div class="ch06-gridlab__side">
+        <span class="kicker">The recurrence</span>
+        <p class="ch06-gridlab__formula"><i>sum</i>(<i>y</i>, <i>x</i>) = max(<i>sum</i>(<i>y</i>, <i>x</i>−1), <i>sum</i>(<i>y</i>−1, <i>x</i>)) + value[<i>y</i>][<i>x</i>]</p>
+        <p class="ch06-gridlab__rec" id="gridRec" aria-live="polite"></p>
+        <p class="ch06-gridlab__note" id="gridNote"></p>
+        <p class="ch06-gridlab__hint">Select any square to see the path that reaches it.</p>
+      </div>
+    </div>
+
+    <div class="split2 ch06-grid-split">
+      <div data-reveal>
+        <p>The base cases are <i>sum</i>(<i>y</i>, 0) = <i>sum</i>(0, <i>x</i>) = 0, so the formula also works on the top row and the left column. The answer is <i>sum</i>(<i>n</i>, <i>n</i>); here it is 67.</p>
+        <p class="ch06-gap">The table has two dimensions, so the algorithm is a nested loop over rows and columns. Each square is visited once: <i>O</i>(<i>n</i><sup>2</sup>) time and <i>O</i>(<i>n</i><sup>2</sup>) memory.</p>
+      </div>
+      <div data-reveal style="--d:.08s">
+        <pre class="ch06-code ch06-code--light"><code>for (int y = 1; y &lt;= n; y++) {
+  for (int x = 1; x &lt;= n; x++) {
+    sum[y][x] = max(sum[y][x-1],
+                    sum[y-1][x])
+                + value[y][x];
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2.3 ============ -->
+<section class="section section--sub" id="s623" aria-labelledby="h623">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h623">Knapsack Problems</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Given a list of weights, which sums can be constructed from their subsets? For weights [1, 3, 3, 5], every sum from 0 to 12 is possible except 2 and 10.</p>
+
+    <p data-reveal style="max-width:760px">Let <i>possible</i>(<i>x</i>, <i>k</i>) be true if the sum <i>x</i> can be formed using the first <i>k</i> weights. The weight <i>w<sub>k</sub></i> is either used or not used, which gives two smaller questions.</p>
+
+    <div class="ch06-formula ch06-formula--single" data-reveal>
+      <div class="ch06-formula__head">
+        <span class="kicker">The transition</span>
+        <span class="ch06-formula__name"><i>possible</i>(<i>x</i>, <i>k</i>)</span>
+      </div>
+      <p class="ch06-formula__big"><i>possible</i>(<i>x</i>, <i>k</i>) = <i>possible</i>(<i>x</i> − <i>w<sub>k</sub></i>, <i>k</i> − 1) <span class="ch06-or">or</span> <i>possible</i>(<i>x</i>, <i>k</i> − 1)</p>
+      <p class="ch06-formula__foot"><i>possible</i>(0, 0) = true; <i>possible</i>(<i>x</i>, 0) = false for <i>x</i> ≠ 0. The answer for a sum <i>x</i> is <i>possible</i>(<i>x</i>, <i>n</i>).</p>
+    </div>
+
+    <div class="ch06-knap" id="knapLab" data-reveal>
+      <div class="ch06-knap__head">
+        <span class="kicker">Weights [1, 3, 3, 5] · total 12</span>
+        <span class="ch06-knap__legend"><i class="ch06-mark">✓</i> constructible</span>
+      </div>
+      <div class="ch06-knap__scroll" id="knapTable"></div>
+      <p class="ch06-knap__note">Row <i>k</i> uses only the first <i>k</i> weights. Row 2, for instance, tells us that [1, 3] can construct 0, 1, 3, and 4. Hover a column heading to see one subset that makes that sum.</p>
+    </div>
+
+    <div class="split2 ch06-knap-split">
+      <div data-reveal>
+        <h3 class="ch06-h3">One array is enough</h3>
+        <p>A single array <code>possible[x]</code> can replace the table. For each new weight, update the array from right to left, so that a weight is used at most once in each subset.</p>
+        <p class="ch06-gap">The two-dimensional version takes <i>O</i>(<i>n</i><i>m</i>) time, where <i>m</i> is the total sum of the weights. The same idea extends to the classic knapsack problem, where objects have both weights and values and the goal is the largest value within a weight limit.</p>
+      </div>
+      <div data-reveal style="--d:.08s">
+        <pre class="ch06-code ch06-code--light"><code>possible[0] = true;
+for (int k = 1; k &lt;= n; k++) {
+  for (int x = m - w[k]; x &gt;= 0; x--) {
+    possible[x + w[k]] |= possible[x];
+  }
+}</code></pre>
+        <details class="note ch06-note ch06-note--inline">
+          <summary><span class="note__label">Why right to left?</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body"><p>Updating from the largest sum downwards means <code>possible[x]</code> still refers to the state before the current weight was added. Going the other way, the weight could be used again in the same pass.</p></div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2.4 ============ -->
+<section class="section section--sub" id="s624" aria-labelledby="h624">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.2.4</span>
+      <div class="section-head__body">
+        <h2 id="h624">From Permutations to Subsets</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Sometimes dynamic programming replaces an iteration over permutations with an iteration over subsets. The gain is enormous: for <i>n</i> = 20, there are about 2.4 × 10<sup>18</sup> permutations but only 2<sup>20</sup> ≈ 10<sup>6</sup> subsets.</p>
+
+    <p data-reveal style="max-width:760px">Consider an elevator with maximum weight <i>x</i> and <i>n</i> people waiting on the ground floor. What is the minimum number of rides needed to move everyone upstairs? Each subset of people can be summarised by two numbers: the minimum number of rides, and the minimum weight of the last ride among optimal solutions.</p>
+
+    <div class="ch06-elev" data-reveal>
+      <div class="ch06-elev__head">
+        <span class="kicker">Capacity 12 · five people</span>
+        <span class="ch06-elev__answer">2 rides</span>
+      </div>
+      <div class="ch06-elev__grid">
+        <span class="ch06-elev__label">person<em>weight</em></span>
+        <div class="ch06-elev__weights">
+          <span class="ch06-elev__person"><i>0</i><b>2</b></span>
+          <span class="ch06-elev__person"><i>1</i><b>3</b></span>
+          <span class="ch06-elev__person"><i>2</i><b>4</b></span>
+          <span class="ch06-elev__person"><i>3</i><b>5</b></span>
+          <span class="ch06-elev__person"><i>4</i><b>9</b></span>
+        </div>
+        <span class="ch06-elev__label">Ride 1<em>11 / 12</em></span>
+        <div class="ch06-elev__bits">
+          <b class="is-on">1</b><b>0</b><b class="is-on">1</b><b class="is-on">1</b><b>0</b>
+        </div>
+        <span class="ch06-elev__label">Ride 2<em>12 / 12</em></span>
+        <div class="ch06-elev__bits">
+          <b>0</b><b class="is-on">1</b><b>0</b><b>0</b><b class="is-on">1</b>
+        </div>
+      </div>
+      <p class="ch06-elev__note">The bit rows are the subsets {0, 2, 3} and {1, 4}. The first ride carries 2 + 4 + 5 = 11; the second carries 3 + 9 = 12. No single ride can carry everyone, so two rides is optimal.</p>
+    </div>
+
+    <div class="split2 ch06-sub-split">
+      <div data-reveal>
+        <p>For a subset <i>S</i>, try every person <i>p</i> as the last one to enter the elevator. If the last ride of <i>S</i> \ {<i>p</i>} still has room for <i>p</i>, add them to it; otherwise reserve a new ride containing only <i>p</i>. Taking the best choice over all <i>p</i> gives <i>best</i>[<i>S</i>].</p>
+        <p class="ch06-gap">The loop runs over subsets in increasing order, so every proper subset has already been processed: if <i>S</i><sub>1</sub> ⊂ <i>S</i><sub>2</sub>, then <i>S</i><sub>1</sub> comes first.</p>
+        <div class="ch06-fact">
+          <div><span>20!</span><strong>≈ 2.4 × 10<sup>18</sup></strong><em>permutations</em></div>
+          <div><span>2<sup>20</sup></span><strong>≈ 1.0 × 10<sup>6</sup></strong><em>subsets</em></div>
+        </div>
+      </div>
+      <div data-reveal style="--d:.08s">
+        <pre class="ch06-code ch06-code--light"><code>pair&lt;int,int&gt; best[1 &lt;&lt; N];
+best[0] = {0, 0};
+
+for (int s = 1; s &lt; (1 &lt;&lt; n); s++) {
+  best[s] = {n + 1, 0};
+  for (int p = 0; p &lt; n; p++) {
+    if (s &amp; (1 &lt;&lt; p)) {
+      auto option = best[s ^ (1 &lt;&lt; p)];
+      if (option.second + weight[p] &lt;= x) {
+        option.second += weight[p];
+      } else {
+        option.first++;
+        option.second = weight[p];
+      }
+      best[s] = min(best[s], option);
+    }
+  }
+}</code></pre>
+        <p class="ch06-code-cap">Time <i>O</i>(2<sup><i>n</i></sup><i>n</i>) · memory <i>O</i>(2<sup><i>n</i></sup>)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6.2.5 ============ -->
+<section class="section section--sub" id="s625" aria-labelledby="h625">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">6.2.5</span>
+      <div class="section-head__body">
+        <h2 id="h625">Counting Tilings</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>How many ways are there to fill an <i>n</i> × <i>m</i> grid with 1 × 2 and 2 × 1 tiles? For a 4 × 7 grid the answer is 781. Here is one of them.</p>
+
+    <div class="ch06-tiling" data-reveal>
+      <div class="ch06-tiling__stage">
+        <svg class="ch06-tiling__svg" viewBox="0 0 300 180" role="img" aria-label="A four by seven grid tiled with vertical and horizontal dominoes">
+          <g class="ch06-tiling__tiles">
+            <rect x="25.5" y="21.5" width="29" height="61" rx="1.5"/>
+            <rect x="57.5" y="21.5" width="61" height="29" rx="1.5"/>
+            <rect x="121.5" y="21.5" width="29" height="61" rx="1.5"/>
+            <rect x="153.5" y="21.5" width="61" height="29" rx="1.5"/>
+            <rect x="217.5" y="21.5" width="29" height="61" rx="1.5"/>
+
+            <rect x="57.5" y="53.5" width="61" height="29" rx="1.5"/>
+            <rect x="153.5" y="53.5" width="29" height="61" rx="1.5"/>
+            <rect x="185.5" y="53.5" width="29" height="61" rx="1.5"/>
+
+            <rect x="25.5" y="85.5" width="61" height="29" rx="1.5"/>
+            <rect x="89.5" y="85.5" width="61" height="29" rx="1.5"/>
+
+            <rect x="25.5" y="117.5" width="61" height="29" rx="1.5"/>
+            <rect x="89.5" y="117.5" width="61" height="29" rx="1.5"/>
+            <rect x="153.5" y="117.5" width="61" height="29" rx="1.5"/>
+            <rect x="217.5" y="117.5" width="61" height="29" rx="1.5"/>
+            <rect x="217.5" y="85.5" width="29" height="61" rx="1.5"/>
+          </g>
+          <g class="ch06-tiling__bands">
+            <rect data-band="0" x="24" y="20" width="224" height="32"/>
+            <rect data-band="1" x="24" y="52" width="224" height="32"/>
+            <rect data-band="2" x="24" y="84" width="224" height="32"/>
+            <rect data-band="3" x="24" y="116" width="224" height="32"/>
+          </g>
+        </svg>
+        <div class="ch06-tiling__tally">
+          <span class="ch06-tiling__num" data-countup="781">781</span>
+          <span class="ch06-tiling__label">tilings of 4 × 7</span>
+        </div>
+      </div>
+
+      <div class="ch06-tiling__states">
+        <span class="kicker">Each row as a string of four symbols</span>
+        <div class="ch06-rows" id="tilingRows">
+          <button class="ch06-row" type="button" data-row="0"><span class="ch06-row__n">1</span><span class="ch06-row__s">⊓ ⊏ ⊐ ⊓ ⊏ ⊐ ⊓</span></button>
+          <button class="ch06-row" type="button" data-row="1"><span class="ch06-row__n">2</span><span class="ch06-row__s">⊔ ⊏ ⊐ ⊔ ⊓ ⊓ ⊔</span></button>
+          <button class="ch06-row" type="button" data-row="2"><span class="ch06-row__n">3</span><span class="ch06-row__s">⊏ ⊐ ⊏ ⊐ ⊔ ⊔ ⊓</span></button>
+          <button class="ch06-row" type="button" data-row="3"><span class="ch06-row__n">4</span><span class="ch06-row__s">⊏ ⊐ ⊏ ⊐ ⊏ ⊐ ⊔</span></button>
+        </div>
+        <div class="ch06-legend-symbols">
+          <span><b>⊓</b> top of a vertical tile</span>
+          <span><b>⊔</b> bottom of a vertical tile</span>
+          <span><b>⊏</b> left half of a horizontal tile</span>
+          <span><b>⊐</b> right half of a horizontal tile</span>
+        </div>
+      </div>
+      <p class="ch06-tiling__cap">Hover or focus a row string to locate it in the drawing.</p>
+    </div>
+
+    <p data-reveal style="max-width:780px">Process the grid row by row. The state of a row depends only on the row above it: a row is valid if it contains no ⊔, the last row contains no ⊓, and consecutive rows agree about where vertical tiles continue. With four choices per cell there are at most 4<sup><i>m</i></sup> row states, which gives an <i>O</i>(<i>n</i> 4<sup>2<i>m</i></sup>) algorithm.</p>
+
+    <p data-reveal style="max-width:780px">A more compact state keeps only the columns where a vertical tile continues, using the characters ⊓ and □. That reduces the state count to 2<sup><i>m</i></sup> and the time to <i>O</i>(<i>n</i> 2<sup>2<i>m</i></sup>). In practice the grid is rotated so that <i>m</i> is the shorter side, because the exponential factor dominates.</p>
+
+    <details class="note ch06-note ch06-note--wide" data-reveal>
+      <summary><span class="note__label">A closed form, and why it is delicate</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>The number of tilings also has a direct formula, a product over odd-indexed cosine terms:</p>
+        <p class="ch06-formula__big ch06-formula__big--small">∏<sub><i>a</i>=1</sub><sup>⌈<i>n</i>/2⌉</sup> ∏<sub><i>b</i>=1</sub><sup>⌈<i>m</i>/2⌉</sup> 4 ( cos<sup>2</sup>(π<i>a</i> / (<i>n</i> + 1)) + cos<sup>2</sup>(π<i>b</i> / (<i>m</i> + 1)) )</p>
+        <p>It computes the answer in <i>O</i>(<i>n</i><i>m</i>) time, but the intermediate results are real numbers, so storing them accurately is the difficulty.</p>
+      </div>
+    </details>
+
+    <p class="closing" data-reveal>Dynamic programming is not one algorithm. It is the habit of asking what a state is, what smaller states it depends on, and in which order they must be filled. Once those three questions have answers, the code is usually short.</p>
+  </div>
+</section>

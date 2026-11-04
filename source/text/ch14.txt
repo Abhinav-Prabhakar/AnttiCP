@@ -1,0 +1,1044 @@
+
+
+===== PDF PAGE 227 =====
+
+String Algorithms
+This chapter deals with topics related to string processing.
+Section14.1 presents the trie structure which maintains a set of strings. After this,
+dynamic programming algorithms for determining longest common subsequences
+and edit distances are discussed.
+Section14.2 discusses the string hashing technique which is a general tool for
+creating efﬁcient string algorithms. The idea is to compare hash values of strings
+instead of their characters, which allows us to compare strings in constant time.
+Section14.3 introduces the Z-algorithm which determines for each string position
+the longest substring which is also a preﬁx of the string. The Z-algorithm is an
+alternative for many string problems that can also be solved using hashing.
+Section14.4 discusses the sufﬁx array structure, which can be used to solve some
+more advanced string problems.
+14.1 Basic Topics
+Throughout the chapter, we assume that all strings are zero indexed. For example, a
+string s of length n consists of characters s[0], s[1], . . . , s[n −1].
+A substring is a sequence of consecutive characters in a string. We use the notation
+s[a . . . b] to refer to a substring of s that starts at position a and ends at position b.
+A preﬁx is a substring that contains the ﬁrst character of a string, and a sufﬁx is a
+substring that contains the last character of a string.
+A subsequence is any sequence of characters in a string in their original order. All
+substrings are subsequences, but the converse is not true (Fig.14.1).
+
+
+===== PDF PAGE 228 =====
+
+Fig.14.1 NVELO is a
+substring, NEP is a
+subsequence
+E
+N
+V
+E
+L
+O
+P
+E
+a substring
+E
+N
+V
+E
+L
+O
+P
+E
+a subsequence
+Fig.14.2 A trie that
+contains the strings CANAL,
+CANDY, THE, and THERE
+C
+T
+A
+N
+A
+D
+L
+Y
+H
+E
+R
+E
+14.1.1 Trie Structure
+A trie is a rooted tree that maintains a set of strings. Each string in the set is stored as a
+character chain that starts at the root node. If two strings have a common preﬁx, they
+also have a common chain in the tree. As an example, the trie in Fig.14.2 corresponds
+to the set {CANAL, CANDY, THE, THERE}. A circle in a node means that a string in
+the set ends at the node.
+After constructing a trie, we can easily check whether it contains a given string
+by following the chain that starts at the root node. We can also add a new string to
+the trie by ﬁrst following the chain and then adding new nodes if necessary. Both the
+operations work in O(n) time where n is the length of the string.
+A trie can be stored in an array
+int trie[N][A];
+where N is the maximum number of nodes (the maximum total length of the strings
+in the set) and A is the size of the alphabet. The trie nodes are numbered 0, 1, 2, . . .
+in such a way that the number of the root is 0, and trie[s][c] speciﬁes the next
+node in the chain when we move from node s using character c.
+There are several ways how we can extend the trie structure. For example, suppose
+that we are given queries that require us to calculate the number of strings in the set
+that have a certain preﬁx. We can do this efﬁciently by storing for each trie node the
+number of strings whose chain goes through the node.
+
+
+===== PDF PAGE 229 =====
+
+Fig.14.3 The values of the
+lcs function for
+determining the longest
+common subsequence of
+TOUR and OPERA
+T
+O
+U
+R
+O
+P
+E
+R
+A
+0
+1
+1
+1
+0
+1
+1
+1
+0
+1
+1
+1
+0
+1
+1
+2
+0
+1
+1
+2
+14.1.2 Dynamic Programming
+Dynamic programming can be used to solve many string problems. Next we will
+discuss two examples of such problems.
+Longest Common Subsequence The longest common subsequence of two strings
+is the longest string that appears as a subsequence in both strings. For example, the
+longest common subsequence of TOUR and OPERA is OR.
+Using dynamic programming, we can determine the longest common subsequence
+of two strings x and y in O(nm) time, where n and m denote the lengths of the strings.
+To do this, we deﬁne a function lcs(i, j) that gives the length of the longest common
+subsequence of the preﬁxes x[0 . . . i] and y[0 . . . j]. Then, we can use the recurrence
+lcs(i, j) =
+
+lcs(i −1, j −1) + 1
+x[i] = y[ j]
+max(lcs(i, j −1), lcs(i −1, j)) otherwise.
+The idea is that if characters x[i] and y[ j] are equal, we match them and increase
+the length of the longest common subsequence by one. Otherwise, we remove the
+last character from either x or y, depending on which choice is optimal.
+For example, Fig.14.3 shows the values of the lcs function in our example
+scenario.
+Edit Distances The edit distance (or Levenshtein distance) between two strings
+denotes the minimum number of editing operations that transform the ﬁrst string
+into the second string. The allowed editing operations are as follows:
+• insert a character (e.g., ABC →ABCA)
+• remove a character (e.g., ABC →AC)
+• modify a character (e.g., ABC →ADC)
+For example, the edit distance between LOVE and MOVIE is 2, because we can
+ﬁrst perform the operation LOVE →MOVE (modify) and then the operation MOVE
+→MOVIE (insert).
+We can calculate the edit distance between two strings x and y in O(nm) time,
+where n and m are the lengths of the strings. Let edit(i, j) denote the edit distance
+between the preﬁxes x[0 . . . i] and y[0 . . . j]. The values of the function can be
+calculated using the recurrence
+
+
+===== PDF PAGE 230 =====
+
+Fig.14.4 The values of the
+edit function for
+determining the edit distance
+between LOVE and MOVIE
+L
+O
+V
+E
+M
+O
+V
+I
+E
+1
+2
+3
+4
+2
+1
+2
+3
+3
+2
+1
+2
+4
+3
+2
+2
+5
+4
+3
+2
+edit(a, b) = min(edit(a, b −1) + 1,
+edit(a −1, b) + 1,
+edit(a −1, b −1) + cost(a, b)),
+where cost(a, b) = 0 if x[a] = y[b], and otherwise cost(a, b) = 1. The formula
+considers three ways to edit the string x: insert a character at the end of x, remove
+the last character from x, or match/modify the last character of x. In the last case, if
+x[a] = y[b], we can match the last characters without editing.
+For example, Fig.14.4 shows the values of the edit function in our example
+scenario.
+14.2 String Hashing
+Using string hashing we can efﬁciently check whether two strings are equal by
+comparing their hash values. A hash value is an integer that is calculated from the
+characters of the string. If two strings are equal, their hash values are also equal,
+which makes it possible to compare strings based on their hash values.
+14.2.1 Polynomial Hashing
+A usual way to implement string hashing is polynomial hashing, which means that
+the hash value of a string s of length n is
+(s[0]An−1 + s[1]An−2 + · · · + s[n −1]A0) mod B,
+where s[0], s[1], . . . , s[n −1] are interpreted as character codes, and A and B are
+prechosen constants.
+For example, let us calculate the hash value of the string ABACB. The character
+codes of A, B, and C are 65, 66, and 67. Then, we need to ﬁx the constants; suppose
+that A = 3 and B = 97. Thus, the hash value is
+(65 · 34 + 66 · 33 + 65 · 32 + 66 · 31 + 67 · 30) mod 97 = 40.
+
+
+===== PDF PAGE 231 =====
+
+When polynomial hashing is used, we can calculate the hash value of any substring
+of a string s in O(1) time after an O(n) time preprocessing. The idea is to construct
+an array h such that h[k] contains the hash value of the preﬁx s[0 . . . k]. The array
+values can be recursively calculated as follows:
+h[0] = s[0]
+h[k] = (h[k −1]A + s[k]) mod B
+In addition, we construct an array p where p[k] = Ak mod B:
+p[0] = 1
+p[k] = (p[k −1]A) mod B.
+Constructing the above arrays takes O(n) time. After this, the hash value of any
+substring s[a . . . b] can be calculated in O(1) time using the formula
+(h[b] −h[a −1]p[b −a + 1]) mod B
+assuming that a > 0. If a = 0, the hash value is simply h[b].
+14.2.2 Applications
+We can efﬁciently solve many string problems using hashing, because it allows us
+to compare arbitrary substrings of strings in O(1) time. In fact, we can often simply
+take a brute force algorithm and make it efﬁcient by using hashing.
+Pattern Matching A fundamental string problem is the pattern matching problem:
+given a string s and a pattern p, ﬁnd the positions where p occurs in s. For example,
+the pattern ABC occurs at positions 0 and 5in the string ABCABABCA (Fig.14.5).
+We can solve the pattern matching problem in O(n2) time using a brute force
+algorithm that goes through all positions where p may occur in s and compares
+strings character by character. Then, we can make the brute force algorithm efﬁcient
+using hashing, because each comparison of strings then only takes O(1) time. This
+results in an O(n) time algorithm.
+Distinct Substrings Consider the problem of counting the number of distinct sub-
+strings of length k in a string. For example, the string ABABAB has two distinct
+substrings of length 3: ABA and BAB. Using hashing, we can calculate the hash
+value of each substring and reduce the problem to counting the number of distinct
+integers in a list, which can be done in O(n log n) time.
+Fig.14.5 The pattern ABC
+appears two times in the
+string ABCABABCA
+A
+B
+C
+A
+B
+A
+B
+C
+A
+0
+1
+2
+3
+4
+5
+6
+7
+8
+
+
+===== PDF PAGE 232 =====
+
+Minimal Rotation A rotation of a string can be created by repeatedly moving the
+ﬁrst character of the string to the end of the string. For example, the rotations of
+ATLAS are ATLAS, TLASA, LASAT, ASATL, and SATLA. Next we will consider the
+problem of ﬁnding the lexicographically minimal rotation of a string. For example,
+the minimal rotation of ATLAS is ASATL.
+We can efﬁciently solve the problem by combining string hashing and binary
+search. The key idea is that we can ﬁnd out the lexicographic order of two strings in
+logarithmic time. First, we calculate the length of the common preﬁx of the strings
+using binary search. Here hashing allows us to check in O(1) time whether two
+preﬁxes of a certain length match. After this, we check the next character after the
+common preﬁx, which determines the order of the strings.
+Then, to solve the problem, we construct a string that contains two copies of
+the original string (e.g., ATLASATLAS) and go through its substrings of length n
+maintaining the minimal substring. Since each comparison can be done in O(log n)
+time, the algorithm works in O(n log n) time.
+14.2.3 Collisions and Parameters
+An evident risk when comparing hash values is a collision, which means that two
+strings have different contents but equal hash values. In this case, an algorithm that
+relies on the hash values concludes that the strings are equal, but in reality they are
+not, and the algorithm may give incorrect results.
+Collisions are always possible, because the number of different strings is larger
+than the number of different hash values. However, the probability of a collision is
+small if the constants A and B are carefully chosen. A usual way is to choose random
+constants near 109, for example, as follows:
+A = 911382323
+B = 972663749
+Using such constants, the long long type can be used when calculating hash
+values, because the products AB and BB will ﬁt in long long. But is it enough to
+have about 109 different hash values?
+Let us consider three scenarios where hashing can be used:
+Scenario 1: Strings x and y are compared with each other. The probability of a
+collision is 1/B assuming that all hash values are equally probable.
+Scenario 2: A string x is compared with strings y1, y2, . . . , yn. The probability
+of one or more collisions is
+1 −(1 −1/B)n.
+Scenario 3: All pairs of strings x1, x2, . . . , xn are compared with each other. The
+probability of one or more collisions is
+1 −B · (B −1) · (B −2) · · · (B −n + 1)
+Bn
+.
+
+
+===== PDF PAGE 233 =====
+
+Table 14.1 Collision probabilities in hashing scenarios when n = 106
+Constant B
+Scenario 1
+Scenario 2
+Scenario 3
+103
+0.00
+1.00
+1.00
+106
+0.00
+0.63
+1.00
+109
+0.00
+0.00
+1.00
+1012
+0.00
+0.00
+0.39
+1015
+0.00
+0.00
+0.00
+1018
+0.00
+0.00
+0.00
+Table14.1 shows the collision probabilities for different values of B when n =
+106. The table shows that in Scenarios 1 and 2, the probability of a collision is
+negligible when B ≈109. However, in Scenario 3 the situation is very different: a
+collision will almost always happen when B ≈109.
+The phenomenon in Scenario 3 is known as the birthday paradox: if there are n
+people in a room, the probability that some two people have the same birthday is
+large even if n is quite small. In hashing, correspondingly, when all hash values are
+compared with each other, the probability that some two hash values are equal is
+large.
+We can make the probability of a collision smaller by calculating multiple hash
+values using different parameters. It is unlikely that a collision would occur in all
+hash values at the same time. For example, two hash values with parameter B ≈109
+correspond to one hash value with parameter B ≈1018, which makes the probability
+of a collision very small.
+Some people use constants B = 232 and B = 264, which is convenient, because
+operations with 32- and 64-bit integers are calculated modulo 232 and 264. However,
+this is not a good choice, because it is possible to construct inputs that always generate
+collisions when constants of the form 2x are used [23].
+14.3 Z-Algorithm
+The Z-array z of a string s of length n contains for each k = 0, 1, . . . , n −1 the
+length of the longest substring of s that begins at position k and is a preﬁx of s.
+Thus, z[k] = p tells us that s[0 . . . p −1] equals s[k . . . k + p −1], but s[p] and
+s[k + p] are different characters (or the length of the string is k + p).
+For example, Fig.14.6 shows the Z-array of ABCABCABAB. In the array, for
+example, z[3] = 5, because the substring ABCAB of length 5 is a preﬁx of s, but the
+substring ABCABA of length 6 is not a preﬁx of s.
+
+
+===== PDF PAGE 234 =====
+
+Fig.14.6 The Z-array of
+ABCABCABAB
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+0
+0
+2
+0
+2
+0
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Fig.14.7 Scenario 1:
+Calculating the value of z[3]
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+?
+?
+?
+?
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+?
+?
+?
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+x
+y
+14.3.1 Constructing the Z-Array
+Next we describe an algorithm, called the Z-algorithm which efﬁciently constructs
+the Z-array in O(n) time.1 The algorithm calculates the Z-array values from left
+to right by both using information already stored in the array and by comparing
+substrings character by character.
+To efﬁciently calculate the Z-array values, the algorithm maintains a range [x, y]
+such that s[x . . . y] is a preﬁx of s, the value of z[x] has been determined, and y is
+as large as possible. Since we know that s[0 . . . y −x] and s[x . . . y] are equal, we
+can use this information when calculating subsequent array values. Suppose that we
+have calculated the values of z[0], z[1], . . . , z[k −1] and we want to calculate the
+value of z[k]. There are three possible scenarios:
+Scenario 1: y < k. In this case, we do not have information about the position k,
+so we calculate the value of z[k] by comparing substrings character by character.
+For example, in Fig.14.7, there is no [x, y] range yet, so we compare the substrings
+starting at positions 0 and 3 character by character. Since z[3] = 5, the new [x, y]
+range becomes [3, 7].
+Scenario 2: y ≥k and k + z[k −x] ≤y. In this case we know that z[k] = z[k −
+x], because s[0 . . . y −x] and s[x . . . y] are equal and we stay inside the [x, y]
+range. For example, in Fig.14.8, we conclude that z[4] = z[1] = 0.
+Scenario 3: y ≥k and k + z[k −x] > y. In this case we know that z[k] ≥y −
+k + 1. However, since we do not have information after the position y, we have to
+compare substrings character by character starting at positions y −k + 1 and y + 1.
+For example, in Fig.14.9, we know that z[6] ≥2. Then, since s[2]̸ = s[8], it turns
+out that, in fact, z[6] = 2.
+1Gusﬁeld [13] presents the Z-algorithm as the simplest known method for linear-time pattern match-
+ing and attributes the original idea to Main and Lorentz [22].
+
+
+===== PDF PAGE 235 =====
+
+Fig.14.8 Scenario 2:
+Calculating the value of z[4]
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+?
+?
+?
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+x
+y
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+0
+?
+?
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+x
+y
+Fig.14.9 Scenario 3:
+Calculating the value of z[6]
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+0
+0
+?
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+x
+y
+A
+B
+C
+A
+B
+C
+A
+B
+A
+B
+–
+0
+0
+5
+0
+0
+2
+?
+?
+?
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+x
+y
+The resulting algorithm works in O(n) time, because always when two characters
+match when comparing substrings character by character, the value of y increases.
+Thus, the total work needed for comparing substrings is only O(n).
+14.3.2 Applications
+The Z-algorithm provides an alternative way to solve many string problems that
+can be also solved using hashing. However, unlike hashing, the Z-algorithm always
+works and there is no risk of collisions. In practice, it is often a matter of taste whether
+to use hashing or the Z-algorithm.
+Pattern Matching Consider again the pattern matching problem, where our task is
+to ﬁnd the occurrences of a pattern p in a string s. We already solved the problem
+using hashing, but now we will see how the Z-algorithm handles the problem.
+A recurrent idea in string processing is to construct a string that consists of multiple
+individual parts separated by special characters. In this problem, we can construct a
+string p#s, where p and s are separated by a special character # that does not occur
+in the strings. Then, the Z-array of p#s tells us the positions where p occurs in s,
+because such positions contain the length of p.
+
+
+===== PDF PAGE 236 =====
+
+Fig.14.10 Pattern matching
+using the Z-algorithm
+A
+B
+C
+#
+A
+B
+C
+A
+B
+A
+B
+C
+A
+–
+0
+0
+0
+3
+0
+0
+2
+0
+3
+0
+0
+1
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10 11 12
+Fig.14.11 Finding borders
+using the Z-algorithm
+A
+B
+A
+C
+A
+B
+A
+C
+A
+B
+A
+–
+0
+1
+0
+7
+0
+1
+0
+3
+0
+1
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Fig.14.12 The sufﬁx array
+of the string ABAACBAB
+2
+6
+0
+3
+7
+1
+5
+4
+0
+1
+2
+3
+4
+5
+6
+7
+Fig.14.13 Another way to
+represent the sufﬁx array
+2
+6
+0
+3
+7
+1
+5
+4
+AACBAB
+AB
+ABAACBAB
+ACBAB
+B
+BAACBAB
+BAB
+CBAB
+0
+1
+2
+3
+4
+5
+6
+7
+Figure14.10 shows the Z-array for s =ABCABABCA and p =ABC. Positions 4
+and 9 contain the value 3, which means that p occurs in positions 0 and 5in s.
+Finding Borders A border is a string that is both a preﬁx and a sufﬁx of a string, but
+not the entire string. For example, the borders of ABACABACABA are A, ABA, and
+ABACABA. All borders of a string can be efﬁciently found using the Z-algorithm,
+because a sufﬁx at position k is a border exactly when k + z[k] = n where n is the
+length of the string. For example, in Fig.14.11, 4 + z[4] = 11, which means that
+ABACABA is a border of the string.
+14.4 Sufﬁx Arrays
+The sufﬁx array of a string describes the lexicographic order of its sufﬁxes. Each
+value in the sufﬁx array is a starting position of a sufﬁx. For example, Fig.14.12
+shows the sufﬁx array of the string ABAACBAB.
+It is often convenient to represent the sufﬁx array vertically and also show the
+corresponding sufﬁxes (Fig.14.13). However, note that the sufﬁx array itself only
+contains the starting positions of the sufﬁxes and not their characters.
+
+
+===== PDF PAGE 237 =====
+
+–
+–
+–
+–
+–
+–
+–
+–
+1
+2
+1
+1
+3
+2
+1
+2
+initial labels
+final labels
+round 0
+length 1
+1,2 2,1 1,1 1,3 3,2 2,1 1,2 2,0
+2
+5
+1
+3
+6
+5
+2
+4
+initial labels
+ﬁnal labels
+round 1
+length 2
+2,1 5,3 1,6 3,5 6,2 5,4 2,0 4,0
+3
+6
+1
+4
+8
+7
+2
+5
+initial labels
+ﬁnal labels
+round 2
+length 4
+3,8 6,7 1,2 4,5 8,0 7,0 2,0 5,0
+3
+6
+1
+4
+8
+7
+2
+5
+initial labels
+ﬁnal labels
+round 3
+length 8
+Fig.14.14 Constructing the labels for the string ABAACBAB
+14.4.1 Preﬁx Doubling Method
+A simple and efﬁcient way to create the sufﬁx array of a string is to use a preﬁx dou-
+bling construction, which works in O(n log2 n) or O(n log n) time, depending on
+the implementation.2 The algorithm consists of rounds numbered 0, 1, . . . , ⌈log2 n⌉,
+and round i goes through substrings whose length is 2i. During a round, each sub-
+string x of length 2i is given an integer label l(x) such that l(a) = l(b) exactly when
+a = b and l(a) < l(b) exactly when a < b.
+On round 0, each substring consists of only one character, and we can, for example,
+use labels A = 1, B = 2, and so on. Then, on round i, where i > 0, we use the labels
+for substrings of length 2i−1 to construct labels for substrings of length 2i. To give a
+label l(x) for a substring x of length 2i, we divide x into two halves a and b of length
+2i−1 whose labels are l(a) and l(b). (If the second half begins outside the string, we
+assume that its label is 0.) First, we give x an initial label that is a pair (l(a),l(b)).
+Then, after all substrings of length 2i have been given initial labels, we sort the initial
+labels and give ﬁnal labels that are consecutive integers 1, 2, 3, etc. The purpose of
+giving the labels is that after the last round, each substring has a unique label, and the
+labels show the lexicographic order of the substrings. Then, we can easily construct
+the sufﬁx array based on the labels.
+Figure14.14 shows the construction of the labels for ABAACBAB. For example,
+after round 1, we know that l(AB) = 2 and l(AA) = 1. Then, on round 2, the initial
+label for ABAA is (2, 1). Since there are two smaller initial labels ((1, 6) and (2, 0)),
+the ﬁnal label is l(ABAA) = 3. Note that in this example, each label is unique already
+2The idea of preﬁx doubling is due to Karp, Miller, and Rosenberg [17]. There are also more
+advanced O(n) time algorithms for constructing sufﬁx arrays; Kärkkäinen and Sanders [16] provide
+a quite simple such algorithm.
+
+
+===== PDF PAGE 238 =====
+
+2
+6
+0
+3
+7
+1
+5
+4
+AACBAB
+AB
+ABAACBAB
+ACBAB
+B
+BAACBAB
+BAB
+CBAB
+0
+1
+2
+3
+4
+5
+6
+7
+2
+6
+0
+3
+7
+1
+5
+4
+AACBAB
+AB
+ABAACBAB
+ACBAB
+B
+BAACBAB
+BAB
+CBAB
+0
+1
+2
+3
+4
+5
+6
+7
+2
+6
+0
+3
+7
+1
+5
+4
+AACBAB
+AB
+ABAACBAB
+ACBAB
+B
+BAACBAB
+BAB
+CBAB
+0
+1
+2
+3
+4
+5
+6
+7
+Fig.14.15 Finding the occurrences of BA in ABAACBAB using a sufﬁx array
+after round 2, because the ﬁrst four characters of the substrings completely determine
+their lexicographical order.
+The resulting algorithm works in O(n log2 n) time, because there are O(log n)
+rounds and we sort a list of n pairs on each round. In fact, an O(n log n) implemen-
+tation is also possible, because we can use a linear-time sorting algorithm to sort the
+pairs. Still, a straightforward O(n log2 n) time implementation just using the C++
+sort function is usually efﬁcient enough.
+14.4.2 Finding Patterns
+After constructing the sufﬁx array, we can efﬁciently ﬁnd the occurrences of any
+given pattern in the string. This can be done in O(k log n) time, where n is the length
+of the string and k is the length of the pattern. The idea is to process the pattern
+character by character and maintain a range in the sufﬁx array that corresponds to
+the preﬁx of the pattern processed so far. Using binary search, we can efﬁciently
+update the range after each new character.
+For example, consider ﬁnding the occurrences of the pattern BA in the string
+ABAACBAB (Fig.14.15). First, our search range is [0, 7], which spans the entire
+sufﬁx array. Then, after processing the character B, the range becomes [4, 6]. Finally,
+after processing the character A, the range becomes [5, 6]. Thus, we conclude that
+BA has two occurrences in ABAACBAB in positions 1 and 5.
+Compared to string hashing and the Z-algorithm discussed earlier, the advantage
+of the sufﬁx array is that we can efﬁciently process several queries that are related
+to different patterns, and it is not necessary to know the patterns beforehand when
+constructing the sufﬁx array.
+14.4.3 LCP Arrays
+The LCP array of a string gives for its each sufﬁx a LCP value: the length of the
+longest common preﬁx of the sufﬁx and the next sufﬁx in the sufﬁx array. Figure14.16
+
+
+===== PDF PAGE 239 =====
+
+Fig.14.16 The LCP array
+of the string ABAACBAB
+1
+2
+1
+0
+1
+2
+0
+–
+AACBAB
+AB
+ABAACBAB
+ACBAB
+B
+BAACBAB
+BAB
+CBAB
+0
+1
+2
+3
+4
+5
+6
+7
+shows the LCP array for the string ABAACBAB. For example, the LCP value of the
+sufﬁx BAACBAB is 2, because the longest common preﬁx of BAACBAB and BAB is
+BA. Note that the last sufﬁx in the sufﬁx array does not have a LCP value.
+Next we present an efﬁcient algorithm, due to Kasai et al. [18], for constructing
+the LCP array of a string, provided that we have already constructed its sufﬁx array.
+The algorithm is based on the following observation: Consider a sufﬁx whose LCP
+value is x. If we remove the ﬁrst character from the sufﬁx and get another sufﬁx,
+we immediately know that its LCP value has to be at least x −1. For example, in
+Fig.14.16, the LCP value of the sufﬁx BAACBAB is 2, so we know that the LCP
+value of the sufﬁx AACBAB has to be at least 1. In fact, it happens to be exactly 1.
+We can use the above observation to efﬁciently construct the LCP array by calcu-
+lating the LCP values in decreasing order of sufﬁx length. At each sufﬁx, we calculate
+its LCP value by comparing the sufﬁx and the next sufﬁx in the sufﬁx array character
+by character. Now we can use the fact that we know the LCP value of the sufﬁx
+that has one more character. Thus, the current LCP value has to be at least x −1,
+where x is the previous LCP value, and we do not need to compare the ﬁrst x −1
+characters of the sufﬁxes. The resulting algorithm works in O(n) time, because only
+O(n) comparisons are done during the algorithm.
+Using the LCP array, we can efﬁciently solve some advanced string problems.
+For example, to calculate the number of distinct substrings in a string, we can simply
+subtract the sum of all values in the LCP array from the total number of substrings,
+i.e., the answer to the problem is
+n(n + 1)
+2
+−c,
+where n is the length of the string and c is the sum of all values in the LCP array.
+For example, the string ABAACBAB has
+8 · 9
+2
+−7 = 29
+distinct substrings.

@@ -1,0 +1,2609 @@
+
+
+===== PDF PAGE 151 =====
+
+Mathematics
+This chapter deals with mathematical topics that are recurrent in competitive pro-
+gramming. We will both discuss theoretical results and learn how to use them in
+practice in algorithms.
+Section11.1 discusses number-theoretical topics. We will learn algorithms for
+ﬁnding prime factors of numbers, techniques related to modular arithmetic, and
+efﬁcient methods for solving integer equations.
+Section11.2exploreswaystoapproachcombinatorialproblems:howtoefﬁciently
+count all valid combinations of objects. The topics of this section include binomial
+coefﬁcients, Catalan numbers, and inclusion-exclusion.
+Section11.3 shows how to use matrices in algorithm programming. For example,
+we will learn how to make a dynamic programming algorithm more efﬁcient by
+exploiting an efﬁcient way to calculate matrix powers.
+Section11.4 ﬁrst discusses basic techniques for calculating probabilities of events
+and the concept of Markov chains. After this, we will see examples of algorithms
+that are based on randomness.
+Section11.5 focuses on game theory. First, we will learn to optimally play a simple
+stick game using nim theory, and after this, we will generalize the strategy to a wide
+range of other games.
+11.1 Number Theory
+Number theory is a branch of mathematics that studies integers. In this section, we
+will discuss a selection of number-theoretical topics and algorithms, such as ﬁnding
+prime numbers and factors, and solving integer equations.
+
+
+===== PDF PAGE 152 =====
+
+11.1.1 Primes and Factors
+An integer a is called a factor or a divisor of an integer b if a divides b. If a is a
+factor of b, we write a | b, and otherwise we write a ∤b. For example, the factors of
+24 are 1, 2, 3, 4, 6, 8, 12, and 24.
+An integer n > 1 is a prime if its only positive factors are 1 and n. For example,
+7, 19, and 41 are primes, but 35 is not a prime, because 5 · 7 = 35. For every integer
+n > 1, there is a unique prime factorization
+n = pα1
+1 pα2
+2 · · · pαk
+k ,
+where p1, p2, . . . , pk are distinct primes and α1, α2, . . . , αk are positive integers.
+For example, the prime factorization for 84 is
+84 = 22 · 31 · 71.
+Let τ(n) denote the number of factors of an integer n. For example, τ(12) = 6,
+because the factors of 12 are 1, 2, 3, 4, 6, and 12. To calculate the value of τ(n), we
+can use the formula
+τ(n) =
+k
+i=1
+(αi + 1),
+because for each prime pi, there are αi +1 ways to choose how many times it appears
+in the factor. For example, since 12 = 22 · 3, τ(12) = 3 · 2 = 6.
+Then, let σ(n) denote the sum of factors of an integer n. For example, σ(12) = 28,
+because 1 + 2 + 3 + 4 + 6 + 12 = 28. To calculate the value of σ(n), we can use
+the formula
+σ(n) =
+k
+i=1
+(1 + pi + · · · + pαi
+i ) =
+k
+i=1
+pαi+1
+i
+−1
+pi −1
+,
+where the latter form is based on the geometric progression formula. For example,
+σ(12) = (23 −1)/(2 −1) · (32 −1)/(3 −1) = 28.
+Basic Algorithms If an integer n is not prime, it can be represented as a product
+a · b, where a ≤√n or b ≤√n, so it certainly has a factor between 2 and ⌊√n⌋.
+Using this observation, we can both test if an integer is prime and ﬁnd its prime
+factorization in O(√n) time.
+The following function prime checks if a given integer n is prime. The function
+attempts to divide n by all integers between 2 and ⌊√n⌋, and if none of them divides
+n, then n is prime.
+
+
+===== PDF PAGE 153 =====
+
+bool prime(int n) {
+if (n < 2) return false;
+for (int x = 2; x*x <= n; x++) {
+if (n%x == 0) return false;
+}
+return true;
+}
+Then, the following function factors constructs a vector that contains the prime
+factorization of n. The function divides n by its prime factors and adds them to the
+vector. The process ends when the remaining number n has no factors between 2 and
+⌊√n⌋. If n > 1, it is prime and the last factor.
+vector<int> factors(int n) {
+vector<int> f;
+for (int x = 2; x*x <= n; x++) {
+while (n%x == 0) {
+f.push_back(x);
+n /= x;
+}
+}
+if (n > 1) f.push_back(n);
+return f;
+}
+Note that each prime factor appears in the vector as many times as it divides the
+number. For example, 12 = 22 · 3, so the result of the function is [2, 2, 3].
+Properties of Primes It is easy to show that there is an inﬁnite number of primes. If
+the number of primes would be ﬁnite, we could construct a set P = {p1, p2, . . . , pn}
+that would contain all the primes. For example, p1 = 2, p2 = 3, p3 = 5, and so on.
+However, using such a set P, we could form a new prime
+p1 p2 · · · pn + 1
+that would be larger than all elements in P. This is a contradiction, and the number
+of primes has to be inﬁnite.
+The prime-counting function π(n) gives the number of primes up to n. For exam-
+ple, π(10) = 4, because the primes up to 10 are 2, 3, 5, and 7. It is possible to show
+that
+π(n) ≈
+n
+ln n ,
+which means that primes are quite frequent. For example, an approximation for
+π(106) is 106/ ln 106 ≈72382, and the exact value is 78498.
+
+
+===== PDF PAGE 154 =====
+
+0
+0
+1
+0
+1
+0
+1
+1
+1
+0
+1
+0
+1
+1
+1
+0
+1
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10 11 12 13 14 15 16 17 18 19 20
+Fig.11.1 Outcome of the sieve of Eratosthenes for n = 20
+2
+3
+2
+5
+2
+7
+2
+3
+2
+11
+2
+13
+2
+3
+2
+17
+2
+19
+2
+2
+3
+4
+5
+6
+7
+8
+9
+10 11 12 13 14 15 16 17 18 19 20
+Fig.11.2 An extended sieve of Eratosthenes that contains the smallest prime factor of each number
+11.1.2 Sieve of Eratosthenes
+The sieve of Eratosthenes is a preprocessing algorithm that constructs an array
+sieve from which we can efﬁciently check if any integer x between 2 . . . n is
+prime. If x is prime, then sieve[x] = 0, and otherwise sieve[x] = 1. For exam-
+ple, Fig.11.1 shows the contents of sieve for n = 20.
+To construct the array, the algorithm iterates through the integers 2 . . . n one by
+one. Always when a new prime x is found, the algorithm records that the num-
+bers 2x, 3x, 4x, etc., are not primes. The algorithm can be implemented as follows,
+assuming that every element of sieve is initially zero:
+for (int x = 2; x <= n; x++) {
+if (sieve[x]) continue;
+for (int u = 2*x; u <= n; u += x) {
+sieve[u] = 1;
+}
+}
+The inner loop of the algorithm is executed ⌊n/x⌋times for each value of x. Thus,
+an upper bound for the running time of the algorithm is the harmonic sum
+n
+
+x=2
+⌊n/x⌋= ⌊n/2⌋+ ⌊n/3⌋+ ⌊n/4⌋+ · · · = O(n log n).
+In fact, the algorithm is more efﬁcient, because the inner loop will be executed
+only if the number x is prime. It can be shown that the running time of the algorithm
+is only O(n log log n), a complexity very near to O(n). In practice, the sieve of
+Eratosthenes is very efﬁcient; Table11.1 shows some real running times.
+There are several ways to extend the sieve of Eratosthenes. For example, we can
+calculate for each number k its smallest prime factor (Fig.11.2). After this, we can
+efﬁciently factorize any number between 2 . . . n using the sieve. (Note that a number
+n has O(log n) prime factors.)
+
+
+===== PDF PAGE 155 =====
+
+Table 11.1 Running times of
+the sieve of Eratosthenes
+Upper bound n
+Running time (s)
+106
+0.01
+2 · 106
+0.03
+4 · 106
+0.07
+8 · 106
+0.14
+16 · 106
+0.28
+32 · 106
+0.57
+64 · 106
+1.16
+128 · 106
+2.35
+11.1.3 Euclid’s Algorithm
+The greatest common divisor of integers a and b, denoted gcd(a, b), is the largest
+integer that divides both a and b. For example, gcd(30, 12) = 6. A related concept
+is the lowest common multiple, denoted lcm(a, b), which is the smallest integer that
+is divisible by both a and b. The formula
+lcm(a, b) =
+ab
+gcd(a, b)
+can be used to calculate lowest common multiples. For example, lcm(30, 12) =
+360/gcd(30, 12) = 60.
+One way to ﬁnd gcd(a, b) is to divide a and b into prime factors, and then choose
+for each prime the largest power that appears in both factorizations. For example,
+to calculate gcd(30, 12), we can construct the factorizations 30 = 2 · 3 · 5 and
+12 = 22 · 3, and conclude that gcd(30, 12) = 2 · 3 = 6. However, this technique is
+not efﬁcient if a and b are large numbers.
+Euclid’s algorithm provides an efﬁcient way to calculate the value of gcd(a, b).
+The algorithm is based on the formula
+gcd(a, b) =
+
+a
+b = 0
+gcd(b, a mod b) b̸ = 0.
+For example,
+gcd(30, 12) = gcd(12, 6) = gcd(6, 0) = 6.
+The algorithm can be implemented as follows:
+int gcd(int a, int b) {
+if (b == 0) return a;
+return gcd(b, a%b);
+}
+
+
+===== PDF PAGE 156 =====
+
+Fig.11.3 Why does
+Euclid’s algorithm work?
+a
+b
+b
+a mod b
+x
+x
+x
+x
+x
+x
+x
+x
+Why does the algorithm work? To understand this, consider Fig.11.3. where
+x = gcd(a, b). Since x divides both a and b, it must also divide a mod b, which
+shows why the recursive formula holds.
+It can be proved that Euclid’s algorithm works in O(log n) time, where n =
+min(a, b).
+Extended Euclid’s Algorithm Euclid’s algorithm can also be extended so that it
+gives integers x and y for which
+ax + by = gcd(a, b).
+For example, when a = 30 and b = 12,
+30 · 1 + 12 · (−2) = 6.
+We can solve also this problem using the formula gcd(a, b) = gcd(b, a mod b).
+Suppose that we have already solved the problem for gcd(b, a mod b), and we know
+values x′ and y′ for which
+bx′ + (a mod b)y′ = gcd(a, b).
+Then, since a mod b = a −⌊a/b⌋· b,
+bx′ + (a −⌊a/b⌋· b)y′ = gcd(a, b),
+which equals
+ay′ + b(x′ −⌊a/b⌋· y′) = gcd(a, b).
+Thus, we can choose x = y′ and y = x′ −⌊a/b⌋· y′. Using this idea, the following
+function returns a tuple (x, y, gcd(a, b)) that satisﬁes the equation.
+tuple<int,int,int> gcd(int a, int b) {
+if (b == 0) {
+return {1,0,a};
+} else {
+int x,y,g;
+tie(x,y,g) = gcd(b,a%b);
+return {y,x-(a/b)*y,g};
+}
+}
+
+
+===== PDF PAGE 157 =====
+
+We can use the function as follows:
+int x,y,g;
+tie(x,y,g) = gcd(30,12);
+cout << x << " " << y << " " << g << "\n"; // 1 -2 6
+11.1.4 Modular Exponentiation
+There is often a need to efﬁciently calculate the value of xn mod m. This can be done
+in O(log n) time using the following recursive formula:
+xn =
+⎧
+⎪⎨
+⎪⎩
+1
+n = 0
+xn/2 · xn/2
+n is even
+xn−1 · x
+n is odd
+For example, to calculate the value of x100, we ﬁrst calculate the value of x50 and
+then use the formula x100 = x50 · x50. Then, to calculate the value of x50, we ﬁrst
+calculate the value of x25 and so on. Since n always halves when it is even, the
+calculation takes only O(log n) time.
+The algorithm can be implemented as follows:
+int modpow(int x, int n, int m) {
+if (n == 0) return 1%m;
+long long u = modpow(x,n/2,m);
+u = (u*u)%m;
+if (n%2 == 1) u = (u*x)%m;
+return u;
+}
+11.1.5 Euler’s Theorem
+Two integers a and b are called coprime if gcd(a, b) = 1. Euler’s totient function
+ϕ(n) gives the number of integers between 1 . . . n that are coprime to n. For example,
+ϕ(10) = 4, because 1, 3, 7, and 9 are coprime to 10.
+Any value of ϕ(n) can be calculated from the prime factorization of n using the
+formula
+ϕ(n) =
+k
+i=1
+pαi−1
+i
+(pi −1).
+For example, since 10 = 2 · 5, ϕ(10) = 20 · (2 −1) · 50 · (5 −1) = 4.
+
+
+===== PDF PAGE 158 =====
+
+Euler’s theorem states that
+xϕ(m) mod m = 1
+for all positive coprime integers x and m. For example, Euler’s theorem tells us that
+74 mod 10 = 1, because 7 and 10 are coprime and ϕ(10) = 4.
+If m is prime, ϕ(m) = m −1, so the formula becomes
+xm−1 mod m = 1,
+which is known as Fermat’s little theorem. This also implies that
+xn mod m = xn mod (m−1) mod m,
+which can be used to calculate values of xn if n is very large.
+Modular Multiplicative Inverses The modular multiplicative inverse of x with
+respect to m is a value invm(x) such that
+x · invm(x) mod m = 1.
+For example, inv17(6) = 3, because 6 · 3 mod 17 = 1.
+Using modular multiplicative inverses, we can divide numbers modulo m, because
+division by x corresponds to multiplication by invm(x). For example, since we know
+that inv17(6) = 3, we can calculate the value of 36/6 mod 17 in another way using
+the formula 36 · 3 mod 17.
+A modular multiplicative inverse exists exactly when x and m are coprime. In this
+case, it can be calculated using the formula
+invm(x) = xϕ(m)−1,
+which is based on Euler’s theorem. In particular, if m is prime, ϕ(m) = m −1 and
+the formula becomes
+invm(x) = xm−2.
+For example,
+inv17(6) mod 17 = 617−2 mod 17 = 3.
+The above formula allows us to efﬁciently calculate modular multiplicative
+inverses using the modular exponentiation algorithm (Sect.11.1.4).
+
+
+===== PDF PAGE 159 =====
+
+11.1.6 Solving Equations
+Diophantine Equations A Diophantine equation is an equation of the form
+ax + by = c,
+where a, b, and c are constants and the values of x and y should be found. Each
+number in the equation has to be an integer. For example, one solution to the equation
+5x + 2y = 11
+is x = 3 and y = −2.
+We can efﬁciently solve a Diophantine equation by using the extended Euclid’s
+algorithm (Sect.11.1.3) which gives integers x and y that satisfy the equation
+ax + by = gcd(a, b).
+A Diophantine equation can be solved exactly when c is divisible by gcd(a, b).
+As an example, let us ﬁnd integers x and y that satisfy the equation
+39x + 15y = 12.
+The equation can be solved, because gcd(39, 15) = 3 and 3 | 12. The extended
+Euclid’s algorithm gives us
+39 · 2 + 15 · (−5) = 3,
+and by multiplying this by 4, the equation becomes
+39 · 8 + 15 · (−20) = 12,
+so a solution to the equation is x = 8 and y = −20.
+A solution to a Diophantine equation is not unique, because we can form an inﬁnite
+number of solutions if we know one solution. If a pair (x, y) is a solution, then also
+all pairs
+	
+x +
+kb
+gcd(a, b), y −
+ka
+gcd(a, b)
+
+are solutions, where k is any integer.
+Chinese Remainder Theorem The Chinese remainder theorem solves a group of
+equations of the form
+x
+= a1 mod m1
+x
+= a2 mod m2
+· · ·
+x
+= an mod mn
+
+
+===== PDF PAGE 160 =====
+
+where all pairs of m1, m2, . . . , mn are coprime.
+It turns out that a solution to the equations is
+x = a1X1invm1(X1) + a2X2invm2(X2) + · · · + an Xninvmn(Xn),
+where
+Xk = m1m2 · · · mn
+mk
+.
+In this solution, for each k = 1, 2, . . . , n,
+ak Xkinvmk(Xk) mod mk = ak,
+because
+Xkinvmk(Xk) mod mk = 1.
+Since all other terms in the sum are divisible by mk, they have no effect on the
+remainder and x mod mk = ak.
+For example, a solution for
+x = 3 mod 5
+x = 4 mod 7
+x = 2 mod 3
+is
+3 · 21 · 1 + 4 · 15 · 1 + 2 · 35 · 2 = 263.
+Once we have found a solution x, we can create an inﬁnite number of other
+solutions, because all numbers of the form
+x + m1m2 · · · mn
+are solutions.
+11.2 Combinatorics
+Combinatorics studies methods for counting combinations of objects. Usually, the
+goal is to ﬁnd a way to count the combinations efﬁciently without generating each
+combination separately. In this section, we discuss a selection of combinatorial tech-
+niques that can be applied to a large number of problems.
+
+
+===== PDF PAGE 161 =====
+
+11.2.1 Binomial Coefﬁcients
+The binomial coefﬁcient
+n
+k
+
+gives the number of ways we can choose a subset
+of k elements from a set of n elements. For example,
+5
+3
+
+= 10, because the set
+{1, 2, 3, 4, 5} has 10 subsets of 3 elements:
+{1, 2, 3}, {1, 2, 4}, {1, 2, 5}, {1, 3, 4}, {1, 3, 5},
+{1, 4, 5}, {2, 3, 4}, {2, 3, 5}, {2, 4, 5}, {3, 4, 5}
+Binomial coefﬁcients can be recursively calculated using the formula
+	n
+k
+
+=
+	n −1
+k −1
+
++
+	n −1
+k
+
+.
+with the base cases
+	n
+0
+
+=
+	n
+n
+
+= 1.
+To see why this formula works, consider an arbitrary element x in the set. If we
+decide to include x in our subset, the remaining task is to choose k −1 elements
+from n −1 elements. Then, if we do not include x in our subset, we have to choose
+k elements from n −1 elements.
+Another way to calculate binomial coefﬁcients is to use the formula
+	n
+k
+
+=
+n!
+k!(n −k)!
+which is based on the following reasoning: There are n! permutations of n elements.
+We go through all permutations and always include the ﬁrst k elements of the per-
+mutation in the subset. Since the order of the elements in the subset and outside the
+subset does not matter, the result is divided by k! and (n −k)!
+For binomial coefﬁcients,
+	n
+k
+
+=
+	
+n
+n −k
+
+,
+because we actually divide a set of n elements into two subsets: the ﬁrst contains k
+elements and the second contains n −k elements.
+The sum of binomial coefﬁcients is
+	n
+0
+
++
+	n
+1
+
++
+	n
+2
+
++ · · · +
+	n
+n
+
+= 2n.
+The reason for the name “binomial coefﬁcient” can be seen when the binomial
+(a + b) is raised to the nth power:
+(a + b)n =
+	n
+0
+
+anb0 +
+	n
+1
+
+an−1b1 + · · · +
+	
+n
+n −1
+
+a1bn−1 +
+	n
+n
+
+a0bn.
+
+
+===== PDF PAGE 162 =====
+
+Fig.11.4 First 5 rows of
+Pascal’s triangle
+1
+1
+1
+1
+2
+1
+1
+3
+3
+1
+1
+4
+6
+4
+1
+...
+...
+...
+...
+...
+Fig.11.5 Scenario 1: Each
+box contains at most one ball
+Binomial coefﬁcients also appear in Pascal’s triangle (Fig.11.4) where each value
+equals the sum of two above values.
+Multinomial Coefﬁcients The multinomial coefﬁcient
+	
+n
+k1, k2, . . . , km
+
+=
+n!
+k1!k2! · · · km!,
+gives the number of ways a set of n elements can be divided into subsets of sizes
+k1, k2, . . . , km, where k1 + k2 + · · · + km = n. Multinomial coefﬁcients can be seen
+as a generalization of binomial coefﬁcients; if m = 2, the above formula corresponds
+to the binomial coefﬁcient formula.
+Boxes and Balls “Boxes and balls” is a useful model, where we count the ways to
+place k balls in n boxes. Let us consider three scenarios:
+Scenario 1: Each box can contain at most one ball. For example, when n = 5
+and k = 2, there are 10 combinations (Fig.11.5). In this scenario, the number of
+combinations is directly the binomial coefﬁcient
+n
+k
+
+.
+Scenario 2: A box can contain multiple balls. For example, when n = 5 and
+k = 2, there are 15 combinations (Fig.11.6). In this scenario, the process of placing
+the balls in the boxes can be represented as a string that consists of symbols “o”
+and “→.” Initially, assume that we are standing at the leftmost box. The symbol “o”
+means that we place a ball in the current box, and the symbol “→” means that we
+move to the next box to the right. Now each solution is a string of length k + n −1
+that contains k symbols “o” and n −1 symbols “→.” For example, the upper-right
+solution in Fig.11.6 corresponds to the string “→→o →o →.” Thus, we can
+conclude that the number of combinations is
+k+n−1
+k
+
+.
+Scenario3:Eachboxmaycontainatmostoneball,andinaddition,notwoadjacent
+boxes may both contain a ball. For example, when n = 5 and k = 2, there are 6
+combinations (Fig.11.7). In this scenario, we can assume that k balls are initially
+placed in the boxes and there is an empty box between each two adjacent boxes. The
+
+
+===== PDF PAGE 163 =====
+
+Fig.11.6 Scenario 2: A box
+may contain multiple balls
+Fig.11.7 Scenario 3: Each
+box contains at most one ball
+and no two adjacent boxes
+contain a ball
+remaining task is to choose the positions for the remaining empty boxes. There are
+n −2k + 1 such boxes and k + 1 positions for them. Thus, using the formula of
+Scenario 2, the number of solutions is
+ n−k+1
+n−2k+1
+
+.
+11.2.2 Catalan Numbers
+The Catalan number Cn gives the number of valid parenthesis expressions that
+consist of n left parentheses and n right parentheses. For example, C3 = 5, because
+we can construct a total of ﬁve parenthesis expressions using three left parentheses
+and three right parentheses:
+• ()()()
+• (())()
+• ()(())
+• ((()))
+• (()())
+What is exactly a valid parenthesis expression? The following rules precisely
+deﬁne all valid parenthesis expressions:
+• An empty parenthesis expression is valid.
+• If an expression A is valid, then also the expression (A) is valid.
+• If expressions A and B are valid, then also the expression AB is valid.
+Another way to characterize valid parenthesis expressions is that if we choose
+any preﬁx of such an expression, it has to contain at least as many left parentheses
+as right parentheses, and the complete expression has to contain an equal number of
+left and right parentheses.
+
+
+===== PDF PAGE 164 =====
+
+Catalan numbers can be calculated using the formula
+Cn =
+n−1
+
+i=0
+CiCn−i−1
+where we consider the ways to divide the parenthesis expression into two parts that
+are both valid parenthesis expressions, and the ﬁrst part is as short as possible but not
+empty. For each i, the ﬁrst part contains i + 1 pairs of parentheses and the number
+of valid expressions is the product of the following values:
+• Ci: the number of ways to construct a parenthesis expression using the parentheses
+of the ﬁrst part, not counting the outermost parentheses
+• Cn−i−1: the number of ways to construct a parenthesis expression using the paren-
+theses of the second part
+The base case is C0 = 1, because we can construct an empty parenthesis expres-
+sion using zero pairs of parentheses.
+Catalan numbers can also be calculated using the formula
+Cn =
+1
+n + 1
+	2n
+n
+
+,
+which can be explained as follows:
+There are a total of
+2n
+n
+
+ways to construct a (not necessarily valid) parenthesis
+expression that contains n left parentheses and n right parentheses. Let us calculate
+the number of such expressions that are not valid.
+If a parenthesis expression is not valid, it has to contain a preﬁx where the number
+of right parentheses exceeds the number of left parentheses. The idea is to pick the
+shortest such preﬁx and reverse each parenthesis in the preﬁx. For example, the
+expression ())()( has the preﬁx ()), and after reversing the parentheses, the
+expression becomes )((()(. The resulting expression consists of n + 1 left and
+n −1 right parentheses. In fact, there is a unique way to produce any expression
+of n + 1 left and n −1 right parentheses in the above manner. The number of such
+expressions is
+ 2n
+n+1
+
+, which equals the number of nonvalid parenthesis expressions.
+Thus, the number of valid parenthesis expressions can be calculated using the formula
+	2n
+n
+
+−
+	 2n
+n + 1
+
+=
+	2n
+n
+
+−
+n
+n + 1
+	2n
+n
+
+=
+1
+n + 1
+	2n
+n
+
+.
+Counting Trees We can also count certain tree structures using Catalan numbers.
+First, Cn equals the number of binary trees of n nodes, assuming that left and right
+children are distinguished. For example, since C3 = 5, there are 5 binary trees of 3
+nodes (Fig.11.8). Then, Cn also equals the number of general rooted trees of n + 1
+nodes. For example, there are 5 rooted trees of 4 nodes (Fig.11.9).
+
+
+===== PDF PAGE 165 =====
+
+Fig.11.8 There are 5 binary
+trees of 3 nodes
+Fig.11.9 There are 5 rooted
+trees of 4 nodes
+Fig.11.10
+Inclusion-exclusion principle
+for two sets
+A
+B
+A∩B
+Fig.11.11
+Inclusion-exclusion principle
+for three sets
+A
+B
+C
+A∩B
+A∩C
+B∩C
+A∩B∩C
+11.2.3 Inclusion-Exclusion
+Inclusion-exclusion is a technique that can be used for counting the size of a union of
+sets when the sizes of the intersections are known, and vice versa. A simple example
+of the technique is the formula
+|A ∪B| = |A| + |B| −|A ∩B|,
+where A and B are sets and |X| denotes the size of X. Figure11.10 illustrates the
+formula. In this case, we want to calculate the size of the union A∪B that corresponds
+to the area of the region that belongs to at least one circle in Fig.11.10. We can
+calculate the area of A ∪B by ﬁrst summing up the areas of A and B and then
+subtracting the area of A ∩B from the result.
+The same idea can be applied when the number of sets is larger. When there are
+three sets, the inclusion-exclusion formula is
+|A ∪B ∪C| = |A| + |B| + |C| −|A ∩B| −|A ∩C| −|B ∩C| + |A ∩B ∩C|,
+which corresponds to Fig.11.11.
+In the general case, the size of the union X1 ∪X2 ∪· · · ∪Xn can be calculated by
+going through all possible intersections that contain some of the sets X1, X2, . . . , Xn.
+
+
+===== PDF PAGE 166 =====
+
+If an intersection contains an odd number of sets, its size is added to the answer, and
+otherwise its size is subtracted from the answer.
+Note that there are similar formulas for calculating the size of an intersection from
+the sizes of unions. For example,
+|A ∩B| = |A| + |B| −|A ∪B|
+and
+|A ∩B ∩C| = |A| + |B| + |C| −|A ∪B| −|A ∪C| −|B ∪C| + |A ∪B ∪C|.
+Counting Derangements As an example, let us count the number of derangements
+of {1, 2, . . . , n}, i.e., permutations where no element remains in its original place.
+For example, when n = 3, there are two derangements: (2, 3, 1) and (3, 1, 2).
+One approach for solving the problem is to use inclusion-exclusion. Let Xk be
+the set of permutations that contain the element k at position k. For example, when
+n = 3, the sets are as follows:
+X1 = {(1, 2, 3), (1, 3, 2)}
+X2 = {(1, 2, 3), (3, 2, 1)}
+X3 = {(1, 2, 3), (2, 1, 3)}
+The number of derangements equals
+n! −|X1 ∪X2 ∪· · · ∪Xn|,
+so it sufﬁces to calculate |X1∪X2∪· · ·∪Xn|. Using inclusion-exclusion, this reduces
+to calculating sizes of intersections. Moreover, an intersection of c distinct sets Xk
+has (n −c)! elements, because such an intersection consists of all permutations that
+contain c elements in their original places. Thus, we can efﬁciently calculate the
+sizes of the intersections. For example, when n = 3,
+|X1 ∪X2 ∪X3| = |X1| + |X2| + |X3|
+−|X1 ∩X2| −|X1 ∩X3| −|X2 ∩X3|
++|X1 ∩X2 ∩X3|
+= 2 + 2 + 2 −1 −1 −1 + 1
+= 4,
+so the number of derangements is 3! −4 = 2.
+It turns out that the problem can also be solved without using inclusion-exclusion.
+Let f (n) denote the number of derangements for {1, 2, . . . , n}. We can use the
+following recursive formula:
+f (n) =
+⎧
+⎪⎨
+⎪⎩
+0
+n = 1
+1
+n = 2
+(n −1)( f (n −2) + f (n −1)) n > 2
+
+
+===== PDF PAGE 167 =====
+
+Fig.11.12 Four symmetric
+necklaces
+The formula can be proved by considering the possibilities how the element 1
+changes in the derangement. There are n −1 ways to choose an element x that
+replaces the element 1. In each such choice, there are two options:
+Option 1: We also replace the element x with the element 1. After this, the remain-
+ing task is to construct a derangement of n −2 elements.
+Option 2: We replace the element x with some other element than 1. Now we
+have to construct a derangement of n −1 element, because we cannot replace the
+element x with the element 1, and all other elements must be changed.
+11.2.4 Burnside’s Lemma
+Burnside’s lemma can be used to count the number of distinct combinations so that
+symmetric combinations are counted only once. Burnside’s lemma states that the
+number of combinations is
+1
+n
+n
+
+k=1
+c(k),
+where there are n ways to change the position of a combination, and there are c(k)
+combinations that remain unchanged when the kth way is applied.
+As an example, let us calculate the number of necklaces of n pearls, where
+each pearl has m possible colors. Two necklaces are symmetric if they are simi-
+lar after rotating them. For example, Fig.11.12 shows four symmetric necklaces,
+which should be counted as a single combination.
+There are n ways to change the position of a necklace, because it can be rotated
+k = 0, 1, . . . , n −1 steps clockwise. For example, if k = 0, all mn necklaces remain
+the same, and if k = 1, only the m necklaces where each pearl has the same color
+remain the same. In the general case, a total of mgcd(k,n) necklaces remain the same,
+because blocks of pearls of size gcd(k, n) will replace each other. Thus, according
+to Burnside’s lemma, the number of distinct necklaces is
+1
+n
+n−1
+
+k=0
+mgcd(k,n).
+For example, the number of distinct necklaces of 4 pearls and 3 colors is
+34 + 3 + 32 + 3
+4
+= 24.
+
+
+===== PDF PAGE 168 =====
+
+Fig.11.13 There are 16
+distinct labeled trees of 4
+nodes
+1
+2
+3
+4
+2
+1
+3
+4
+3
+1
+2
+4
+4
+1
+2
+3
+1
+2
+3
+4
+1
+2
+4
+3
+1
+3
+2
+4
+1
+3
+4
+2
+1
+4
+2
+3
+1
+4
+3
+2
+2
+1
+3
+4
+2
+1
+4
+3
+2
+3
+1
+4
+2
+4
+1
+3
+3
+1
+2
+4
+3
+2
+1
+4
+Fig.11.14 Prüfer code of
+this tree is [4, 4, 2]
+1
+2
+3
+4
+5
+11.2.5 Cayley’s Formula
+Cayley’s formula states that there are a total of nn−2 distinct labeled trees of n nodes.
+The nodes are labeled 1, 2, . . . , n, and two trees are considered distinct if either their
+structure or labeling is different. For example, when n = 4, there are 44−2 = 16
+labeled trees, shown in Fig.11.13.
+Cayley’s formula can be proved using Prüfer codes. A Prüfer code is a sequence
+of n −2 numbers that describes a labeled tree. The code is constructed by following
+a process that removes n −2 leaves from the tree. At each step, the leaf with the
+smallest label is removed, and the label of its only neighbor is added to the code.
+For example, the Prüfer code of the tree in Fig.11.14 is [4, 4, 2], because we remove
+leaves 1, 3, and 4.
+We can construct a Prüfer code for any tree, and more importantly, the original
+tree can be reconstructed from a Prüfer code. Hence, the number of labeled trees of
+n nodes equals nn−2, the number of Prüfer codes of length n.
+11.3 Matrices
+A matrix is a mathematical concept that corresponds to a two-dimensional array in
+programming. For example,
+A =
+⎡
+⎣
+6 13 7 4
+7 0 8 2
+9 5 4 18
+⎤
+⎦
+
+
+===== PDF PAGE 169 =====
+
+is a matrix of size 3 × 4, i.e., it has 3 rows and 4 columns. The notation [i, j] refers
+to the element in row i and column j in a matrix. For example, in the above matrix,
+A[2, 3] = 8 and A[3, 1] = 9.
+A special case of a matrix is a vector that is a one-dimensional matrix of size
+n × 1. For example,
+V =
+⎡
+⎣
+4
+7
+5
+⎤
+⎦
+is a vector that contains three elements.
+The transpose AT of a matrix A is obtained when the rows and columns of A are
+swapped, i.e., AT [i, j] = A[ j, i]:
+AT =
+⎡
+⎢⎢⎣
+6 7 9
+13 0 5
+7 8 4
+4 2 18
+⎤
+⎥⎥⎦
+A matrix is a square matrix if it has the same number of rows and columns. For
+example, the following matrix is a square matrix:
+S =
+⎡
+⎣
+3 12 4
+5 9 15
+0 2
+4
+⎤
+⎦
+11.3.1 Matrix Operations
+The sum A + B of matrices A and B is deﬁned if the matrices are of the same size.
+The result is a matrix where each element has the sum of the corresponding elements
+in A and B. For example,
+6 1 4
+3 9 2
+
++
+4 9 3
+8 1 3
+
+=
+6 + 4 1 + 9 4 + 3
+3 + 8 9 + 1 2 + 3
+
+=
+10 10 7
+11 10 5
+
+.
+Multiplying a matrix A by a value x means that each element of A is multiplied
+by x. For example,
+2 ·
+6 1 4
+3 9 2
+
+=
+2 · 6 2 · 1 2 · 4
+2 · 3 2 · 9 2 · 2
+
+=
+12 2 8
+6 18 4
+
+.
+The product AB of matrices A and B is deﬁned if A is of size a × n and B is of
+size n × b, i.e., the width of A equals the height of B. The result is a matrix of size
+a × b whose elements are calculated using the formula
+AB[i, j] =
+n
+
+k=1
+(A[i, k] · B[k, j]).
+
+
+===== PDF PAGE 170 =====
+
+Fig.11.15 Intuition behind
+the matrix multiplication
+formula
+A
+AB
+B
+The idea is that each element of AB is a sum of products of elements of A and B
+according to Fig.11.15. For example,
+⎡
+⎣
+1 4
+3 9
+8 6
+⎤
+⎦·
+1 6
+2 9
+
+=
+⎡
+⎣
+1 · 1 + 4 · 2 1 · 6 + 4 · 9
+3 · 1 + 9 · 2 3 · 6 + 9 · 9
+8 · 1 + 6 · 2 8 · 6 + 6 · 9
+⎤
+⎦=
+⎡
+⎣
+9
+42
+21 99
+20 102
+⎤
+⎦.
+We can directly use the above formula to calculate the product C of two n × n
+matrices A and B in O(n3) time1:
+for (int i = 1; i <= n; i++) {
+for (int j = 1; j <= n; j++) {
+for (int k = 1; k <= n; k++) {
+C[i][j] += A[i][k]*B[k][j];
+}
+}
+}
+Matrix multiplication is associative, so A(BC) = (AB)C holds, but it is not
+commutative, so usually AB̸ = B A.
+An identity matrix is a square matrix where each element on the diagonal is 1
+and all other elements are 0. For example, the following matrix is the 3 × 3 identity
+matrix:
+I =
+⎡
+⎣
+1 0 0
+0 1 0
+0 0 1
+⎤
+⎦
+Multiplying a matrix by an identity matrix does not change it. For example,
+⎡
+⎣
+1 0 0
+0 1 0
+0 0 1
+⎤
+⎦·
+⎡
+⎣
+1 4
+3 9
+8 6
+⎤
+⎦=
+⎡
+⎣
+1 4
+3 9
+8 6
+⎤
+⎦
+and
+⎡
+⎣
+1 4
+3 9
+8 6
+⎤
+⎦·
+1 0
+0 1
+
+=
+⎡
+⎣
+1 4
+3 9
+8 6
+⎤
+⎦.
+1While the straightforward O(n3) time algorithm is sufﬁcient in competitive programming, there are
+theoretically more efﬁcient algorithms. In 1969, Strassen [31] discovered the ﬁrst such algorithm,
+now called Strassen’s algorithm, whose time complexity is O(n2.81). The best current algorithm,
+proposed by Le Gall [11] in 2014, works in O(n2.37) time.
+
+
+===== PDF PAGE 171 =====
+
+The power Ak of a matrix A is deﬁned if A is a square matrix. The deﬁnition is
+based on matrix multiplication:
+Ak = A · A · A · · · A
+
+
+
+k times
+For example,
+2 5
+1 4
+3
+=
+2 5
+1 4
+
+·
+2 5
+1 4
+
+·
+2 5
+1 4
+
+=
+48 165
+33 114
+
+.
+In addition, A0 is an identity matrix. For example,
+2 5
+1 4
+0
+=
+1 0
+0 1
+
+.
+The matrix Ak can be efﬁciently calculated in O(n3 log k) time using the algorithm
+in Sect.11.1.4. For example,
+2 5
+1 4
+8
+=
+2 5
+1 4
+4
+·
+2 5
+1 4
+4
+.
+11.3.2 Linear Recurrences
+Alinearrecurrenceisafunction f (n)whoseinitialvaluesare f (0), f (1), . . . , f (k−
+1) and larger values are calculated recursively using the formula
+f (n) = c1 f (n −1) + c2 f (n −2) + · · · + ck f (n −k),
+where c1, c2, . . . , ck are constant coefﬁcients.
+Dynamic programming can be used to calculate any value of f (n) in O(kn) time
+by calculating all values of f (0), f (1), . . . , f (n) one after another. However, as
+we will see next, we can also calculate the value of f (n) in O(k3 log n) time using
+matrix operations. This is an important improvement if k is small and n is large.
+Fibonacci Numbers A simple example of a linear recurrence is the following func-
+tion that deﬁnes the Fibonacci numbers:
+f (0) = 0
+f (1) = 1
+f (n) = f (n −1) + f (n −2)
+In this case, k = 2 and c1 = c2 = 1.
+
+
+===== PDF PAGE 172 =====
+
+To efﬁciently calculate Fibonacci numbers, we represent the Fibonacci formula
+as a square matrix X of size 2 × 2, for which the following holds:
+X ·
+
+f (i)
+f (i + 1)
+
+=
+ f (i + 1)
+f (i + 2)
+
+Thus, values f (i) and f (i + 1) are given as “input” for X, and X calculates values
+f (i + 1) and f (i + 2) from them. It turns out that such a matrix is
+X =
+0 1
+1 1
+
+.
+For example,
+0 1
+1 1
+
+·
+ f (5)
+f (6)
+
+=
+0 1
+1 1
+
+·
+5
+8
+
+=
+ 8
+13
+
+=
+ f (6)
+f (7)
+
+.
+Thus, we can calculate f (n) using the formula
+
+f (n)
+f (n + 1)
+
+= Xn ·
+ f (0)
+f (1)
+
+=
+0 1
+1 1
+n
+·
+0
+1
+
+.
+The value of Xn can be calculated in O(log n) time, so the value of f (n) can also
+be calculated in O(log n) time.
+General Case Let us now consider the general case where f (n) is any linear recur-
+rence. Again, our goal is to construct a matrix X for which
+X ·
+⎡
+⎢⎢⎢⎣
+f (i)
+f (i + 1)
+...
+f (i + k −1)
+⎤
+⎥⎥⎥⎦=
+⎡
+⎢⎢⎢⎣
+f (i + 1)
+f (i + 2)
+...
+f (i + k)
+⎤
+⎥⎥⎥⎦.
+Such a matrix is
+X =
+⎡
+⎢⎢⎢⎢⎢⎣
+0
+1
+0
+· · · 0
+0
+0
+1
+· · · 0
+...
+...
+...
+... ...
+0
+0
+0
+· · · 1
+ck ck−1 ck−2 · · · c1
+⎤
+⎥⎥⎥⎥⎥⎦
+.
+In the ﬁrst k −1 rows, each element is 0 except that one element is 1. These rows
+replace f (i) with f (i + 1), f (i + 1) with f (i + 2), and so on. Then, the last row
+contains the coefﬁcients of the recurrence to calculate the new value f (i + k).
+
+
+===== PDF PAGE 173 =====
+
+Fig.11.16 Example graphs
+for matrix operations
+1
+4
+2
+3
+5
+6
+(a)
+1
+4
+2
+3
+5
+6
+4
+1
+2
+4
+1
+2
+3
+2
+(b)
+Now, f (n) can be calculated in O(k3 log n) time using the formula
+⎡
+⎢⎢⎢⎣
+f (n)
+f (n + 1)
+...
+f (n + k −1)
+⎤
+⎥⎥⎥⎦= Xn ·
+⎡
+⎢⎢⎢⎣
+f (0)
+f (1)
+...
+f (k −1)
+⎤
+⎥⎥⎥⎦.
+11.3.3 Graphs and Matrices
+The powers of adjacency matrices of graphs have interesting properties. When M is
+an adjacency matrix of an unweighted graph, the matrix Mn gives for each node pair
+(a, b) the number of paths that begin at node a, end at node b, and contain exactly
+n edges. It is allowed that a node appears on a path several times.
+As an example, consider the graph in Fig.11.16a. The adjacency matrix of this
+graph is
+M =
+⎡
+⎢⎢⎢⎢⎢⎢⎣
+0
+0
+0
+1
+0
+0
+1
+0
+0
+0
+1
+1
+0
+1
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+1
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎦
+.
+Then, the matrix
+M4 =
+⎡
+⎢⎢⎢⎢⎢⎢⎣
+0
+0
+1
+1
+1
+0
+2
+0
+0
+0
+2
+2
+0
+2
+0
+0
+0
+0
+0
+2
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+1
+1
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎦
+gives the number of paths that contain exactly 4 edges. For example, M4[2, 5] = 2,
+because there are two paths of 4 edges from node 2 to node 5: 2 →1 →4 →2 →5
+and 2 →6 →3 →2 →5.
+Using a similar idea in a weighted graph, we can calculate for each node pair
+(a, b) the shortest length of a path that goes from a to b and contains exactly n
+
+
+===== PDF PAGE 174 =====
+
+edges. To calculate this, we deﬁne matrix multiplication in a new way, so that we do
+not calculate numbers of paths but minimize lengths of paths.
+As an example, consider the graph in Fig.11.16b. Let us construct an adjacency
+matrix where ∞means that an edge does not exist, and other values correspond to
+edge weights. The matrix is
+M =
+⎡
+⎢⎢⎢⎢⎢⎢⎣
+∞
+∞
+∞
+4
+∞
+∞
+2
+∞
+∞
+∞
+1
+2
+∞
+4
+∞
+∞
+∞
+∞
+∞
+1
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+3
+∞
+2
+∞
+⎤
+⎥⎥⎥⎥⎥⎥⎦
+.
+Instead of the formula
+AB[i, j] =
+n
+
+k=1
+(A[i, k] · B[k, j])
+we now use the formula
+AB[i, j] =
+n
+min
+k=1(A[i, k] + B[k, j])
+for matrix multiplication, so we calculate minima instead of sums, and sums of
+elements instead of products. After this modiﬁcation, matrix powers minimize path
+lengths in the graph. For example, as
+M4 =
+⎡
+⎢⎢⎢⎢⎢⎢⎣
+∞
+∞
+10
+11
+9
+∞
+9
+∞
+∞
+∞
+8
+9
+∞
+11
+∞
+∞
+∞
+∞
+∞
+8
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+∞
+12
+13
+11
+∞
+⎤
+⎥⎥⎥⎥⎥⎥⎦
+,
+we can conclude that the minimum length of a path of 4 edges from node 2 to node
+5 is 8. Such a path is 2 →1 →4 →2 →5.
+11.3.4 Gaussian Elimination
+Gaussian elimination is a systematic way to solve a group of linear equations. The
+idea is to represent the equations as a matrix and then apply a sequence of sim-
+ple matrix row operations that both preserve the information of the equations and
+determine a value for each variable.
+
+
+===== PDF PAGE 175 =====
+
+Suppose that we are given a group of n linear equations, each of which contains
+n variables:
+a1,1x1 + a1,2x2 + · · · + a1,nxn = b1
+a2,1x1 + a2,2x2 + · · · + a2,nxn = b2
+· · ·
+an,1x1 + an,2x2 + · · · + an,nxn = bn
+We represent the equations as a matrix as follows:
+⎡
+⎢⎢⎢⎣
+a1,1 a1,2 · · · a1,n b1
+a2,1 a2,2 · · · a2,n b2
+...
+...
+...
+...
+...
+an,1 an,2 · · · an,n bn
+⎤
+⎥⎥⎥⎦
+To solve the equations, we want to transform the matrix to
+⎡
+⎢⎢⎢⎣
+1
+0
+· · ·
+0
+c1
+0
+1
+· · ·
+0
+c2
+...
+...
+...
+...
+...
+0
+0
+· · ·
+1
+cn
+⎤
+⎥⎥⎥⎦,
+which tells us that the solution is x1 = c1, x2 = c2, . . . , xn = cn. To do this, we use
+three types of matrix row operations:
+1. Swap the values of two rows.
+2. Multiply each value in a row by a nonnegative constant.
+3. Add a row, multiplied by a constant, to another row.
+Each above operation preserves the information of the equations, which guarantees
+that the ﬁnal solution agrees with the original equations. We can systematically
+process each matrix column so that the resulting algorithm works in O(n3) time.
+As an example, consider the following group of equations:
+2x1 + 4x2 +
+x3 = 16
+x1 + 2x2 + 5x3 = 17
+3x1 +
+x2 +
+x3 = 8
+In this case the matrix is as follows:
+⎡
+⎣
+2
+4
+1
+16
+1
+2
+5
+17
+3
+1
+1
+8
+⎤
+⎦
+
+
+===== PDF PAGE 176 =====
+
+We process the matrix column by column. At each step, we make sure that the
+current column has a one in the correct position and all other values are zeros. To
+process the ﬁrst column, we ﬁrst multiply the ﬁrst row by 1
+2:
+⎡
+⎣
+1
+2
+1
+2
+8
+1
+2
+5
+17
+3
+1
+1
+8
+⎤
+⎦
+Then we add the ﬁrst row to the second row (multiplied by −1) and the ﬁrst row to
+the third row (multiplied by −3):
+⎡
+⎢⎣
+1
+2
+1
+2
+8
+0
+0
+9
+2
+9
+0
+−5
+−1
+2
+−16
+⎤
+⎥⎦
+After this, we process the second column. Since the second value in the second
+row is zero, we ﬁrst swap the second and third row:
+⎡
+⎢⎣
+1 2
+1
+2
+8
+0 −5 −1
+2 −16
+0 0
+9
+2
+9
+⎤
+⎥⎦
+Then we multiply the second row by −1
+5 and add it to the ﬁrst row (multiplied by
+−2):
+⎡
+⎢⎢⎣
+1
+0
+3
+10
+8
+5
+0
+1
+1
+10
+16
+5
+0
+0
+9
+2
+9
+⎤
+⎥⎥⎦
+Finally, we process the third column by ﬁrst multiplying it by 2
+9 and then adding
+it to the ﬁrst row (multiplied by −3
+10) and to the second row (multiplied by −1
+10):
+⎡
+⎣
+1
+0
+0
+1
+0
+1
+0
+3
+0
+0
+1
+2
+⎤
+⎦
+Now the last column of the matrix tells us that the solution to the original group
+of equations is x1 = 1, x2 = 3, x3 = 2.
+Note that Gaussian elimination only works if the group of equations has a unique
+solution. For example, the group
+x1 +
+x2 = 2
+2x1 + 2x2 = 4
+
+
+===== PDF PAGE 177 =====
+
+has an inﬁnite number of solutions, because both the equations contain the same
+information. On the other hand, the group
+x1 + x2 = 5
+x1 + x2 = 7
+cannot be solved, because the equations are contradictory. If there is no unique
+solution, we will notice this during the algorithm, because at some point we will not
+be able to successfully process a column.
+11.4 Probability
+A probability is a real number between 0 and 1 that indicates how probable an event
+is. If an event is certain to happen, its probability is 1, and if an event is impossible,
+its probability is 0. The probability of an event is denoted P(· · · ) where the three
+dots describe the event. For example, when throwing a dice, there are six possible
+outcomes 1, 2, . . . , 6, and P(“the outcome is even”)=1/2.
+To calculate the probability of an event, we can either use combinatorics or sim-
+ulate the process that generates the event. As an example, consider an experiment
+where we draw the three top cards from a shufﬂed deck of cards.2 What is the
+probability that each card has the same value (e.g., ♠8, ♣8, and ♦8)?
+One way to calculate the probability is to use the formula
+number of desired outcomes
+total number of outcomes .
+In our example, the desired outcomes are those in which the value of each card is
+the same. There are 13
+4
+3
+
+such outcomes, because there are 13 possibilities for the
+value of the cards and
+4
+3
+
+ways to choose 3 suits from 4 possible suits. Then, there
+are a total of
+52
+3
+
+outcomes, because we choose 3 cards from 52 cards. Thus, the
+probability of the event is
+13
+4
+3
+
+52
+3
+ =
+1
+425.
+Another way to calculate the probability is to simulate the process that generates
+the event. In our example, we draw three cards, so the process consists of three steps.
+We require that each step of the process is successful.
+Drawing the ﬁrst card certainly succeeds, because any card is ﬁne. The second
+step succeeds with probability 3/51, because there are 51 cards left and 3 of them
+2A deck of cards consists of 52 cards. Each card has a suit (spade ♠, diamond ♦, club ♣, or heart
+♥) and a value (an integer between 1 and 13).
+
+
+===== PDF PAGE 178 =====
+
+have the same value as the ﬁrst card. In a similar way, the third step succeeds with
+probability 2/50. Thus, the probability that the entire process succeeds is
+1 · 3
+51 · 2
+50 =
+1
+425.
+11.4.1 Working with Events
+A convenient way to represent events is to use sets. For example, the possible out-
+comes when throwing a dice are {1, 2, 3, 4, 5, 6}, and any subset of this set is an
+event. The event “the outcome is even” corresponds to the set {2, 4, 6}.
+Each outcome x is assigned a probability p(x), and the probability P(X) of an
+event X can be calculated using the formula
+P(X) =
+
+x∈X
+p(x).
+For example, when throwing a dice, p(x) = 1/6 for each outcome x, so the proba-
+bility of the event “the outcome is even” is
+p(2) + p(4) + p(6) = 1/2.
+Since the events are represented as sets, we can manipulate them using standard
+set operations:
+• The complement ¯A means “A does not happen.” For example, when throwing a
+dice, the complement of A = {2, 4, 6} is ¯A = {1, 3, 5}.
+• The union A ∪B means “A or B happen.” For example, the union of A = {2, 5}
+and B = {4, 5, 6} is A ∪B = {2, 4, 5, 6}.
+• The intersection A ∩B means “A and B happen.” For example, the intersection
+of A = {2, 5} and B = {4, 5, 6} is A ∩B = {5}.
+Complement The probability of ¯A is calculated using the formula
+P( ¯A) = 1 −P(A).
+Sometimes, we can solve a problem easily using complements by solving the
+opposite problem. For example, the probability of getting at least one six when
+throwing a dice ten times is
+1 −(5/6)10.
+Here 5/6 is the probability that the outcome of a single throw is not six, and (5/6)10
+is the probability that none of the ten throws is a six. The complement of this is the
+answer to the problem.
+
+
+===== PDF PAGE 179 =====
+
+Union The probability of A ∪B is calculated using the formula
+P(A ∪B) = P(A) + P(B) −P(A ∩B).
+For example, consider the events A = “the outcome is even” and B = “the outcome
+is less than 4” when throwing a dice. In this case, the event A∪B means “the outcome
+is even or less than 4,” and its probability is
+P(A ∪B) = P(A) + P(B) −P(A ∩B) = 1/2 + 1/2 −1/6 = 5/6.
+If the events A and B are disjoint, i.e., A ∩B is empty, the probability of the event
+A ∪B is simply
+P(A ∪B) = P(A) + P(B).
+Intersection The probability of A ∩B can be calculated using the formula
+P(A ∩B) = P(A)P(B|A),
+where P(B|A) is the conditional probability that B happens assuming that we know
+that A happens. For example, using the events of our previous example, P(B|A) =
+1/3, because we know that the outcome belongs to the set {2, 4, 6}, and one of the
+outcomes is less than 4. Thus,
+P(A ∩B) = P(A)P(B|A) = 1/2 · 1/3 = 1/6.
+Events A and B are independent if
+P(A|B) = P(A) and
+P(B|A) = P(B),
+which means that the fact that B happens does not change the probability of A, and
+vice versa. In this case, the probability of the intersection is
+P(A ∩B) = P(A)P(B).
+11.4.2 Random Variables
+A random variable is a value that is generated by a random process. For example,
+when throwing two dice, a possible random variable is
+X = “the sum of the outcomes”.
+For example, if the outcomes are [4, 6] (meaning that we ﬁrst throw a four and then
+a six), then the value of X is 10.
+We denote by P(X = x) the probability that the value of a random variable X
+is x. For example, when throwing two dice, P(X = 10) = 3/36, because the total
+
+
+===== PDF PAGE 180 =====
+
+Fig.11.17 Possible ways to
+place two balls in four boxes
+number of outcomes is 36 and there are three possible ways to obtain the sum 10:
+[4, 6], [5, 5], and [6, 4].
+Expected Values The expected value E[X] indicates the average value of a random
+variable X. The expected value can be calculated as a sum
+
+x
+P(X = x)x,
+where x goes through all possible values of X.
+For example, when throwing a dice, the expected outcome is
+1/6 · 1 + 1/6 · 2 + 1/6 · 3 + 1/6 · 4 + 1/6 · 5 + 1/6 · 6 = 7/2.
+A useful property of expected values is linearity. It means that the sum E[X1 +
+X2 + · · · + Xn] always equals the sum E[X1] + E[X2] + · · · + E[Xn]. This holds
+even if random variables depend on each other. For example, when throwing two
+dice, the expected sum of their values is
+E[X1 + X2] = E[X1] + E[X2] = 7/2 + 7/2 = 7.
+Let us now consider a problem where n balls are randomly placed in n boxes, and
+our task is to calculate the expected number of empty boxes. Each ball has an equal
+probability to be placed in any of the boxes.
+For example, Fig.11.17 shows the possibilities when n = 2. In this case, the
+expected number of empty boxes is
+0 + 0 + 1 + 1
+4
+= 1
+2.
+Then, in the general case, the probability that a single box is empty is
+n −1
+n
+n
+,
+because no ball should be placed in it. Hence, using linearity, the expected number
+of empty boxes is
+n ·
+n −1
+n
+n
+.
+
+
+===== PDF PAGE 181 =====
+
+Distributions The distribution of a random variable X shows the probability of each
+value that X may have. The distribution consists of values P(X = x). For example,
+when throwing two dice, the distribution for their sum is:
+x
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+P(X = x) 1/36 2/36 3/36 4/36 5/36 6/36 5/36 4/36 3/36 2/36 1/36
+In a uniform distribution, the random variable X has n possible values a, a +
+1, . . . , b and the probability of each value is 1/n. For example, when throwing a
+dice, a = 1, b = 6, and P(X = x) = 1/6 for each value x.
+The expected value of X in a uniform distribution is
+E[X] = a + b
+2
+.
+In a binomial distribution, n attempts are made and the probability that a single
+attempt succeeds is p. The random variable X counts the number of successful
+attempts, and the probability of a value x is
+P(X = x) = px(1 −p)n−x
+	n
+x
+
+,
+where px and (1 −p)n−x correspond to successful and unsuccessful attempts, and
+n
+x
+
+is the number of ways we can choose the order of the attempts.
+For example, when throwing a dice ten times, the probability of throwing a six
+exactly three times is (1/6)3(5/6)710
+3
+
+.
+The expected value of X in a binomial distribution is
+E[X] = pn.
+In a geometric distribution, the probability that an attempt succeeds is p, and we
+continue until the ﬁrst success happens. The random variable X counts the number
+of attempts needed, and the probability of a value x is
+P(X = x) = (1 −p)x−1 p,
+where (1 −p)x−1 corresponds to the unsuccessful attempts and p corresponds to
+the ﬁrst successful attempt.
+For example, if we throw a dice until we get a six, the probability that the number
+of throws is exactly 4 is (5/6)31/6.
+The expected value of X in a geometric distribution is
+E[X] = 1
+p .
+
+
+===== PDF PAGE 182 =====
+
+Fig.11.18 A Markov chain
+for a building that consists of
+ﬁve ﬂoors
+1
+2
+3
+4
+5
+1
+1/2
+1/2
+1/2
+1
+1/2
+1/2
+1/2
+11.4.3 Markov Chains
+A Markov chain is a random process that consists of states and transitions between
+them. For each state, we know the probabilities of moving to other states. A Markov
+chain can be represented as a graph whose nodes correspond to the states and edges
+describe the transitions.
+As an example, consider a problem where we are in ﬂoor 1 in an n ﬂoor building.
+At each step, we randomly walk either one ﬂoor up or one ﬂoor down, except that
+we always walk one ﬂoor up from ﬂoor 1 and one ﬂoor down from ﬂoor n. What is
+the probability of being in ﬂoor m after k steps?
+In this problem, each ﬂoor of the building corresponds to a state in a Markov
+chain. For example, Fig.11.18 shows the chain when n = 5.
+The probability distribution of a Markov chain is a vector [p1, p2, . . . , pn], where
+pk is the probability that the current state is k. The formula p1 + p2 + · · · + pn = 1
+always holds.
+In the above scenario, the initial distribution is [1, 0, 0, 0, 0], because we always
+begin in ﬂoor 1. The next distribution is [0, 1, 0, 0, 0], because we can only move
+from ﬂoor 1 to ﬂoor 2. After this, we can either move one ﬂoor up or one ﬂoor down,
+so the next distribution is [1/2, 0, 1/2, 0, 0], and so on.
+An efﬁcient way to simulate the walk in a Markov chain is to use dynamic pro-
+gramming. The idea is to maintain the probability distribution, and at each step go
+through all possibilities how we can move. Using this method, we can simulate a
+walk of m steps in O(n2m) time.
+The transitions of a Markov chain can also be represented as a matrix that updates
+the probability distribution. In the above scenario, the matrix is
+⎡
+⎢⎢⎢⎢⎣
+0 1/2 0
+0 0
+1 0 1/2 0 0
+0 1/2 0 1/2 0
+0 0 1/2 0 1
+0 0
+0 1/2 0
+⎤
+⎥⎥⎥⎥⎦
+.
+When we multiply a probability distribution by this matrix, we get the new dis-
+tribution after moving one step. For example, we can move from the distribution
+
+
+===== PDF PAGE 183 =====
+
+[1, 0, 0, 0, 0] to the distribution [0, 1, 0, 0, 0] as follows:
+⎡
+⎢⎢⎢⎢⎣
+0 1/2 0
+0 0
+1 0 1/2 0 0
+0 1/2 0 1/2 0
+0 0 1/2 0 1
+0 0
+0 1/2 0
+⎤
+⎥⎥⎥⎥⎦
+⎡
+⎢⎢⎢⎢⎣
+1
+0
+0
+0
+0
+⎤
+⎥⎥⎥⎥⎦
+=
+⎡
+⎢⎢⎢⎢⎣
+0
+1
+0
+0
+0
+⎤
+⎥⎥⎥⎥⎦
+.
+By calculating matrix powers efﬁciently, we can calculate the distribution after m
+steps in O(n3 log m) time.
+11.4.4 Randomized Algorithms
+Sometimes we can use randomness for solving a problem, even if the problem is
+not related to probabilities. A randomized algorithm is an algorithm that is based on
+randomness. There are two popular types of randomized algorithms:
+• A Monte Carlo algorithm is an algorithm that may sometimes give a wrong
+answer. For such an algorithm to be useful, the probability of a wrong answer
+should be small.
+• A Las Vegas algorithm is an algorithm that always gives the correct answer, but its
+running time varies randomly. The goal is to design an algorithm that is efﬁcient
+with high probability.
+Next we will go through three example problems that can be solved using such
+algorithms.
+Order Statistics The kth order statistic of an array is the element at position k
+after sorting the array in increasing order. It is easy to calculate any order statistic
+in O(n log n) time by ﬁrst sorting the array, but is it really needed to sort the entire
+array just to ﬁnd one element?
+It turns out that we can ﬁnd order statistics using a Las Vegas algorithm, whose
+expected running time is O(n). The algorithm chooses a random element x from
+the array and moves elements smaller than x to the left part of the array, and all
+other elements to the right part of the array. This takes O(n) time when there are n
+elements.
+Assumethattheleftpartcontainsa elementsandtherightpartcontainsb elements.
+If a = k, element x is the kth order statistic. Otherwise, if a > k, we recursively ﬁnd
+the kth order statistic for the left part, and if a < k, we recursively ﬁnd the rth order
+statistic for the right part where r = k −a −1. The search continues in a similar
+way, until the desired element has been found.
+When each element x is randomly chosen, the size of the array about halves at
+each step, so the time complexity for ﬁnding the kth order statistic is about
+n + n/2 + n/4 + n/8 + · · · = O(n).
+
+
+===== PDF PAGE 184 =====
+
+Fig.11.19 A valid coloring
+of a graph
+1
+2
+3
+4
+5
+Notethattheworstcaseofthealgorithmrequires O(n2)time,becauseitispossible
+that x is always chosen in such a way that it is one of the smallest or largest elements
+in the array and O(n) steps are needed. However, the probability of this is so small
+that we may assume that this never happens in practice.
+Verifying Matrix Multiplication Given matrices A, B, and C, each of size n × n,
+our next problem is to verify if AB = C holds. Of course, we can solve the problem
+by just calculating the product AB in O(n3) time, but one could hope that verifying
+the answer would be easier than to calculate it from scratch.
+It turns out that we can solve the problem using a Monte Carlo algorithm whose
+time complexity is only O(n2). The idea is simple: we choose a random vector X of
+n elements and calculate the matrices ABX and C X. If ABX = C X, we report that
+AB = C, and otherwise we report that AB̸ = C.
+The time complexity of the algorithm is O(n2), because we can calculate the
+matrices ABX and C X in O(n2) time. We can calculate the matrix ABX efﬁciently
+by using the representation A(BX), so only two multiplications of n × n and n × 1
+size matrices are needed.
+The drawback of the algorithm is that there is a small chance that the algorithm
+makes a mistake when it reports that AB = C. For example,
+6 8
+1 3
+̸
+=
+8 7
+3 2
+
+,
+but
+6 8
+1 3
+ 3
+6
+
+=
+8 7
+3 2
+ 3
+6
+
+.
+However, in practice, the probability that the algorithm makes a mistake is small,
+and we can decrease the probability by verifying the result using multiple random
+vectors X before reporting that AB = C.
+Graph Coloring Given a graph that contains n nodes and m edges, our ﬁnal problem
+is to ﬁnd a way to color the nodes using two colors so that for at least m/2 edges,
+the endpoints have different colors. For example, Fig.11.19 shows a valid coloring
+of a graph. In this case the graph contains seven edges, and the endpoints of ﬁve of
+them have different colors in the coloring.
+The problem can be solved using a Las Vegas algorithm that generates random
+colorings until a valid coloring has been found. In a random coloring, the color of
+each node is independently chosen so that the probability of both colors is 1/2.
+Hence, the expected number of edges whose endpoints have different colors is m/2.
+
+
+===== PDF PAGE 185 =====
+
+Since it is expected that a random coloring is valid, we will quickly ﬁnd a valid
+coloring in practice.
+11.5 Game Theory
+In this section, we focus on two-player games where the players move alternately
+and have the same set of moves available, and there are no random elements. Our
+goal is to ﬁnd a strategy that we can follow to win the game no matter what the
+opponent does, if such a strategy exists.
+It turns out that there is a general strategy for such games, and we can analyze the
+games using nim theory. First, we will analyze simple games where players remove
+sticks from heaps, and after this, we will generalize the strategy used in those games
+to other games.
+11.5.1 Game States
+Let us consider a game that starts with a heap of n sticks. Two players move alter-
+nately, and on each move, the player has to remove 1, 2, or 3 sticks from the heap.
+Finally, the player who removes the last stick wins the game.
+For example, if n = 10, the game may proceed as follows:
+• Player A removes 2 sticks (8 sticks left).
+• Player B removes 3 sticks (5 sticks left).
+• Player A removes 1 stick (4 sticks left).
+• Player B removes 2 sticks (2 sticks left).
+• Player A removes 2 sticks and wins.
+This game consists of states 0, 1, 2, . . . , n, where the number of the state corre-
+sponds to the number of sticks left.
+A winning state is a state where the player will win the game if they play optimally,
+and a losing state is a state where the player will lose the game if the opponent plays
+optimally. It turns out that we can classify all states of a game so that each state is
+either a winning state or a losing state.
+In the above game, state 0 is clearly a losing state, because the player cannot make
+any moves. States 1, 2, and 3 are winning states, because the player can remove 1,
+2, or 3 sticks and win the game. State 4, in turn, is a losing state, because any move
+leads to a state that is a winning state for the opponent.
+More generally, if there is a move that leads from the current state to a losing state,
+it is a winning state, and otherwise it is a losing state. Using this observation, we can
+classify all states of a game starting with losing states where there are no possible
+moves. Figure11.20 shows the classiﬁcation of states 0 . . . 15 (W denotes a winning
+state and L denotes a losing state).
+
+
+===== PDF PAGE 186 =====
+
+L
+W
+W
+W
+L
+W
+W
+W
+L
+W
+W
+W
+L
+W
+W
+W
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10 11 12 13 14 15
+Fig.11.20 Classiﬁcation of states 0 . . . 15 in the stick game
+Fig.11.21 State graph of
+the divisibility game
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Fig.11.22 Classiﬁcation of
+states 1 . . . 9 in the
+divisibility game
+L
+W
+L
+W
+L
+W
+L
+W
+L
+1
+2
+3
+4
+5
+6
+7
+8
+9
+It is easy to analyze this game: a state k is a losing state if k is divisible by 4, and
+otherwise it is a winning state. An optimal way to play the game is to always choose
+a move after which the number of sticks in the heap is divisible by 4. Finally, there
+are no sticks left and the opponent has lost. Of course, this strategy requires that the
+number of sticks is not divisible by 4 when it is our move. If it is, there is nothing
+we can do, and the opponent will win the game if they play optimally.
+Let us then consider another stick game, where in each state k, it is allowed to
+remove any number x of sticks such that x is smaller than k and divides k. For
+example, in state 8 we may remove 1, 2, or 4 sticks, but in state 7 the only allowed
+move is to remove 1 stick. Figure11.21 shows the states 1 . . . 9 of the game as a state
+graph, whose nodes are the states and edges are the moves between them:
+The ﬁnal state in this game is always state 1, which is a losing state, because there
+are no valid moves. Figure11.22 shows the classiﬁcation of states 1 . . . 9. It turns out
+that in this game, all even-numbered states are winning states, and all odd-numbered
+states are losing states.
+11.5.2 Nim Game
+The nim game is a simple game that has an important role in game theory, because
+many other games can be played using the same strategy. First, we focus on nim,
+and after this, we generalize the strategy to other games.
+There are n heaps in nim, and each heap contains some number of sticks. The
+playersmovealternately,andoneachturn,theplayerchoosesaheapthatstillcontains
+sticks and removes any number of sticks from it. The winner is the player who
+removes the last stick.
+
+
+===== PDF PAGE 187 =====
+
+The states in nim are of the form [x1, x2, . . . , xn], where xi denotes the number
+of sticks in heap i. For example, [10, 12, 5] is a state where there are three heaps
+with 10, 12, and 5 sticks. The state [0, 0, . . . , 0] is a losing state, because it is not
+possible to remove any sticks, and this is always the ﬁnal state.
+Analysis It turns out that we can easily classify any nim state by calculating the nim
+sum s = x1 ⊕x2 ⊕· · · ⊕xn, where ⊕denotes the xor operation. The states whose
+nim sum is 0 are losing states, and all other states are winning states. For example,
+the nim sum of [10, 12, 5] is 10 ⊕12 ⊕5 = 3, so the state is a winning state.
+But how is the nim sum related to the nim game? We can explain this by looking
+at how the nim sum changes when the nim state changes.
+Losing states: The ﬁnal state [0, 0, . . . , 0] is a losing state, and its nim sum is 0, as
+expected. In other losing states, any move leads to a winning state, because when a
+single value xi changes, the nim sum also changes, so the nim sum is different from
+0 after the move.
+Winning states: We can move to a losing state if there is any heap i for which
+xi ⊕s < xi. In this case, we can remove sticks from heap i so that it will contain
+xi ⊕s sticks, which will lead to a losing state. There is always such a heap, where
+xi has a one bit at the position of the leftmost one bit of s.
+Example As an example, consider the state [10, 12, 5]. This state is a winning state,
+because its nim sum is 3. Thus, there has to be a move which leads to a losing state.
+Next we will ﬁnd out such a move.
+The nim sum of the state is as follows:
+10 1010
+12 1100
+5 0101
+3 0011
+In this case, the heap with 10 sticks is the only heap that has a one bit at the
+position of the leftmost one bit of the nim sum:
+10 1010
+12 1100
+5 0101
+3 0011
+The new size of the heap has to be 10 ⊕3 = 9, so we will remove just one stick.
+After this, the state will be [9, 12, 5], which is a losing state:
+9 1001
+12 1100
+5 0101
+0 0000
+Misère Game In a misère nim game, the goal of the game is opposite, so the player
+who removes the last stick loses the game. It turns out that the misère nim game can
+b
+ti
+ll
+l
+d l
+t lik th
+t
+d d i
+
+
+===== PDF PAGE 188 =====
+
+Fig.11.23 Grundy numbers
+of game states
+0
+1
+0
+2
+0
+2
+The idea is to ﬁrst play the misère game like the standard game, but change the
+strategy at the end of the game. The new strategy will be introduced in a situation
+where each heap would contain at most one stick after the next move. In the standard
+game, we should choose a move after which there is an even number of heaps with
+one stick. However, in the misère game, we choose a move so that there is an odd
+number of heaps with one stick.
+This strategy works because a state where the strategy changes always appears in
+the game, and this state is a winning state, because it contains exactly one heap that
+has more than one stick so the nim sum is not 0.
+11.5.3 Sprague–Grundy Theorem
+The Sprague–Grundy theorem generalizes the strategy used in nim to all games that
+fulﬁll the following requirements:
+• There are two players who move alternately.
+• The game consists of states, and the possible moves in a state do not depend on
+whose turn it is.
+• The game ends when a player cannot make a move.
+• The game surely ends sooner or later.
+• The players have complete information about the states and allowed moves, and
+there is no randomness in the game.
+Grundy Numbers The idea is to calculate for each game state a Grundy number
+that corresponds to the number of sticks in a nim heap. When we know the Grundy
+numbers of all states, we can play the game like the nim game.
+The Grundy number of a game state is calculated using the formula
+mex({g1, g2, . . . , gn}),
+where g1, g2, . . . , gn are the Grundy numbers of the states to which we can move
+from the state, and the mex function gives the smallest nonnegative number that is
+not in the set. For example, mex({0, 1, 3}) = 2. If a state has no possible moves, its
+Grundy number is 0, because mex(∅) = 0.
+For example, Fig.11.23 shows a state graph of a game where each state is assigned
+its Grundy number. The Grundy number of a losing state is 0, and the Grundy number
+of a winning state is a positive number.
+
+
+===== PDF PAGE 189 =====
+
+Fig.11.24 Possible moves
+on the ﬁrst turn
+@
+*
+*
+*
+*
+*
+*
+Fig.11.25 Grundy numbers
+of game states
+0
+1
+0
+1
+0
+1
+2
+0
+2
+1
+0
+3
+0
+4
+1
+0
+4
+1
+3
+2
+Consider a state whose Grundy number is x. We can think that it corresponds to
+a nim heap that has x sticks. In particular, if x > 0, we can move to states whose
+Grundy numbers are 0, 1, . . . , x −1, which simulates removing sticks from a nim
+heap. There is one difference, though it may be possible to move to a state whose
+Grundy number is larger than x and “add” sticks to a heap. However, the opponent
+can always cancel any such move, so this does not change the strategy.
+As an example, consider a game where the players move a ﬁgure in a maze. Each
+square of the maze is either ﬂoor or wall. On each turn, the player has to move the
+ﬁgure some number of steps left or up. The winner of the game is the player who
+makes the last move. Figure11.24 shows a possible initial conﬁguration of the game,
+where @ denotes the ﬁgure and * denotes a square where it can move. The states of
+the game are all ﬂoor squares of the maze. Figure11.25 shows the Grundy numbers
+of the states in this conﬁguration.
+According to the Sprague–Grundy theorem, each state of the maze game corre-
+sponds to a heap in the nim game. For example, the Grundy number of the lower-right
+square is 2, so it is a winning state. We can reach a losing state and win the game by
+moving either four steps left or two steps up.
+Subgames Assume that our game consists of subgames, and on each turn, the player
+ﬁrst chooses a subgame and then a move in the subgame. The game ends when it is
+not possible to make any move in any subgame. In this case, the Grundy number of
+a game equals the nim sum of the Grundy numbers of the subgames. The game can
+then be played like a nim game by calculating all Grundy numbers for subgames and
+then their nim sum.
+As an example, consider a game that consists of three mazes. On each turn, the
+player chooses one of the mazes and then moves the ﬁgure in the maze. Figure11.26
+shows an initial conﬁguration of the game, and Fig.11.27 shows the corresponding
+Grundy numbers. In this conﬁguration, the nim sum of the Grundy numbers is 2 ⊕
+3 ⊕3 = 2, so the ﬁrst player can win the game. One optimal move is to move two
+steps up in the ﬁrst maze, which produces the nim sum 0 ⊕3 ⊕3 = 0.
+
+
+===== PDF PAGE 190 =====
+
+Fig.11.26 A game that
+consists of three subgames
+@
+@
+@
+Fig.11.27 Grundy numbers
+in subgames
+0
+1
+0
+1
+0
+1
+2
+0
+2
+1
+0
+3
+0
+4
+1
+0
+4
+1
+3
+2
+0
+1
+2
+3
+1
+0
+0
+1
+2
+0
+1
+2
+3
+1
+2
+0
+4
+0
+2
+5
+3
+0
+1
+2
+3
+4
+1
+0
+2
+1
+3
+2
+4
+0
+1
+2
+3
+Grundy’s Game Sometimes a move in a game divides the game into subgames that
+are independent of each other. In this case, the Grundy number of a game state is
+mex({g1, g2, . . . , gn}),
+where there are n possible moves and
+gk = ak,1 ⊕ak,2 ⊕. . . ⊕ak,m,
+meaning that move k divides the game into m subgames whose Grundy numbers are
+ak,1, ak,2, . . . , ak,m.
+An example of such a game is Grundy’s game. Initially, there is a single heap
+that has n sticks. On each turn, the player chooses a heap and divides it into two
+nonempty heaps such that the heaps are of different size. The player who makes the
+last move wins the game.
+Let g(n) denote the Grundy number of a heap of size n. The Grundy number
+can be calculated by going through all ways to divide the heap into two heaps. For
+example, when n = 8, the possibilities are 1 + 7, 2 + 6, and 3 + 5, so
+g(8) = mex({g(1) ⊕g(7), g(2) ⊕g(6), g(3) ⊕g(5)}).
+In this game, the value of g(n) is based on the values of g(1), . . . , g(n −1). The
+base cases are g(1) = g(2) = 0, because it is not possible to divide the heaps of 1
+and 2 sticks into smaller heaps. The ﬁrst Grundy numbers are:
+g(1) = 0
+g(2) = 0
+g(3) = 1
+g(4) = 0
+
+
+===== PDF PAGE 191 =====
+
+g(5) = 2
+g(6) = 1
+g(7) = 0
+g(8) = 2
+The Grundy number for n = 8 is 2, so it is possible to win the game. The winning
+move is to create heaps 1 + 7, because g(1) ⊕g(7) = 0.

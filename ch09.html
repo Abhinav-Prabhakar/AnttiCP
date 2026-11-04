@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 09 — Range Queries · Guide to Competitive Programming</title>
+<meta name="description" content="Prefix sums, sparse tables, segment trees, and Fenwick trees for static and dynamic ranges.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E09%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch09.css">
+</head>
+<body data-chapter="09">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 09 <span>— Range Queries</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s91" class="siderail__item" data-section="s91"><span class="siderail__num">9.1</span><span class="siderail__label">Queries on Static Arrays</span></a>
+  <a href="#s911" class="siderail__item" data-section="s911"><span class="siderail__num">9.1.1</span><span class="siderail__label">Sum Queries</span></a>
+  <a href="#s912" class="siderail__item" data-section="s912"><span class="siderail__num">9.1.2</span><span class="siderail__label">Minimum Queries</span></a>
+  <a href="#s92" class="siderail__item" data-section="s92"><span class="siderail__num">9.2</span><span class="siderail__label">Tree Structures</span></a>
+  <a href="#s921" class="siderail__item" data-section="s921"><span class="siderail__num">9.2.1</span><span class="siderail__label">Binary Indexed Trees</span></a>
+  <a href="#s922" class="siderail__item" data-section="s922"><span class="siderail__num">9.2.2</span><span class="siderail__label">Segment Trees</span></a>
+  <a href="#s923" class="siderail__item" data-section="s923"><span class="siderail__num">9.2.3</span><span class="siderail__label">Additional Techniques</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero ch09-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 09</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Range Queries</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Range Queries</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">A query about a slice of an array should not cost a walk across the slice. Preprocess once, and most of the work disappears into two lookups.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>2 sections</span><span>11 pages</span><span>≈ 28 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch09-herofig" data-reveal style="--d:.2s" aria-label="An array and its prefix sum array, with the range 3 to 6 highlighted and the answer 19">
+      <div class="figure__frame ch09-hero-frame">
+        <div class="ch09-hero-stage">
+          <div class="ch09-hero-tape" aria-hidden="true">
+            <div class="ch09-hero-line">
+              <span class="ch09-hero-line__tag">array</span>
+              <div class="ch09-hero-cells">
+                <span><b>1</b><i>0</i></span><span><b>3</b><i>1</i></span><span><b>4</b><i>2</i></span><span class="is-range"><b>8</b><i>3</i></span><span class="is-range"><b>6</b><i>4</i></span><span class="is-range"><b>1</b><i>5</i></span><span class="is-range"><b>4</b><i>6</i></span><span><b>2</b><i>7</i></span>
+              </div>
+            </div>
+            <div class="ch09-hero-line ch09-hero-line--prefix">
+              <span class="ch09-hero-line__tag">prefix</span>
+              <div class="ch09-hero-cells">
+                <span><b>1</b><i>0</i></span><span><b>4</b><i>1</i></span><span class="is-a"><b>8</b><i>2</i></span><span><b>16</b><i>3</i></span><span><b>22</b><i>4</i></span><span><b>23</b><i>5</i></span><span class="is-b"><b>27</b><i>6</i></span><span><b>29</b><i>7</i></span>
+              </div>
+            </div>
+            <div class="ch09-hero-bracket"><span>[3, 6]</span></div>
+          </div>
+
+          <div class="ch09-hero-answer">
+            <span class="kicker">sumq(3, 6)</span>
+            <b>19</b>
+            <code>27 − 8</code>
+            <span>two prefix values</span>
+          </div>
+        </div>
+      </div>
+      <figcaption><span class="hero-map__hint">The range is long; the arithmetic is not. The prefix array already contains both ends.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index ch09-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">The four structures</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s911">
+          <span class="idx__num">9.1.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Prefix sums</span>
+            <span class="idx__desc">A static table that answers a sum in O(1).</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s912">
+          <span class="idx__num">9.1.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Sparse table</span>
+            <span class="idx__desc">Two overlapping windows for any minimum.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s921">
+          <span class="idx__num">9.2.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Fenwick tree</span>
+            <span class="idx__desc">Dynamic prefix sums, one low bit at a time.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s922">
+          <span class="idx__num">9.2.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Segment tree</span>
+            <span class="idx__desc">A range split into a logarithmic set of nodes.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9.1 ============ -->
+<section class="section ch09-sec" id="s91" aria-labelledby="h91">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">9.1</span>
+      <div class="section-head__body">
+        <h2 id="h91">Queries on Static Arrays</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>If the array never changes, a query can be answered from a table instead of from the array itself.</p>
+
+    <p class="lead" data-reveal>The array is preprocessed once into a second array. Every later query reads a constant number of entries from that table, so the cost of a query no longer depends on the length of the range.</p>
+
+    <div class="split2 ch09-static-split">
+      <div data-reveal>
+        <p>This chapter begins with two static problems. A <b>range sum query</b> asks for the total in [<i>a</i>, <i>b</i>]; a <b>range minimum query</b> asks for the smallest value there. The same array can answer both, but the tables are different.</p>
+        <p>Prefix sums handle sums after <i>O</i>(<i>n</i>) preprocessing. Sparse tables handle minima after <i>O</i>(<i>n</i> log <i>n</i>). Both then answer in <i>O</i>(1), and both generalize: the prefix idea to higher dimensions, the sparse table to maximum queries with <code>min</code> replaced by <code>max</code>.</p>
+      </div>
+
+      <div class="ch09-qcard" data-reveal style="--d:.08s" aria-label="Two range queries on the same range from three to six">
+        <div class="ch09-qcard__head"><span>question on [3, 6]</span><span>answer</span><span>table</span></div>
+        <div class="ch09-qcard__row">
+          <span class="ch09-qcard__q"><code>sumq(3, 6)</code></span>
+          <b>19</b>
+          <span class="ch09-qcard__src">prefix sums</span>
+        </div>
+        <div class="ch09-qcard__row">
+          <span class="ch09-qcard__q"><code>minq(3, 6)</code></span>
+          <b>1</b>
+          <span class="ch09-qcard__src">sparse table</span>
+        </div>
+        <p class="ch09-qcard__foot">Both return in <i>O</i>(1) after preprocessing. Neither touches every value in the range.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9.1.1 ============ -->
+<section class="section section--sub ch09-sec" id="s911" aria-labelledby="h911">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">9.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h911">Sum Queries</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Let <span class="ch09-mono">sumq(0, k)</span> be the sum of the first <i>k</i> + 1 values. Store every one of those prefixes once. Then any range sum is the difference of two prefixes: <span class="ch09-mono">sumq(a, b) = sumq(0, b) − sumq(0, a − 1)</span>.</p>
+
+    <div class="ch09-lab" data-ch09-prefix data-reveal>
+      <div class="ch09-lab__head">
+        <div>
+          <span class="kicker">Interactive range</span>
+          <h3>Select a slice, read two prefixes</h3>
+        </div>
+        <div class="ch09-lab__presets" role="group" aria-label="Example ranges">
+          <button class="ch09-preset" type="button" data-range="3,6">[3, 6]</button>
+          <button class="ch09-preset" type="button" data-range="0,7">[0, 7]</button>
+          <button class="ch09-preset" type="button" data-range="1,4">[1, 4]</button>
+          <button class="ch09-preset" type="button" data-range="4,4">[4, 4]</button>
+        </div>
+      </div>
+
+      <div class="ch09-lab__rows">
+        <div class="ch09-lab__row">
+          <span class="ch09-lab__tag">array</span>
+          <div class="ch09-lab__cells" id="ch09PrefixCells"></div>
+        </div>
+        <div class="ch09-lab__row">
+          <span class="ch09-lab__tag">prefix</span>
+          <div class="ch09-lab__cells ch09-lab__cells--prefix" id="ch09PrefixSums"></div>
+        </div>
+      </div>
+
+      <div class="ch09-lab__foot">
+        <p class="ch09-lab__formula" id="ch09PrefixFormula" aria-live="polite"></p>
+        <p class="ch09-lab__values" id="ch09PrefixValues"></p>
+      </div>
+      <p class="ch09-foothint">Click one cell, then another, to set the range. Drag across the array if you prefer. The two numbers in the prefix row are the only values the query reads.</p>
+    </div>
+
+    <div class="split2 ch09-2d-split">
+      <figure class="figure ch09-2d" data-reveal>
+        <div class="figure__frame ch09-2d__frame">
+          <svg viewBox="0 0 620 320" role="img" aria-label="A rectangular subarray inside a grid, with its four corners labelled A, B, C and D">
+            <rect class="ch09-2d__bg" x="110" y="60" width="420" height="210"/>
+            <rect class="ch09-2d__region" x="180" y="102" width="280" height="126"/>
+            <g class="ch09-2d__grid">
+              <path d="M110 60 V270 M180 60 V270 M250 60 V270 M320 60 V270 M390 60 V270 M460 60 V270 M530 60 V270"/>
+              <path d="M110 60 H530 M110 102 H530 M110 144 H530 M110 186 H530 M110 228 H530 M110 270 H530"/>
+            </g>
+            <g class="ch09-2d__corners">
+              <path d="M180 102 H194 M180 102 V116"/>
+              <path d="M460 102 H446 M460 102 V116"/>
+              <path d="M180 228 H194 M180 228 V214"/>
+              <path d="M460 228 H446 M460 228 V214"/>
+            </g>
+            <text class="ch09-2d__letter" x="172" y="94" text-anchor="end">D</text>
+            <text class="ch09-2d__letter" x="468" y="94">B</text>
+            <text class="ch09-2d__letter" x="172" y="246" text-anchor="end">C</text>
+            <text class="ch09-2d__letter" x="468" y="246">A</text>
+            <text class="ch09-2d__note" x="320" y="168" text-anchor="middle">the rectangle we want</text>
+            <text class="ch09-2d__axis" x="320" y="296" text-anchor="middle">each S(X) is a sum from the upper-left corner to X</text>
+          </svg>
+        </div>
+        <figcaption>The two-dimensional prefix table stores <i>S</i>(<i>X</i>), a sum from the origin. Four corner sums isolate the rectangle.</figcaption>
+      </figure>
+
+      <div class="ch09-2d-copy" data-reveal style="--d:.08s">
+        <span class="kicker">Higher dimensions</span>
+        <h3>One rectangle, four corners</h3>
+        <p>In two dimensions, each entry of the prefix table is the sum of the rectangle from the upper-left corner to that cell. To get an arbitrary subarray, add the corner you want and subtract the two strips that were counted twice:</p>
+        <p class="ch09-formula-block"><i>S</i>(<i>A</i>) − <i>S</i>(<i>B</i>) − <i>S</i>(<i>C</i>) + <i>S</i>(<i>D</i>)</p>
+        <p class="ch09-small">The final <i>+ S(D)</i> corrects the overlap of the two subtracted strips. The same inclusion–exclusion pattern continues in three dimensions and beyond.</p>
+      </div>
+    </div>
+
+    <details class="note ch09-note" data-reveal>
+      <summary><span class="note__label">Why sumq(0, −1) is defined as zero</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>When <i>a</i> = 0, the formula asks for the prefix before the array. Defining <span class="ch09-mono">sumq(0, −1) = 0</span> lets one formula cover every range, including one that starts at the first cell.</p>
+        <p>The prefix array is built in <i>O</i>(<i>n</i>) time by one left-to-right pass. Each entry is the previous entry plus the next array value; no query is involved.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 9.1.2 ============ -->
+<section class="section section--sub ch09-sec" id="s912" aria-labelledby="h912">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">9.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h912">Minimum Queries</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A sparse table stores the minimum of every range whose length is a power of two. A query of any length is then covered by two such ranges, each of length <i>k</i>, where <i>k</i> is the largest power of two that does not exceed the query length. The ranges may overlap, which is harmless for a minimum.</p>
+
+    <div class="ch09-sparse" data-ch09-sparse data-reveal>
+      <div class="ch09-sparse__head">
+        <div>
+          <span class="kicker">Interactive query</span>
+          <h3>Two windows, one minimum</h3>
+        </div>
+        <div class="ch09-sparse__presets" role="group" aria-label="Example minimum queries">
+          <button class="ch09-preset" type="button" data-query="1,6">[1, 6]</button>
+          <button class="ch09-preset" type="button" data-query="0,7">[0, 7]</button>
+          <button class="ch09-preset" type="button" data-query="2,5">[2, 5]</button>
+          <button class="ch09-preset" type="button" data-query="4,4">[4, 4]</button>
+        </div>
+      </div>
+
+      <div class="ch09-sparse__array" id="ch09SparseArray"></div>
+      <div class="ch09-sparse__windows" id="ch09SparseWindows" aria-hidden="true"></div>
+      <div class="ch09-sparse__levels" id="ch09SparseLevels"></div>
+
+      <div class="ch09-sparse__readout">
+        <p id="ch09SparseFormula" aria-live="polite"></p>
+        <span class="ch09-sparse__k" id="ch09SparseK"></span>
+      </div>
+      <p class="ch09-foothint">Preprocessing is <i>O</i>(<i>n</i> log <i>n</i>): there are log <i>n</i> powers of two, and each level is built from the level below in one pass.</p>
+    </div>
+
+    <div class="split2 ch09-sparse-notes">
+      <div data-reveal>
+        <h3>Why two windows are enough</h3>
+        <p>If the query length is <i>L</i> and <i>k</i> is the largest power of two not exceeding <i>L</i>, then <i>k</i> ≤ <i>L</i> &lt; 2<i>k</i>. One window of length <i>k</i> starts at the left edge; the other ends at the right edge. Together they cover every position, even when they overlap in the middle.</p>
+        <p>The answer is <span class="ch09-mono">min(minq(a, a + k − 1), minq(b − k + 1, b))</span>, and both values were precalculated.</p>
+      </div>
+      <div class="ch09-sparse-side" data-reveal style="--d:.08s">
+        <span class="kicker">Table size</span>
+        <div class="ch09-sparse-side__row"><span>levels</span><b>log<sub>2</sub> n + 1</b></div>
+        <div class="ch09-sparse-side__row"><span>values</span><b>O(n log n)</b></div>
+        <div class="ch09-sparse-side__row"><span>query</span><b>O(1)</b></div>
+        <p>The book also notes that <i>O</i>(<i>n</i>) preprocessing is possible with more sophisticated techniques, but that is beyond its scope.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9.2 ============ -->
+<section class="section ch09-sec" id="s92" aria-labelledby="h92">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">9.2</span>
+      <div class="section-head__body">
+        <h2 id="h92">Tree Structures</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>When the array can change, the table cannot simply be rebuilt. The structure has to repair a path of entries after each update.</p>
+
+    <p class="lead" data-reveal>Both structures in this section support a range query and a point update in <i>O</i>(log <i>n</i>). The Fenwick tree is the smaller, faster specialist for sums. The segment tree is the generalist: sums, minima, maxima, gcd, and bit operations all fit the same shape.</p>
+
+    <div class="ch09-compare" data-reveal role="table" aria-label="Query and update costs for the structures in this chapter">
+      <div class="ch09-compare__head" role="row">
+        <span role="columnheader">structure</span><span role="columnheader">query</span><span role="columnheader">update</span>
+      </div>
+      <div class="ch09-compare__row" role="row">
+        <span role="cell"><b>prefix sums</b><em>static, sums</em></span><span role="cell">O(1)</span><span role="cell" class="is-bad">O(n)</span>
+      </div>
+      <div class="ch09-compare__row" role="row">
+        <span role="cell"><b>sparse table</b><em>static, minima</em></span><span role="cell">O(1)</span><span role="cell" class="is-bad">—</span>
+      </div>
+      <div class="ch09-compare__row" role="row">
+        <span role="cell"><b>Fenwick tree</b><em>dynamic, sums</em></span><span role="cell">O(log n)</span><span role="cell">O(log n)</span>
+      </div>
+      <div class="ch09-compare__row" role="row">
+        <span role="cell"><b>segment tree</b><em>dynamic, many queries</em></span><span role="cell">O(log n)</span><span role="cell">O(log n)</span>
+      </div>
+    </div>
+
+    <p class="ch09-after" data-reveal>The trade is explicit: a static table can answer faster because it never has to change. A tree gives up a little query speed so that an update can be absorbed in logarithmic time.</p>
+  </div>
+</section>
+
+<!-- ============ 9.2.1 ============ -->
+<section class="section section--sub ch09-sec" id="s921" aria-labelledby="h921">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">9.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h921">Binary Indexed Trees</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A Fenwick tree stores <span class="ch09-mono">tree[k] = sumq(k − p(k) + 1, k)</span>, where <span class="ch09-mono">p(k) = k &amp; −k</span> is the largest power of two that divides <i>k</i>. Each cell is responsible for a short suffix of the array ending at its own index. The arrays are one-indexed.</p>
+
+    <div class="ch09-fenwick" data-ch09-fenwick data-reveal>
+      <div class="ch09-fenwick__head">
+        <div>
+          <span class="kicker">Interactive structure</span>
+          <h3>Follow the low bit</h3>
+        </div>
+        <div class="ch09-modes" role="group" aria-label="Fenwick operation">
+          <button class="ch09-mode is-active" type="button" data-fenwick-mode="query" aria-pressed="true">Query sumq(1, 7)</button>
+          <button class="ch09-mode" type="button" data-fenwick-mode="update" aria-pressed="false">Update at 3</button>
+        </div>
+      </div>
+
+      <div class="ch09-fenwick__array" id="ch09FenwickArray"></div>
+      <div class="ch09-fenwick__rows" id="ch09FenwickRows"></div>
+
+      <div class="ch09-fenwick__readout">
+        <p id="ch09FenwickFormula" aria-live="polite"></p>
+        <span id="ch09FenwickNote"></span>
+      </div>
+      <p class="ch09-foothint">Each bar spans the array cells it covers. A query walks down by clearing the lowest set bit; an update walks up by adding it.</p>
+    </div>
+
+    <div class="split2 ch09-fenwick-notes">
+      <div data-reveal>
+        <h3>Two loops, both logarithmic</h3>
+        <p>To compute <span class="ch09-mono">sumq(1, k)</span>, start at <i>k</i>, add <span class="ch09-mono">tree[k]</span>, then replace <i>k</i> with <span class="ch09-mono">k − (k &amp; −k)</span>. Each step removes the lowest set bit, so the loop runs at most log<sub>2</sub> <i>n</i> times.</p>
+        <p>To add <i>x</i> at position <i>k</i>, add <i>x</i> to <span class="ch09-mono">tree[k]</span> and then move to <span class="ch09-mono">k + (k &amp; −k)</span>. The visited cells are exactly the ranges that contain <i>k</i>.</p>
+        <p>For a range with <i>a</i> &gt; 1, use the prefix difference: <span class="ch09-mono">sumq(a, b) = sumq(1, b) − sumq(1, a − 1)</span>.</p>
+      </div>
+      <div class="ch09-fenwick-side" data-reveal style="--d:.08s">
+        <span class="kicker">Example</span>
+        <div class="ch09-fenwick-side__line"><span>array</span><code>1 3 4 8 6 1 4 2</code></div>
+        <div class="ch09-fenwick-side__line"><span>tree</span><code>1 4 4 16 6 7 4 29</code></div>
+        <p class="ch09-small">The query <span class="ch09-mono">sumq(1, 7)</span> visits 7, 6, and 4. The update at 3 visits 3, 4, and 8.</p>
+      </div>
+    </div>
+
+    <div class="code-card ch09-codecard" data-code-card="fenwick" data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <details class="note ch09-note" data-reveal>
+      <summary><span class="note__label">Why k &amp; −k isolates the lowest set bit</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>In two's complement, <span class="ch09-mono">−k</span> flips every bit of <i>k</i> and adds one. Every bit below the lowest set bit becomes zero, and that bit becomes one; all higher bits cancel when the two values are ANDed. The result is exactly the power of two that <span class="ch09-mono">p(k)</span> is defined to be.</p>
+        <p>This is also why the loop bounds are logarithmic: each iteration of the query removes one set bit, and a number below <i>n</i> has at most log<sub>2</sub> <i>n</i> of them.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 9.2.2 ============ -->
+<section class="section section--sub ch09-sec" id="s922" aria-labelledby="h922">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">9.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h922">Segment Trees</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A segment tree is a binary tree over the array. Each node stores the answer for one range. A query splits its range into a small set of tree nodes; an update walks from a leaf to the root, recomputing the nodes on the way.</p>
+
+    <div class="ch09-seg" data-ch09-seg data-reveal>
+      <div class="ch09-seg__head">
+        <div>
+          <span class="kicker">Interactive tree</span>
+          <h3>Decompose a range</h3>
+        </div>
+        <div class="ch09-modes" role="group" aria-label="Segment tree operation">
+          <button class="ch09-mode is-active" type="button" data-seg-mode="query" aria-pressed="true">Range query</button>
+          <button class="ch09-mode" type="button" data-seg-mode="update" aria-pressed="false">Update index 5</button>
+        </div>
+      </div>
+
+      <div class="ch09-seg__presets" id="ch09SegPresets" role="group" aria-label="Example ranges">
+        <button class="ch09-preset is-active" type="button" data-range="2,7">[2, 7]</button>
+        <button class="ch09-preset" type="button" data-range="0,3">[0, 3]</button>
+        <button class="ch09-preset" type="button" data-range="4,6">[4, 6]</button>
+        <button class="ch09-preset" type="button" data-range="1,1">[1, 1]</button>
+      </div>
+
+      <div class="ch09-seg__plot">
+        <svg id="ch09SegTree" viewBox="0 0 720 350" role="img" aria-label="A segment tree for the array 5, 8, 6, 3, 2, 7, 2, 6, with the query range 2 to 7 highlighted"></svg>
+      </div>
+
+      <div class="ch09-seg__readout">
+        <p id="ch09SegFormula" aria-live="polite"></p>
+        <span id="ch09SegNote"></span>
+      </div>
+      <p class="ch09-foothint">The tree is stored in an array of 2<i>n</i> cells. The leaves occupy <span class="ch09-mono">tree[n] … tree[2n − 1]</span>; the parent of <span class="ch09-mono">tree[k]</span> is <span class="ch09-mono">tree[⌊k/2⌋]</span>.</p>
+    </div>
+
+    <div class="ch09-flat" data-reveal>
+      <div class="ch09-flat__head">
+        <div>
+          <span class="kicker">The same tree, stored flat</span>
+          <h3>Fifteen cells, no pointers</h3>
+        </div>
+        <span class="tag tag--mono">2n = 16</span>
+      </div>
+      <div class="ch09-flat__scroll">
+        <div class="ch09-flat__cells">
+          <span class="ch09-flatcell is-root" data-tip="tree[1] · range [0, 7] · sum 39"><i>1</i><b>39</b></span>
+          <span class="ch09-flatcell" data-tip="tree[2] · range [0, 3] · sum 22"><i>2</i><b>22</b></span>
+          <span class="ch09-flatcell" data-tip="tree[3] · range [4, 7] · sum 17"><i>3</i><b>17</b></span>
+          <span class="ch09-flatcell" data-tip="tree[4] · range [0, 1] · sum 13"><i>4</i><b>13</b></span>
+          <span class="ch09-flatcell" data-tip="tree[5] · range [2, 3] · sum 9"><i>5</i><b>9</b></span>
+          <span class="ch09-flatcell" data-tip="tree[6] · range [4, 5] · sum 9"><i>6</i><b>9</b></span>
+          <span class="ch09-flatcell" data-tip="tree[7] · range [6, 7] · sum 8"><i>7</i><b>8</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[8] · range [0, 0] · value 5"><i>8</i><b>5</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[9] · range [1, 1] · value 8"><i>9</i><b>8</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[10] · range [2, 2] · value 6"><i>10</i><b>6</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[11] · range [3, 3] · value 3"><i>11</i><b>3</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[12] · range [4, 4] · value 2"><i>12</i><b>2</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[13] · range [5, 5] · value 7"><i>13</i><b>7</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[14] · range [6, 6] · value 2"><i>14</i><b>2</b></span>
+          <span class="ch09-flatcell is-leaf" data-tip="tree[15] · range [7, 7] · value 6"><i>15</i><b>6</b></span>
+        </div>
+      </div>
+      <p class="ch09-flat__note">The array is <span class="ch09-mono">[5, 8, 6, 3, 2, 7, 2, 6]</span>. Internal nodes hold sums; leaves hold the values themselves. Cell 0 is unused.</p>
+    </div>
+
+    <div class="code-card ch09-codecard" data-code-card="segment" data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <div class="split2 ch09-seg-notes">
+      <div data-reveal>
+        <h3>Other queries</h3>
+        <p>The same tree works for any operation that can be computed from two independent halves. Replace <code>+</code> with <code>min</code>, <code>max</code>, <code>gcd</code>, <code>&amp;</code>, <code>|</code>, or <code>^</code> and the query and update loops keep their shape.</p>
+        <p>A minimum tree can also locate the smallest element by walking down from the root: at each step, move to the child whose value is smaller. That is a binary search over the tree, still in <i>O</i>(log <i>n</i>).</p>
+      </div>
+      <div class="ch09-seg-side" data-reveal style="--d:.08s">
+        <span class="kicker">Why the decomposition is short</span>
+        <p>On each level of the tree, at most two nodes are selected. The tree has log<sub>2</sub> <i>n</i> levels, so a query touches at most 2 log<sub>2</sub> <i>n</i> nodes.</p>
+        <p class="ch09-small">The bottom-up loop starts with the leaf range <span class="ch09-mono">[a + n, b + n]</span> and moves one level up at a time, absorbing the nodes that fall outside the next range.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9.2.3 ============ -->
+<section class="section section--sub ch09-sec" id="s923" aria-labelledby="h923">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">9.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h923">Additional Techniques</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Two small techniques adapt the structures to awkward inputs: index compression shrinks a sparse set of indices into a dense array, and a difference array turns a range update into two point updates.</p>
+
+    <div class="split2 ch09-compress-split">
+      <div data-reveal>
+        <h3>Index compression</h3>
+        <p>Array-based structures need consecutive indices. If only a few large indices are used, most of the array would be empty. Compress the indices first: sort the indices that will appear and map each one to 0, 1, 2, … in that order.</p>
+        <p>The mapping preserves order. If <i>a</i> &lt; <i>b</i>, then <i>c</i>(<i>a</i>) &lt; <i>c</i>(<i>b</i>), so a range [<i>a</i>, <i>b</i>] becomes [<i>c</i>(<i>a</i>), <i>c</i>(<i>b</i>)] and every query keeps its meaning.</p>
+      </div>
+
+      <div class="ch09-compress" data-reveal style="--d:.08s" aria-label="An eight-cell array with used indices 2, 5 and 7 compressed into three cells holding 5, 3 and 4">
+        <div class="ch09-compress__row">
+          <span class="kicker">original · 8 cells</span>
+          <div class="ch09-compress__cells">
+            <span><i>0</i><b>0</b></span><span><i>1</i><b>0</b></span><span class="is-used"><i>2</i><b>5</b></span><span><i>3</i><b>0</b></span><span><i>4</i><b>0</b></span><span class="is-used"><i>5</i><b>3</b></span><span><i>6</i><b>0</b></span><span class="is-used"><i>7</i><b>4</b></span>
+          </div>
+        </div>
+        <div class="ch09-compress__map"><span>c(2) = 0</span><span>c(5) = 1</span><span>c(7) = 2</span></div>
+        <div class="ch09-compress__row">
+          <span class="kicker">compressed · 3 cells</span>
+          <div class="ch09-compress__cells ch09-compress__cells--three">
+            <span><i>0</i><b>5</b></span><span><i>1</i><b>3</b></span><span><i>2</i><b>4</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch09-diff" data-ch09-diff data-reveal>
+      <div class="ch09-diff__head">
+        <div>
+          <span class="kicker">Range updates</span>
+          <h3>Change two cells, not four</h3>
+        </div>
+        <button class="btn btn--primary" type="button" data-diff-toggle aria-pressed="false"><span>Apply +3 to [1, 4]</span><svg class="icon"><use href="#i-play"/></svg></button>
+      </div>
+
+      <div class="ch09-diff__rows">
+        <div class="ch09-diff__row">
+          <span class="ch09-diff__tag">original</span>
+          <div class="ch09-diff__cells" id="ch09DiffOriginal"></div>
+        </div>
+        <div class="ch09-diff__row">
+          <span class="ch09-diff__tag">difference</span>
+          <div class="ch09-diff__cells" id="ch09DiffArray"></div>
+        </div>
+      </div>
+
+      <div class="ch09-diff__foot">
+        <p id="ch09DiffNote" aria-live="polite">Before any range update. The difference array is the original array's step-by-step change.</p>
+        <span class="ch09-diff__count" id="ch09DiffCount">0 cells changed</span>
+      </div>
+      <p class="ch09-foothint">The original array is the prefix sum of the difference array. A range update changes one difference cell at the start and one just past the end; a Fenwick or segment tree can then carry the difference array.</p>
+    </div>
+
+    <p class="ch09-after" data-reveal>Compression makes a sparse index space usable; a difference array makes range updates cheap. Neither changes the underlying structure — they change the array you give it.</p>
+
+    <p class="closing ch09-closing" data-reveal>Prefix sums remember every beginning. Sparse tables remember every power of two. Fenwick and segment trees remember just enough to repair themselves. A range query is never cheaper than the preprocessing that anticipates it.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 09</span>
+    <h2 id="endTitle">Answers over ranges.</h2>
+    <p>Prefix sums and tree structures turn range queries into arithmetic.</p>
+    <a class="end__next end__next--link" href="ch10.html">
+      <div class="end__next-copy">
+        <span class="kicker">Next · Chapter 10</span>
+        <h3>Tree Algorithms</h3>
+        <p>Rooting, traversing, and querying trees — from LCA to centroid decomposition.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 09 · Range Queries</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 09 · Range Queries</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s91" data-close-drawer><span>9.1</span>Queries on Static Arrays</a>
+            <a href="#s911" data-close-drawer><span>9.1.1</span>Sum Queries</a>
+            <a href="#s912" data-close-drawer><span>9.1.2</span>Minimum Queries</a>
+            <a href="#s92" data-close-drawer><span>9.2</span>Tree Structures</a>
+            <a href="#s921" data-close-drawer><span>9.2.1</span>Binary Indexed Trees</a>
+            <a href="#s922" data-close-drawer><span>9.2.2</span>Segment Trees</a>
+            <a href="#s923" data-close-drawer><span>9.2.3</span>Additional Techniques</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row" href="ch02.html">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row" href="ch03.html">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row" href="ch07.html">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch09.html" aria-current="page">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch11.html">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch15.html">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch09.js"></script>
+</body>
+</html>

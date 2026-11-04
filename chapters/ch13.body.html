@@ -1,0 +1,942 @@
+<!-- ============ hero ============ -->
+<section class="hero ch13-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 13</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Geometry</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Geometry</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Points, turns and areas — then a line that sweeps the plane and turns hard geometry into an ordered sequence of events.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>2 sections</span><span>14 pages</span><span>≈ 38 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch13-hero-map" data-reveal style="--d:.2s" aria-label="Three views of the plane: a complex vector, a polygon with area 17/2, and a point set crossed by a sweep line">
+      <div class="ch13-hero-stage">
+        <svg viewBox="0 0 1200 350" role="img" aria-label="Left: vector 4 plus 2i and a rotated copy. Centre: the book's polygon with lattice points and area 17/2. Right: a point set, convex hull and a vertical sweep line.">
+          <defs>
+            <marker id="ch13h-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#171717"/>
+            </marker>
+            <marker id="ch13h-arrow-muted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#b8b8b0"/>
+            </marker>
+            <pattern id="ch13h-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r=".9" fill="#dcdcd6"/>
+            </pattern>
+          </defs>
+
+          <rect x="0" y="0" width="1200" height="350" fill="url(#ch13h-dots)" opacity=".55"/>
+
+          <g class="ch13-hero-col">
+            <text x="48" y="34">01 · represent</text>
+            <g class="ch13-hero-axis">
+              <line x1="60" y1="272" x2="350" y2="272"/>
+              <line x1="60" y1="272" x2="60" y2="86"/>
+            </g>
+            <path class="ch13-hero-vec" d="M60 272 L276 164" marker-end="url(#ch13h-arrow)"/>
+            <path class="ch13-hero-vec ch13-hero-vec--muted" d="M60 272 L222 112" marker-end="url(#ch13h-arrow-muted)"/>
+            <circle cx="276" cy="164" r="3.5" class="ch13-hero-dot"/>
+            <text x="290" y="160" class="ch13-hero-note">4 + 2i</text>
+            <text x="196" y="96" class="ch13-hero-note ch13-hero-note--faint">rotated</text>
+            <text x="160" y="300" class="ch13-hero-caption">a point is a vector</text>
+          </g>
+
+          <g class="ch13-hero-col">
+            <text x="410" y="34">02 · measure</text>
+            <polygon class="ch13-hero-poly" points="508,250 682,160 566,70 392,120 508,170"/>
+            <g class="ch13-hero-lattice">
+              <circle cx="450" cy="250" r="2.5"/><circle cx="508" cy="200" r="2.5"/><circle cx="508" cy="150" r="2.5"/>
+              <circle cx="508" cy="100" r="2.5"/><circle cx="566" cy="200" r="2.5"/><circle cx="566" cy="150" r="2.5"/>
+              <circle cx="566" cy="120" r="2.5"/><circle cx="624" cy="180" r="2.5"/><circle cx="450" cy="220" r="2.5"/>
+            </g>
+            <text x="508" y="292" class="ch13-hero-caption">shoelace · pick</text>
+            <text x="508" y="316" class="ch13-hero-result">area = 17/2</text>
+          </g>
+
+          <g class="ch13-hero-col">
+            <text x="790" y="34">03 · order</text>
+            <polygon class="ch13-hero-hull" points="830,292 922,306 1074,276 1112,132 1004,92 900,142"/>
+            <g class="ch13-hero-points">
+              <circle cx="830" cy="292" r="3"/><circle cx="858" cy="196" r="3"/><circle cx="900" cy="142" r="3"/>
+              <circle cx="942" cy="228" r="3"/><circle cx="922" cy="306" r="3"/><circle cx="978" cy="184" r="3"/>
+              <circle cx="1004" cy="92" r="3"/><circle cx="1048" cy="238" r="3"/><circle cx="1074" cy="276" r="3"/>
+              <circle cx="1112" cy="132" r="3"/><circle cx="988" cy="270" r="3"/>
+            </g>
+            <line class="ch13-hero-pair" x1="1048" y1="238" x2="1074" y2="276"/>
+            <circle class="ch13-hero-ring" cx="1061" cy="257" r="24"/>
+            <g class="ch13-hero-sweep">
+              <line x1="1000" y1="62" x2="1000" y2="316"/>
+              <text x="1006" y="54">sweep</text>
+            </g>
+            <text x="948" y="340" class="ch13-hero-caption">one direction · many problems</text>
+          </g>
+
+          <line x1="382" y1="62" x2="382" y2="316" class="ch13-hero-divider"/>
+          <line x1="762" y1="62" x2="762" y2="316" class="ch13-hero-divider"/>
+        </svg>
+      </div>
+      <svg class="ch13-hero-mobile" viewBox="0 0 360 360" role="img" aria-label="Three stacked panels: a complex vector and its rotation, the polygon with area 17/2, and a point set with a sweep line and convex hull.">
+        <defs>
+          <marker id="ch13hm-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0 0 10 5 0 10z" fill="#171717"/>
+          </marker>
+          <marker id="ch13hm-arrow-muted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0 0 10 5 0 10z" fill="#b8b8b0"/>
+          </marker>
+        </defs>
+        <text class="ch13-hero-caption ch13-hm-kicker" x="12" y="16" text-anchor="start">01 · represent</text>
+        <g class="ch13-hero-axis">
+          <line x1="36" y1="96" x2="178" y2="96"/>
+          <line x1="36" y1="96" x2="36" y2="28"/>
+        </g>
+        <path d="M36 96 L140 56" class="ch13-hero-vec" marker-end="url(#ch13hm-arrow)"/>
+        <path d="M36 96 L106 32" class="ch13-hero-vec ch13-hero-vec--muted" marker-end="url(#ch13hm-arrow-muted)"/>
+        <circle cx="140" cy="56" r="3" class="ch13-hero-dot"/>
+        <text x="148" y="54" class="ch13-hero-note">4 + 2i</text>
+        <text x="112" y="26" class="ch13-hero-note ch13-hero-note--faint">rotated</text>
+        <text x="106" y="112" class="ch13-hero-caption">a point is a vector</text>
+
+        <line x1="12" y1="124" x2="348" y2="124" class="ch13-hero-divider"/>
+        <text class="ch13-hero-caption ch13-hm-kicker" x="12" y="144" text-anchor="start">02 · measure</text>
+        <polygon points="70,214 154,180 122,138 50,158 70,180" class="ch13-hero-poly"/>
+        <g class="ch13-hero-lattice">
+          <circle cx="70" cy="196" r="2.4"/><circle cx="92" cy="174" r="2.4"/><circle cx="122" cy="160" r="2.4"/>
+          <circle cx="108" cy="196" r="2.4"/><circle cx="134" cy="186" r="2.4"/>
+        </g>
+        <text x="236" y="172" class="ch13-hero-caption">shoelace · pick</text>
+        <text x="236" y="192" class="ch13-hero-result">area = 17/2</text>
+
+        <line x1="12" y1="230" x2="348" y2="230" class="ch13-hero-divider"/>
+        <text class="ch13-hero-caption ch13-hm-kicker" x="12" y="250" text-anchor="start">03 · order</text>
+        <polygon class="ch13-hero-hull" points="38,320 178,314 302,276 242,254 140,278"/>
+        <g class="ch13-hero-points">
+          <circle cx="38" cy="320" r="3"/><circle cx="84" cy="286" r="3"/><circle cx="140" cy="278" r="3"/>
+          <circle cx="178" cy="314" r="3"/><circle cx="214" cy="288" r="3"/><circle cx="242" cy="254" r="3"/>
+          <circle cx="270" cy="304" r="3"/><circle cx="302" cy="276" r="3"/><circle cx="114" cy="300" r="3"/>
+        </g>
+        <line class="ch13-hero-pair" x1="214" y1="288" x2="242" y2="254"/>
+        <circle class="ch13-hero-ring" cx="228" cy="271" r="18"/>
+        <g class="ch13-hero-sweep">
+          <line x1="214" y1="242" x2="214" y2="326"/>
+          <text x="220" y="240">sweep</text>
+        </g>
+        <text x="180" y="348" class="ch13-hero-caption">one direction · many problems</text>
+      </svg>
+      <figcaption><span class="hero-map__hint">Three instruments from the chapter: a complex number as a vector, an area counted by lattice points, and a sweep line moving through a point set.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid ch13-index">
+        <a class="idx" href="#s131">
+          <span class="idx__num">13.1</span>
+          <span class="idx__body"><span class="idx__title">Geometric Techniques</span><span class="idx__desc">Complex numbers, cross products, area and distance</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s132">
+          <span class="idx__num">13.2</span>
+          <span class="idx__body"><span class="idx__title">Sweep Line Algorithms</span><span class="idx__desc">Intersections, closest pair and convex hull</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13.1 ============ -->
+<section class="section" id="s131" aria-labelledby="h131">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">13.1</span>
+      <div class="section-head__body">
+        <h2 id="h131">Geometric Techniques</h2>
+        <p class="section-dek">Make the special cases disappear before writing the geometry.</p>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The hard part of computational geometry is rarely the mathematics. It is arranging the computation so that the number of special cases stays small and the implementation remains honest. This section builds a small kit of exact tools, then uses them on lines, segments, polygons and distances.</p>
+
+    <div class="ch13-toolkit" data-reveal>
+      <article class="ch13-tool">
+        <svg viewBox="0 0 120 90" aria-hidden="true">
+          <line x1="12" y1="72" x2="108" y2="72" class="ch13-tool-axis"/>
+          <line x1="12" y1="72" x2="12" y2="12" class="ch13-tool-axis"/>
+          <path d="M12 72 L86 32" class="ch13-tool-vec" marker-end="url(#ch13h-arrow)"/>
+          <circle cx="86" cy="32" r="3" class="ch13-tool-dot"/>
+        </svg>
+        <span class="ch13-tool__num">01</span>
+        <h3>Represent</h3>
+        <p>A point is a vector. Represent it as a complex number or a pair of coordinates.</p>
+      </article>
+      <article class="ch13-tool">
+        <svg viewBox="0 0 120 90" aria-hidden="true">
+          <path d="M24 72 L52 22" class="ch13-tool-vec"/>
+          <path d="M24 72 L94 48" class="ch13-tool-vec ch13-tool-vec--faint"/>
+          <path d="M52 22 A44 44 0 0 1 94 48" class="ch13-tool-arc"/>
+        </svg>
+        <span class="ch13-tool__num">02</span>
+        <h3>Turn</h3>
+        <p>A cross product signs the turn from one vector to another: left, straight or right.</p>
+      </article>
+      <article class="ch13-tool">
+        <svg viewBox="0 0 120 90" aria-hidden="true">
+          <polygon points="30,26 92,38 78,74 22,64" class="ch13-tool-poly"/>
+          <line x1="8" y1="80" x2="112" y2="80" class="ch13-tool-axis"/>
+          <line x1="30" y1="26" x2="30" y2="80" class="ch13-tool-drop"/>
+          <line x1="92" y1="38" x2="92" y2="80" class="ch13-tool-drop"/>
+        </svg>
+        <span class="ch13-tool__num">03</span>
+        <h3>Measure</h3>
+        <p>Shoelace sums signed trapezoids. Pick counts lattice points when the vertices are integral.</p>
+      </article>
+      <article class="ch13-tool">
+        <svg viewBox="0 0 120 90" aria-hidden="true">
+          <line x1="64" y1="10" x2="64" y2="80" class="ch13-tool-sweep"/>
+          <circle cx="28" cy="58" r="3" class="ch13-tool-dot"/>
+          <circle cx="48" cy="26" r="3" class="ch13-tool-dot"/>
+          <circle cx="84" cy="40" r="3" class="ch13-tool-dot"/>
+          <circle cx="100" cy="66" r="3" class="ch13-tool-dot"/>
+          <path d="M42 58 L78 58" class="ch13-tool-ray"/>
+        </svg>
+        <span class="ch13-tool__num">04</span>
+        <h3>Order</h3>
+        <p>A sweep line sorts events by one coordinate and keeps only the active objects.</p>
+      </article>
+    </div>
+
+    <p class="ch13-after" data-reveal>Prefer integer coordinates whenever the problem allows them: cross products and shoelace sums are then exact. Floating point is reserved for lengths and angles, where a square root is unavoidable.</p>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Why exact arithmetic matters</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>A cross product of two integer vectors is an integer. Its sign is therefore reliable even when the value is enormous. If the same calculation is done in floating point, two points that should be exactly collinear can land on opposite sides of a line after rounding.</p>
+        <p>The book’s rule follows from this: use <span class="ch13-mono">long long</span> for coordinates when possible, and switch to <span class="ch13-mono">long double</span> only when the problem genuinely requires real lengths or angles.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 13.1.1 ============ -->
+<section class="section section--sub" id="s1311" aria-labelledby="h1311">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.1.1</span>
+      <div class="section-head__body"><h2 id="h1311">Complex Numbers</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>A complex number <i>x</i> + <i>yi</i> is also a point and a vector. C++’s <span class="ch13-mono">complex</span> class supplies addition, length, angle and rotation, so the geometric code can stay short.</p>
+
+    <div class="ch13-lab ch13-rot" id="ch13Rot" data-reveal>
+      <div class="ch13-lab__head">
+        <div>
+          <span class="kicker">Interactive · rotation</span>
+          <h3>Turn a vector without trigonometry</h3>
+        </div>
+        <span class="ch13-lab__count" id="ch13RotAngle">θ = 28.6°</span>
+      </div>
+
+      <div class="ch13-lab__grid">
+        <div class="ch13-lab__stage">
+          <svg id="ch13RotSvg" viewBox="0 0 560 380" role="img" aria-label="Vector 4,2 and a rotated copy. A slider changes the rotation angle.">
+            <defs>
+              <marker id="ch13r-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+              <marker id="ch13r-arrow-muted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#b8b8b0"/>
+              </marker>
+            </defs>
+            <g class="ch13-grid" id="ch13RotGrid"></g>
+            <g class="ch13-axes">
+              <line x1="40" y1="260" x2="520" y2="260"/>
+              <line x1="190" y1="24" x2="190" y2="356"/>
+              <text x="508" y="278">x</text>
+              <text x="198" y="34">y</text>
+            </g>
+            <path id="ch13RotArc" class="ch13-rot-arc" d=""/>
+            <line id="ch13RotOrig" x1="190" y1="260" x2="334" y2="188" class="ch13-rot-orig" marker-end="url(#ch13r-arrow-muted)"/>
+            <line id="ch13RotVec" x1="190" y1="260" x2="334" y2="188" class="ch13-rot-vec" marker-end="url(#ch13r-arrow)"/>
+            <circle cx="190" cy="260" r="4" class="ch13-origin"/>
+            <circle id="ch13RotTip" cx="334" cy="188" r="4.5" class="ch13-rot-tip"/>
+            <text id="ch13RotLabel" x="342" y="182" class="ch13-vec-label">v′</text>
+            <text x="342" y="206" class="ch13-vec-label ch13-vec-label--faint">v</text>
+            <circle cx="190" cy="260" r="58" class="ch13-rot-guide"/>
+          </svg>
+        </div>
+
+        <div class="ch13-lab__panel">
+          <p class="ch13-lab__caption" id="ch13RotCap">The original vector is drawn faintly. Multiplying by a unit vector rotates it and keeps its length.</p>
+          <div class="ch13-readout ch13-readout--rot">
+            <div><span>v</span><strong id="ch13RotC0">(4, 2)</strong></div>
+            <div><span>|v|</span><strong id="ch13RotLen">4.472</strong></div>
+            <div><span>arg v</span><strong id="ch13RotArg0">0.464</strong></div>
+            <div><span>v′</span><strong id="ch13RotC1">(2.54, 3.65)</strong></div>
+            <div><span>arg v′</span><strong id="ch13RotArg1">0.964</strong></div>
+          </div>
+          <label class="ch13-slider">
+            <span class="ch13-slider__label">rotate by θ <em>counterclockwise</em></span>
+            <input id="ch13RotRange" type="range" min="-180" max="180" value="28.6" step="0.1" aria-label="Rotation angle in degrees">
+          </label>
+          <div class="ch13-presets">
+            <button class="ch13-preset" type="button" data-rot="28.6479">0.5 rad</button>
+            <button class="ch13-preset" type="button" data-rot="90">90°</button>
+            <button class="ch13-preset" type="button" data-rot="180">180°</button>
+            <button class="ch13-preset" type="button" data-rot="0">reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch13-after" data-reveal>The code uses <span class="ch13-mono">arg(v)</span> for the angle and <span class="ch13-mono">polar(1, a)</span> for a unit vector at angle <i>a</i>. Multiplication by that unit vector rotates <i>v</i> by <i>a</i> and leaves <span class="ch13-mono">abs(v)</span> unchanged. The distance between two points is the length of their difference: <span class="ch13-mono">abs(b - a)</span>.</p>
+
+    <div class="ch13-codewrap">
+      <div class="code-card" data-code-card data-reveal>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">What <span class="ch13-mono">conj</span> does to a cross product</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>For <i>a</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>b</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), the complex product <span class="ch13-mono">conj(a) * b</span> has imaginary part <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub>, which is exactly the cross product. The real part is the dot product.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 13.1.2 ============ -->
+<section class="section section--sub" id="s1312" aria-labelledby="h1312">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.1.2</span>
+      <div class="section-head__body"><h2 id="h1312">Points and Lines</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>The cross product <i>a</i> × <i>b</i> = <i>x</i><sub>1</sub><i>y</i><sub>2</sub> − <i>x</i><sub>2</sub><i>y</i><sub>1</sub> records which way <i>b</i> turns after <i>a</i>. Its sign answers most orientation questions without a single division.</p>
+
+    <figure class="figure ch13-crossfig" data-reveal>
+      <div class="figure__frame ch13-crossframe">
+        <svg viewBox="0 0 960 250" role="img" aria-label="Three cross product cases: positive means b turns left, zero means no turn, negative means b turns right">
+          <g class="ch13-cross-case">
+            <line x1="40" y1="210" x2="280" y2="210" class="ch13-cross-axis"/>
+            <path d="M150 200 L150 92" class="ch13-cross-a" marker-end="url(#ch13h-arrow)"/>
+            <path d="M150 200 L224 150" class="ch13-cross-b" marker-end="url(#ch13h-arrow)"/>
+            <path d="M150 132 A68 68 0 0 1 196 154" class="ch13-cross-arc"/>
+            <text x="138" y="86" class="ch13-cross-label">a</text>
+            <text x="232" y="146" class="ch13-cross-label">b</text>
+            <text x="160" y="238" class="ch13-cross-result">a × b &gt; 0</text>
+            <text x="160" y="258" class="ch13-cross-word">b turns left</text>
+          </g>
+          <g class="ch13-cross-case">
+            <line x1="360" y1="210" x2="600" y2="210" class="ch13-cross-axis"/>
+            <path d="M470 200 L470 92" class="ch13-cross-a" marker-end="url(#ch13h-arrow)"/>
+            <path d="M470 200 L470 48" class="ch13-cross-b ch13-cross-b--flat" marker-end="url(#ch13h-arrow)"/>
+            <text x="458" y="86" class="ch13-cross-label">a</text>
+            <text x="478" y="52" class="ch13-cross-label">b</text>
+            <text x="480" y="238" class="ch13-cross-result">a × b = 0</text>
+            <text x="480" y="258" class="ch13-cross-word">no turn</text>
+          </g>
+          <g class="ch13-cross-case">
+            <line x1="680" y1="210" x2="920" y2="210" class="ch13-cross-axis"/>
+            <path d="M790 200 L790 92" class="ch13-cross-a" marker-end="url(#ch13h-arrow)"/>
+            <path d="M790 200 L716 150" class="ch13-cross-b" marker-end="url(#ch13h-arrow)"/>
+            <path d="M790 132 A68 68 0 0 0 744 154" class="ch13-cross-arc"/>
+            <text x="778" y="86" class="ch13-cross-label">a</text>
+            <text x="702" y="146" class="ch13-cross-label">b</text>
+            <text x="800" y="238" class="ch13-cross-result">a × b &lt; 0</text>
+            <text x="800" y="258" class="ch13-cross-word">b turns right</text>
+          </g>
+          <line x1="320" y1="34" x2="320" y2="226" class="ch13-cross-rule"/>
+          <line x1="640" y1="34" x2="640" y2="226" class="ch13-cross-rule"/>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">The sign of the cross product is the turn: positive to the left, zero straight ahead, negative to the right.</figcaption>
+    </figure>
+
+    <div class="ch13-lab ch13-orient" id="ch13Orient" data-reveal>
+      <div class="ch13-lab__head">
+        <div>
+          <span class="kicker">Interactive · drag the points</span>
+          <h3>Which side of the line?</h3>
+        </div>
+        <span class="ch13-lab__count">drag A, B or P · arrow keys also work</span>
+      </div>
+
+      <div class="ch13-lab__grid">
+        <div class="ch13-lab__stage">
+          <svg id="ch13OrientSvg" viewBox="0 0 620 400" role="img" aria-label="A line through draggable points A and B, and a draggable point P. The panel reports the cross product, side and distance.">
+            <defs>
+              <marker id="ch13o-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 10 5 0 10z" fill="#171717"/>
+              </marker>
+            </defs>
+            <g class="ch13-grid" id="ch13OrientGrid"></g>
+            <g class="ch13-axes">
+              <line x1="34" y1="270" x2="590" y2="270"/>
+              <line x1="310" y1="18" x2="310" y2="384"/>
+            </g>
+            <line id="ch13OLine" x1="126" y1="362" x2="494" y2="316" class="ch13-orient-line"/>
+            <polygon id="ch13OTri" points="126,362 494,316 218,132" class="ch13-orient-tri"/>
+            <line id="ch13OGuide" x1="218" y1="132" x2="218" y2="270" class="ch13-orient-guide"/>
+            <circle id="ch13OA" cx="126" cy="362" r="11" class="ch13-handle" tabindex="0" role="slider" aria-label="Point A. Use arrow keys to move." data-handle="a"/>
+            <circle id="ch13OB" cx="494" cy="316" r="11" class="ch13-handle" tabindex="0" role="slider" aria-label="Point B. Use arrow keys to move." data-handle="b"/>
+            <circle id="ch13OP" cx="218" cy="132" r="12" class="ch13-handle ch13-handle--p" tabindex="0" role="slider" aria-label="Point P. Use arrow keys to move." data-handle="p"/>
+            <text id="ch13OALabel" x="126" y="392" class="ch13-point-label">A</text>
+            <text id="ch13OBLabel" x="494" y="346" class="ch13-point-label">B</text>
+            <text id="ch13OPLabel" x="218" y="112" class="ch13-point-label">P</text>
+            <text id="ch13OSideLabel" x="520" y="64" class="ch13-side-label">left</text>
+          </svg>
+        </div>
+
+        <div class="ch13-lab__panel">
+          <p class="ch13-lab__caption" id="ch13OCap" aria-live="polite">P is on the left of the directed line A → B, so the cross product is positive.</p>
+          <div class="ch13-readout">
+            <div><span>A</span><strong id="ch13OCoordA">(−4, −2)</strong></div>
+            <div><span>B</span><strong id="ch13OCoordB">(4, −1)</strong></div>
+            <div><span>P</span><strong id="ch13OCoordP">(−2, 3)</strong></div>
+            <div><span>(B−A) × (P−A)</span><strong id="ch13OCross">38</strong></div>
+            <div><span>distance</span><strong id="ch13ODist">4.71</strong></div>
+          </div>
+          <div class="ch13-formula-strip">
+            <span>cross &gt; 0</span><b>left</b><span>cross = 0</span><b>on the line</b><span>cross &lt; 0</span><b>right</b>
+          </div>
+          <button class="btn ch13-reset" id="ch13OReset" type="button"><svg class="icon"><use href="#i-reset"/></svg> Reset points</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch13-after" data-reveal>Use the same test to locate a point against a line, to decide whether two segments cross, or to compute the distance from a point to a line. The distance is <span class="ch13-mono">|cross| / |B − A|</span>; the lab evaluates it as you drag.</p>
+
+    <figure class="figure ch13-segfig" data-reveal>
+      <div class="figure__frame">
+        <div class="ch13-segcases">
+          <div class="ch13-segcase">
+            <svg viewBox="0 0 260 170" role="img" aria-label="Case 1: two collinear segments overlap">
+              <line x1="24" y1="112" x2="236" y2="112" class="ch13-seg-base"/>
+              <line x1="46" y1="112" x2="198" y2="112" class="ch13-seg"/>
+              <line x1="112" y1="112" x2="226" y2="112" class="ch13-seg ch13-seg--other"/>
+              <line x1="112" y1="112" x2="198" y2="112" class="ch13-seg ch13-seg--overlap"/>
+              <circle cx="46" cy="112" r="4" class="ch13-seg-dot"/><text x="38" y="96" class="ch13-seg-l">a</text>
+              <circle cx="198" cy="112" r="4" class="ch13-seg-dot"/><text x="198" y="140" class="ch13-seg-l">b</text>
+              <circle cx="112" cy="112" r="4" class="ch13-seg-dot"/><text x="104" y="96" class="ch13-seg-l">c</text>
+              <circle cx="226" cy="112" r="4" class="ch13-seg-dot"/><text x="228" y="96" class="ch13-seg-l">d</text>
+            </svg>
+            <span class="ch13-segcase__num">Case 1</span>
+            <h4>Same line, overlapping</h4>
+            <p>Infinitely many intersection points. Check collinearity, then compare the sorted endpoints.</p>
+          </div>
+          <div class="ch13-segcase">
+            <svg viewBox="0 0 260 170" role="img" aria-label="Case 2: two segments share vertex b equals c">
+              <line x1="40" y1="54" x2="144" y2="96" class="ch13-seg"/>
+              <line x1="144" y1="96" x2="226" y2="42" class="ch13-seg ch13-seg--other"/>
+              <circle cx="40" cy="54" r="4" class="ch13-seg-dot"/><text x="30" y="46" class="ch13-seg-l">a</text>
+              <circle cx="144" cy="96" r="5" class="ch13-seg-dot ch13-seg-dot--shared"/><text x="132" y="122" class="ch13-seg-l">b = c</text>
+              <circle cx="226" cy="42" r="4" class="ch13-seg-dot"/><text x="232" y="36" class="ch13-seg-l">d</text>
+            </svg>
+            <span class="ch13-segcase__num">Case 2</span>
+            <h4>One shared vertex</h4>
+            <p>The only intersection is an endpoint. Four endpoint equalities cover every possibility.</p>
+          </div>
+          <div class="ch13-segcase">
+            <svg viewBox="0 0 260 170" role="img" aria-label="Case 3: two segments cross at a point p that is not a vertex">
+              <line x1="38" y1="132" x2="222" y2="44" class="ch13-seg"/>
+              <line x1="54" y1="38" x2="218" y2="142" class="ch13-seg ch13-seg--other"/>
+              <circle cx="128" cy="89" r="5" class="ch13-seg-p"/><text x="136" y="82" class="ch13-seg-l">p</text>
+              <circle cx="38" cy="132" r="4" class="ch13-seg-dot"/><text x="26" y="146" class="ch13-seg-l">a</text>
+              <circle cx="222" cy="44" r="4" class="ch13-seg-dot"/><text x="228" y="38" class="ch13-seg-l">b</text>
+              <circle cx="54" cy="38" r="4" class="ch13-seg-dot"/><text x="42" y="32" class="ch13-seg-l">c</text>
+              <circle cx="218" cy="142" r="4" class="ch13-seg-dot"/><text x="224" y="156" class="ch13-seg-l">d</text>
+            </svg>
+            <span class="ch13-segcase__num">Case 3</span>
+            <h4>Proper crossing</h4>
+            <p>c and d lie on opposite sides of ab, and a and b lie on opposite sides of cd.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Three ways two segments can meet. The sign tests decide the case; only the overlapping case needs an additional sort.</figcaption>
+    </figure>
+
+    <figure class="figure ch13-pipfig" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 660 360" role="img" aria-label="A C-shaped polygon with point a inside and point b outside. A ray from a crosses the boundary once; a ray from b crosses zero times.">
+          <polygon points="80,60 420,60 420,140 300,140 300,220 420,220 420,300 80,300" class="ch13-pip-poly"/>
+          <g class="ch13-pip-ray">
+            <line x1="150" y1="110" x2="610" y2="110" marker-end="url(#ch13h-arrow)"/>
+            <line x1="360" y1="180" x2="610" y2="180" marker-end="url(#ch13h-arrow)"/>
+          </g>
+          <circle cx="420" cy="110" r="4.5" class="ch13-pip-hit"/>
+          <circle cx="150" cy="110" r="6" class="ch13-pip-a"/>
+          <circle cx="360" cy="180" r="6" class="ch13-pip-b"/>
+          <text x="132" y="98" class="ch13-pip-label">a</text>
+          <text x="348" y="168" class="ch13-pip-label">b</text>
+          <text x="438" y="104" class="ch13-pip-count">1 hit · inside</text>
+          <text x="470" y="204" class="ch13-pip-count ch13-pip-count--faint">0 hits · outside</text>
+          <g class="ch13-pip-tip">
+            <circle cx="150" cy="110" r="16" class="ch13-hit-ring"/>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">Cast a ray in any direction. An odd number of boundary hits means inside; an even number, including zero, means outside. The ray may graze a vertex, so the implementation must count carefully.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 13.1.3 ============ -->
+<section class="section section--sub" id="s1313" aria-labelledby="h1313">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.1.3</span>
+      <div class="section-head__body"><h2 id="h1313">Polygon Area</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>The shoelace formula adds signed trapezoids between the polygon and a horizontal baseline. When every vertex is integral, Pick’s theorem reaches the same area by counting lattice points.</p>
+
+    <div class="ch13-lab ch13-area" id="ch13Area" data-reveal>
+      <div class="ch13-lab__head">
+        <div>
+          <span class="kicker">Interactive · two counts</span>
+          <h3>The same 17/2, twice</h3>
+        </div>
+        <div class="seg seg--sm ch13-areaseg" role="group" aria-label="Area method">
+          <button class="seg__btn is-active" type="button" data-area="shoelace" aria-pressed="true">Shoelace</button>
+          <button class="seg__btn" type="button" data-area="pick" aria-pressed="false">Pick</button>
+        </div>
+      </div>
+
+      <div class="ch13-lab__grid ch13-area__grid">
+        <div class="ch13-lab__stage">
+          <svg id="ch13AreaSvg" viewBox="0 0 620 420" role="img" aria-label="The book's polygon with area 17/2, shown with shoelace trapezoids or Pick lattice points">
+            <g class="ch13-grid" id="ch13AreaGrid"></g>
+            <g id="ch13AreaTrap" class="ch13-area-trap">
+              <polygon points="302,300 476,200 476,350 302,350" class="ch13-trap ch13-trap--pos"/>
+              <polygon points="476,200 360,100 360,350 476,350" class="ch13-trap ch13-trap--neg"/>
+              <polygon points="360,100 186,150 186,350 360,350" class="ch13-trap ch13-trap--neg"/>
+              <polygon points="186,150 302,200 302,350 186,350" class="ch13-trap ch13-trap--pos"/>
+            </g>
+            <g id="ch13AreaDots" class="ch13-area-dots"></g>
+            <polygon points="302,300 476,200 360,100 186,150 302,200" class="ch13-area-poly"/>
+            <g class="ch13-area-verts">
+              <circle cx="302" cy="300" r="4"/><circle cx="476" cy="200" r="4"/><circle cx="360" cy="100" r="4"/>
+              <circle cx="186" cy="150" r="4"/><circle cx="302" cy="200" r="4"/>
+            </g>
+            <g class="ch13-area-labels">
+              <text x="316" y="316">(4,1)</text><text x="490" y="204">(7,3)</text><text x="372" y="96">(5,5)</text>
+              <text x="146" y="146">(2,4)</text><text x="312" y="194">(4,3)</text>
+            </g>
+            <line x1="56" y1="350" x2="566" y2="350" class="ch13-area-base"/>
+            <text x="566" y="372" class="ch13-area-baseline">y = 0</text>
+          </svg>
+        </div>
+
+        <div class="ch13-lab__panel">
+          <p class="ch13-lab__caption" id="ch13AreaCap">Each edge contributes a signed trapezoid. The signs cancel the area outside the polygon.</p>
+          <div class="ch13-area-formula" id="ch13AreaFormula">½ |5 + 20 + 10 − 10 − 8| = 17/2</div>
+          <div class="ch13-area-note" id="ch13AreaNote">The sum is 17, so the area is 8.5. Walking the other way would negate every term, which is why the formula takes an absolute value.</div>
+          <div class="ch13-area-legend" id="ch13AreaLegend">
+            <span><i class="ch13-swatch ch13-swatch--pos"></i>positive trapezoid</span>
+            <span><i class="ch13-swatch ch13-swatch--neg"></i>negative trapezoid</span>
+          </div>
+          <p class="ch13-fine">The five products walk the five edges in boundary order; the vertical edge has a zero-width trapezoid. Integer coordinates make every product exact.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="split2 ch13-pick">
+      <div data-reveal>
+        <h3 class="ch13-h3">Pick’s theorem</h3>
+        <p>If every vertex has integer coordinates, the area is <span class="ch13-mono">a + b/2 − 1</span>, where <i>a</i> counts the lattice points strictly inside and <i>b</i> counts the lattice points on the boundary.</p>
+        <p>For this polygon, <i>a</i> = 6 and <i>b</i> = 7, so the area is 6 + 3.5 − 1 = 8.5. Count the boundary points with the gcd of each edge’s coordinate differences: an edge from (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) to (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>) contains <span class="ch13-mono">gcd(|x</span><sub>2</sub><span class="ch13-mono">−x</span><sub>1</sub><span class="ch13-mono">|, |y</span><sub>2</sub><span class="ch13-mono">−y</span><sub>1</sub><span class="ch13-mono">|)</span> new lattice points.</p>
+      </div>
+      <div data-reveal style="--d:.08s">
+        <div class="ch13-stats">
+          <div><span class="ch13-stats__v">6</span><span class="ch13-stats__l">interior points</span></div>
+          <div><span class="ch13-stats__v">7</span><span class="ch13-stats__l">boundary points</span></div>
+          <div><span class="ch13-stats__v">17/2</span><span class="ch13-stats__l">area</span></div>
+        </div>
+        <p class="ch13-fine">Pick’s theorem needs integer vertices. It is a counting shortcut, not a replacement for shoelace on arbitrary real coordinates.</p>
+      </div>
+    </div>
+
+    <div class="ch13-codewrap">
+      <div class="code-card" data-code-card data-reveal>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13.1.4 ============ -->
+<section class="section section--sub" id="s1314" aria-labelledby="h1314">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.1.4</span>
+      <div class="section-head__body"><h2 id="h1314">Distance Functions</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Euclidean distance measures the straight line. Manhattan distance measures the walk along the axes. The second is often easier to optimize, especially after a 45° coordinate transform.</p>
+
+    <div class="ch13-lab ch13-dist" id="ch13Dist" data-reveal>
+      <div class="ch13-lab__head">
+        <div>
+          <span class="kicker">Interactive · two metrics</span>
+          <h3>Same two points, two lengths</h3>
+        </div>
+        <div class="seg seg--sm ch13-distseg" role="group" aria-label="Distance function">
+          <button class="seg__btn is-active" type="button" data-dist="euclid" aria-pressed="true">Euclidean</button>
+          <button class="seg__btn" type="button" data-dist="manhattan" aria-pressed="false">Manhattan</button>
+        </div>
+      </div>
+
+      <div class="ch13-lab__grid ch13-dist__grid">
+        <div class="ch13-lab__stage">
+          <svg id="ch13DistSvg" viewBox="0 0 620 340" role="img" aria-label="Points P at 2,1 and Q at 5,2. A straight segment or an axis-aligned staircase connects them.">
+            <g class="ch13-grid" id="ch13DistGrid"></g>
+            <g class="ch13-axes">
+              <line x1="50" y1="292" x2="585" y2="292"/>
+              <line x1="70" y1="20" x2="70" y2="318"/>
+            </g>
+            <path id="ch13DistPath" d="M180 237 L345 182" class="ch13-dist-line"/>
+            <path id="ch13DistSteps" d="M180 237 L345 237 L345 182" class="ch13-dist-steps"/>
+            <circle cx="180" cy="237" r="5" class="ch13-dist-point"/>
+            <circle cx="345" cy="182" r="5" class="ch13-dist-point"/>
+            <text x="164" y="260" class="ch13-dist-label">P (2,1)</text>
+            <text x="354" y="174" class="ch13-dist-label">Q (5,2)</text>
+            <text id="ch13DistValue" x="256" y="150" class="ch13-dist-value">√10 ≈ 3.162</text>
+          </svg>
+        </div>
+
+        <div class="ch13-lab__panel">
+          <p class="ch13-lab__caption" id="ch13DistCap">The Euclidean distance is the length of the difference vector: √((5−2)² + (2−1)²) = √10.</p>
+          <div class="ch13-balls">
+            <figure>
+              <svg viewBox="0 0 140 120" role="img" aria-label="Unit Euclidean ball, a circle">
+                <circle cx="70" cy="60" r="40" class="ch13-ball"/>
+                <circle cx="70" cy="60" r="2.5" class="ch13-ball-center"/>
+                <line x1="70" y1="60" x2="110" y2="60" class="ch13-ball-radius"/>
+              </svg>
+              <figcaption>Euclidean: a circle</figcaption>
+            </figure>
+            <figure>
+              <svg viewBox="0 0 140 120" role="img" aria-label="Unit Manhattan ball, a diamond">
+                <polygon points="70,20 110,60 70,100 30,60" class="ch13-ball"/>
+                <circle cx="70" cy="60" r="2.5" class="ch13-ball-center"/>
+                <path d="M70 60 L110 60 L110 60" class="ch13-ball-radius"/>
+              </svg>
+              <figcaption>Manhattan: a diamond</figcaption>
+            </figure>
+          </div>
+          <p class="ch13-fine">Both shapes contain exactly the points within distance one of the centre. Their corners and curves expose why the two metrics behave differently.</p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="figure ch13-transform" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 940 330" role="img" aria-label="Four points before and after the transform x plus y, y minus x. The Manhattan distance between B and C is five in both pictures.">
+          <g class="ch13-tf-panel">
+            <text x="40" y="28" class="ch13-tf-title">before</text>
+            <g class="ch13-grid ch13-grid--mini">
+              <line x1="40" y1="260" x2="420" y2="260"/><line x1="70" y1="40" x2="70" y2="290"/>
+            </g>
+            <line x1="160" y1="220" x2="300" y2="170" class="ch13-tf-pair"/>
+            <circle cx="160" cy="220" r="5" class="ch13-tf-a"/><text x="146" y="242" class="ch13-tf-l">A (1,1)</text>
+            <circle cx="200" cy="160" r="5" class="ch13-tf-b"/><text x="186" y="150" class="ch13-tf-l">B (2,4)</text>
+            <circle cx="300" cy="170" r="5" class="ch13-tf-c"/><text x="310" y="164" class="ch13-tf-l">C (5,2)</text>
+            <circle cx="260" cy="220" r="5" class="ch13-tf-d"/><text x="250" y="244" class="ch13-tf-l">D (4,1)</text>
+            <text x="195" y="300" class="ch13-tf-note">B–C: |3| + |2| = 5</text>
+          </g>
+          <line x1="470" y1="50" x2="470" y2="286" class="ch13-tf-rule"/>
+          <g class="ch13-tf-panel">
+            <text x="520" y="28" class="ch13-tf-title">after (x + y, y − x)</text>
+            <g class="ch13-grid ch13-grid--mini">
+              <line x1="520" y1="240" x2="900" y2="240"/><line x1="550" y1="40" x2="550" y2="290"/>
+            </g>
+            <rect x="660" y="180" width="130" height="80" class="ch13-tf-box"/>
+            <line x1="660" y1="200" x2="790" y2="200" class="ch13-tf-max"/>
+            <line x1="790" y1="200" x2="790" y2="260" class="ch13-tf-max"/>
+            <circle cx="610" cy="240" r="5" class="ch13-tf-a"/><text x="580" y="264" class="ch13-tf-l">A′ (2,0)</text>
+            <circle cx="660" cy="200" r="5" class="ch13-tf-b"/><text x="630" y="188" class="ch13-tf-l">B′ (6,2)</text>
+            <circle cx="790" cy="260" r="5" class="ch13-tf-c"/><text x="800" y="272" class="ch13-tf-l">C′ (7,−3)</text>
+            <circle cx="720" cy="260" r="5" class="ch13-tf-d"/><text x="700" y="288" class="ch13-tf-l">D′ (5,−3)</text>
+            <text x="630" y="160" class="ch13-tf-note">max(|Δx′|, |Δy′|) = 5</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">The transform rotates the plane by 45° and rescales it. Manhattan distance becomes the larger of the two coordinate differences, so the maximum over a point set can be found by looking at each transformed coordinate separately.</figcaption>
+    </figure>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Why the transform preserves the distance</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>For <i>p</i> = (<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) and <i>q</i> = (<i>x</i><sub>2</sub>, <i>y</i><sub>2</sub>), write <i>p</i>′ = (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>, <i>y</i><sub>1</sub> − <i>x</i><sub>1</sub>) and similarly for <i>q</i>′. Then the two coordinate differences are (<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>) + (<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>) and (<i>y</i><sub>1</sub> − <i>y</i><sub>2</sub>) − (<i>x</i><sub>1</sub> − <i>x</i><sub>2</sub>). One of these has magnitude equal to |Δx| + |Δy|, and the other is no larger. Taking the maximum recovers the Manhattan distance.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 13.2 ============ -->
+<section class="section" id="s132" aria-labelledby="h132">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">13.2</span>
+      <div class="section-head__body">
+        <h2 id="h132">Sweep Line Algorithms</h2>
+        <p class="section-dek">Sort the plane by one coordinate and let a line do the work.</p>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A sweep line turns geometry into a sequence of events. The line moves in one direction; at each event it updates a small active set and answers a local question. Three classic problems share this shape: intersections, closest pairs and convex hulls.</p>
+
+    <div class="ch13-motion" data-reveal>
+      <div class="ch13-motion__line">
+        <span class="ch13-motion__label">action</span>
+        <span>sort events</span><span class="ch13-motion__arrow">→</span>
+        <span>update active set</span><span class="ch13-motion__arrow">→</span>
+        <span>query</span><span class="ch13-motion__arrow">→</span>
+        <span>advance</span>
+      </div>
+      <p>The data structure is what makes the sweep fast. It holds only the objects the line currently touches, so each event costs a logarithmic update instead of a scan of the whole input.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13.2.1 ============ -->
+<section class="section section--sub" id="s1321" aria-labelledby="h1321">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.2.1</span>
+      <div class="section-head__body"><h2 id="h1321">Intersection Points</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Five axis-aligned segments can be checked in ten pairs, but a sweep needs only eight events. Horizontal segments enter and leave an active set; each vertical segment asks how many active heights lie inside its span.</p>
+
+    <div class="ch13-sweep" id="ch13Sweep" data-reveal>
+      <div class="ch13-sweep__head">
+        <div>
+          <span class="kicker">Interactive · event sweep</span>
+          <h3>Count three intersections</h3>
+        </div>
+        <span class="ch13-sweep__step" id="ch13SweepStep">Start · event 0 / 8</span>
+      </div>
+
+      <div class="ch13-sweep__grid">
+        <div class="ch13-sweep__stage">
+          <svg id="ch13SweepSvg" viewBox="0 0 600 440" role="img" aria-label="Five horizontal and vertical segments with a movable sweep line and an event count">
+            <g class="ch13-grid" id="ch13SweepGrid"></g>
+            <g class="ch13-sweep__segs">
+              <line data-seg="H1" x1="128" y1="300" x2="368" y2="300" class="ch13-seg-h"/>
+              <line data-seg="H2" x1="224" y1="180" x2="512" y2="180" class="ch13-seg-h"/>
+              <line data-seg="H3" x1="272" y1="100" x2="512" y2="100" class="ch13-seg-h"/>
+              <line data-seg="V1" x1="272" y1="260" x2="272" y2="140" class="ch13-seg-v"/>
+              <line data-seg="V2" x1="464" y1="220" x2="464" y2="60" class="ch13-seg-v"/>
+            </g>
+            <g id="ch13SweepHits" class="ch13-sweep__hits"></g>
+            <g id="ch13SweepMarks" class="ch13-sweep__marks"></g>
+            <line id="ch13SweepLine" x1="80" y1="52" x2="80" y2="372" class="ch13-sweep-line"/>
+            <text id="ch13SweepLineLabel" x="86" y="44" class="ch13-sweep-x">x = 0</text>
+            <g class="ch13-sweep__labels">
+              <text x="128" y="326">H1</text><text x="224" y="206">H2</text><text x="272" y="126">H3</text>
+              <text x="284" y="268">V1</text><text x="476" y="228">V2</text>
+            </g>
+            <line x1="80" y1="372" x2="580" y2="372" class="ch13-sweep-axis"/>
+          </svg>
+        </div>
+
+        <div class="ch13-sweep__panel">
+          <p class="ch13-sweep__cap" id="ch13SweepCap" aria-live="polite">Press begin. Events are processed from left to right; at each vertical segment the active heights are counted.</p>
+          <div class="ch13-sweep__read">
+            <div><span>event</span><strong id="ch13SweepEvent">—</strong></div>
+            <div><span>active heights</span><strong id="ch13SweepActive">∅</strong></div>
+            <div><span>intersections</span><strong id="ch13SweepCount">0</strong></div>
+          </div>
+          <div class="ch13-controls">
+            <button class="btn btn--icon" id="ch13SweepPrev" type="button" aria-label="Previous event"><svg class="icon ch13-flip"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--primary" id="ch13SweepNext" type="button">Begin <svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="ch13SweepReset" type="button" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+          <div class="ch13-dots" id="ch13SweepDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch13-after" data-reveal>At a vertical segment between heights <i>y</i><sub>1</sub> and <i>y</i><sub>2</sub>, count the active horizontal heights in that range. A binary indexed or segment tree answers the range count in <i>O</i>(log <i>n</i>), so all events take <i>O</i>(<i>n</i> log <i>n</i>) time.</p>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Why event order matters at equal x</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>When several events share an <i>x</i> coordinate, process horizontal beginnings before vertical queries and horizontal endings after them. Otherwise a vertical segment can miss a horizontal one that starts at the same <i>x</i>, or count one that ends there.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 13.2.2 ============ -->
+<section class="section section--sub" id="s1322" aria-labelledby="h1322">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.2.2</span>
+      <div class="section-head__body"><h2 id="h1322">Closest Pair Problem</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>Scan the points from left to right while keeping the smallest distance <i>d</i> seen so far. Only points in a narrow strip behind the sweep line can improve it — and that strip contains only a constant number of points.</p>
+
+    <figure class="figure ch13-closest" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 700 390" role="img" aria-label="A point set with a sweep line, a strip of width d, the closest pair highlighted, and an inset showing at most eight points in a d by 2d region">
+          <g class="ch13-grid" id="ch13ClosestGrid"></g>
+          <rect x="507" y="58" width="25" height="272" class="ch13-closest-band"/>
+          <line x1="532" y1="42" x2="532" y2="346" class="ch13-closest-sweep"/>
+          <text x="538" y="36" class="ch13-closest-sweep-l">sweep</text>
+          <g class="ch13-closest-points">
+            <circle cx="88" cy="306" r="4.5"/><circle cx="146" cy="178" r="4.5"/><circle cx="204" cy="268" r="4.5"/>
+            <circle cx="250" cy="112" r="4.5"/><circle cx="316" cy="314" r="4.5"/><circle cx="368" cy="186" r="4.5"/>
+            <circle cx="424" cy="100" r="4.5"/><circle cx="454" cy="286" r="4.5"/><circle cx="512" cy="216" r="4.5"/>
+            <circle cx="532" cy="231" r="4.5"/><circle cx="616" cy="132" r="4.5"/><circle cx="648" cy="306" r="4.5"/>
+          </g>
+          <circle cx="512" cy="216" r="7" class="ch13-closest-a"/>
+          <circle cx="532" cy="231" r="7" class="ch13-closest-b"/>
+          <line x1="512" y1="216" x2="532" y2="231" class="ch13-closest-pair"/>
+          <text x="470" y="208" class="ch13-closest-d">d = 25</text>
+          <g class="ch13-closest-inset">
+            <rect x="78" y="54" width="184" height="92" class="ch13-inset-frame"/>
+            <line x1="78" y1="100" x2="262" y2="100" class="ch13-inset-grid"/>
+            <line x1="170" y1="54" x2="170" y2="146" class="ch13-inset-grid"/>
+            <circle cx="112" cy="78" r="3.5" class="ch13-inset-dot"/><circle cx="148" cy="124" r="3.5" class="ch13-inset-dot"/>
+            <circle cx="206" cy="76" r="3.5" class="ch13-inset-dot"/><circle cx="230" cy="126" r="3.5" class="ch13-inset-dot"/>
+            <text x="86" y="164" class="ch13-inset-note ch13-inset-note--full">each d/2 × d/2 box holds at most one point</text>
+            <text x="86" y="164" class="ch13-inset-note ch13-inset-note--short">at most one point per box</text>
+          </g>
+          <text x="88" y="360" class="ch13-closest-note">candidate strip: x ∈ [x − d, x]</text>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">The closest pair so far defines <i>d</i>. A new point can only beat it from inside the shaded strip. Since each half-size box contains at most one point, the algorithm inspects at most eight candidates.</figcaption>
+    </figure>
+
+    <div class="split2 ch13-closest__notes">
+      <div data-reveal>
+        <h3 class="ch13-h3">Why the strip is small</h3>
+        <p>Suppose the current minimum is <i>d</i>. Divide the strip into boxes of size <i>d</i>/2 by <i>d</i>/2. If one box contained two points, those two points would be closer than <i>d</i>, contradicting the definition of <i>d</i>. The strip is therefore sparse.</p>
+      </div>
+      <div data-reveal style="--d:.08s">
+        <h3 class="ch13-h3">What the algorithm stores</h3>
+        <p>Keep the points whose <i>x</i> coordinate lies in [<i>x</i> − <i>d</i>, <i>x</i>], ordered by <i>y</i>. For each new point, inspect only the neighbours within <i>d</i> in that order. A balanced tree gives <i>O</i>(log <i>n</i>) per point and <i>O</i>(<i>n</i> log <i>n</i>) overall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13.2.3 ============ -->
+<section class="section section--sub" id="s1323" aria-labelledby="h1323">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">13.2.3</span>
+      <div class="section-head__body"><h2 id="h1323">Convex Hull Problem</h2></div>
+    </div>
+
+    <p class="lead" data-reveal>The convex hull is the smallest convex polygon containing every point. Andrew’s algorithm sorts the points, builds the upper hull, then mirrors the same pass for the lower hull.</p>
+
+    <div class="ch13-hull" id="ch13Hull" data-reveal>
+      <div class="ch13-hull__head">
+        <div>
+          <span class="kicker">Interactive · Andrew’s algorithm</span>
+          <h3>Keep the chain turning right</h3>
+        </div>
+        <span class="ch13-hull__step" id="ch13HullStep">Step 0 / 11</span>
+      </div>
+      <div class="ch13-hull__grid">
+        <div class="ch13-hull__stage">
+          <svg id="ch13HullSvg" viewBox="0 0 640 420" role="img" aria-label="A point set sorted by x, with the upper hull being built and points removed when the chain turns left">
+            <g class="ch13-grid" id="ch13HullGrid"></g>
+            <line x1="48" y1="374" x2="596" y2="374" class="ch13-axes__line"/>
+            <line x1="64" y1="42" x2="64" y2="388" class="ch13-axes__line"/>
+            <path id="ch13HullPoly" d="" class="ch13-hull-poly"/>
+            <path id="ch13HullChain" d="" class="ch13-hull-chain"/>
+            <g id="ch13HullPoints" class="ch13-hull-points">
+              <g data-p="0" class="ch13-hp" data-tip="(1,2) · leftmost point"><circle cx="80" cy="326" r="6"/><text x="80" y="348">1</text></g>
+              <g data-p="1" class="ch13-hp" data-tip="(2,7) · upper hull"><circle cx="138" cy="156" r="6"/><text x="138" y="178">2</text></g>
+              <g data-p="2" class="ch13-hp" data-tip="(3,3) · interior"><circle cx="196" cy="292" r="6"/><text x="196" y="314">3</text></g>
+              <g data-p="3" class="ch13-hp" data-tip="(4,8) · upper hull"><circle cx="254" cy="122" r="6"/><text x="254" y="144">4</text></g>
+              <g data-p="4" class="ch13-hp" data-tip="(5,1) · lower hull"><circle cx="312" cy="360" r="6"/><text x="312" y="382">5</text></g>
+              <g data-p="5" class="ch13-hp" data-tip="(6,6) · interior"><circle cx="370" cy="190" r="6"/><text x="370" y="212">6</text></g>
+              <g data-p="6" class="ch13-hp" data-tip="(7,4) · interior"><circle cx="428" cy="258" r="6"/><text x="428" y="280">7</text></g>
+              <g data-p="7" class="ch13-hp" data-tip="(8,9) · upper hull"><circle cx="486" cy="88" r="6"/><text x="486" y="110">8</text></g>
+              <g data-p="8" class="ch13-hp" data-tip="(9,2) · lower hull"><circle cx="544" cy="326" r="6"/><text x="544" y="348">9</text></g>
+            </g>
+            <g id="ch13HullScan" class="ch13-hull-scan"></g>
+          </svg>
+        </div>
+        <div class="ch13-hull__panel">
+          <p class="ch13-hull__cap" id="ch13HullCap" aria-live="polite">Sort by x, then by y. The upper hull is built left to right.</p>
+          <div class="ch13-hull__read">
+            <div><span>current point</span><strong id="ch13HullPoint">—</strong></div>
+            <div><span>chain length</span><strong id="ch13HullLen">0</strong></div>
+            <div><span>removed</span><strong id="ch13HullRemoved">0</strong></div>
+          </div>
+          <div class="ch13-controls">
+            <button class="btn btn--icon" id="ch13HullPrev" type="button" aria-label="Previous step"><svg class="icon ch13-flip"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--primary" id="ch13HullNext" type="button">Next step <svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="ch13HullReset" type="button" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+          <div class="ch13-dots" id="ch13HullDots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch13-after" data-reveal>The check is a cross product: while the last three hull points make a left turn, remove the middle one. After both passes, the hull contains each extreme point once, in counterclockwise order. Sorting dominates the running time, so the algorithm is <i>O</i>(<i>n</i> log <i>n</i>).</p>
+
+    <div class="ch13-codewrap">
+      <div class="code-card" data-code-card data-reveal>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <details class="note" data-reveal>
+      <summary><span class="note__label">Collinear points and duplicate points</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Andrew’s algorithm removes collinear points when the turn test uses <span class="ch13-mono">≥ 0</span> rather than <span class="ch13-mono">&gt; 0</span>. This leaves only the extreme vertices. If the input can contain duplicates, remove them after sorting; otherwise the same point can appear twice on the hull.</p>
+      </div>
+    </details>
+  </div>
+</section>

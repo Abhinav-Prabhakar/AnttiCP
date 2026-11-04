@@ -1,0 +1,685 @@
+<!-- ============ hero ============ -->
+<section class="hero ch08-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 08</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Algorithm Design Topics</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Algorithm Design Topics</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Three ways to make a program faster without changing what it computes: pack many decisions into one word, count work across a whole sequence, and corner a minimum instead of scanning for it.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>11 pages</span><span>≈ 28 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch08-herofig" data-reveal style="--d:.2s" aria-label="Two 32-bit words compared with xor and popcount">
+      <div class="figure__frame ch08-hero-frame">
+        <div class="ch08-hero-stage">
+          <div class="ch08-words" aria-hidden="true">
+            <div class="ch08-word">
+              <span class="ch08-word__label">a</span>
+              <div class="ch08-word__cells" data-ch08-word="a"></div>
+            </div>
+            <div class="ch08-word">
+              <span class="ch08-word__label">b</span>
+              <div class="ch08-word__cells" data-ch08-word="b"></div>
+            </div>
+            <div class="ch08-word ch08-word--xor">
+              <span class="ch08-word__label">a &#8853; b</span>
+              <div class="ch08-word__cells" data-ch08-word="x"></div>
+            </div>
+          </div>
+          <div class="ch08-hero-side">
+            <div class="ch08-hero-stat"><b id="ch08HeroCount">0</b><span>positions differ</span></div>
+            <p><code>xor</code> once. <code>popcount</code> once. Thirty-two comparisons, collapsed into a single number.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption><span class="hero-map__hint">One machine word is thirty-two simultaneous yes-or-no answers.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index ch08-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s81">
+          <span class="idx__num">8.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Bit-Parallel Algorithms</span>
+            <span class="idx__desc">Do k comparisons with one instruction.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s82">
+          <span class="idx__num">8.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Amortized Analysis</span>
+            <span class="idx__desc">A few costly steps, paid for over the run.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s83">
+          <span class="idx__num">8.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Finding Minimum Values</span>
+            <span class="idx__desc">Ternary search and convex functions.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.1 ============ -->
+<section class="section ch08-sec" id="s81" aria-labelledby="h81">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">8.1</span>
+      <div class="section-head__body">
+        <h2 id="h81">Bit-Parallel Algorithms</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A register is not so much a number as a row of decisions — and one instruction can act on all of them.</p>
+
+    <p class="lead" data-reveal>Bit-parallel algorithms rewrite a loop over <i>k</i> positions as a single operation on a word. When <i>k</i> fits in 32 or 64 bits, the loop disappears into the hardware.</p>
+
+    <figure class="figure ch08-packfig" data-reveal>
+      <div class="figure__frame">
+        <div class="ch08-pack">
+          <div class="ch08-pack__col">
+            <span class="kicker">Eight separate booleans</span>
+            <div class="ch08-pack__bytes" aria-hidden="true">
+              <span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span>
+            </div>
+            <p class="ch08-pack__meta">8 bytes · 8 loads</p>
+          </div>
+          <span class="ch08-pack__arrow" aria-hidden="true">→</span>
+          <div class="ch08-pack__col">
+            <span class="kicker">One byte</span>
+            <div class="ch08-pack__byte" aria-hidden="true">
+              <span class="is-on"></span><span></span><span class="is-on"></span><span></span><span class="is-on"></span><span></span><span class="is-on"></span><span class="is-on"></span>
+            </div>
+            <p class="ch08-pack__meta">8 bits · one load</p>
+          </div>
+          <span class="ch08-pack__arrow" aria-hidden="true">→</span>
+          <div class="ch08-pack__col">
+            <span class="kicker">One machine word</span>
+            <div class="ch08-pack__word" aria-hidden="true">
+              <span class="is-on"></span><span></span><span class="is-on"></span><span></span><span class="is-on"></span><span></span><span class="is-on"></span><span class="is-on"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+              <span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span><span class="ch08-pack__ghost"></span>
+            </div>
+            <p class="ch08-pack__meta">32 lanes · still one load</p>
+          </div>
+        </div>
+
+        <div class="ch08-xor">
+          <div class="ch08-xor__head">
+            <span class="kicker">Hamming distance, one column at a time</span>
+            <span class="tag tag--mono">k = 5</span>
+          </div>
+          <div class="ch08-xor__grid" role="img" aria-label="01101 and 11001 differ in two positions, so their Hamming distance is two">
+            <span class="ch08-xor__label">a</span>
+            <span class="ch08-xor__bit">0</span><span class="ch08-xor__bit">1</span><span class="ch08-xor__bit">1</span><span class="ch08-xor__bit">0</span><span class="ch08-xor__bit">1</span>
+            <span class="ch08-xor__label">b</span>
+            <span class="ch08-xor__bit">1</span><span class="ch08-xor__bit">1</span><span class="ch08-xor__bit">0</span><span class="ch08-xor__bit">0</span><span class="ch08-xor__bit is-same">1</span>
+            <span class="ch08-xor__label">a &#8853; b</span>
+            <span class="ch08-xor__bit is-diff">1</span><span class="ch08-xor__bit">0</span><span class="ch08-xor__bit is-diff">1</span><span class="ch08-xor__bit">0</span><span class="ch08-xor__bit">0</span>
+            <span class="ch08-xor__label ch08-xor__label--result">popcount</span>
+            <span class="ch08-xor__result">2</span>
+          </div>
+          <p class="ch08-xor__note">The two lit positions in the last row are exactly the positions where the strings disagree.</p>
+        </div>
+      </div>
+      <figcaption>Packing booleans turns a per-position comparison into a population count. The Hamming example from the book is <span class="ch08-mono">hamming(01101, 11001) = 2</span>.</figcaption>
+    </figure>
+
+    <div class="split2 ch08-hamming" data-reveal>
+      <div>
+        <h3>Minimum distance among many strings</h3>
+        <p>Given <i>n</i> bit strings of length <i>k</i>, find the smallest Hamming distance between any two of them. Checking every pair costs <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) — for each pair, a loop over <i>k</i> positions.</p>
+        <p>If <i>k</i> ≤ 32, store each string as an <code>int</code>. Then the distance is <code>__builtin_popcount(a ^ b)</code>: one xor builds the difference mask, one instruction counts its ones. The inner loop over <i>k</i> is gone.</p>
+        <p class="ch08-small">The example set <span class="ch08-mono">[00111, 01101, 11110]</span> has answer 2, from the first two strings.</p>
+      </div>
+      <div class="statline ch08-statline">
+        <div><span class="statline__value">≈20×</span><span class="statline__label">faster at k = 30</span></div>
+        <div><span class="statline__value">0.97 s</span><span class="statline__label">n = 25,000, bit-parallel</span></div>
+        <div><span class="statline__value">19.99 s</span><span class="statline__label">same input, original loop</span></div>
+      </div>
+    </div>
+
+    <div class="ch08-subhead" data-reveal>
+      <span class="ch08-subnum">8.1.2</span>
+      <h3>Counting Subgrids</h3>
+    </div>
+
+    <p class="lead ch08-lead" data-reveal>In an <i>n</i> × <i>n</i> grid of black and white squares, count the subgrids whose four corners are black. Choose the first and last row; the columns that are black in both rows decide the rest.</p>
+
+    <p data-reveal>If <i>k</i> columns are black in both chosen rows, they offer <span class="ch08-mono">k(k − 1)/2</span> pairs of corners. The straightforward solution tests all <i>O</i>(<i>n</i><sup>2</sup>) row pairs and scans <i>n</i> columns: <i>O</i>(<i>n</i><sup>3</sup>). Represent each row as a bitset instead, and the scan becomes one <code>and</code> followed by a count: <span class="ch08-mono">(row[a] &amp; row[b]).count()</span>.</p>
+
+    <div class="ch08-gridlab" data-ch08-gridlab data-reveal>
+      <div class="ch08-gridlab__head">
+        <div>
+          <span class="kicker">Try a row pair</span>
+          <h3>Which columns survive the AND?</h3>
+        </div>
+        <div class="ch08-pair" role="group" aria-label="Choose the first and last row">
+          <label class="ch08-pair__field" for="ch08RowA"><span>first row</span>
+            <select id="ch08RowA"></select>
+          </label>
+          <label class="ch08-pair__field" for="ch08RowB"><span>last row</span>
+            <select id="ch08RowB"></select>
+          </label>
+        </div>
+      </div>
+
+      <div class="ch08-gridlab__body">
+        <div class="ch08-grid" id="ch08Grid" role="img" aria-label="Six by six grid of black and white squares"></div>
+
+        <aside class="ch08-gridlab__readout" aria-live="polite">
+          <span class="kicker">row a &amp; row b</span>
+          <div class="ch08-andbits" id="ch08AndBits" aria-label="Bitwise AND of the two rows"></div>
+          <div class="ch08-bigcount"><b id="ch08SharedCount">3</b><span>shared black columns</span></div>
+          <p class="ch08-formula" id="ch08GridFormula">3 · 2 / 2 = 3 subgrids</p>
+          <p class="ch08-gridlab__note" id="ch08GridNote">Pick any two of the shared columns: together with these two rows they form a black-cornered subgrid.</p>
+        </aside>
+      </div>
+    </div>
+
+    <details class="note ch08-note" data-reveal>
+      <summary><span class="note__label">Why this is O(n³ / w), not O(n³)</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>There are still <i>O</i>(<i>n</i><sup>2</sup>) row pairs. What changes is the cost of each pair: a machine word holds <i>w</i> columns, so the <i>n</i> column tests become <i>n</i>/<i>w</i> word operations. With 64-bit words, the inner work is roughly 64 times cheaper before the popcount is even counted.</p>
+        <p>The bit-parallel version of the book runs up to 30 times faster than the triple loop on grids up to 3000 × 3000.</p>
+      </div>
+    </details>
+
+    <div class="ch08-subhead" data-reveal>
+      <span class="ch08-subnum">8.1.3</span>
+      <h3>Reachability in Graphs</h3>
+    </div>
+
+    <p class="lead ch08-lead" data-reveal>For each node <i>x</i> of a directed acyclic graph, let <span class="ch08-mono">reach(x)</span> be the number of nodes reachable from <i>x</i>. A list of nodes per graph node gives an <i>O</i>(<i>n</i><sup>2</sup>) solution; a bitset per node turns each union into an <code>or</code>.</p>
+
+    <div class="split2 ch08-reach">
+      <figure class="figure ch08-dagfig" data-reveal>
+        <div class="figure__frame ch08-dagframe">
+          <svg viewBox="0 0 440 250" role="img" aria-label="A directed acyclic graph with five nodes and reach values 5, 3, 3, 2, 1">
+            <defs>
+              <marker id="ch08DagArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0 0 L7 3.5 L0 7" fill="none" stroke="#c9c9c1" stroke-width="1"/>
+              </marker>
+            </defs>
+            <g class="ch08-dag-edges">
+              <path d="M104 72 L196 52" marker-end="url(#ch08DagArrow)"/>
+              <path d="M104 78 L196 178" marker-end="url(#ch08DagArrow)"/>
+              <path d="M252 54 L344 116" marker-end="url(#ch08DagArrow)"/>
+              <path d="M252 184 L344 128" marker-end="url(#ch08DagArrow)"/>
+              <path d="M366 138 L400 176" marker-end="url(#ch08DagArrow)"/>
+            </g>
+            <g class="ch08-dagnode" tabindex="0" data-tip="reach(1) = 5 · bits 11111 · every node is reachable" transform="translate(80 75)">
+              <circle r="24"/><text y="5">1</text><text class="ch08-dagreach" y="42">5</text>
+            </g>
+            <g class="ch08-dagnode" tabindex="0" data-tip="reach(2) = 3 · bits 01011 · nodes 2, 4, 5" transform="translate(224 52)">
+              <circle r="24"/><text y="5">2</text><text class="ch08-dagreach" y="42">3</text>
+            </g>
+            <g class="ch08-dagnode" tabindex="0" data-tip="reach(3) = 3 · bits 00111 · nodes 3, 4, 5" transform="translate(224 186)">
+              <circle r="24"/><text y="5">3</text><text class="ch08-dagreach" y="42">3</text>
+            </g>
+            <g class="ch08-dagnode" tabindex="0" data-tip="reach(4) = 2 · bits 00011 · nodes 4, 5" transform="translate(366 122)">
+              <circle r="24"/><text y="5">4</text><text class="ch08-dagreach" y="42">2</text>
+            </g>
+            <g class="ch08-dagnode" tabindex="0" data-tip="reach(5) = 1 · bits 00001 · only node 5" transform="translate(414 196)">
+              <circle r="24"/><text y="5">5</text><text class="ch08-dagreach" y="42">1</text>
+            </g>
+            <text class="ch08-dagcap" x="80" y="228">reach(x) is written below each node</text>
+          </svg>
+        </div>
+        <figcaption>The DAG of Fig. 8.2. The five-bit row for node 1 is the union of the rows of its successors, plus itself.</figcaption>
+      </figure>
+
+      <div class="ch08-reachcopy" data-reveal style="--d:.08s">
+        <div class="ch08-bitsets" aria-label="Bitset representation of the reach sets">
+          <div class="ch08-bitset"><span class="ch08-bitset__name">1</span><span class="ch08-bitset__cells"><i class="is-on">1</i><i class="is-on">1</i><i class="is-on">1</i><i class="is-on">1</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">5</span></div>
+          <div class="ch08-bitset"><span class="ch08-bitset__name">2</span><span class="ch08-bitset__cells"><i>0</i><i class="is-on">1</i><i>0</i><i class="is-on">1</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">3</span></div>
+          <div class="ch08-bitset"><span class="ch08-bitset__name">3</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i class="is-on">1</i><i class="is-on">1</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">3</span></div>
+          <div class="ch08-bitset"><span class="ch08-bitset__name">4</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i>0</i><i class="is-on">1</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">2</span></div>
+          <div class="ch08-bitset"><span class="ch08-bitset__name">5</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i>0</i><i>0</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">1</span></div>
+        </div>
+        <p>Process the nodes in reverse topological order. Start with <span class="ch08-mono">reach[x][x] = 1</span>, then OR in the bitset of every successor. Each union touches <i>n</i> bits at once.</p>
+        <p class="ch08-warn">The speed has a price: <i>n</i> bitsets of <i>n</i> bits use <i>O</i>(<i>n</i><sup>2</sup>) memory. At <i>n</i> = 10<sup>5</sup> the table in the book already needs about 1,250 MB.</p>
+      </div>
+    </div>
+
+    <div class="code-card ch08-codecard" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.2 ============ -->
+<section class="section ch08-sec" id="s82" aria-labelledby="h82">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">8.2</span>
+      <div class="section-head__body">
+        <h2 id="h82">Amortized Analysis</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>The worst single operation can be expensive. What matters is what the whole sequence costs.</p>
+
+    <p class="lead" data-reveal>A loop with a nested loop inside it is not automatically quadratic. If the inner loop only moves an element that can move a bounded number of times, the total work is linear. Amortized analysis replaces a worst-case look at one step with an accounting of the entire run.</p>
+
+    <div class="split2 ch08-amort">
+      <div data-reveal>
+        <p>The usual time complexity counts how the work grows with <i>n</i>, but it can overstate a structure whose expensive operations are rare. A stack may shrink by many elements in one step; a window pointer may jump; a queue may evict a run of values.</p>
+        <p>Amortized analysis asks a different question: over <i>n</i> operations, how many times can each element be touched? If the answer is a constant, the occasional expensive step does not change the total.</p>
+        <details class="note">
+          <summary><span class="note__label">The accounting view</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>Charge every element one unit when it enters the structure and one unit for the single time it can leave. A step that removes five elements is not free, but those five removals were already paid for. The total bill is at most 2<i>n</i>.</p>
+          </div>
+        </details>
+      </div>
+      <div class="ch08-potential" data-reveal style="--d:.08s" aria-label="A sequence of operations with an occasional spike, and the same total work spread evenly">
+        <div class="ch08-potential__head">
+          <span class="kicker">Cost per step</span>
+          <span class="tag">total = 13 for n = 8</span>
+        </div>
+        <div class="ch08-potential__bars" id="ch08PotentialBars" aria-hidden="true"></div>
+        <div class="ch08-potential__foot">
+          <span>one step can pop five values…</span>
+          <span>…but every value is pushed once and popped at most once</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.2.1 ============ -->
+<section class="section section--sub ch08-sec" id="s821" aria-labelledby="h821">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h821">Two Pointers Method</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Two indices walk through the array, and both only move right. A right pointer can sweep across the whole array, but it can never sweep back — so the total number of pointer moves is <i>O</i>(<i>n</i>), even though one turn may move it many steps.</p>
+
+    <div class="ch08-stepper" data-ch08-tp data-reveal>
+      <div class="ch08-stepper__head">
+        <div>
+          <span class="kicker">Interactive trace</span>
+          <h3>Find a subarray with sum 8</h3>
+        </div>
+        <div class="ch08-stepper__actions">
+          <button class="btn" type="button" data-tp-prev><svg class="icon"><use href="#i-arrow"/></svg><span>Back</span></button>
+          <button class="btn btn--primary" type="button" data-tp-next><span>Next</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--icon" type="button" data-tp-reset aria-label="Reset the trace"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ch08-tp" id="ch08Tp" aria-label="Array with two pointers">
+        <div class="ch08-tp__marks" id="ch08TpMarks" aria-hidden="true"></div>
+        <div class="ch08-tp__cells" id="ch08TpCells"></div>
+        <div class="ch08-tp__index" id="ch08TpIndex" aria-hidden="true"></div>
+      </div>
+
+      <div class="ch08-readout-row">
+        <div><span class="kicker">Window</span><strong id="ch08TpWindow">[0, 2]</strong></div>
+        <div><span class="kicker">Sum</span><strong id="ch08TpSum">6</strong></div>
+        <div><span class="kicker">Left / right</span><strong id="ch08TpPointers">0 / 2</strong></div>
+        <div><span class="kicker">Pointer moves</span><strong id="ch08TpMoves">2</strong></div>
+      </div>
+
+      <p class="ch08-stepnote" id="ch08TpNote" aria-live="polite">Start with the window [0, 2]. Its sum is 1 + 3 + 2 = 6; adding the next value would exceed 8, so the right pointer stops.</p>
+
+      <div class="ch08-dots" id="ch08TpDots" aria-hidden="true"></div>
+      <p class="ch08-foothint">The example array and target are from Fig. 8.3. The sum can be checked at every position against <i>x</i> = 8.</p>
+    </div>
+
+    <div class="split2 ch08-twosum" data-reveal>
+      <div>
+        <h3>The same idea, sorted</h3>
+        <p>In the 2SUM problem, sort the array and put one pointer at each end. If the sum is too large, move the right pointer left; if it is too small, move the left pointer right. Each pointer crosses the array once.</p>
+        <p>The sort costs <i>O</i>(<i>n</i> log <i>n</i>); the scan costs <i>O</i>(<i>n</i>). The same problem can also be solved with binary search, at the same total complexity.</p>
+      </div>
+      <div class="ch08-twosum__example" aria-label="Sorted array 1, 4, 5, 6, 7, 9, 9, 10 with target 12">
+        <span class="kicker">target x = 12</span>
+        <div class="ch08-twosum__row">
+          <span class="ch08-twosum__cell">1</span><span class="ch08-twosum__cell">4</span><span class="ch08-twosum__cell is-pick">5</span><span class="ch08-twosum__cell">6</span><span class="ch08-twosum__cell">7</span><span class="ch08-twosum__cell is-pick">9</span><span class="ch08-twosum__cell">9</span><span class="ch08-twosum__cell">10</span>
+        </div>
+        <p class="ch08-twosum__note">5 + 7 = 12. The right pointer had already moved left past 10, 9, and 9.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.2.2 ============ -->
+<section class="section section--sub ch08-sec" id="s822" aria-labelledby="h822">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h822">Nearest Smaller Elements</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>For each element, find the first smaller element to its left. A stack holds the candidates: pop everything that is not smaller than the current value, report the new top, then push the current value. Elements are pushed once and popped at most once.</p>
+
+    <div class="ch08-stacklab" data-ch08-stack data-reveal>
+      <div class="ch08-stacklab__head">
+        <div>
+          <span class="kicker">Interactive trace</span>
+          <h3>One pass, one stack</h3>
+        </div>
+        <div class="ch08-stacklab__pos">position <b id="ch08StackPos">1</b> / 8</div>
+      </div>
+
+      <div class="ch08-stackarray" id="ch08StackArray" aria-label="Array values and their nearest smaller elements"></div>
+
+      <div class="ch08-stackbody">
+        <div class="ch08-stackviz">
+          <span class="kicker">stack · bottom → top</span>
+          <div class="ch08-stackchips" id="ch08StackChips" aria-live="polite"></div>
+        </div>
+        <div class="ch08-stackread">
+          <span class="kicker">current value</span>
+          <div class="ch08-stackread__big" id="ch08StackValue">1</div>
+          <p id="ch08StackNote">The stack is empty, so 1 has no nearest smaller element. Push it.</p>
+        </div>
+      </div>
+
+      <div class="ch08-stackcontrols">
+        <input class="ch08-range" id="ch08StackRange" type="range" min="0" max="7" step="1" value="0" aria-label="Stack trace position">
+        <div class="ch08-stackcontrols__labels"><span>1</span><span>3</span><span>4</span><span>2</span><span>5</span><span>3</span><span>4</span><span>2</span></div>
+      </div>
+
+      <div class="ch08-ledger">
+        <div class="ch08-meter">
+          <div class="ch08-meter__head"><span>pushes</span><b id="ch08PushCount">1</b></div>
+          <div class="ch08-meter__track"><span id="ch08PushBar" style="width:12.5%"></span></div>
+        </div>
+        <div class="ch08-meter">
+          <div class="ch08-meter__head"><span>pops</span><b id="ch08PopCount">0</b></div>
+          <div class="ch08-meter__track ch08-meter__track--alt"><span id="ch08PopBar" style="width:0%"></span></div>
+        </div>
+        <p class="ch08-ledger__total" id="ch08StackTotal">13 operations for 8 elements</p>
+      </div>
+    </div>
+
+    <p class="ch08-after" data-reveal>When a large value is buried under smaller ones it may wait, but it is still removed only once. The total number of stack operations is at most 2<i>n</i>, so the whole scan is <i>O</i>(<i>n</i>), not <i>O</i>(<i>n</i><sup>2</sup>).</p>
+  </div>
+</section>
+
+<!-- ============ 8.2.3 ============ -->
+<section class="section section--sub ch08-sec" id="s823" aria-labelledby="h823">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h823">Sliding Window Minimum</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A window of fixed width moves one step at a time. To report its minimum at every position, keep a deque whose values increase from front to back. The front is the current minimum; larger values behind it can never become the minimum before it leaves.</p>
+
+    <div class="ch08-windowlab" data-ch08-window data-reveal>
+      <div class="ch08-windowlab__head">
+        <div>
+          <span class="kicker">Interactive sweep</span>
+          <h3>Window width 4</h3>
+        </div>
+        <div class="ch08-windowlab__pos" id="ch08WindowPos">window 1 / 5</div>
+      </div>
+
+      <div class="ch08-windowarray" id="ch08WindowArray" aria-label="Array with the current window highlighted"></div>
+
+      <div class="ch08-windowcontrols">
+        <input class="ch08-range" id="ch08WindowRange" type="range" min="0" max="4" step="1" value="0" aria-label="Sliding window position">
+        <div class="ch08-windowcontrols__ticks" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      </div>
+
+      <div class="ch08-deque">
+        <div>
+          <span class="kicker">deque · increasing</span>
+          <div class="ch08-deque__chips" id="ch08DequeChips" aria-live="polite"></div>
+        </div>
+        <div class="ch08-deque__min"><span>minimum</span><b id="ch08WindowMin">1</b></div>
+      </div>
+
+      <p class="ch08-stepnote" id="ch08WindowNote" aria-live="polite">Add 2, then 1: 1 removes 2 because it is smaller. Continue with 4 and 5; the deque holds [1, 4, 5] and the minimum is 1.</p>
+    </div>
+
+    <div class="split2 ch08-window-notes" data-reveal>
+      <p>The front element leaves when the window passes its position. The elements behind it are still ordered, so the new minimum is simply the next front. Each element enters and leaves the deque once, which makes the sweep <i>O</i>(<i>n</i>).</p>
+      <p class="ch08-small">This is the same accounting argument as the stack: the deque may grow and shrink dramatically between steps, but no value is pushed or removed twice.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.3 ============ -->
+<section class="section ch08-sec" id="s83" aria-labelledby="h83">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">8.3</span>
+      <div class="section-head__body">
+        <h2 id="h83">Finding Minimum Values</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>If a function only falls and then rises, its bottom can be cornered without visiting every point.</p>
+
+    <p class="lead" data-reveal>Suppose <i>f</i>(<i>x</i>) first decreases, reaches a minimum, and then increases. Knowing that shape is enough to discard a large part of the domain at every step.</p>
+
+    <figure class="figure ch08-unimodal" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 760 220" role="img" aria-label="A function that decreases to a minimum and then increases">
+          <g class="ch08-unimodal__grid">
+            <path d="M54 30 H720 M54 88 H720 M54 146 H720 M54 184 H720"/>
+          </g>
+          <path class="ch08-unimodal__curve" d="M60 42 C 190 160, 320 184, 396 184 C 486 184, 574 106, 716 32"/>
+          <line class="ch08-unimodal__minline" x1="396" y1="184" x2="396" y2="204"/>
+          <circle class="ch08-unimodal__dot" cx="396" cy="184" r="4"/>
+          <text class="ch08-unimodal__label" x="396" y="216" text-anchor="middle">minimum</text>
+          <text class="ch08-unimodal__axis" x="54" y="212">xL</text>
+          <text class="ch08-unimodal__axis" x="704" y="212" text-anchor="end">xR</text>
+          <text class="ch08-unimodal__axis" x="54" y="22">f(x)</text>
+        </svg>
+      </div>
+      <figcaption>One valley. A ternary step chooses the third that cannot contain the minimum and drops it.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 8.3.1 ============ -->
+<section class="section section--sub ch08-sec" id="s831" aria-labelledby="h831">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.3.1</span>
+      <div class="section-head__body">
+        <h2 id="h831">Ternary Search</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Split the active range into thirds at <i>a</i> = (2<i>x</i><sub>L</sub> + <i>x</i><sub>R</sub>)/3 and <i>b</i> = (<i>x</i><sub>L</sub> + 2<i>x</i><sub>R</sub>)/3. If <i>f</i>(<i>a</i>) &lt; <i>f</i>(<i>b</i>), the minimum lies in [<i>x</i><sub>L</sub>, <i>b</i>]; otherwise it lies in [<i>a</i>, <i>x</i><sub>R</sub>]. The range shrinks to two thirds each time, so the search is <i>O</i>(log <i>n</i>).</p>
+
+    <div class="ch08-ternary" data-ch08-ternary data-reveal>
+      <div class="ch08-ternary__head">
+        <div>
+          <span class="kicker">Interactive search</span>
+          <h3>Narrow the valley</h3>
+        </div>
+        <div class="ch08-stepper__actions">
+          <button class="btn btn--primary" type="button" data-tern-next><span>Narrow once</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn" type="button" data-tern-run><svg class="icon"><use href="#i-play"/></svg><span>Run</span></button>
+          <button class="btn btn--icon" type="button" data-tern-reset aria-label="Reset the search"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ch08-ternary__plot">
+        <svg id="ch08TernaryChart" viewBox="0 0 900 350" role="img" aria-label="A convex function with the current ternary search interval"></svg>
+      </div>
+
+      <div class="ch08-readout-row ch08-readout-row--four">
+        <div><span class="kicker">Interval</span><strong id="ch08TernRange">[0.00, 20.00]</strong></div>
+        <div><span class="kicker">a / b</span><strong id="ch08TernAB">6.67 / 13.33</strong></div>
+        <div><span class="kicker">f(a) / f(b)</span><strong id="ch08TernValues">20.78 / 7.44</strong></div>
+        <div><span class="kicker">Step</span><strong id="ch08TernStep">0</strong></div>
+      </div>
+
+      <p class="ch08-stepnote" id="ch08TernNote" aria-live="polite">f(a) &gt; f(b), so the minimum cannot lie to the right of b. Keep [a, xR].</p>
+      <p class="ch08-foothint">The demo function is the convex curve <span class="ch08-mono">f(x) = (x − 11)<sup>2</sup> + 2</span> over [0, 20].</p>
+    </div>
+
+    <p class="ch08-after" data-reveal>With integer parameters, there is a simpler stopping rule: binary search for the first <i>x</i> where <i>f</i>(<i>x</i>) ≤ <i>f</i>(<i>x</i> + 1). That predicate is false before the minimum and true after it.</p>
+  </div>
+</section>
+
+<!-- ============ 8.3.2 ============ -->
+<section class="section section--sub ch08-sec" id="s832" aria-labelledby="h832">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.3.2</span>
+      <div class="section-head__body">
+        <h2 id="h832">Convex Functions</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A function is convex when the line segment between any two points on its graph never dips below the graph. Such a function can have a flat bottom, but it cannot hide a second valley — ternary search still applies.</p>
+
+    <div class="ch08-convex-grid">
+      <figure class="figure ch08-convex" data-reveal>
+        <div class="figure__frame">
+          <svg viewBox="0 0 420 260" role="img" aria-label="The parabola x squared with a chord lying above it">
+            <g class="ch08-convex__grid"><path d="M46 34 H394 M46 92 H394 M46 150 H394 M46 208 H394"/></g>
+            <path class="ch08-convex__area" d="M118 178 L306 82 L306 208 L118 208 Z"/>
+            <path class="ch08-convex__curve" d="M70 42 C 170 172, 236 190, 258 194 C 300 192, 352 140, 386 44"/>
+            <line class="ch08-convex__chord" x1="118" y1="178" x2="306" y2="82"/>
+            <circle class="ch08-convex__pt" cx="118" cy="178" r="4"/>
+            <circle class="ch08-convex__pt" cx="306" cy="82" r="4"/>
+            <text class="ch08-convex__lab" x="104" y="200">a</text>
+            <text class="ch08-convex__lab" x="316" y="78">b</text>
+            <text class="ch08-convex__cap" x="212" y="126" text-anchor="middle">chord above the graph</text>
+            <text class="ch08-convex__axis" x="46" y="238">x</text>
+          </svg>
+        </div>
+        <figcaption><i>f</i>(<i>x</i>) = <i>x</i><sup>2</sup>: the segment from <i>a</i> to <i>b</i> stays above the curve.</figcaption>
+      </figure>
+
+      <figure class="figure ch08-convex" data-reveal style="--d:.1s">
+        <div class="figure__frame">
+          <svg viewBox="0 0 420 260" role="img" aria-label="Three convex curves labelled f, g, and f plus g">
+            <g class="ch08-convex__grid"><path d="M46 34 H394 M46 92 H394 M46 150 H394 M46 208 H394"/></g>
+            <path class="ch08-convex__faint" d="M56 58 C 156 176, 218 194, 242 194 C 300 190, 336 126, 366 66"/>
+            <path class="ch08-convex__faint ch08-convex__faint--2" d="M56 96 C 126 150, 178 170, 210 172 C 268 170, 322 120, 366 72"/>
+            <path class="ch08-convex__sum" d="M56 44 C 176 170, 238 194, 262 194 C 318 188, 350 120, 380 56"/>
+            <text class="ch08-convex__lab" x="58" y="48">f + g</text>
+            <text class="ch08-convex__lab ch08-convex__lab--faint" x="58" y="88">f</text>
+            <text class="ch08-convex__lab ch08-convex__lab--faint" x="58" y="112">g</text>
+            <text class="ch08-convex__axis" x="46" y="238">x</text>
+          </svg>
+        </div>
+        <figcaption>The sum keeps the shape. So do <span class="ch08-mono">max(f, g)</span> and any positive combination of convex functions.</figcaption>
+      </figure>
+    </div>
+
+    <p data-reveal>That closure property is the practical payoff: if every term is convex, a sum of terms is convex, and a minimum can be found without proving the shape from scratch. If several points share the minimum — as with the constant function <i>f</i>(<i>x</i>) = 0 — ternary search still narrows to one of them.</p>
+  </div>
+</section>
+
+<!-- ============ 8.3.3 ============ -->
+<section class="section section--sub ch08-sec" id="s833" aria-labelledby="h833">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">8.3.3</span>
+      <div class="section-head__body">
+        <h2 id="h833">Minimizing Sums</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Choose <i>x</i> to minimize the sum of distances from <i>x</i> to a set of numbers. Each distance function is convex, so the sum is convex — but there are closed forms that skip the search entirely.</p>
+
+    <div class="ch08-sums" data-reveal>
+      <div class="ch08-sums__numbers" aria-label="The numbers 1, 2, 2, 6, 9 on a number line, with median 2 and mean 4 marked">
+        <div class="ch08-numberline">
+          <div class="ch08-numberline__axis">
+            <span class="ch08-numberline__tick" style="--at:10%"><b>1</b></span>
+            <span class="ch08-numberline__tick" style="--at:22.2%"><b>2</b></span>
+            <span class="ch08-numberline__tick ch08-numberline__tick--stack" style="--at:22.2%"><b>2</b></span>
+            <span class="ch08-numberline__tick" style="--at:66.6%"><b>6</b></span>
+            <span class="ch08-numberline__tick" style="--at:100%"><b>9</b></span>
+            <span class="ch08-numberline__mark" style="--at:22.2%"><em>median</em></span>
+            <span class="ch08-numberline__mark ch08-numberline__mark--mean" style="--at:44.4%"><em>mean</em></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ch08-sums__grid">
+        <article class="ch08-sumcard">
+          <header><span class="ch08-sumcard__tag">absolute distances</span><h3>Median</h3></header>
+          <p class="ch08-sumcard__eq">|<i>a</i><sub>1</sub> − <i>x</i>| + … + |<i>a</i><sub><i>n</i></sub> − <i>x</i>|</p>
+          <div class="ch08-distbars">
+            <div><span>1</span><i style="--w:14.3%"></i><b>1</b></div>
+            <div><span>2</span><i style="--w:0%"></i><b>0</b></div>
+            <div><span>9</span><i style="--w:100%"></i><b>7</b></div>
+            <div><span>2</span><i style="--w:0%"></i><b>0</b></div>
+            <div><span>6</span><i style="--w:57.1%"></i><b>4</b></div>
+          </div>
+          <p class="ch08-sumcard__total"><span>x = 2</span><b>12</b></p>
+        </article>
+
+        <article class="ch08-sumcard">
+          <header><span class="ch08-sumcard__tag">squared distances</span><h3>Average</h3></header>
+          <p class="ch08-sumcard__eq">(<i>a</i><sub>1</sub> − <i>x</i>)<sup>2</sup> + … + (<i>a</i><sub><i>n</i></sub> − <i>x</i>)<sup>2</sup></p>
+          <div class="ch08-distbars ch08-distbars--sq">
+            <div><span>1</span><i style="--w:36%"></i><b>9</b></div>
+            <div><span>2</span><i style="--w:16%"></i><b>4</b></div>
+            <div><span>9</span><i style="--w:100%"></i><b>25</b></div>
+            <div><span>2</span><i style="--w:16%"></i><b>4</b></div>
+            <div><span>6</span><i style="--w:16%"></i><b>4</b></div>
+          </div>
+          <p class="ch08-sumcard__total"><span>x = 4</span><b>46</b></p>
+        </article>
+      </div>
+    </div>
+
+    <p class="ch08-after" data-reveal>For absolute distances the optimum is the median: moving <i>x</i> toward the median lowers the total, and moving past it raises the total. For squared distances it is the average. If <i>n</i> is even, both middle values — and every value between them — are optimal for the absolute sum.</p>
+
+    <details class="note ch08-note" data-reveal>
+      <summary><span class="note__label">Why the average minimizes squares</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Expand the sum: <span class="ch08-mono">n x<sup>2</sup> − 2x(a<sub>1</sub> + … + a<sub>n</sub>) + (a<sub>1</sub><sup>2</sup> + … + a<sub>n</sub><sup>2</sup>)</span>. The last bracket does not depend on <i>x</i>. With <i>s</i> = the sum of the numbers, the rest is a parabola opening upward, with roots 0 and 2<i>s</i>/<i>n</i>; its lowest point is halfway between them, at <i>s</i>/<i>n</i>.</p>
+        <p>For the example, <i>s</i>/<i>n</i> = (1 + 2 + 9 + 2 + 6)/5 = 4, which produces 46.</p>
+      </div>
+    </details>
+
+    <p class="closing ch08-closing" data-reveal>Bit operations compress a loop, amortized analysis compresses a sequence, and convexity compresses a search. Each one removes work that the problem never actually required.</p>
+  </div>
+</section>

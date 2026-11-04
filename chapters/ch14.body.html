@@ -1,0 +1,811 @@
+<!-- ============ hero ============ -->
+<section class="hero ch14-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 14</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Indexing text</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>String Algorithms</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Hashing turns a string into a number. The Z-algorithm and suffix arrays keep the text itself and answer the same questions exactly. Together they make text searchable at scale.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>4 sections</span><span>13 pages</span><span>≈ 34 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch14-hero-map" data-reveal style="--d:.2s" aria-label="Three ways to read one string: a rolling hash window, a Z-box, and a sorted suffix order">
+      <svg viewBox="0 0 1200 330" role="img" aria-hidden="true">
+        <defs>
+          <pattern id="ch14HeroDots" width="26" height="26" patternUnits="userSpaceOnUse">
+            <circle cx="1.2" cy="1.2" r="1.1" fill="#e9e9e4"/>
+          </pattern>
+          <linearGradient id="ch14HeroFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0"/>
+            <stop offset=".7" stop-color="white" stop-opacity="0"/>
+            <stop offset="1" stop-color="white"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="330" fill="url(#ch14HeroDots)"/>
+        <rect width="1200" height="330" fill="url(#ch14HeroFade)"/>
+
+        <g class="ch14-hero-tiles">
+          <g transform="translate(254 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">A</text>
+          </g>
+          <g transform="translate(342 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">B</text>
+          </g>
+          <g transform="translate(430 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">A</text>
+          </g>
+          <g transform="translate(518 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">A</text>
+          </g>
+          <g transform="translate(606 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">C</text>
+          </g>
+          <g transform="translate(694 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">B</text>
+          </g>
+          <g transform="translate(782 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">A</text>
+          </g>
+          <g transform="translate(870 118)">
+            <rect width="76" height="92" rx="2"/><text x="38" y="60">B</text>
+          </g>
+        </g>
+
+        <g class="ch14-hero-indices">
+          <text x="292" y="238">0</text>
+          <text x="380" y="238">1</text>
+          <text x="468" y="238">2</text>
+          <text x="556" y="238">3</text>
+          <text x="644" y="238">4</text>
+          <text x="732" y="238">5</text>
+          <text x="820" y="238">6</text>
+          <text x="908" y="238">7</text>
+        </g>
+
+        <g class="ch14-hero-window">
+          <rect x="246" y="108" width="268" height="112" rx="3"/>
+          <text x="380" y="96" text-anchor="middle">rolling hash window</text>
+        </g>
+
+        <g class="ch14-hero-zbox">
+          <path d="M518 258v10h428v-10"/>
+          <text x="732" y="292" text-anchor="middle">z[3] = 5</text>
+        </g>
+
+        <g class="ch14-hero-rule">
+          <path d="M254 224h692"/>
+        </g>
+      </svg>
+      <figcaption><span class="hero-map__hint">One string, three instruments: a hash window slides, a Z-box measures a repeated prefix, a suffix array keeps every ending in order.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s141">
+          <span class="idx__num">14.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Basic Topics</span>
+            <span class="idx__desc">Strings, substrings, tries, and two dynamic programming classics.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s142">
+          <span class="idx__num">14.2</span>
+          <span class="idx__body">
+            <span class="idx__title">String Hashing</span>
+            <span class="idx__desc">Polynomial fingerprints, O(1) substring hashes, and the collision budget.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s143">
+          <span class="idx__num">14.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Z-Algorithm</span>
+            <span class="idx__desc">A linear-time scan that records how the string repeats its own prefix.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s144">
+          <span class="idx__num">14.4</span>
+          <span class="idx__body">
+            <span class="idx__title">Suffix Arrays</span>
+            <span class="idx__desc">Every suffix in lexicographic order, built by doubling, searched by halving.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.1 ============ -->
+<section class="section" id="s141" aria-labelledby="h141">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">14.1</span>
+      <div class="section-head__body">
+        <h2 id="h141">Basic Topics</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Almost every string algorithm is a way of not comparing more characters than necessary.</p>
+
+    <p class="lead" data-reveal>All strings in this chapter are zero-indexed: a string <i>s</i> of length <i>n</i> consists of characters <i>s</i>[0], <i>s</i>[1], …, <i>s</i>[<i>n</i>−1]. The notation <i>s</i>[<i>a</i>…<i>b</i>] means the consecutive characters from <i>a</i> to <i>b</i>. A <em>prefix</em> starts at position 0, a <em>suffix</em> ends at position <i>n</i>−1, and a <em>subsequence</em> may skip characters while keeping the rest in order.</p>
+
+    <div class="ch14-anatomy" id="anatomy" data-reveal>
+      <div class="ch14-anatomy__head">
+        <div class="seg" role="group" aria-label="Highlight a substring or a subsequence">
+          <button class="seg__btn is-active" data-anatomy="sub" aria-pressed="true">Substring</button>
+          <button class="seg__btn" data-anatomy="seq" aria-pressed="false">Subsequence</button>
+        </div>
+        <p class="ch14-anatomy__readout" id="anatomyReadout" aria-live="polite"><b>NVELO</b> occupies positions 1–5, with no gaps.</p>
+      </div>
+
+      <div class="ch14-anatomy__tiles" id="anatomyTiles" aria-label="The string ENVELOPE"></div>
+
+      <div class="ch14-anatomy__defs">
+        <div class="ch14-def" data-def="sub">
+          <span class="ch14-def__term">substring</span>
+          <span class="ch14-def__note">consecutive characters, <i>s</i>[<i>a</i>…<i>b</i>]</span>
+        </div>
+        <div class="ch14-def">
+          <span class="ch14-def__term">prefix</span>
+          <span class="ch14-def__note"><i>s</i>[0…<i>k</i>], always starts at the beginning</span>
+        </div>
+        <div class="ch14-def">
+          <span class="ch14-def__term">suffix</span>
+          <span class="ch14-def__note"><i>s</i>[<i>k</i>…<i>n</i>−1], always ends at the end</span>
+        </div>
+        <div class="ch14-def" data-def="seq">
+          <span class="ch14-def__term">subsequence</span>
+          <span class="ch14-def__note">characters in order, gaps allowed</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch14-aside" data-reveal>Every substring is a subsequence, but not every subsequence is a substring: <b>NVELO</b> cannot skip a character, while <b>NEP</b> can. Comparing two strings of length <i>n</i> costs <i>O</i>(<i>n</i>) in the worst case — the rest of the chapter is about paying less.</p>
+  </div>
+</section>
+
+<!-- ============ 14.1.1 ============ -->
+<section class="section section--sub" id="s1411" aria-labelledby="h1411">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h1411">Trie Structure</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch14-split-trie">
+      <div data-reveal>
+        <p>A <em>trie</em> is a rooted tree that stores a set of strings. Each string is a character chain from the root, so strings that share a prefix also share a chain. The four words <b>CANAL</b>, <b>CANDY</b>, <b>THE</b>, and <b>THERE</b> need only eleven edges — the second <b>A</b> in CANAL and the <b>Y</b> in CANDY branch from the same <b>CAN</b>.</p>
+        <p>A filled node marks the end of a word. Searching and inserting both follow or extend one chain, so both take <i>O</i>(<i>n</i>) time for a string of length <i>n</i>.</p>
+        <div class="ch14-trie__controls" role="group" aria-label="Search the trie">
+          <button class="ch14-word" data-word="CANAL">CANAL</button>
+          <button class="ch14-word" data-word="CANDY">CANDY</button>
+          <button class="ch14-word" data-word="THE">THE</button>
+          <button class="ch14-word" data-word="THERE">THERE</button>
+          <button class="ch14-word" data-word="CAN">CAN</button>
+          <button class="ch14-word" data-word="CAR">CAR</button>
+        </div>
+        <p class="ch14-trie__status" id="trieStatus" aria-live="polite">Choose a query to follow its chain from the root.</p>
+      </div>
+
+      <figure class="ch14-trie-fig" data-reveal style="--d:.08s">
+        <div class="ch14-trie__frame">
+          <svg id="trieSvg" viewBox="0 0 540 300" role="img" aria-label="A trie containing CANAL, CANDY, THE and THERE">
+            <g class="ch14-trie-edges">
+              <path data-edge="0-c" d="M46 160 L132 72"/>
+              <path data-edge="0-t" d="M46 160 L132 248"/>
+              <path data-edge="c-a" d="M132 72 L218 72"/>
+              <path data-edge="a-n" d="M218 72 L304 72"/>
+              <path data-edge="n-a" d="M304 72 L390 32"/>
+              <path data-edge="n-d" d="M304 72 L390 112"/>
+              <path data-edge="a-l" d="M390 32 L476 14"/>
+              <path data-edge="d-y" d="M390 112 L476 76"/>
+              <path data-edge="t-h" d="M132 248 L218 248"/>
+              <path data-edge="h-e" d="M218 248 L304 248"/>
+              <path data-edge="e-r" d="M304 248 L390 248"/>
+              <path data-edge="r-e" d="M390 248 L476 248"/>
+            </g>
+            <g class="ch14-trie-nodes">
+              <g class="ch14-node ch14-node--root" data-node="0" transform="translate(46 160)"><circle r="15"/><text y="4">·</text></g>
+              <g class="ch14-node" data-node="c" transform="translate(132 72)"><circle r="15"/><text y="4">C</text></g>
+              <g class="ch14-node" data-node="a" transform="translate(218 72)"><circle r="15"/><text y="4">A</text></g>
+              <g class="ch14-node" data-node="n" transform="translate(304 72)"><circle r="15"/><text y="4">N</text></g>
+              <g class="ch14-node" data-node="a2" transform="translate(390 32)"><circle r="15"/><text y="4">A</text></g>
+              <g class="ch14-node" data-node="d" transform="translate(390 112)"><circle r="15"/><text y="4">D</text></g>
+              <g class="ch14-node ch14-node--end" data-node="l" transform="translate(476 14)"><circle r="17"/><circle class="ch14-node__mark" r="12.5"/><text y="4">L</text></g>
+              <g class="ch14-node ch14-node--end" data-node="y" transform="translate(476 76)"><circle r="17"/><circle class="ch14-node__mark" r="12.5"/><text y="4">Y</text></g>
+              <g class="ch14-node" data-node="t" transform="translate(132 248)"><circle r="15"/><text y="4">T</text></g>
+              <g class="ch14-node" data-node="h" transform="translate(218 248)"><circle r="15"/><text y="4">H</text></g>
+              <g class="ch14-node ch14-node--end" data-node="e" transform="translate(304 248)"><circle r="17"/><circle class="ch14-node__mark" r="12.5"/><text y="4">E</text></g>
+              <g class="ch14-node" data-node="r" transform="translate(390 248)"><circle r="15"/><text y="4">R</text></g>
+              <g class="ch14-node ch14-node--end" data-node="e2" transform="translate(476 248)"><circle r="17"/><circle class="ch14-node__mark" r="12.5"/><text y="4">E</text></g>
+            </g>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">A double ring ends a word. <b>CAN</b> stops at a node that is a prefix but not a word; <b>CAR</b> leaves the tree at <b>CA</b>.</figcaption>
+      </figure>
+    </div>
+
+    <details class="note ch14-note" data-reveal>
+      <summary><span class="note__label">Storing a trie</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>A trie fits in a two-dimensional array <code>int trie[N][A]</code>, where <i>N</i> is the maximum total length of the stored strings and <i>A</i> is the alphabet size. Nodes are numbered so that the root is 0, and <code>trie[s][c]</code> gives the next node from node <i>s</i> using character <i>c</i>.</p>
+        <p>Storing at each node the number of strings that pass through it turns the trie into a prefix counter: the number of strings starting with a given prefix is then read from one node.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 14.1.2 ============ -->
+<section class="section section--sub" id="s1412" aria-labelledby="h1412">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h1412">Dynamic Programming</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Two string problems recur constantly: the longest common subsequence, and the cheapest way to turn one string into another. Both are tables filled one cell at a time.</p>
+
+    <div class="split2 ch14-split-dp">
+      <div class="ch14-dp-copy" data-reveal>
+        <article>
+          <span class="kicker">Longest common subsequence</span>
+          <p>The longest string that appears as a subsequence in both <b>TOUR</b> and <b>OPERA</b> is <b>OR</b>. Let <i>lcs</i>(<i>i</i>, <i>j</i>) be the answer for the prefixes <i>x</i>[0…<i>i</i>] and <i>y</i>[0…<i>j</i>]:</p>
+          <div class="ch14-recur">
+            <p><i>lcs</i>(<i>i</i>, <i>j</i>) = <i>lcs</i>(<i>i</i>−1, <i>j</i>−1) + 1 &nbsp; if <i>x</i>[<i>i</i>] = <i>y</i>[<i>j</i>]</p>
+            <p><i>lcs</i>(<i>i</i>, <i>j</i>) = max(<i>lcs</i>(<i>i</i>, <i>j</i>−1), <i>lcs</i>(<i>i</i>−1, <i>j</i>)) &nbsp; otherwise</p>
+          </div>
+          <p class="ch14-dp-time"><i>O</i>(<i>n</i><i>m</i>) time, <i>O</i>(<i>n</i><i>m</i>) memory.</p>
+        </article>
+
+        <article>
+          <span class="kicker">Edit distance</span>
+          <p>The edit distance between <b>LOVE</b> and <b>MOVIE</b> is 2: modify <b>L</b> to <b>M</b>, then insert <b>I</b>. Allowed operations are insert, remove, and modify one character.</p>
+          <div class="ch14-recur">
+            <p><i>edit</i>(<i>a</i>, <i>b</i>) = min( <i>edit</i>(<i>a</i>, <i>b</i>−1) + 1, <i>edit</i>(<i>a</i>−1, <i>b</i>) + 1, <i>edit</i>(<i>a</i>−1, <i>b</i>−1) + cost )</p>
+          </div>
+          <p class="ch14-dp-time"><i>cost</i> = 0 when the characters match, otherwise 1. Again <i>O</i>(<i>n</i><i>m</i>).</p>
+        </article>
+      </div>
+
+      <div class="ch14-matrix" id="dpMatrix" data-reveal style="--d:.08s">
+        <div class="ch14-matrix__head">
+          <div class="seg" role="group" aria-label="Choose a dynamic programming table">
+            <button class="seg__btn is-active" data-dp="lcs" aria-pressed="true">LCS · TOUR / OPERA</button>
+            <button class="seg__btn" data-dp="edit" aria-pressed="false">Edit · LOVE / MOVIE</button>
+          </div>
+        </div>
+        <div class="ch14-matrix__grid" id="dpGrid" aria-live="polite"></div>
+        <p class="ch14-matrix__note" id="dpNote">The last cell holds the answer: <b>2</b> — the length of <b>OR</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.2 ============ -->
+<section class="section" id="s142" aria-labelledby="h142">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">14.2</span>
+      <div class="section-head__body">
+        <h2 id="h142">String Hashing</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A hash value is a fingerprint: one integer that stands in for a whole string.</p>
+
+    <p class="lead" data-reveal>If two strings are equal, their hash values are equal. Comparing two integers is <i>O</i>(1), so a fingerprint can replace a character-by-character comparison. The fingerprint is not unique — that risk is handled in 14.2.3.</p>
+
+    <div class="ch14-hashflow" data-reveal aria-label="A string is reduced to a single integer">
+      <span class="ch14-hashflow__str">A B A C B</span>
+      <span class="ch14-hashflow__arrow" aria-hidden="true">→</span>
+      <span class="ch14-hashflow__box"><b>40</b><span>hash value</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.2.1 ============ -->
+<section class="section section--sub" id="s1421" aria-labelledby="h1421">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h1421">Polynomial Hashing</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch14-split-hash">
+      <div data-reveal>
+        <p>The usual implementation is <em>polynomial hashing</em>. Interpret the characters as codes and evaluate a polynomial in a constant <i>A</i>, then take the result modulo a constant <i>B</i>:</p>
+        <div class="ch14-formula">
+          <p><i>hash</i>(<i>s</i>) = (<i>s</i>[0]<i>A</i><sup><i>n</i>−1</sup> + <i>s</i>[1]<i>A</i><sup><i>n</i>−2</sup> + ⋯ + <i>s</i>[<i>n</i>−1]<i>A</i><sup>0</sup>) mod <i>B</i></p>
+        </div>
+        <p>For <b>ABACB</b> the codes are <b>A</b> = 65, <b>B</b> = 66, <b>C</b> = 67. With <i>A</i> = 3 and <i>B</i> = 97 the polynomial is 7897, which leaves the hash value <b>40</b>.</p>
+      </div>
+
+      <div class="ch14-hashbuild" data-reveal style="--d:.08s">
+        <span class="kicker">The polynomial, term by term</span>
+        <div class="ch14-hashbuild__row"><span>65 · 3<sup>4</sup></span><b>5265</b></div>
+        <div class="ch14-hashbuild__row"><span>66 · 3<sup>3</sup></span><b>1782</b></div>
+        <div class="ch14-hashbuild__row"><span>65 · 3<sup>2</sup></span><b>585</b></div>
+        <div class="ch14-hashbuild__row"><span>66 · 3<sup>1</sup></span><b>198</b></div>
+        <div class="ch14-hashbuild__row"><span>67 · 3<sup>0</sup></span><b>67</b></div>
+        <div class="ch14-hashbuild__total"><span>7897 mod 97</span><b>40</b></div>
+      </div>
+    </div>
+
+    <p class="lead ch14-hash-lead" data-reveal>With two arrays built in <i>O</i>(<i>n</i>) time, the hash of <em>any</em> substring becomes an <i>O</i>(1) lookup. <i>h</i>[<i>k</i>] is the hash of the prefix ending at <i>k</i>, and <i>p</i>[<i>k</i>] is <i>A</i><sup><i>k</i></sup> mod <i>B</i>.</p>
+
+    <div class="ch14-hashlab" id="hashLab" data-reveal>
+      <div class="ch14-lab__head">
+        <div>
+          <span class="kicker">Rolling hash</span>
+          <h3>Slide a window, read a hash</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Window length">
+          <button class="seg__btn" data-k="2" aria-pressed="false">k = 2</button>
+          <button class="seg__btn is-active" data-k="3" aria-pressed="true">k = 3</button>
+          <button class="seg__btn" data-k="4" aria-pressed="false">k = 4</button>
+        </div>
+      </div>
+
+      <div class="ch14-hashlab__string" id="hashString" aria-label="The string ABACBAB, with the current window highlighted"></div>
+
+      <div class="ch14-hashlab__readout">
+        <div class="ch14-hashlab__window">
+          <span class="kicker">Window <i>s</i>[<i>a</i>…<i>b</i>]</span>
+          <strong id="hashWindow">BAC</strong>
+        </div>
+        <div class="ch14-hashlab__value">
+          <span class="kicker">Hash value</span>
+          <strong id="hashValue">80</strong>
+        </div>
+        <label class="ch14-hashlab__slider" for="hashStart">
+          <span class="kicker">Start <i>a</i> = <b id="hashStartVal">1</b></span>
+          <input id="hashStart" type="range" min="0" max="4" value="1" step="1" aria-label="Window start position">
+        </label>
+      </div>
+
+      <div class="ch14-hashlab__arrays" id="hashArrays" aria-label="Prefix hashes and powers"></div>
+
+      <div class="ch14-hashlab__formula" id="hashFormula"></div>
+      <p class="ch14-hashlab__note" id="hashNote"></p>
+    </div>
+
+    <div class="ch14-code-note" data-reveal>
+      <p>Two arrays, one subtraction. The code below builds the pair and answers substring hashes in constant time.</p>
+      <div class="code-card" data-code-card>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.2.2 ============ -->
+<section class="section section--sub" id="s1422" aria-labelledby="h1422">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h1422">Applications</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Because hashing compares any two substrings in <i>O</i>(1), a brute-force algorithm often becomes efficient after replacing its inner comparison. Three examples show the pattern.</p>
+
+    <div class="ch14-apps">
+      <article class="ch14-app" data-reveal>
+        <span class="kicker">01 · Pattern matching</span>
+        <h3>Find every occurrence</h3>
+        <div class="ch14-strip" id="matchStrip" aria-label="The pattern ABC occurs at positions 0 and 5 in ABCABABCA"></div>
+        <p>Compare the pattern's hash with the hash of every length-3 window. Two equal hashes mean two candidate matches — here at positions <b>0</b> and <b>5</b>.</p>
+        <p class="ch14-app__cost">Brute force <i>O</i>(<i>n</i><sup>2</sup>) → hashing <i>O</i>(<i>n</i>)</p>
+      </article>
+
+      <article class="ch14-app" data-reveal style="--d:.08s">
+        <span class="kicker">02 · Distinct substrings</span>
+        <h3>Count what repeats</h3>
+        <div class="ch14-distinct" id="distinctBox" aria-label="Four windows of length three reduce to two distinct values"></div>
+        <p><b>ABABAB</b> has four windows of length 3: ABA, BAB, ABA, BAB. Hash each one and count distinct integers — <b>2</b> remain. Sorting <i>n</i> hashes costs <i>O</i>(<i>n</i> log <i>n</i>).</p>
+        <p class="ch14-app__cost"><i>O</i>(<i>n</i> log <i>n</i>) after <i>O</i>(<i>n</i>) preprocessing</p>
+      </article>
+
+      <article class="ch14-app" data-reveal style="--d:.16s">
+        <span class="kicker">03 · Minimal rotation</span>
+        <h3>Start at the best place</h3>
+        <div class="ch14-rotations" id="rotationList" aria-label="The five rotations of ATLAS; ASATL is lexicographically smallest"></div>
+        <p>Hash plus binary search finds the length of the common prefix of two rotations, so two rotations can be ordered in <i>O</i>(log <i>n</i>). Scan <b>ATLASATLAS</b> and keep the smallest window of length <i>n</i>.</p>
+        <p class="ch14-app__cost"><i>O</i>(<i>n</i> log <i>n</i>) overall</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.2.3 ============ -->
+<section class="section section--sub" id="s1423" aria-labelledby="h1423">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.2.3</span>
+      <div class="section-head__body">
+        <h2 id="h1423">Collisions and Parameters</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch14-split-coll">
+      <div data-reveal>
+        <p>A <em>collision</em> means two different strings share a hash value. It is always possible, because there are more strings than hash values. Whether it matters depends on how many comparisons are made.</p>
+        <div class="ch14-scenarios">
+          <div class="ch14-scenario"><span class="ch14-scenario__num">1</span><p><i>x</i> is compared with <i>y</i>. Collision probability <b>1/<i>B</i></b>.</p></div>
+          <div class="ch14-scenario"><span class="ch14-scenario__num">2</span><p><i>x</i> is compared with <i>y</i><sub>1</sub>…<i>y</i><sub><i>n</i></sub>. One or more collisions: <b>1 − (1 − 1/<i>B</i>)<sup><i>n</i></sup></b>.</p></div>
+          <div class="ch14-scenario"><span class="ch14-scenario__num">3</span><p>All pairs among <i>n</i> strings are compared. This is the birthday paradox, and it is where <i>B</i> ≈ 10<sup>9</sup> stops being enough.</p></div>
+        </div>
+        <div class="ch14-constants">
+          <span class="kicker">Random constants near 10<sup>9</sup></span>
+          <div class="ch14-constants__row"><span><i>A</i></span><b>911382323</b></div>
+          <div class="ch14-constants__row"><span><i>B</i></span><b>972663749</b></div>
+          <p>Products <i>A</i><i>B</i> and <i>B</i><i>B</i> still fit in <code>long long</code>.</p>
+        </div>
+      </div>
+
+      <div class="ch14-coll" id="collLab" data-reveal style="--d:.08s">
+        <div class="ch14-coll__head">
+          <span class="kicker">Table 14.1 · <i>n</i> = 10<sup>6</sup></span>
+          <div class="seg" role="group" aria-label="Hashing scenario">
+            <button class="seg__btn" data-scenario="1" aria-pressed="false">1</button>
+            <button class="seg__btn" data-scenario="2" aria-pressed="false">2</button>
+            <button class="seg__btn is-active" data-scenario="3" aria-pressed="true">3</button>
+          </div>
+        </div>
+        <div class="ch14-coll__chart" id="collChart" aria-label="Collision probability for six values of B"></div>
+        <p class="ch14-coll__note" id="collNote">Every pair among a million strings: with <i>B</i> ≈ 10<sup>9</sup> a collision is certain. This is the birthday paradox — and the reason to use two hashes.</p>
+      </div>
+    </div>
+
+    <div class="ch14-coll-notes">
+      <details class="note ch14-note" data-reveal>
+        <summary><span class="note__label">Making collisions negligible</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+        <div class="note__body">
+          <p>Two hash values with different parameters behave like one hash with <i>B</i> ≈ 10<sup>18</sup>, which makes an accidental collision very unlikely. Some people choose <i>B</i> = 2<sup>32</sup> or 2<sup>64</sup> because overflow does the modulo for free, but inputs that force collisions for powers of two can be constructed — avoid them.</p>
+        </div>
+      </details>
+      <p class="ch14-coll-verdict" data-reveal>The table is the whole argument: <b>one</b> comparison is cheap to protect, <b>all pairs</b> are not. Choose the tool by the number of comparisons, not by habit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.3 ============ -->
+<section class="section" id="s143" aria-labelledby="h143">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">14.3</span>
+      <div class="section-head__body">
+        <h2 id="h143">Z-Algorithm</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>The Z-array records, at every position, how much of the string's own beginning repeats there.</p>
+
+    <p class="lead" data-reveal>For each <i>k</i>, <i>z</i>[<i>k</i>] is the length of the longest substring starting at <i>k</i> that is also a prefix of <i>s</i>. So <i>z</i>[<i>k</i>] = <i>p</i> means <i>s</i>[0…<i>p</i>−1] = <i>s</i>[<i>k</i>…<i>k</i>+<i>p</i>−1], and the next characters differ (or the string ends).</p>
+
+    <figure class="figure ch14-zfig" data-reveal>
+      <div class="figure__frame">
+        <div class="ch14-zfig__scroll">
+          <div class="ch14-zfig__inner" id="zFigure"></div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The Z-array of <b>ABCABCABAB</b>. At position 3 the substring <b>ABCAB</b> matches the prefix, so <i>z</i>[3] = 5; the next characters <b>A</b> and <b>C</b> stop it.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 14.3.1 ============ -->
+<section class="section section--sub" id="s1431" aria-labelledby="h1431">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.3.1</span>
+      <div class="section-head__body">
+        <h2 id="h1431">Constructing the Z-Array</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch14-split-z">
+      <div data-reveal>
+        <p>The Z-algorithm fills the array left to right in <i>O</i>(<i>n</i>). It keeps one range [<i>x</i>, <i>y</i>] such that <i>s</i>[<i>x</i>…<i>y</i>] is a prefix of <i>s</i>, <i>z</i>[<i>x</i>] is known, and <i>y</i> is as large as possible. Inside that box, characters can be copied instead of compared.</p>
+        <ol class="ch14-scenarios ch14-scenarios--z">
+          <li class="ch14-scenario"><span class="ch14-scenario__num">1</span><p><b><i>y</i> &lt; <i>k</i>.</b> No box covers <i>k</i>. Compare from scratch, character by character.</p></li>
+          <li class="ch14-scenario"><span class="ch14-scenario__num">2</span><p><b><i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] ≤ <i>y</i>.</b> The match stays inside the box, so <i>z</i>[<i>k</i>] = <i>z</i>[<i>k</i>−<i>x</i>]. No comparisons.</p></li>
+          <li class="ch14-scenario"><span class="ch14-scenario__num">3</span><p><b><i>k</i> + <i>z</i>[<i>k</i>−<i>x</i>] &gt; <i>y</i>.</b> The match reaches past the box. Start at <i>y</i>−<i>k</i>+1 and continue comparing.</p></li>
+        </ol>
+        <p class="ch14-z-total">Every successful comparison moves <i>y</i> one step right, so the total number of comparisons is <i>O</i>(<i>n</i>).</p>
+      </div>
+
+      <div class="ch14-zlab" id="zLab" data-reveal style="--d:.08s">
+        <div class="ch14-lab__head">
+          <div>
+            <span class="kicker">Trace the Z-box</span>
+            <h3 id="zTitle">Position 0</h3>
+          </div>
+          <div class="ch14-zlab__actions">
+            <button class="btn btn--icon" id="zPrev" aria-label="Previous step"><svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="zNext" aria-label="Next step"><svg class="icon"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--icon" id="zReset" aria-label="Reset"><svg class="icon"><use href="#i-reset"/></svg></button>
+          </div>
+        </div>
+
+        <div class="ch14-zlab__stage">
+          <svg class="ch14-zsvg" id="zSvg" viewBox="0 0 860 300" role="img" aria-label="The Z-box and the current comparison"></svg>
+        </div>
+
+        <div class="ch14-zlab__readout">
+          <span class="ch14-zlab__badge" id="zBadge">start</span>
+          <p id="zNote">Press next to compute <i>z</i>[1]. The box is empty, so the first step compares from scratch.</p>
+        </div>
+        <div class="ch14-zlab__stats">
+          <div><span class="kicker"><i>k</i></span><b id="zK">–</b></div>
+          <div><span class="kicker"><i>z</i>[<i>k</i>]</span><b id="zVal">–</b></div>
+          <div><span class="kicker">[<i>x</i>, <i>y</i>]</span><b id="zBox">–</b></div>
+          <div><span class="kicker">step</span><b id="zStep">0 / 9</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch14-code-note" data-reveal>
+      <p>The whole algorithm is one loop and one box. Scenario 2 copies a value; the other two extend the box.</p>
+      <div class="code-card" data-code-card>
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+              <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.3.2 ============ -->
+<section class="section section--sub" id="s1432" aria-labelledby="h1432">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.3.2</span>
+      <div class="section-head__body">
+        <h2 id="h1432">Applications</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The Z-array solves the same problems as hashing, but it is exact: there is no collision, no random constant, and no probability to argue about.</p>
+
+    <div class="split2 ch14-split-zapps">
+      <figure class="figure ch14-zapp" data-reveal>
+        <div class="figure__frame">
+          <span class="kicker">Pattern matching · p#s</span>
+          <div class="ch14-pmatch" id="pmatch" aria-label="The Z-array of ABC#ABCABABCA"></div>
+          <div class="ch14-pmatch__legend">
+            <span><i class="ch14-dot ch14-dot--on"></i><i>z</i> = 3 · match</span>
+            <span><i class="ch14-dot"></i>other positions</span>
+          </div>
+        </div>
+        <figcaption class="figure__cap">Build <b>ABC#ABCABABCA</b> with a separator that occurs in neither string. Every <i>z</i> value equal to the pattern length is an occurrence. Positions 4 and 9 give 3, so <b>ABC</b> starts at 0 and 5 in the original string.</figcaption>
+      </figure>
+
+      <figure class="figure ch14-zapp" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <span class="kicker">Borders</span>
+          <div class="ch14-borders-wrap" id="borders" aria-label="The borders of ABACABACABA"></div>
+        </div>
+        <figcaption class="figure__cap">A border is both a prefix and a suffix, but not the whole string. <b>ABACABACABA</b> has three: <b>A</b>, <b>ABA</b>, and <b>ABACABA</b>. A suffix at <i>k</i> is a border exactly when <i>k</i> + <i>z</i>[<i>k</i>] = <i>n</i>.</figcaption>
+      </figure>
+    </div>
+
+    <p class="ch14-aside" data-reveal>Hashing and the Z-algorithm are interchangeable for many tasks. Hashing compares any two substrings in <i>O</i>(1); the Z-algorithm reads one string once and never guesses.</p>
+  </div>
+</section>
+
+<!-- ============ 14.4 ============ -->
+<section class="section" id="s144" aria-labelledby="h144">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">14.4</span>
+      <div class="section-head__body">
+        <h2 id="h144">Suffix Arrays</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>The suffix array is the string's table of contents: every suffix, listed in lexicographic order.</p>
+
+    <p class="lead" data-reveal>The suffix array of a string only stores starting positions. For <b>ABAACBAB</b> it is <b>[2, 6, 0, 3, 7, 1, 5, 4]</b>: the smallest suffix starts at 2, the next at 6, and the largest at 4.</p>
+
+    <div class="split2 ch14-split-sa">
+      <figure class="figure ch14-sa-fig" data-reveal>
+        <div class="figure__frame">
+          <div class="ch14-sa-table" aria-label="The suffix array of ABAACBAB with the corresponding suffixes">
+            <div class="ch14-sa-table__head"><span><i>i</i></span><span><i>sa</i>[<i>i</i>]</span><span>suffix</span></div>
+            <div id="saTable"></div>
+          </div>
+        </div>
+        <figcaption class="figure__cap">The array itself is only the middle column. The suffixes are shown for orientation; they are not stored.</figcaption>
+      </figure>
+
+      <div data-reveal style="--d:.08s">
+        <p>Sorting the suffixes of an <i>n</i>-character string by comparing them directly takes <i>O</i>(<i>n</i><sup>2</sup> log <i>n</i>) in the worst case, since each comparison can scan <i>O</i>(<i>n</i>) characters. Prefix doubling reduces that to <i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>) — or <i>O</i>(<i>n</i> log <i>n</i>) with a linear-time sort of the labels.</p>
+        <p>Unlike hashing and the Z-algorithm, a suffix array is built once and then answers queries for <em>different</em> patterns. The patterns do not need to be known in advance.</p>
+        <div class="ch14-sa-facts">
+          <div><span class="kicker">Build</span><b><i>O</i>(<i>n</i> log<sup>2</sup> <i>n</i>)</b></div>
+          <div><span class="kicker">Search</span><b><i>O</i>(<i>k</i> log <i>n</i>)</b></div>
+          <div><span class="kicker">Queries</span><b>many patterns</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14.4.1 ============ -->
+<section class="section section--sub" id="s1441" aria-labelledby="h1441">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.4.1</span>
+      <div class="section-head__body">
+        <h2 id="h1441">Prefix Doubling Method</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Prefix doubling sorts substrings of length 1, then 2, then 4, and so on. Each round labels every substring with an integer that preserves both equality and order, so the next round can compare pairs of labels instead of characters.</p>
+
+    <div class="ch14-sa-builder" id="saBuilder" data-reveal>
+      <div class="ch14-lab__head">
+        <div>
+          <span class="kicker">Build the labels</span>
+          <h3 id="saRoundTitle">Round 0 · length 1</h3>
+        </div>
+        <div class="ch14-sa__rounds" role="group" aria-label="Choose a round">
+          <button class="ch14-round is-active" data-round="0" aria-pressed="true">0</button>
+          <button class="ch14-round" data-round="1" aria-pressed="false">1</button>
+          <button class="ch14-round" data-round="2" aria-pressed="false">2</button>
+          <button class="ch14-round" data-round="3" aria-pressed="false">3</button>
+        </div>
+      </div>
+
+      <div class="ch14-sa__legend">
+        <span>position</span><span>suffix</span><span>pair</span><span>label</span>
+      </div>
+
+      <div class="ch14-sa__list" id="saList" role="list" aria-label="Suffixes ordered by their current labels"></div>
+
+      <div class="ch14-sa__readout">
+        <p id="saNote">Round 0 labels single characters: A = 1, B = 2, C = 3. Ties are still unresolved.</p>
+        <span class="ch14-sa__order" id="saOrder">order: 0 2 3 6 1 5 7 4</span>
+      </div>
+    </div>
+
+    <div class="ch14-sa-explain" data-reveal>
+      <div>
+        <span class="kicker">How a pair becomes a label</span>
+        <p>On round <i>i</i>, a substring of length 2<sup><i>i</i></sup> is split into two halves of length 2<sup><i>i</i>−1</sup>. Its <em>initial label</em> is the pair of the halves' labels; a missing second half has label 0. All initial labels are then sorted and replaced by consecutive integers 1, 2, 3, …</p>
+      </div>
+      <div class="ch14-sa-example">
+        <span class="kicker">Round 2 · ABAA</span>
+        <div class="ch14-sa-example__pairs"><span>AB</span><b>2</b><span>AA</span><b>1</b></div>
+        <p>Initial label <b>(2, 1)</b>. Two labels are smaller — (1, 6) and (2, 0) — so the final label is <b>3</b>.</p>
+      </div>
+    </div>
+
+    <p class="ch14-aside" data-reveal>After round 2 this string's labels are already unique, because the first four characters decide the order of every suffix. The final labels read in position order are <b>3 6 1 4 8 7 2 5</b> — which is exactly the inverse of the suffix array.</p>
+  </div>
+</section>
+
+<!-- ============ 14.4.2 ============ -->
+<section class="section section--sub" id="s1442" aria-labelledby="h1442">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.4.2</span>
+      <div class="section-head__body">
+        <h2 id="h1442">Finding Patterns</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A sorted list can be searched by halving. Process the pattern one character at a time and keep the range of suffixes that begin with the prefix read so far; each character narrows the range with two binary searches.</p>
+
+    <div class="ch14-search" id="saSearch" data-reveal>
+      <div class="ch14-lab__head">
+        <div>
+          <span class="kicker">Search <b>BA</b> in ABAACBAB</span>
+          <h3 id="saSearchTitle">Range [0, 7] · the whole array</h3>
+        </div>
+        <div class="ch14-search__actions">
+          <button class="btn" id="saSearchStep">Next character <svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--icon" id="saSearchReset" aria-label="Reset search"><svg class="icon"><use href="#i-reset"/></svg></button>
+        </div>
+      </div>
+      <div class="ch14-search__grid" id="saSearchGrid" aria-live="polite"></div>
+      <p class="ch14-search__note" id="saSearchNote">Every suffix is a candidate. Read the first character of the pattern.</p>
+      <div class="ch14-search__result" id="saSearchResult"></div>
+    </div>
+
+    <p class="ch14-aside" data-reveal>The two occurrences start at positions <b>1</b> and <b>5</b>. The search took <i>O</i>(<i>k</i> log <i>n</i>) time: one narrow range update per pattern character, and the suffix array never had to be rebuilt.</p>
+  </div>
+</section>
+
+<!-- ============ 14.4.3 ============ -->
+<section class="section section--sub" id="s1443" aria-labelledby="h1443">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">14.4.3</span>
+      <div class="section-head__body">
+        <h2 id="h1443">LCP Arrays</h2>
+      </div>
+    </div>
+
+    <div class="split2 ch14-split-lcp">
+      <div data-reveal>
+        <p>The LCP array gives, for each suffix, the length of the longest common prefix it shares with the <em>next</em> suffix in the suffix array. The last suffix has no LCP value.</p>
+        <p>Kasai's algorithm builds it in <i>O</i>(<i>n</i>). The key observation: if a suffix has LCP value <i>x</i>, removing its first character leaves a suffix whose LCP value is at least <i>x</i>−1. For example, <b>BAACBAB</b> has LCP 2, so <b>AACBAB</b> has LCP at least 1.</p>
+        <p>Then only <i>O</i>(<i>n</i>) character comparisons are needed in total, because the known lower bound is never re-checked.</p>
+      </div>
+
+      <figure class="figure ch14-lcp-fig" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <span class="kicker">LCP of ABAACBAB</span>
+          <div class="ch14-lcp" id="lcpList" aria-label="Suffixes with their LCP values"></div>
+          <div class="ch14-lcp__sum">
+            <span>sum of LCP</span><b>7</b>
+          </div>
+        </div>
+        <figcaption class="figure__cap">Read the bars between neighbouring suffixes. The one after <b>B</b> is 0: <b>B</b> and <b>BAACBAB</b> share nothing beyond the first character.</figcaption>
+      </figure>
+    </div>
+
+    <div class="ch14-distinct-calc" data-reveal>
+      <div class="ch14-distinct-calc__copy">
+        <span class="kicker">Counting distinct substrings</span>
+        <p>A string of length <i>n</i> has <i>n</i>(<i>n</i>+1)/2 substrings, but the LCP sum counts the ones that repeat at the start of a suffix. Subtract it:</p>
+      </div>
+      <div class="ch14-distinct-calc__math">
+        <span class="ch14-distinct-calc__frac"><i>n</i>(<i>n</i>+1)/2</span>
+        <span class="ch14-distinct-calc__op">−</span>
+        <span class="ch14-distinct-calc__frac"><i>c</i></span>
+        <span class="ch14-distinct-calc__op">=</span>
+        <span class="ch14-distinct-calc__frac">8 · 9 / 2 − 7</span>
+        <span class="ch14-distinct-calc__op">=</span>
+        <b class="ch14-distinct-calc__answer" id="distinctAnswer">29</b>
+      </div>
+      <p class="ch14-distinct-calc__note">ABAACBAB has 36 substrings in total, and the seven repeats counted by the LCP array leave <b>29</b> distinct ones.</p>
+    </div>
+
+    <p class="closing ch14-tight" data-reveal>The suffix array answers questions the other tools cannot: many patterns, asked later, over the same text. Hashing gives a fingerprint, the Z-algorithm gives a scan, and the suffix array gives an index — the structure a search engine keeps.</p>
+  </div>
+</section>

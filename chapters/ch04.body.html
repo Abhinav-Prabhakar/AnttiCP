@@ -1,0 +1,581 @@
+<!-- ============ hero ============ -->
+<section class="hero ch04-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 04</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Sorting and Searching</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Sorting and Searching</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">Sorting as a problem-solving tool, and binary search on arrays and answer ranges.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>3 sections</span><span>13 pages</span><span>≈ 34 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch04-hero-map" data-reveal style="--d:.2s" aria-label="An unsorted array becomes sorted, then a binary search narrows to one cell">
+      <svg viewBox="0 0 1200 232" role="img" aria-hidden="true">
+        <defs>
+          <pattern id="ch04HeroDots" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1.1" cy="1.1" r="1" fill="#e7e7e2"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="232" fill="url(#ch04HeroDots)"/>
+
+        <!-- input -->
+        <text class="ch04-hero-label" x="30" y="30">input</text>
+        <g class="ch04-hero-bars">
+          <rect x="30" y="108" width="18" height="52" rx="1"/>
+          <rect x="56" y="130" width="18" height="30" rx="1"/>
+          <rect x="82" y="84" width="18" height="76" rx="1"/>
+          <rect x="108" y="140" width="18" height="20" rx="1"/>
+          <rect x="134" y="96" width="18" height="64" rx="1"/>
+          <rect x="160" y="122" width="18" height="38" rx="1"/>
+          <rect x="186" y="72" width="18" height="88" rx="1"/>
+          <rect x="212" y="134" width="18" height="26" rx="1"/>
+          <rect x="238" y="102" width="18" height="58" rx="1"/>
+          <rect x="264" y="116" width="18" height="44" rx="1"/>
+          <rect x="290" y="90" width="18" height="70" rx="1"/>
+          <rect x="316" y="126" width="18" height="34" rx="1"/>
+        </g>
+        <text class="ch04-hero-cap" x="30" y="196">twelve values, no order</text>
+
+        <path class="ch04-hero-arrow" d="M372 122h42m-7-5 7 5-7 5"/>
+
+        <!-- sorted -->
+        <text class="ch04-hero-label" x="430" y="30">sorted</text>
+        <g class="ch04-hero-bars ch04-hero-bars--sorted">
+          <rect x="430" y="140" width="18" height="20" rx="1"/>
+          <rect x="456" y="134" width="18" height="26" rx="1"/>
+          <rect x="482" y="130" width="18" height="30" rx="1"/>
+          <rect x="508" y="126" width="18" height="34" rx="1"/>
+          <rect x="534" y="122" width="18" height="38" rx="1"/>
+          <rect x="560" y="116" width="18" height="44" rx="1"/>
+          <rect x="586" y="108" width="18" height="52" rx="1"/>
+          <rect x="612" y="102" width="18" height="58" rx="1"/>
+          <rect x="638" y="96" width="18" height="64" rx="1"/>
+          <rect x="664" y="90" width="18" height="70" rx="1"/>
+          <rect x="690" y="84" width="18" height="76" rx="1"/>
+          <rect x="716" y="72" width="18" height="88" rx="1"/>
+        </g>
+        <text class="ch04-hero-cap" x="430" y="196">the same values, ascending</text>
+
+        <path class="ch04-hero-arrow" d="M772 122h42m-7-5 7 5-7 5"/>
+
+        <!-- search -->
+        <text class="ch04-hero-label" x="820" y="30">search</text>
+        <g class="ch04-hero-cells">
+          <rect x="820" y="122" width="18" height="32" rx="1"/>
+          <rect x="842" y="122" width="18" height="32" rx="1"/>
+          <rect x="864" y="122" width="18" height="32" rx="1"/>
+          <rect x="886" y="122" width="18" height="32" rx="1"/>
+          <rect x="908" y="122" width="18" height="32" rx="1"/>
+          <rect x="930" y="122" width="18" height="32" rx="1"/>
+          <rect x="952" y="122" width="18" height="32" rx="1"/>
+          <rect x="974" y="122" width="18" height="32" rx="1"/>
+          <rect x="996" y="122" width="18" height="32" rx="1"/>
+          <rect x="1018" y="122" width="18" height="32" rx="1"/>
+          <rect x="1040" y="122" width="18" height="32" rx="1"/>
+          <rect x="1062" y="122" width="18" height="32" rx="1"/>
+          <rect x="1084" y="122" width="18" height="32" rx="1"/>
+          <rect class="is-target" x="1106" y="122" width="18" height="32" rx="1"/>
+          <rect x="1128" y="122" width="18" height="32" rx="1"/>
+          <rect x="1150" y="122" width="18" height="32" rx="1"/>
+        </g>
+        <g class="ch04-hero-brackets">
+          <path d="M820 116V108H1168V116"/>
+          <path d="M996 96V88H1168V96"/>
+          <path d="M1084 76V68H1168V76"/>
+          <path d="M1106 56V48H1124V56"/>
+        </g>
+        <text class="ch04-hero-count" x="1174" y="111">16</text>
+        <text class="ch04-hero-count" x="1174" y="91">8</text>
+        <text class="ch04-hero-count" x="1174" y="71">4</text>
+        <text class="ch04-hero-count" x="1130" y="51">1</text>
+        <line class="ch04-hero-beam" x1="1115" y1="44" x2="1115" y2="154"/>
+        <circle class="ch04-hero-target-dot" cx="1115" cy="44" r="2.4"/>
+        <text class="ch04-hero-cap" x="820" y="196">three probes, one cell</text>
+      </svg>
+      <div class="ch04-hero-mobile" aria-hidden="true">
+        <div class="ch04-hm-row">
+          <span class="ch04-hm-label">input</span>
+          <span class="ch04-hm-bars"><i style="--h:58%"></i><i style="--h:34%"></i><i style="--h:82%"></i><i style="--h:24%"></i><i style="--h:69%"></i><i style="--h:42%"></i><i style="--h:94%"></i><i style="--h:29%"></i><i style="--h:63%"></i><i style="--h:48%"></i></span>
+        </div>
+        <div class="ch04-hm-row">
+          <span class="ch04-hm-label">sorted</span>
+          <span class="ch04-hm-bars"><i style="--h:24%"></i><i style="--h:29%"></i><i style="--h:34%"></i><i style="--h:42%"></i><i style="--h:48%"></i><i style="--h:58%"></i><i style="--h:63%"></i><i style="--h:69%"></i><i style="--h:82%"></i><i style="--h:94%"></i></span>
+        </div>
+        <div class="ch04-hm-row">
+          <span class="ch04-hm-label">search</span>
+          <span class="ch04-hm-cells"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="is-target"></i><i></i><i></i></span>
+        </div>
+      </div>
+      <figcaption><span class="hero-map__hint">Order makes the search cheap: every comparison throws away half of what remains.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s41">
+          <span class="idx__num">4.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Sorting Algorithms</span>
+            <span class="idx__desc">Bubble sort, merge sort, the comparison lower bound, counting sort, and the library sort.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s42">
+          <span class="idx__num">4.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Solving Problems by Sorting</span>
+            <span class="idx__desc">Sweep lines, greedy scheduling, and tasks with deadlines.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s43">
+          <span class="idx__num">4.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Binary Search</span>
+            <span class="idx__desc">The classic search, the jump method, and searching an answer space.</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4.1 ============ -->
+<section class="section" id="s41" aria-labelledby="h41">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">4.1</span>
+      <div class="section-head__body">
+        <h2 id="h41">Sorting Algorithms</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Sorting is not the goal. It is the move that makes every later step cheap.</p>
+
+    <div class="split2 ch04-intro">
+      <div>
+        <p class="lead" data-reveal>Given an array of <i>n</i> elements, the sorting problem asks for the same elements in increasing order. An <i>O</i>(<i>n</i><sup>2</sup>) algorithm is easy to design. The interesting part is doing better.</p>
+        <p data-reveal>This section follows the book through a simple quadratic sort, an efficient recursive sort, the proof that comparison sorting cannot beat <i>O</i>(<i>n</i> log <i>n</i>), and a linear-time sort that avoids comparisons altogether. It ends where most contests begin: with the standard library.</p>
+      </div>
+      <div class="ch04-facts" data-reveal>
+        <div class="statline">
+          <div><span class="statline__value"><i>O</i>(<i>n</i><sup>2</sup>)</span><span class="statline__label">bubble sort</span></div>
+          <div><span class="statline__value"><i>O</i>(<i>n</i> log <i>n</i>)</span><span class="statline__label">merge sort</span></div>
+          <div><span class="statline__value"><i>O</i>(<i>n</i>)</span><span class="statline__label">counting sort</span></div>
+        </div>
+        <p class="ch04-aside">The third bound needs a condition: the values are integers in <span class="ch04-mono">0 … c</span> with <i>c</i> = <i>O</i>(<i>n</i>).</p>
+      </div>
+    </div>
+
+    <h3 class="ch04-h3" data-reveal>Bubble sort, and what an inversion costs</h3>
+    <p data-reveal>Bubble sort makes <i>n</i> rounds over the array. On each round it compares consecutive elements and swaps them when they are in the wrong order. After the first round the largest element is in its final place; after <i>k</i> rounds the <i>k</i> largest are. The whole array is sorted after <i>n</i> rounds, at a cost of <i>O</i>(<i>n</i><sup>2</sup>) time.</p>
+    <p data-reveal>An <em>inversion</em> is a pair of indices <i>a</i> &lt; <i>b</i> with <span class="ch04-mono">array[<i>a</i>] &gt; array[<i>b</i>]</span>. A sorted array has none; a reversed array has <i>n</i>(<i>n</i> − 1)/2, the maximum possible. Swapping two consecutive elements that are out of order removes exactly one inversion. So an algorithm that only swaps neighbours needs at least a quadratic number of swaps in the worst case.</p>
+
+    <h3 class="ch04-h3" data-reveal>Merge sort: divide, then merge</h3>
+    <p data-reveal>To beat quadratic time, a sort has to move elements across different parts of the array. Merge sort does exactly that. It splits the array in half, sorts each half recursively, and merges the two sorted halves in linear time. There are log <i>n</i> levels of splitting, and each level does <i>O</i>(<i>n</i>) work in total, which gives <i>O</i>(<i>n</i> log <i>n</i>).</p>
+
+    <figure class="figure ch04-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-merge" aria-label="Merge sort on eight values">
+          <div class="ch04-merge-row" style="--d:0ms">
+            <span class="ch04-merge-stage">input</span>
+            <div class="ch04-merge-cells">
+              <span>5</span><span>2</span><span>8</span><span>1</span><span class="ch04-merge-gap">9</span><span>3</span><span>7</span><span>4</span>
+            </div>
+          </div>
+          <div class="ch04-merge-row" style="--d:80ms">
+            <span class="ch04-merge-stage">pairs</span>
+            <div class="ch04-merge-cells">
+              <span>2</span><span>5</span><span class="ch04-merge-gap">1</span><span>8</span><span class="ch04-merge-gap">3</span><span>9</span><span class="ch04-merge-gap">4</span><span>7</span>
+            </div>
+          </div>
+          <div class="ch04-merge-row" style="--d:160ms">
+            <span class="ch04-merge-stage">fours</span>
+            <div class="ch04-merge-cells">
+              <span>1</span><span>2</span><span>5</span><span>8</span><span class="ch04-merge-gap">3</span><span>4</span><span>7</span><span>9</span>
+            </div>
+          </div>
+          <div class="ch04-merge-row ch04-merge-row--done" style="--d:240ms">
+            <span class="ch04-merge-stage">sorted</span>
+            <div class="ch04-merge-cells">
+              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>7</span><span>8</span><span>9</span>
+            </div>
+          </div>
+        </div>
+        <div class="ch04-merge-foot">
+          <span class="kicker">Three levels</span>
+          <span class="ch04-merge-eq"><i>O</i>(<i>n</i>) work × log <i>n</i> levels = <i>O</i>(<i>n</i> log <i>n</i>)</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Splitting is free in terms of comparisons; the merge does the work. Adjacent pairs, then groups of four, then the whole array.</figcaption>
+    </figure>
+
+    <div class="split2 ch04-lower-split">
+      <div>
+        <h3 class="ch04-h3" data-reveal>The comparison lower bound</h3>
+        <p data-reveal>Can a comparison sort be faster than <i>O</i>(<i>n</i> log <i>n</i>)? If the algorithm only learns about the array by asking “is <i>x</i> &lt; <i>y</i>?”, then each answer is one branch of a decision tree. The leaves are the possible sorted orders, and there are <i>n</i>! of them.</p>
+        <p data-reveal>A binary tree with <i>n</i>! leaves has height at least log<sub>2</sub>(<i>n</i>!). Using the last <i>n</i>/2 terms of that sum gives</p>
+        <p class="ch04-formula" data-reveal>log<sub>2</sub>(<i>n</i>!) ≥ (<i>n</i>/2) log<sub>2</sub>(<i>n</i>/2) = Ω(<i>n</i> log <i>n</i>).</p>
+        <p data-reveal>So no comparison sort can guarantee a better worst-case bound. The proof does not apply to algorithms that use the values themselves — which is the opening for counting sort.</p>
+      </div>
+      <figure class="figure ch04-tree-fig" data-reveal>
+        <div class="figure__frame">
+          <svg class="ch04-tree" viewBox="0 0 440 260" role="img" aria-label="A comparison decision tree with eight leaves">
+            <g class="ch04-tree-edges">
+              <path d="M220 38 120 102M220 38 320 102M120 102 62 180M120 102 178 180M320 102 262 180M320 102 378 180"/>
+            </g>
+            <g class="ch04-tree-node">
+              <rect x="164" y="22" width="112" height="30" rx="2"/><text x="220" y="41">x &lt; y ?</text>
+            </g>
+            <g class="ch04-tree-node ch04-tree-node--small">
+              <rect x="72" y="86" width="96" height="28" rx="2"/><text x="120" y="104">x &lt; y ?</text>
+              <rect x="272" y="86" width="96" height="28" rx="2"/><text x="320" y="104">x &lt; y ?</text>
+            </g>
+            <g class="ch04-tree-leaves">
+              <circle cx="62" cy="194" r="3.2"/><circle cx="112" cy="204" r="3.2"/><circle cx="162" cy="194" r="3.2"/><circle cx="192" cy="210" r="3.2"/>
+              <circle cx="248" cy="210" r="3.2"/><circle cx="278" cy="194" r="3.2"/><circle cx="328" cy="204" r="3.2"/><circle cx="378" cy="194" r="3.2"/>
+            </g>
+            <text class="ch04-tree-note" x="220" y="240">n! possible leaves</text>
+            <text class="ch04-tree-note ch04-tree-note--end" x="20" y="240">sorted orders</text>
+          </svg>
+        </div>
+        <figcaption class="figure__cap">Each comparison can at best double the number of distinguishable outcomes. A tree with <i>n</i>! leaves cannot be short.</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="ch04-h3" data-reveal>Counting sort: use the value as an index</h3>
+    <p data-reveal>Counting sort does not compare elements at all. If every value is an integer in <span class="ch04-mono">0 … c</span> and <i>c</i> = <i>O</i>(<i>n</i>), it builds a bookkeeping array: position <i>x</i> stores how many times <i>x</i> occurs. Building the counts takes one pass; writing the sorted array takes another. Total: <i>O</i>(<i>n</i>). The price is the condition on the value range.</p>
+
+    <figure class="figure ch04-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-count" aria-label="Counting sort with values one, three, two, three, one, three">
+          <div class="ch04-count-row">
+            <span class="ch04-count-label">array</span>
+            <div class="ch04-count-cells"><span>1</span><span>3</span><span>2</span><span>3</span><span>1</span><span>3</span></div>
+          </div>
+          <div class="ch04-count-arrow" aria-hidden="true"><span></span>count each value</div>
+          <div class="ch04-count-books">
+            <div class="ch04-count-col" tabindex="0" data-tip="Value 0 appears 0 times.">
+              <span class="ch04-count-index">0</span>
+              <span class="ch04-count-tally">0</span>
+              <span class="ch04-count-dots" aria-hidden="true"></span>
+            </div>
+            <div class="ch04-count-col" tabindex="0" data-tip="Value 1 appears 2 times.">
+              <span class="ch04-count-index">1</span>
+              <span class="ch04-count-tally">2</span>
+              <span class="ch04-count-dots" aria-hidden="true"><i></i><i></i></span>
+            </div>
+            <div class="ch04-count-col" tabindex="0" data-tip="Value 2 appears 1 time.">
+              <span class="ch04-count-index">2</span>
+              <span class="ch04-count-tally">1</span>
+              <span class="ch04-count-dots" aria-hidden="true"><i></i></span>
+            </div>
+            <div class="ch04-count-col" tabindex="0" data-tip="Value 3 appears 3 times.">
+              <span class="ch04-count-index">3</span>
+              <span class="ch04-count-tally">3</span>
+              <span class="ch04-count-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">The bookkeeping array is indexed by value. Reading it left to right yields <span class="ch04-mono">1 1 2 3 3 3</span> in <i>O</i>(<i>n</i>) time.</figcaption>
+    </figure>
+
+    <h3 class="ch04-h3" data-reveal>Sorting in practice</h3>
+    <p data-reveal>In a contest, write <span class="ch04-mono">sort</span>, not a home-made sort. The C++ standard library requires <span class="ch04-mono">sort</span> to run in <i>O</i>(<i>n</i> log <i>n</i>) time, and the implementation is correct and fast. It works on vectors, ordinary arrays, and even strings.</p>
+
+    <div class="ch04-snippet" data-reveal>
+      <div class="ch04-snippet-head">
+        <span class="kicker">C++ · the library</span>
+        <span class="ch04-snippet-file">sort.cpp</span>
+      </div>
+      <pre class="ch04-pre"><code>vector&lt;int&gt; v = {4,2,5,3,5,8,3};
+sort(v.begin(), v.end());          <span class="ch04-comment">// [2, 3, 3, 4, 5, 5, 8]</span>
+sort(v.rbegin(), v.rend());        <span class="ch04-comment">// reverse order</span>
+
+int a[] = {4,2,5,3,5,8,3};
+sort(a, a+n);
+
+string s = "monkey";
+sort(s.begin(), s.end());          <span class="ch04-comment">// "ekmnoy"</span></code></pre>
+    </div>
+
+    <details class="note ch04-note" data-reveal>
+      <summary><span class="note__label">How sort decides the order</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Most types already have a comparison. Numbers compare by value, strings alphabetically, pairs by their first element and then their second, and tuples lexicographically from the first component onward.</p>
+        <p>For a struct, define <span class="ch04-mono">operator&lt;</span>. For an external rule, pass a comparison function to <span class="ch04-mono">sort</span>. The function returns <span class="ch04-mono">true</span> when the first argument must come before the second.</p>
+        <pre class="ch04-jump"><code>struct point {
+    int x, y;
+    bool operator&lt;(const point &amp;p) {
+        if (x == p.x) return y &lt; p.y;
+        else return x &lt; p.x;
+    }
+};
+
+bool comp(string a, string b) {
+    if (a.size() == b.size()) return a &lt; b;
+    else return a.size() &lt; b.size();
+}
+sort(v.begin(), v.end(), comp);</code></pre>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 4.2 ============ -->
+<section class="section" id="s42" aria-labelledby="h42">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">4.2</span>
+      <div class="section-head__body">
+        <h2 id="h42">Solving Problems by Sorting</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A sorted order turns a global question into a local one.</p>
+
+    <p class="lead" data-reveal>Brute force often costs <i>O</i>(<i>n</i><sup>2</sup>) because it compares everything with everything. Sort first and many of those comparisons disappear: equal elements become neighbours, events acquire a timeline, and a greedy choice becomes provably safe.</p>
+
+    <div class="split2 ch04-unique">
+      <div data-reveal>
+        <h3 class="ch04-h3">Duplicates become neighbours</h3>
+        <p>To check whether every element is unique, compare all pairs — <i>O</i>(<i>n</i><sup>2</sup>). Or sort the array and inspect consecutive elements — <i>O</i>(<i>n</i> log <i>n</i>). The same idea counts distinct values, finds the most frequent value, and finds the closest pair by difference.</p>
+      </div>
+      <div class="ch04-unique-viz" data-reveal aria-label="Unsorted array with duplicates, then sorted with the duplicate pair adjacent">
+        <div class="ch04-unique-row">
+          <span class="ch04-unique-label">unsorted</span>
+          <span class="ch04-unique-cells"><i>5</i><i>2</i><i>7</i><i>2</i><i>9</i><i>4</i></span>
+        </div>
+        <div class="ch04-unique-row ch04-unique-row--sorted">
+          <span class="ch04-unique-label">sorted</span>
+          <span class="ch04-unique-cells"><i>2</i><i class="is-dupe">2</i><i>4</i><i>5</i><i>7</i><i>9</i></span>
+        </div>
+        <p class="ch04-unique-note">One adjacent pair is enough to answer the question.</p>
+      </div>
+    </div>
+
+    <h3 class="ch04-h3" data-reveal>Sweep line: give every change a time</h3>
+    <p data-reveal>A sweep line models a problem as events in sorted order. In the restaurant problem, each customer contributes two events: an arrival and a leaving. Sort the events by time, then walk through them with a counter. The largest counter value is the maximum number of customers present at once. Sorting costs <i>O</i>(<i>n</i> log <i>n</i>); the sweep itself is linear.</p>
+
+    <figure class="figure ch04-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-sweep" id="ch04Sweep">
+          <div class="ch04-sweep-head">
+            <div>
+              <span class="kicker">Restaurant · four customers</span>
+              <h3 class="ch04-subhead">Sweep the day</h3>
+            </div>
+            <div class="ch04-sweep-score">
+              <span class="ch04-sweep-count" id="ch04SweepCount">3</span>
+              <span class="ch04-sweep-count-label" id="ch04SweepCountLabel">inside at 4.5</span>
+            </div>
+          </div>
+          <div class="ch04-sweep-track" id="ch04SweepTrack" aria-label="Customer intervals across the day"></div>
+          <div class="ch04-sweep-axis" id="ch04SweepAxis" aria-hidden="true"></div>
+          <input class="ch04-range" id="ch04SweepRange" type="range" min="0" max="11" step="0.25" value="4.5" aria-label="Time of day">
+          <div class="ch04-sweep-events" id="ch04SweepEvents" aria-label="Events in time order"></div>
+          <p class="ch04-sweep-readout" id="ch04SweepReadout" role="status" aria-live="polite">At 4.5: A, B and C are inside. The maximum is 3.</p>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Drag the cursor. Bars are customers; the count changes only when an event passes. Keyboard arrows move the same cursor.</figcaption>
+    </figure>
+
+    <h3 class="ch04-h3" data-reveal>Scheduling: choose the event that ends first</h3>
+    <p data-reveal>Given <i>n</i> events with start and end times, choose as many non-overlapping events as possible. Sorting by length fails; sorting by start time fails too. Sorting by <em>ending time</em> works: always take the compatible event that finishes earliest. An exchange argument shows that choosing a later finish can never leave more room for the rest.</p>
+
+    <figure class="figure ch04-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-strategies">
+          <article class="ch04-strategy">
+            <span class="kicker">Sort by length</span>
+            <h4>Shortest first</h4>
+            <div class="ch04-strategy-track" aria-hidden="true">
+              <span class="ch04-strategy-bar is-option" style="--s:0%;--w:30%;--row:0"><i>long</i></span>
+              <span class="ch04-strategy-bar is-chosen" style="--s:20%;--w:20%;--row:1"><i>short</i></span>
+              <span class="ch04-strategy-bar is-option" style="--s:30%;--w:30%;--row:2"><i>long</i></span>
+            </div>
+            <p class="ch04-strategy-result"><strong>1</strong> event · not optimal</p>
+            <p class="ch04-strategy-why">The short event blocks both long ones.</p>
+          </article>
+          <article class="ch04-strategy">
+            <span class="kicker">Sort by start</span>
+            <h4>Earliest start</h4>
+            <div class="ch04-strategy-track" aria-hidden="true">
+              <span class="ch04-strategy-bar is-chosen" style="--s:0%;--w:100%;--row:0"><i>first</i></span>
+              <span class="ch04-strategy-bar is-option" style="--s:10%;--w:10%;--row:1"></span>
+              <span class="ch04-strategy-bar is-option" style="--s:20%;--w:20%;--row:2"></span>
+              <span class="ch04-strategy-bar is-option" style="--s:40%;--w:20%;--row:3"></span>
+            </div>
+            <p class="ch04-strategy-result"><strong>1</strong> event · not optimal</p>
+            <p class="ch04-strategy-why">The first event occupies the whole day.</p>
+          </article>
+          <article class="ch04-strategy ch04-strategy--best">
+            <span class="kicker">Sort by end</span>
+            <h4>Earliest finish</h4>
+            <div class="ch04-strategy-track" aria-hidden="true">
+              <span class="ch04-strategy-bar is-option" style="--s:0%;--w:30%;--row:0"></span>
+              <span class="ch04-strategy-bar is-chosen" style="--s:10%;--w:10%;--row:1"></span>
+              <span class="ch04-strategy-bar is-chosen" style="--s:20%;--w:30%;--row:2"></span>
+              <span class="ch04-strategy-bar is-option" style="--s:40%;--w:20%;--row:3"></span>
+              <span class="ch04-strategy-bar is-chosen" style="--s:50%;--w:20%;--row:4"></span>
+            </div>
+            <p class="ch04-strategy-result"><strong>3</strong> events · optimal</p>
+            <p class="ch04-strategy-why">Finishing early leaves the most room.</p>
+          </article>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Three greedy rules on three small instances. Only the last rule is safe for every input.</figcaption>
+    </figure>
+
+    <h3 class="ch04-h3" data-reveal>Tasks and deadlines: sort by duration</h3>
+    <p data-reveal>Each task has a duration and a deadline. Finishing a task at time <i>x</i> earns <i>d</i> − <i>x</i> points, where <i>d</i> is its deadline. Surprisingly, the deadlines do not affect the optimal order at all: perform the tasks in increasing order of duration.</p>
+
+    <div class="ch04-tasks" data-reveal>
+      <div class="ch04-task-table-wrap">
+        <table class="ch04-table">
+          <thead><tr><th>task</th><th>duration</th><th>deadline</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>4</td><td>2</td></tr>
+            <tr><td>B</td><td>3</td><td>10</td></tr>
+            <tr><td>C</td><td>2</td><td>8</td></tr>
+            <tr><td>D</td><td>4</td><td>15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ch04-task-schedule">
+        <div class="ch04-task-head">
+          <span class="kicker">An optimal schedule</span>
+          <span class="ch04-task-total">total <strong>6</strong></span>
+        </div>
+        <div class="ch04-task-axis" aria-hidden="true"><span>0</span><span>2</span><span>5</span><span>9</span><span>13</span></div>
+        <div class="ch04-task-track">
+          <span class="ch04-task-block" style="--s:0%;--w:15.4%" tabindex="0" data-tip="C · finishes at 2 · earns 8 − 2 = 6 points">C <b>6</b></span>
+          <span class="ch04-task-block" style="--s:15.4%;--w:23.1%" tabindex="0" data-tip="B · finishes at 5 · earns 10 − 5 = 5 points">B <b>5</b></span>
+          <span class="ch04-task-block" style="--s:38.5%;--w:30.8%" tabindex="0" data-tip="A · finishes at 9 · earns 2 − 9 = −7 points">A <b>−7</b></span>
+          <span class="ch04-task-block" style="--s:69.3%;--w:30.7%" tabindex="0" data-tip="D · finishes at 13 · earns 15 − 13 = 2 points">D <b>2</b></span>
+        </div>
+        <p class="ch04-task-note">C, B, A, D. The late deadline of D cannot rescue the order if a shorter task waits behind a longer one.</p>
+      </div>
+    </div>
+
+    <details class="note ch04-note" data-reveal>
+      <summary><span class="note__label">Why swapping two tasks always helps</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Suppose task X of duration <i>a</i> runs before task Y of duration <i>b</i>, with <i>a</i> &gt; <i>b</i>. Swap them. The later task finishes <i>a</i> − <i>b</i> time units earlier, so it gains <i>a</i> − <i>b</i> points. The earlier task now finishes <i>a</i> − <i>b</i> units later, so it loses <i>a</i> − <i>b</i> points. Since <i>a</i> &gt; <i>b</i>, the gain is positive: the swap improves the total. Hence no optimal schedule puts a longer task before a shorter one.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 4.3 ============ -->
+<section class="section" id="s43" aria-labelledby="h43">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">4.3</span>
+      <div class="section-head__body">
+        <h2 id="h43">Binary Search</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>If the data is already ordered, a search should not look at all of it.</p>
+
+    <p class="lead" data-reveal>Binary search finds a value in a sorted array in <i>O</i>(log <i>n</i>) time. It maintains an active subarray and compares the target with the middle element; one comparison discards half of the remaining range. The same halving idea can search an entire space of possible answers.</p>
+
+    <h3 class="ch04-h3" data-reveal>The classic search</h3>
+    <p data-reveal>Keep indices <i>a</i> and <i>b</i> for the active range. At each step, inspect the middle index <i>k</i>. If the value is too small, the answer must be to the right; if it is too large, to the left. When <i>a</i> passes <i>b</i>, the range is empty.</p>
+
+    <figure class="figure ch04-figure ch04-bs-fig" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-bs" id="ch04BS">
+          <div class="ch04-bs-head">
+            <div>
+              <span class="kicker">Trace · 12 sorted values</span>
+              <h3 class="ch04-subhead">Halve the range</h3>
+            </div>
+            <div class="ch04-bs-targets" id="ch04BSTargets" role="group" aria-label="Target value">
+              <button class="ch04-bs-target" type="button" data-target="9">9</button>
+              <button class="ch04-bs-target" type="button" data-target="28">28</button>
+              <button class="ch04-bs-target is-active" type="button" data-target="44">44</button>
+              <button class="ch04-bs-target" type="button" data-target="50">50</button>
+            </div>
+          </div>
+          <div class="ch04-bs-array" id="ch04BSArray" role="list" aria-label="Sorted array: 2, 5, 9, 14, 18, 21, 25, 28, 32, 36, 44, 50"></div>
+          <div class="ch04-bs-controls">
+            <button class="btn" id="ch04BSStep" type="button"><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+            <button class="btn" id="ch04BSBack" type="button">Back</button>
+            <button class="btn btn--icon" id="ch04BSReset" type="button" aria-label="Reset the trace"><svg class="icon"><use href="#i-reset"/></svg></button>
+            <span class="ch04-bs-progress" id="ch04BSProgress">probe 1 / 3</span>
+          </div>
+          <p class="ch04-bs-message" id="ch04BSMessage" role="status" aria-live="polite">Comparing a[5] = 21 with 44: 21 &lt; 44, so search the right half.</p>
+          <ol class="ch04-bs-log" id="ch04BSLog" aria-label="Comparisons so far"></ol>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Step through the trace, or change the target. The dark cell is the middle; the shaded cells have already been eliminated.</figcaption>
+    </figure>
+
+    <h3 class="ch04-h3" data-reveal>Searching an answer space</h3>
+    <p data-reveal>Sometimes the array is not the point — the answer is. Suppose <span class="ch04-mono">valid(x)</span> is false for every <i>x</i> &lt; <i>k</i> and true for every <i>x</i> ≥ <i>k</i>. Then binary search can find <i>k</i> without scanning every candidate: search for the largest <i>x</i> with <span class="ch04-mono">valid(x)</span> false, and add one.</p>
+
+    <figure class="figure ch04-figure ch04-answer-fig" data-reveal>
+      <div class="figure__frame">
+        <div class="ch04-answer" id="ch04Answer">
+          <div class="ch04-answer-head">
+            <div>
+              <span class="kicker">A monotone predicate</span>
+              <h3 class="ch04-subhead">The answer is the first true</h3>
+            </div>
+            <span class="ch04-answer-boundary">k = 9</span>
+          </div>
+          <div class="ch04-answer-line" id="ch04AnswerLine" role="img" aria-label="Number line from zero to twelve: false up to eight, true from nine"></div>
+          <div class="ch04-answer-labels" aria-hidden="true"><span>false</span><span>true</span></div>
+          <div class="ch04-answer-probes" id="ch04AnswerProbes" role="group" aria-label="Test a value"></div>
+          <p class="ch04-answer-readout" id="ch04AnswerReadout" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Eight jobs, three machines with times 2, 3 and 7. The predicate flips once, at 9; binary search probes only a few values to find it.</figcaption>
+    </figure>
+
+    <p data-reveal>In the jobs example, machine <i>i</i> can process ⌊<i>x</i>/<i>p<sub>i</sub></i>⌋ jobs in <i>x</i> time. The predicate is true when the sum of those counts reaches <i>k</i>. Each check costs <i>O</i>(<i>n</i>); binary search makes <i>O</i>(log <i>z</i>) checks, where <i>z</i> is an upper bound for the answer. The total is <i>O</i>(<i>n</i> log <i>z</i>).</p>
+
+    <div class="code-card ch04-code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <details class="note ch04-note" data-reveal>
+      <summary><span class="note__label">The jump method</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>The book gives a second implementation. Start at index 0 with jump length <i>n</i>/2, halve the jump on every round, and jump forward while the landing value is at most the target. The while loop runs at most twice per jump length, so the method is also <i>O</i>(log <i>n</i>).</p>
+        <pre class="ch04-jump"><code>int k = 0;
+for (int b = n/2; b &gt;= 1; b /= 2) {
+    while (k+b &lt; n &amp;&amp; array[k+b] &lt;= x) k += b;
+}
+if (array[k] == x) {
+    // x found at index k
+}</code></pre>
+      </div>
+    </details>
+
+    <p class="closing" data-reveal>Sorting gives the order; binary search spends it. Together they turn a scan into a logarithm — and a difficult search into a small number of comparisons.</p>
+  </div>
+</section>

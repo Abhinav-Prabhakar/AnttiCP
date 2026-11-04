@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 03 — Efficiency · Guide to Competitive Programming</title>
+<meta name="description" content="How to estimate the running time of an algorithm before writing a line of code.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E03%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch03.css">
+</head>
+<body data-chapter="03">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 03 <span>— Efficiency</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s31" class="siderail__item" data-section="s31"><span class="siderail__num">3.1</span><span class="siderail__label">Time Complexity</span></a>
+  <a href="#s311" class="siderail__item" data-section="s311"><span class="siderail__num">3.1.1</span><span class="siderail__label">Calculation Rules</span></a>
+  <a href="#s312" class="siderail__item" data-section="s312"><span class="siderail__num">3.1.2</span><span class="siderail__label">Common Time Complexities</span></a>
+  <a href="#s313" class="siderail__item" data-section="s313"><span class="siderail__num">3.1.3</span><span class="siderail__label">Estimating Efficiency</span></a>
+  <a href="#s314" class="siderail__item" data-section="s314"><span class="siderail__num">3.1.4</span><span class="siderail__label">Formal Definitions</span></a>
+  <a href="#s32" class="siderail__item" data-section="s32"><span class="siderail__num">3.2</span><span class="siderail__label">Examples</span></a>
+  <a href="#s321" class="siderail__item" data-section="s321"><span class="siderail__num">3.2.1</span><span class="siderail__label">Maximum Subarray Sum</span></a>
+  <a href="#s322" class="siderail__item" data-section="s322"><span class="siderail__num">3.2.2</span><span class="siderail__label">Two Queens Problem</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero ch03-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 03</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Efficiency</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" data-reveal>Efficiency</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">A fast algorithm is not one that runs quickly on a small test. It is one whose work grows slowly when the input grows. This chapter is about measuring that growth before writing a line of code.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>2 sections</span><span>10 pages</span><span>≈ 26 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch03-hero-figure" data-reveal style="--d:.2s" aria-label="The same 32 items counted as a single pass, all pairs, and all subsets">
+      <div class="ch03-hero-grid">
+        <div class="ch03-hero-panel">
+          <div class="ch03-hero-viz">
+            <svg viewBox="0 0 320 170" role="img" aria-label="Thirty-two small bars in one row">
+              <defs>
+                <pattern id="ch03RowTicks" width="9" height="1" patternUnits="userSpaceOnUse">
+                  <rect width="5.5" height="46" fill="#2a2a2a"/>
+                </pattern>
+              </defs>
+              <rect x="16" y="62" width="288" height="46" fill="url(#ch03RowTicks)"/>
+              <line x1="16" y1="116" x2="304" y2="116" stroke="#e7e7e1" stroke-width="1"/>
+              <text x="16" y="142" class="ch03-hero-axis">each item touched once</text>
+            </svg>
+          </div>
+          <div class="ch03-hero-meta">
+            <strong class="ch03-hero-count">32</strong>
+            <div>
+              <span class="kicker">items · one pass</span>
+              <span class="ch03-hero-class">O(n)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ch03-hero-panel">
+          <div class="ch03-hero-viz">
+            <svg viewBox="0 0 320 170" role="img" aria-label="A thirty-two by thirty-two grid of dots, one thousand and twenty-four pairs">
+              <defs>
+                <pattern id="ch03PairDots" width="5" height="5" patternUnits="userSpaceOnUse">
+                  <circle cx="2.5" cy="2.5" r="1.15" fill="#6f6f68"/>
+                </pattern>
+              </defs>
+              <rect x="80" y="5" width="160" height="160" fill="url(#ch03PairDots)"/>
+            </svg>
+          </div>
+          <div class="ch03-hero-meta">
+            <strong class="ch03-hero-count">1,024</strong>
+            <div>
+              <span class="kicker">pairs · every pair once</span>
+              <span class="ch03-hero-class">O(n<sup>2</sup>)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ch03-hero-panel">
+          <div class="ch03-hero-viz">
+            <svg viewBox="0 0 320 170" role="img" aria-label="A dot field that fades away, representing 4.29 billion subsets">
+              <defs>
+                <pattern id="ch03SubsetDots" width="5" height="5" patternUnits="userSpaceOnUse">
+                  <circle cx="2.5" cy="2.5" r="1.2" fill="#2a2a2a"/>
+                </pattern>
+                <linearGradient id="ch03SubsetFade" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+                  <stop offset=".55" stop-color="#fff" stop-opacity=".45"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                </linearGradient>
+                <mask id="ch03SubsetMask">
+                  <rect width="320" height="170" fill="url(#ch03SubsetFade)"/>
+                </mask>
+              </defs>
+              <rect x="54" y="5" width="212" height="160" fill="url(#ch03SubsetDots)" mask="url(#ch03SubsetMask)"/>
+            </svg>
+          </div>
+          <div class="ch03-hero-meta">
+            <strong class="ch03-hero-count">4,294,967,296</strong>
+            <div>
+              <span class="kicker">subsets · not to scale</span>
+              <span class="ch03-hero-class">O(2<sup><i>n</i></sup>)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>The same 32 items, counted three ways. A single pass touches each item; all pairs fill a square; all subsets leave the page.</figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head">
+        <span class="kicker">In this chapter</span>
+      </div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s31">
+          <span class="idx__num">3.1</span>
+          <span class="idx__body"><span class="idx__title">Time Complexity</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s311">
+          <span class="idx__num">3.1.1</span>
+          <span class="idx__body"><span class="idx__title">Calculation Rules</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s312">
+          <span class="idx__num">3.1.2</span>
+          <span class="idx__body"><span class="idx__title">Common Time Complexities</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s313">
+          <span class="idx__num">3.1.3</span>
+          <span class="idx__body"><span class="idx__title">Estimating Efficiency</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s314">
+          <span class="idx__num">3.1.4</span>
+          <span class="idx__body"><span class="idx__title">Formal Definitions</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s32">
+          <span class="idx__num">3.2</span>
+          <span class="idx__body"><span class="idx__title">Examples</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s321">
+          <span class="idx__num">3.2.1</span>
+          <span class="idx__body"><span class="idx__title">Maximum Subarray Sum</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s322">
+          <span class="idx__num">3.2.2</span>
+          <span class="idx__body"><span class="idx__title">Two Queens Problem</span></span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.1 ============ -->
+<section class="section" id="s31" aria-labelledby="h31">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">3.1</span>
+      <div class="section-head__body">
+        <h2 id="h31">Time Complexity</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Time complexity is a prediction, not a measurement.</p>
+
+    <div class="ch03-copy" data-reveal>
+      <p>The time complexity of an algorithm estimates how much time it will use for a given input. It is written <span class="ch03-math"><i>O</i>(…)</span>, with a function in place of the dots. Usually the variable <i>n</i> is the size of the input: the length of an array, the number of nodes in a graph, the length of a string.</p>
+      <p>The point of the notation is that it lets us reject a slow idea <em>before</em> implementing it. If we know the input can be as large as <i>n</i> = 10<sup>5</sup>, and our idea needs <i>n</i><sup>2</sup> steps, we can already tell that it will not fit a one-second limit. No compiler required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.1.1 ============ -->
+<section class="section section--sub" id="s311" aria-labelledby="h311">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.1.1</span>
+      <div class="section-head__body">
+        <h2 id="h311">Calculation Rules</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Complexity is read from the shape of the code. Four rules cover most of what appears in a contest solution.</p>
+
+    <div class="ch03-rules" data-reveal>
+      <div class="ch03-rule">
+        <span class="ch03-rule__num">01</span>
+        <div class="ch03-rule__body">
+          <h3>Straight-line code is constant</h3>
+          <p>A fixed sequence of commands does not depend on the input size.</p>
+        </div>
+        <code class="ch03-rule__code">a++; b++; c = a + b;</code>
+        <span class="ch03-rule__res"><i>O</i>(1)</span>
+      </div>
+      <div class="ch03-rule">
+        <span class="ch03-rule__num">02</span>
+        <div class="ch03-rule__body">
+          <h3>A loop repeats its body</h3>
+          <p>One loop over <i>n</i> values is <i>O</i>(<i>n</i>). With <i>k</i> nested loops, each running through <i>n</i> values, the cost is <i>O</i>(<i>n</i><sup><i>k</i></sup>).</p>
+        </div>
+        <code class="ch03-rule__code">for (int i = 1; i &lt;= n; i++)</code>
+        <span class="ch03-rule__res"><i>O</i>(<i>n</i>)</span>
+      </div>
+      <div class="ch03-rule">
+        <span class="ch03-rule__num">03</span>
+        <div class="ch03-rule__body">
+          <h3>Constants disappear</h3>
+          <p>Only the order of growth is kept. The exact operation count can still differ a great deal.</p>
+        </div>
+        <code class="ch03-rule__code">3n &nbsp;·&nbsp; n + 5 &nbsp;·&nbsp; ⌈n/2⌉</code>
+        <span class="ch03-rule__res"><i>O</i>(<i>n</i>)</span>
+      </div>
+      <div class="ch03-rule">
+        <span class="ch03-rule__num">04</span>
+        <div class="ch03-rule__body">
+          <h3>Recursion is calls × cost</h3>
+          <p>The total cost is the number of calls multiplied by the cost of one call. Two calls per level can change everything.</p>
+        </div>
+        <code class="ch03-rule__code">f(n-1)&nbsp;&nbsp;·&nbsp;&nbsp;g(n-1); g(n-1);</code>
+        <span class="ch03-rule__res"><i>O</i>(<i>n</i>) · <i>O</i>(2<sup><i>n</i></sup>)</span>
+      </div>
+    </div>
+
+    <div class="ch03-const" data-reveal>
+      <div class="ch03-const__head">
+        <span class="kicker">Three loops · n = 100</span>
+        <span class="ch03-const__tag">all <i>O</i>(<i>n</i>)</span>
+      </div>
+      <div class="ch03-const__rows">
+        <div class="ch03-const__row">
+          <code>for (i = 1; i &lt;= 3*n; i++)</code>
+          <div class="ch03-const__bar"><span style="--w:100%"></span></div>
+          <span class="ch03-const__val">300</span>
+        </div>
+        <div class="ch03-const__row">
+          <code>for (i = 1; i &lt;= n+5; i++)</code>
+          <div class="ch03-const__bar"><span style="--w:35%"></span></div>
+          <span class="ch03-const__val">105</span>
+        </div>
+        <div class="ch03-const__row">
+          <code>for (i = 1; i &lt;= n; i += 2)</code>
+          <div class="ch03-const__bar"><span style="--w:16.7%"></span></div>
+          <span class="ch03-const__val">50</span>
+        </div>
+      </div>
+      <p class="ch03-const__note">The loop bodies run 300, 105, and 50 times. The class is the same; the work differs by a factor of six.</p>
+    </div>
+
+    <div class="ch03-phases" data-reveal>
+      <span class="ch03-phases__formula">
+        <span class="ch03-phase"><i>O</i>(<i>n</i>)</span>
+        <span class="ch03-phases__op">+</span>
+        <span class="ch03-phase ch03-phase--key"><i>O</i>(<i>n</i><sup>2</sup>)</span>
+        <span class="ch03-phases__op">+</span>
+        <span class="ch03-phase"><i>O</i>(<i>n</i>)</span>
+        <span class="ch03-phases__op">=</span>
+        <strong class="ch03-phases__eq"><i>O</i>(<i>n</i><sup>2</sup>)</strong>
+      </span>
+      <p>Consecutive phases add, but only the slowest one matters. A single bottleneck decides the total.</p>
+    </div>
+
+    <div class="ch03-copy ch03-copy--narrow" data-reveal>
+      <p>A loop bound is not always <i>n</i>. A loop over <i>n</i> containing a loop over <i>m</i> costs <i>O</i>(<i>nm</i>), which is a different statement from <i>O</i>(<i>n</i><sup>2</sup>) unless <i>n</i> and <i>m</i> are known to be the same size.</p>
+    </div>
+
+    <div class="split2 ch03-split">
+      <figure class="figure ch03-figure" data-reveal>
+        <div class="figure__frame">
+          <svg class="ch03-tri-svg" viewBox="0 0 560 310" role="img" aria-label="A triangle of dots with eight rows, showing thirty-six iterations">
+            <g class="ch03-tri-dots">
+              <g transform="translate(86 34)"><circle cx="0" cy="0" r="3"/></g>
+              <g transform="translate(72 66)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/></g>
+              <g transform="translate(58 98)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/></g>
+              <g transform="translate(44 130)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/><circle cx="78" cy="0" r="3"/></g>
+              <g transform="translate(30 162)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/><circle cx="78" cy="0" r="3"/><circle cx="104" cy="0" r="3"/></g>
+              <g transform="translate(16 194)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/><circle cx="78" cy="0" r="3"/><circle cx="104" cy="0" r="3"/><circle cx="130" cy="0" r="3"/></g>
+              <g transform="translate(2 226)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/><circle cx="78" cy="0" r="3"/><circle cx="104" cy="0" r="3"/><circle cx="130" cy="0" r="3"/><circle cx="156" cy="0" r="3"/></g>
+              <g class="ch03-tri-last" transform="translate(-12 258)"><circle cx="0" cy="0" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="52" cy="0" r="3"/><circle cx="78" cy="0" r="3"/><circle cx="104" cy="0" r="3"/><circle cx="130" cy="0" r="3"/><circle cx="156" cy="0" r="3"/><circle cx="182" cy="0" r="3"/></g>
+            </g>
+            <g class="ch03-tri-scale">
+              <text x="28" y="46">1</text>
+              <text x="28" y="78">2</text>
+              <text x="28" y="110">3</text>
+              <text x="28" y="142">4</text>
+              <text x="28" y="174">5</text>
+              <text x="28" y="206">6</text>
+              <text x="28" y="238">7</text>
+              <text x="28" y="270">8</text>
+            </g>
+            <g class="ch03-tri-copy">
+              <text x="250" y="94" class="ch03-figure-kicker">NESTED LOOP</text>
+              <text x="250" y="126" class="ch03-figure-formula">1 + 2 + ⋯ + n</text>
+              <text x="250" y="160" class="ch03-figure-formula">= n(n + 1) / 2</text>
+              <text x="250" y="206" class="ch03-figure-note">For n = 8, that is 36 iterations.</text>
+              <text x="250" y="230" class="ch03-figure-note">The growth is quadratic: O(n²).</text>
+            </g>
+          </svg>
+          <div class="ch03-tri-mobile" aria-hidden="true">
+            <div class="ch03-tri-mobile__dots">
+              <span style="--n:1"></span><span style="--n:2"></span><span style="--n:3"></span><span style="--n:4"></span>
+              <span style="--n:5"></span><span style="--n:6"></span><span style="--n:7"></span><span class="ch03-tri-mobile__last" style="--n:8"></span>
+            </div>
+            <div class="ch03-tri-mobile__copy">
+              <span class="ch03-figure-kicker">Nested loop</span>
+              <strong>1 + 2 + ⋯ + <i>n</i> = <i>n</i>(<i>n</i> + 1) / 2</strong>
+              <p>For <i>n</i> = 8, that is 36 iterations. The growth is quadratic: <i>O</i>(<i>n</i><sup>2</sup>).</p>
+            </div>
+          </div>
+        </div>
+        <figcaption class="figure__cap">A loop from 1 to <i>i</i> inside a loop from 1 to <i>n</i> does not run <i>n</i><sup>2</sup> times; it runs <i>n</i>(<i>n</i> + 1)/2 times. The order is still <i>O</i>(<i>n</i><sup>2</sup>).</figcaption>
+      </figure>
+
+      <figure class="figure ch03-figure" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <svg class="ch03-tree-svg" viewBox="0 0 560 310" role="img" aria-label="A recursion tree for g of four, with one, two, four, and eight calls on successive levels">
+            <g class="ch03-tree-edges">
+              <path d="M260 48 L140 123M260 48 L380 123"/>
+              <path d="M140 123 L80 198M140 123 L200 198M380 123 L320 198M380 123 L440 198"/>
+              <path d="M80 198 L50 273M80 198 L110 273M200 198 L170 273M200 198 L230 273M320 198 L290 273M320 198 L350 273M440 198 L410 273M440 198 L470 273"/>
+            </g>
+            <g class="ch03-tree-nodes">
+              <circle cx="260" cy="48" r="9"/>
+              <circle cx="140" cy="123" r="9"/><circle cx="380" cy="123" r="9"/>
+              <circle cx="80" cy="198" r="9"/><circle cx="200" cy="198" r="9"/><circle cx="320" cy="198" r="9"/><circle cx="440" cy="198" r="9"/>
+              <circle cx="50" cy="273" r="9"/><circle cx="110" cy="273" r="9"/><circle cx="170" cy="273" r="9"/><circle cx="230" cy="273" r="9"/><circle cx="290" cy="273" r="9"/><circle cx="350" cy="273" r="9"/><circle cx="410" cy="273" r="9"/><circle cx="470" cy="273" r="9"/>
+            </g>
+            <g class="ch03-tree-counts">
+              <text x="500" y="52">1 call</text>
+              <text x="500" y="127">2 calls</text>
+              <text x="500" y="202">4 calls</text>
+              <text x="500" y="277">8 calls</text>
+            </g>
+          </svg>
+          <div class="ch03-tree-mobile" aria-hidden="true">
+            <div class="ch03-tree-mobile__row"><span>1 call</span><i style="--n:1"></i></div>
+            <div class="ch03-tree-mobile__row"><span>2 calls</span><i style="--n:2"></i></div>
+            <div class="ch03-tree-mobile__row"><span>4 calls</span><i style="--n:4"></i></div>
+            <div class="ch03-tree-mobile__row"><span>8 calls</span><i style="--n:8"></i></div>
+            <p class="ch03-tree-mobile__sum">1 + 2 + 4 + 8 = 15 calls · 2<sup><i>n</i></sup> − 1</p>
+          </div>
+        </div>
+        <figcaption class="figure__cap">Each level doubles the number of calls. The tree for <i>g</i>(4) has 15 calls; in general the total is 2<sup><i>n</i></sup> − 1, so the recursion is exponential.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.1.2 ============ -->
+<section class="section section--sub" id="s312" aria-labelledby="h312">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.1.2</span>
+      <div class="section-head__body">
+        <h2 id="h312">Common Time Complexities</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Nine classes cover almost every algorithm in this book. Learn their shapes, not just their names.</p>
+
+    <div class="ch03-ladder" data-reveal>
+      <div class="ch03-ladder__group">
+        <span class="ch03-ladder__label">Polynomial · at most <i>O</i>(<i>n</i><sup><i>k</i></sup>)</span>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(1)</span>
+          <p class="ch03-classrow__desc"><b>Constant.</b> A direct formula or a fixed number of commands. The input size does not change the work.</p>
+          <span class="ch03-classrow__sign">direct formula</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(log <i>n</i>)</span>
+          <p class="ch03-classrow__desc"><b>Logarithmic.</b> The input is halved at each step. log<sub>2</sub> <i>n</i> is the number of halvings needed to reach 1; the base is not written.</p>
+          <span class="ch03-classrow__sign">binary search</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(√<i>n</i>)</span>
+          <p class="ch03-classrow__desc"><b>Square root.</b> Slower than logarithmic, faster than linear. Since √<i>n</i> = <i>n</i>/√<i>n</i>, <i>n</i> elements split into <i>O</i>(√<i>n</i>) blocks of <i>O</i>(√<i>n</i>) elements.</p>
+          <span class="ch03-classrow__sign">blocks</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(<i>n</i>)</span>
+          <p class="ch03-classrow__desc"><b>Linear.</b> The input is scanned a constant number of times. Often the best possible, because every element may need to be read at least once.</p>
+          <span class="ch03-classrow__sign">one pass</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(<i>n</i> log <i>n</i>)</span>
+          <p class="ch03-classrow__desc"><b>Linearithmic.</b> Usually sorting, or a data structure whose operation costs <i>O</i>(log <i>n</i>) for each of <i>n</i> elements.</p>
+          <span class="ch03-classrow__sign">sorting</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(<i>n</i><sup>2</sup>)</span>
+          <p class="ch03-classrow__desc"><b>Quadratic.</b> Usually two nested loops, or all pairs of the input elements.</p>
+          <span class="ch03-classrow__sign">pairs</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(<i>n</i><sup>3</sup>)</span>
+          <p class="ch03-classrow__desc"><b>Cubic.</b> Usually three nested loops, or all triplets of the input elements.</p>
+          <span class="ch03-classrow__sign">triplets</span>
+        </div>
+      </div>
+      <div class="ch03-ladder__group ch03-ladder__group--beyond">
+        <span class="ch03-ladder__label">Beyond polynomial</span>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(2<sup><i>n</i></sup>)</span>
+          <p class="ch03-classrow__desc"><b>Exponential.</b> All subsets of the input. Each element is either included or left out; there are 2<sup><i>n</i></sup> choices.</p>
+          <span class="ch03-classrow__sign">subsets</span>
+        </div>
+        <div class="ch03-classrow">
+          <span class="ch03-classrow__sym"><i>O</i>(<i>n</i>!)</span>
+          <p class="ch03-classrow__desc"><b>Factorial.</b> All permutations of the input. The first element can be any of <i>n</i>, the next any of <i>n</i> − 1, and so on.</p>
+          <span class="ch03-classrow__sign">permutations</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>An algorithm is <em>polynomial</em> if its complexity is at most <i>O</i>(<i>n</i><sup><i>k</i></sup>) for a constant <i>k</i>. Polynomial roughly means that large inputs remain possible. The important exception on the list is 2<sup><i>n</i></sup> and <i>n</i>!, and there are many problems for which no polynomial algorithm is known at all — the NP-hard problems.</p>
+
+    <div class="ch03-lab" id="growthLab" data-reveal>
+      <div class="ch03-lab__head">
+        <div>
+          <span class="kicker">Interactive · operation counts</span>
+          <h3>One slider, eight growth rates</h3>
+        </div>
+        <p class="ch03-lab__note">Logarithmic scale. Times assume 10<sup>8</sup> simple operations per second — an estimate, not a benchmark.</p>
+      </div>
+
+      <div class="ch03-lab__slider">
+        <div class="ch03-lab__n">
+          <span class="kicker">Input size</span>
+          <strong id="ch03N">1,000,000</strong>
+        </div>
+        <div class="ch03-lab__track">
+          <input class="ch03-range" id="ch03Range" type="range" min="1" max="9" step="0.01" value="6" aria-label="Input size, logarithmic scale from ten to one billion">
+          <div class="ch03-scale" aria-hidden="true"><span style="--p:0">10</span><span style="--p:25">10<sup>3</sup></span><span style="--p:62.5">10<sup>6</sup></span><span style="--p:100">10<sup>9</sup></span></div>
+        </div>
+        <div class="ch03-presets" role="group" aria-label="Example input sizes">
+          <button class="ch03-preset" type="button" data-n="3">10<sup>3</sup></button>
+          <button class="ch03-preset" type="button" data-n="5">10<sup>5</sup></button>
+          <button class="ch03-preset is-active" type="button" data-n="6">10<sup>6</sup></button>
+          <button class="ch03-preset" type="button" data-n="9">10<sup>9</sup></button>
+        </div>
+      </div>
+
+      <div class="ch03-picks" role="group" aria-label="Choose a time complexity">
+        <button class="ch03-pick" type="button" data-class="one" aria-pressed="false"><i>O</i>(1)</button>
+        <button class="ch03-pick" type="button" data-class="log" aria-pressed="false"><i>O</i>(log <i>n</i>)</button>
+        <button class="ch03-pick" type="button" data-class="sqrt" aria-pressed="false"><i>O</i>(√<i>n</i>)</button>
+        <button class="ch03-pick" type="button" data-class="n" aria-pressed="false"><i>O</i>(<i>n</i>)</button>
+        <button class="ch03-pick" type="button" data-class="nlogn" aria-pressed="false"><i>O</i>(<i>n</i> log <i>n</i>)</button>
+        <button class="ch03-pick is-active" type="button" data-class="n2" aria-pressed="true"><i>O</i>(<i>n</i><sup>2</sup>)</button>
+        <button class="ch03-pick" type="button" data-class="n3" aria-pressed="false"><i>O</i>(<i>n</i><sup>3</sup>)</button>
+        <button class="ch03-pick" type="button" data-class="2n" aria-pressed="false"><i>O</i>(2<sup><i>n</i></sup>)</button>
+      </div>
+
+      <div class="ch03-chart-wrap">
+        <svg id="ch03Chart" class="ch03-chart" viewBox="0 0 720 420" role="img" aria-label="Growth curves for eight complexity classes on logarithmic axes, with a one-second operation budget"></svg>
+      </div>
+
+      <div class="ch03-mobilebars" id="ch03MobileBars" aria-hidden="true"></div>
+
+      <div class="ch03-readout" aria-live="polite">
+        <div class="ch03-readout__cell">
+          <span class="kicker">Selected class</span>
+          <strong class="ch03-readout__class" id="ch03Pick">O(n²)</strong>
+        </div>
+        <div class="ch03-readout__cell">
+          <span class="kicker">Operations</span>
+          <strong class="ch03-readout__big" id="ch03Ops">1,000,000,000,000</strong>
+        </div>
+        <div class="ch03-readout__cell">
+          <span class="kicker">Estimated time</span>
+          <strong class="ch03-readout__time" id="ch03Time">≈ 2.8 hours</strong>
+        </div>
+        <div class="ch03-readout__cell ch03-readout__cell--wide">
+          <span class="kicker">Verdict</span>
+          <p class="ch03-readout__verdict" id="ch03Verdict">Far beyond a one-second limit.</p>
+        </div>
+      </div>
+      <p class="ch03-lab__foot">Counts for <i>O</i>(log <i>n</i>) use log<sub>2</sub> <i>n</i>; the other formulas are exact. The time column converts operations at 10<sup>8</sup> per second. Real machines, languages, and constants differ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.1.3 ============ -->
+<section class="section section--sub" id="s313" aria-labelledby="h313">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.1.3</span>
+      <div class="section-head__body">
+        <h2 id="h313">Estimating Efficiency</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>A modern computer can perform some hundreds of millions of simple operations in a second. Take 10<sup>8</sup> per second as a working estimate.</p>
+
+    <div class="ch03-copy" data-reveal>
+      <p>Suppose the time limit is one second and the input size is <i>n</i> = 10<sup>5</sup>. An <i>O</i>(<i>n</i><sup>2</sup>) algorithm performs about (10<sup>5</sup>)<sup>2</sup> = 10<sup>10</sup> operations. That is at least some tens of seconds, so the algorithm is too slow. An <i>O</i>(<i>n</i> log <i>n</i>) algorithm needs only about 10<sup>5</sup> log 10<sup>5</sup> ≈ 1.6 · 10<sup>6</sup> operations, and will fit comfortably.</p>
+      <p>The estimate also works in the other direction: given <i>n</i>, it suggests what complexity to aim for. A large input rules out whole families of approaches before any code is written.</p>
+    </div>
+
+    <div class="ch03-estimate">
+      <figure class="figure ch03-figure ch03-figure--flush" data-reveal>
+        <div class="figure__frame">
+          <div class="ch03-ruler" aria-label="Largest input size that fits one second at one hundred million operations per second">
+            <div class="ch03-ruler__head">
+              <span class="kicker">Largest n that fits 10<sup>8</sup> operations</span>
+              <span class="ch03-ruler__hint">estimate · one second</span>
+            </div>
+            <div class="ch03-ruler__rows">
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(1): no practical limit. At n = 10⁹ the work is still one step.">
+                <span class="ch03-ruler__name"><i>O</i>(1)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill ch03-ruler__fill--free" style="--w:100%"></span><span class="ch03-ruler__dot" style="--x:100%"></span></div>
+                <span class="ch03-ruler__end">any</span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(log n): still no practical limit. Even n = 10⁹ needs only about 30 halvings.">
+                <span class="ch03-ruler__name"><i>O</i>(log <i>n</i>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill ch03-ruler__fill--free" style="--w:100%"></span><span class="ch03-ruler__dot" style="--x:100%"></span></div>
+                <span class="ch03-ruler__end">any</span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(n): about 10⁸ elements. At n = 10⁹ the same algorithm needs roughly ten seconds.">
+                <span class="ch03-ruler__name"><i>O</i>(<i>n</i>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:88.9%"></span><span class="ch03-ruler__dot" style="--x:88.9%"></span></div>
+                <span class="ch03-ruler__end">10<sup>8</sup></span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(n log n): about 4.5 × 10⁶ elements. At n = 10⁹ it needs roughly 3 × 10¹⁰ operations.">
+                <span class="ch03-ruler__name"><i>O</i>(<i>n</i> log <i>n</i>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:73.3%"></span><span class="ch03-ruler__dot" style="--x:73.3%"></span></div>
+                <span class="ch03-ruler__end">4.5 × 10<sup>6</sup></span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(n²): about 10⁴ elements. At n = 10⁹ it needs 10¹⁸ operations — roughly 317 years at 10⁸ per second.">
+                <span class="ch03-ruler__name"><i>O</i>(<i>n</i><sup>2</sup>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:44.4%"></span><span class="ch03-ruler__dot" style="--x:44.4%"></span></div>
+                <span class="ch03-ruler__end">10<sup>4</sup></span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(n³): about 464 elements. The limit is already reached before n = 500.">
+                <span class="ch03-ruler__name"><i>O</i>(<i>n</i><sup>3</sup>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:29.6%"></span><span class="ch03-ruler__dot" style="--x:29.6%"></span></div>
+                <span class="ch03-ruler__end">464</span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(2ⁿ): about 26 elements. n = 30 already needs over a billion operations.">
+                <span class="ch03-ruler__name"><i>O</i>(2<sup><i>n</i></sup>)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:15.8%"></span><span class="ch03-ruler__dot" style="--x:15.8%"></span></div>
+                <span class="ch03-ruler__end">26</span>
+              </div>
+              <div class="ch03-ruler__row" tabindex="0" data-tip="O(n!): 11 elements. 12! is already 479,001,600 operations.">
+                <span class="ch03-ruler__name"><i>O</i>(<i>n</i>!)</span>
+                <div class="ch03-ruler__track"><span class="ch03-ruler__fill" style="--w:11.6%"></span><span class="ch03-ruler__dot" style="--x:11.6%"></span></div>
+                <span class="ch03-ruler__end">11</span>
+              </div>
+            </div>
+            <div class="ch03-ruler__scale" aria-hidden="true">
+              <span>1</span><span class="ch03-ruler__minor">10</span><span class="ch03-ruler__minor">10<sup>2</sup></span><span>10<sup>3</sup></span><span class="ch03-ruler__minor">10<sup>4</sup></span><span class="ch03-ruler__minor">10<sup>5</sup></span><span>10<sup>6</sup></span><span class="ch03-ruler__minor">10<sup>7</sup></span><span class="ch03-ruler__minor">10<sup>8</sup></span><span>10<sup>9</sup></span>
+            </div>
+          </div>
+        </div>
+        <figcaption class="figure__cap">Read a row as a capacity: an algorithm of that class can handle inputs up to the marked size in about one second. The axis is logarithmic, so equal distances are equal factors.</figcaption>
+      </figure>
+
+      <div class="ch03-field" data-reveal style="--d:.08s">
+        <span class="kicker">Table 3.1 · read it backwards</span>
+        <table class="ch03-table ch03-table--rules">
+          <caption class="ch03-sr">Expected time complexity for a given input size, assuming a one-second limit</caption>
+          <thead><tr><th scope="col">Input size</th><th scope="col">Expected complexity</th></tr></thead>
+          <tbody>
+            <tr><td><i>n</i> ≤ 10</td><td><i>O</i>(<i>n</i>!)</td></tr>
+            <tr><td><i>n</i> ≤ 20</td><td><i>O</i>(2<sup><i>n</i></sup>)</td></tr>
+            <tr><td><i>n</i> ≤ 500</td><td><i>O</i>(<i>n</i><sup>3</sup>)</td></tr>
+            <tr><td><i>n</i> ≤ 5,000</td><td><i>O</i>(<i>n</i><sup>2</sup>)</td></tr>
+            <tr><td><i>n</i> ≤ 10<sup>6</sup></td><td><i>O</i>(<i>n</i> log <i>n</i>) or <i>O</i>(<i>n</i>)</td></tr>
+            <tr><td><i>n</i> is large</td><td><i>O</i>(1) or <i>O</i>(log <i>n</i>)</td></tr>
+          </tbody>
+        </table>
+        <p class="ch03-field__note">These are rules of thumb, not guarantees. Hardware, language, and hidden constants all move the line.</p>
+      </div>
+    </div>
+
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>A complexity is still only an estimate, because it hides <span class="ch03-inline-ref" tabindex="0" data-tip="An O(n) algorithm may perform n/2 or 5n operations. The class is the same; the running time is not.">constant factors</span>. An <i>O</i>(<i>n</i>) algorithm may perform <i>n</i>/2 or 5<i>n</i> operations, and that difference has a real effect on the clock. Use the class to rule out the impossible; use the constants to choose between the survivors.</p>
+
+    <p class="ch03-closing-line" data-reveal>Match the input size to the class, then let the constants decide the rest.</p>
+  </div>
+</section>
+
+<!-- ============ 3.1.4 ============ -->
+<section class="section section--sub" id="s314" aria-labelledby="h314">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.1.4</span>
+      <div class="section-head__body">
+        <h2 id="h314">Formal Definitions</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>The notation has a precise meaning: an upper bound that holds for sufficiently large inputs.</p>
+
+    <div class="ch03-defs" data-reveal>
+      <div class="ch03-def">
+        <span class="ch03-def__sym"><i>O</i></span>
+        <div class="ch03-def__body">
+          <h3>Upper bound</h3>
+          <p>A complexity is <i>O</i>(<i>f</i>(<i>n</i>)) if there are constants <i>c</i> and <i>n</i><sub>0</sub> such that the algorithm performs at most <i>c</i> · <i>f</i>(<i>n</i>) operations for every <i>n</i> ≥ <i>n</i><sub>0</sub>.</p>
+        </div>
+      </div>
+      <div class="ch03-def">
+        <span class="ch03-def__sym"><i>Ω</i></span>
+        <div class="ch03-def__body">
+          <h3>Lower bound</h3>
+          <p>A complexity is <i>Ω</i>(<i>f</i>(<i>n</i>)) if there are constants <i>c</i> and <i>n</i><sub>0</sub> such that the algorithm performs at least <i>c</i> · <i>f</i>(<i>n</i>) operations for every <i>n</i> ≥ <i>n</i><sub>0</sub>.</p>
+        </div>
+      </div>
+      <div class="ch03-def">
+        <span class="ch03-def__sym"><i>Θ</i></span>
+        <div class="ch03-def__body">
+          <h3>Exact bound</h3>
+          <p>A complexity is <i>Θ</i>(<i>f</i>(<i>n</i>)) if it is both <i>O</i>(<i>f</i>(<i>n</i>)) and <i>Ω</i>(<i>f</i>(<i>n</i>)). The growth is bounded on both sides.</p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="figure ch03-formal" data-reveal>
+      <div class="figure__frame">
+        <svg class="ch03-formal-svg" viewBox="0 0 640 300" role="img" aria-label="A function T of n staying below c times f of n after the point n zero">
+          <rect x="300" y="30" width="300" height="220" fill="#f4f4ef"/>
+          <g class="ch03-formal-axis">
+            <line x1="60" y1="250" x2="610" y2="250"/>
+            <line x1="60" y1="250" x2="60" y2="30"/>
+            <text x="596" y="270">n</text>
+            <text x="42" y="42">ops</text>
+          </g>
+          <line x1="300" y1="30" x2="300" y2="250" stroke="#cfcfc7" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="300" y="268" class="ch03-formal-tick" text-anchor="middle">n₀</text>
+          <line x1="60" y1="240" x2="600" y2="50" class="ch03-formal-bound"/>
+          <path d="M60 120 C 96 92, 128 62, 158 70 C 188 78, 208 128, 250 150 C 300 170, 350 160, 400 175 C 450 190, 500 185, 560 200 L600 205" class="ch03-formal-t"/>
+          <text x="455" y="80" class="ch03-formal-label">c · f(n)</text>
+          <text x="505" y="220" class="ch03-formal-label ch03-formal-label--t">T(n)</text>
+          <text x="320" y="48" class="ch03-formal-caption">T(n) ≤ c · f(n) from here on</text>
+        </svg>
+        <p class="ch03-formal-note"><i>T</i>(<i>n</i>) ≤ <i>c</i> · <i>f</i>(<i>n</i>) from <i>n</i><sub>0</sub> onward.</p>
+      </div>
+      <figcaption class="figure__cap">The bound only has to hold after some point <i>n</i><sub>0</sub>. Below that point, startup costs can put the running time above the line. The diagram is schematic, not a plot of a particular algorithm.</figcaption>
+    </figure>
+
+    <details class="note ch03-note" data-reveal>
+      <summary><span class="note__label">Technically true, practically misleading</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>A single loop over <i>n</i> values is <i>O</i>(<i>n</i>), but it is also technically <i>O</i>(<i>n</i><sup>2</sup>). The definition only asks for an upper bound, and <i>n</i> ≤ <i>n</i><sup>2</sup> for large <i>n</i>. Nobody writes the weaker bound, because the notation is used to give an accurate estimate, not merely a valid one. The better bound is <i>O</i>(<i>n</i>), and here it is also <i>Θ</i>(<i>n</i>).</p>
+      </div>
+    </details>
+
+    <p class="ch03-copy ch03-copy--narrow" data-reveal>The notation is not only for running time. An array may contain <i>O</i>(<i>n</i>) values; an algorithm may consist of <i>O</i>(log <i>n</i>) rounds. The same order-of-growth language applies whenever a quantity depends on an input size.</p>
+  </div>
+</section>
+
+<!-- ============ 3.2 ============ -->
+<section class="section" id="s32" aria-labelledby="h32">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">3.2</span>
+      <div class="section-head__body">
+        <h2 id="h32">Examples</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Two problems. Each begins with the obvious slow solution and ends somewhere much better.</p>
+
+    <p class="lead" data-reveal>The examples show the same pattern: find a way to count many cases at once, instead of enumerating them one by one.</p>
+
+    <div class="ch03-motif" data-reveal aria-label="The chapter's recurring move: from enumerating cases to counting them in groups">
+      <div class="ch03-motif__side">
+        <span class="kicker">The first idea</span>
+        <strong>enumerate every case</strong>
+      </div>
+      <span class="ch03-motif__arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"/></svg></span>
+      <div class="ch03-motif__side ch03-motif__side--end">
+        <span class="kicker">The better idea</span>
+        <strong>count them in groups</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.2.1 ============ -->
+<section class="section section--sub" id="s321" aria-labelledby="h321">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.2.1</span>
+      <div class="section-head__body">
+        <h2 id="h321">Maximum Subarray Sum</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Given an array of <i>n</i> numbers, find the largest possible sum of a sequence of consecutive values.</p>
+
+    <div class="ch03-copy" data-reveal>
+      <p>The problem is only interesting when the array may contain negative values. Otherwise the whole array would always be the answer. In the example below, the best subarray is [2, 4, −3, 5, 2], with sum 10.</p>
+    </div>
+
+    <div class="ch03-array-wrap" data-reveal>
+      <div class="ch03-array" role="group" aria-label="The example array and its maximum-sum subarray">
+        <div class="ch03-array__idx" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+        <div class="ch03-array__row">
+          <span class="ch03-array__cell ch03-array__cell--neg" tabindex="0" data-tip="a[0] = −1 · running sum −1 · best 0">−1</span>
+          <span class="ch03-array__cell ch03-array__cell--in" tabindex="0" data-tip="a[1] = 2 · running sum 2 · best 2">2</span>
+          <span class="ch03-array__cell ch03-array__cell--in" tabindex="0" data-tip="a[2] = 4 · running sum 6 · best 6">4</span>
+          <span class="ch03-array__cell ch03-array__cell--in ch03-array__cell--neg" tabindex="0" data-tip="a[3] = −3 · running sum 3 · best 6">−3</span>
+          <span class="ch03-array__cell ch03-array__cell--in" tabindex="0" data-tip="a[4] = 5 · running sum 8 · best 8">5</span>
+          <span class="ch03-array__cell ch03-array__cell--in" tabindex="0" data-tip="a[5] = 2 · running sum 10 · best 10">2</span>
+          <span class="ch03-array__cell ch03-array__cell--neg" tabindex="0" data-tip="a[6] = −5 · running sum 5 · best 10">−5</span>
+          <span class="ch03-array__cell" tabindex="0" data-tip="a[7] = 2 · running sum 7 · best 10">2</span>
+        </div>
+        <div class="ch03-array__bracket"><span></span></div>
+        <div class="ch03-array__sum"><span>maximum-sum subarray</span><strong>2 + 4 − 3 + 5 + 2 = 10</strong></div>
+      </div>
+      <p class="ch03-array__hint">Hover or focus a cell to see the running sum and the best sum after that position.</p>
+    </div>
+
+    <div class="ch03-copy" data-reveal>
+      <p>The straightforward solution fixes the first and last index of the subarray with two loops, then adds the values with a third loop. There are <i>O</i>(<i>n</i><sup>2</sup>) subarrays and each sum costs <i>O</i>(<i>n</i>), so the total is <i>O</i>(<i>n</i><sup>3</sup>). Removing the innermost loop is easy: when the right end moves one step, add the new value to a running sum. That gives <i>O</i>(<i>n</i><sup>2</sup>).</p>
+      <p>The third solution removes the outer loop instead. For each position <i>k</i>, compute the best sum of a subarray that <em>ends</em> at <i>k</i>. Such a subarray either contains only <span class="ch03-math">a[<i>k</i>]</span>, or it extends a best subarray ending at <i>k</i> − 1. Keeping just those two numbers gives one pass over the input: <i>O</i>(<i>n</i>).</p>
+    </div>
+
+    <div class="code-card" data-code-card data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Solution" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code">
+            <svg class="icon"><use href="#i-copy"/></svg><span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <details class="note ch03-note" data-reveal>
+      <summary><span class="note__label">Why the one-pass rule is enough</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Let <i>s</i><sub><i>k</i></sub> be the maximum sum of a subarray ending at position <i>k</i>. Either that subarray is just <span class="ch03-math">a[<i>k</i>]</span>, or it is a subarray ending at <i>k</i> − 1 followed by <span class="ch03-math">a[<i>k</i>]</span>. In the second case, the part ending at <i>k</i> − 1 should itself be the best one, otherwise replacing it would improve the sum. Hence <span class="ch03-math"><i>s</i><sub><i>k</i></sub> = max(a[<i>k</i>], <i>s</i><sub><i>k</i>−1</sub> + a[<i>k</i>])</span>. The answer is the largest <i>s</i><sub><i>k</i></sub>.</p>
+      </div>
+    </details>
+
+    <p class="ch03-table-intro" data-reveal>How much does the order matter in practice? The book reports the following running times for the three algorithms, measured on a modern computer with random input and excluding input reading.</p>
+
+    <div class="ch03-times" data-reveal>
+      <table class="ch03-table ch03-table--times">
+        <caption class="ch03-table__caption"><span>Table 3.2</span> Measured running times (seconds) · the book’s measurements, not reproduced here</caption>
+        <thead>
+          <tr><th scope="col">Array size <i>n</i></th><th scope="col"><i>O</i>(<i>n</i><sup>3</sup>)</th><th scope="col"><i>O</i>(<i>n</i><sup>2</sup>)</th><th scope="col"><i>O</i>(<i>n</i>)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10<sup>2</sup></td><td><span class="ch03-zero">0.0</span></td><td><span class="ch03-zero">0.0</span></td><td><span class="ch03-zero">0.0</span></td></tr>
+          <tr><td>10<sup>3</sup></td><td>0.1</td><td><span class="ch03-zero">0.0</span></td><td><span class="ch03-zero">0.0</span></td></tr>
+          <tr><td>10<sup>4</sup></td><td><span class="ch03-over">&gt; 10.0</span></td><td>0.1</td><td><span class="ch03-zero">0.0</span></td></tr>
+          <tr><td>10<sup>5</sup></td><td><span class="ch03-over">&gt; 10.0</span></td><td>5.3</td><td><span class="ch03-zero">0.0</span></td></tr>
+          <tr><td>10<sup>6</sup></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-zero">0.0</span></td></tr>
+          <tr><td>10<sup>7</sup></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-over">&gt; 10.0</span></td><td><span class="ch03-zero">0.0</span></td></tr>
+        </tbody>
+      </table>
+      <p class="ch03-times__note">All three are instant on small inputs. The <i>O</i>(<i>n</i><sup>3</sup>) algorithm stalls at <i>n</i> = 10<sup>4</sup>, the <i>O</i>(<i>n</i><sup>2</sup>) algorithm at 10<sup>5</sup>, and only the linear algorithm reaches 10<sup>7</sup> instantly.</p>
+    </div>
+
+    <p class="ch03-closing-line" data-reveal>The linear algorithm is also optimal in order: every element must be examined at least once before the answer can be reported.</p>
+  </div>
+</section>
+
+<!-- ============ 3.2.2 ============ -->
+<section class="section section--sub" id="s322" aria-labelledby="h322">
+  <div class="wrap">
+    <div class="section-head section-head--sub" data-reveal>
+      <span class="section-num">3.2.2</span>
+      <div class="section-head__body">
+        <h2 id="h322">Two Queens Problem</h2>
+      </div>
+    </div>
+
+    <p class="lead" data-reveal>Given an <i>n</i> × <i>n</i> chessboard, count the ways to place two queens so that they do not attack each other.</p>
+
+    <div class="ch03-copy" data-reveal>
+      <p>Let <i>q</i>(<i>n</i>) be the number of valid placements. On a 3 × 3 board there are eight, so <i>q</i>(3) = 8. The number grows quickly: <i>q</i>(10) = 3,480.</p>
+    </div>
+
+    <figure class="figure ch03-figure ch03-queens8-figure" data-reveal>
+      <div class="figure__frame">
+        <div class="ch03-queens8" aria-label="All eight ways to place two non-attacking queens on a three by three board">
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span></div>
+            <span class="ch03-mini__cap">1</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span></div>
+            <span class="ch03-mini__cap">2</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span></div>
+            <span class="ch03-mini__cap">3</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span></div>
+            <span class="ch03-mini__cap">4</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span></span></div>
+            <span class="ch03-mini__cap">5</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span></div>
+            <span class="ch03-mini__cap">6</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span></div>
+            <span class="ch03-mini__cap">7</span>
+          </div>
+          <div class="ch03-mini">
+            <div class="ch03-mini__grid"><span></span><span></span><span></span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span><span></span><span></span><span class="ch03-mini__cell ch03-mini__cell--q">Q</span></div>
+            <span class="ch03-mini__cap">8</span>
+          </div>
+        </div>
+      </div>
+      <figcaption class="figure__cap">All eight valid placements on a 3 × 3 board. A queen attacks along its row, its column, and both diagonals.</figcaption>
+    </figure>
+
+    <div class="ch03-copy" data-reveal>
+      <p>The brute force tries every ordered pair of squares. There are <i>n</i><sup>2</sup> choices for the first queen and <i>n</i><sup>2</sup> − 1 for the second, so the work is <i>O</i>(<i>n</i><sup>4</sup>). Since the number of placements grows fast, counting them one at a time is hopeless for large boards. The way forward is to count in groups.</p>
+      <p>A single queen attacks <i>n</i> − 1 squares horizontally and <i>n</i> − 1 vertically. On each diagonal it attacks <i>d</i> − 1 squares, where <i>d</i> is the length of that diagonal. With these counts, the number of squares available to the second queen can be computed in <i>O</i>(1) time, which gives an <i>O</i>(<i>n</i><sup>2</sup>) algorithm: one pass over all first-queen positions.</p>
+    </div>
+
+    <div class="split2 ch03-split ch03-boards">
+      <figure class="figure ch03-figure" data-reveal>
+        <div class="figure__frame">
+          <div class="ch03-board-wrap">
+            <div class="ch03-board ch03-board--attack" aria-label="A five by five board with a queen in the centre and the sixteen squares it attacks marked">
+              <span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span>
+              <span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--q">Q</span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span>
+              <span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--att"></span>
+            </div>
+            <div class="ch03-board__legend"><span><i class="ch03-swatch ch03-swatch--att"></i>attacked</span><span><i class="ch03-swatch"></i>free</span></div>
+          </div>
+        </div>
+        <figcaption class="figure__cap">A queen attacks 16 of the 25 squares on a 5 × 5 board. The count follows from the row, column, and two diagonal lengths — no scanning required.</figcaption>
+      </figure>
+
+      <figure class="figure ch03-figure" data-reveal style="--d:.08s">
+        <div class="figure__frame">
+          <div class="ch03-board-wrap">
+            <div class="ch03-board ch03-board--last" aria-label="A six by six board with the last row and last column shaded, showing eleven possible positions for a queen">
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--last"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--last"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--last"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--last"></span>
+              <span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell"></span><span class="ch03-board__cell ch03-board__cell--last"></span>
+              <span class="ch03-board__cell ch03-board__cell--last"></span><span class="ch03-board__cell ch03-board__cell--last"></span><span class="ch03-board__cell ch03-board__cell--last"></span><span class="ch03-board__cell ch03-board__cell--last"></span><span class="ch03-board__cell ch03-board__cell--last"></span><span class="ch03-board__cell ch03-board__cell--last ch03-board__cell--q">Q</span>
+            </div>
+            <div class="ch03-board__caption"><span class="ch03-board__num">11</span><span>positions on the last row or column<br>for <i>n</i> = 6: 2<i>n</i> − 1</span></div>
+          </div>
+        </div>
+        <figcaption class="figure__cap">The recursive step looks only at the last row and last column. If neither contains a queen, the answer is <i>q</i>(<i>n</i> − 1).</figcaption>
+      </figure>
+    </div>
+
+    <div class="ch03-copy" data-reveal>
+      <p>To get an <i>O</i>(<i>n</i>) solution, relate <i>q</i>(<i>n</i>) to <i>q</i>(<i>n</i> − 1). If there are no queens on the last row or column, there are <i>q</i>(<i>n</i> − 1) placements. Otherwise a queen sits in one of the 2<i>n</i> − 1 positions on the last row or column; it attacks 3(<i>n</i> − 1) squares, leaving <i>n</i><sup>2</sup> − 3(<i>n</i> − 1) − 1 positions for the other queen. Finally, (<i>n</i> − 1)(<i>n</i> − 2) placements put both queens on the last row or column and were counted twice, so they must be subtracted.</p>
+    </div>
+
+    <div class="ch03-formula ch03-formula--rec" data-reveal>
+      <span class="ch03-formula__line"><i>q</i>(<i>n</i>) = <i>q</i>(<i>n</i> − 1)</span>
+      <span class="ch03-formula__line ch03-formula__line--ind">+ (2<i>n</i> − 1)(<i>n</i><sup>2</sup> − 3(<i>n</i> − 1) − 1)</span>
+      <span class="ch03-formula__line ch03-formula__line--ind">− (<i>n</i> − 1)(<i>n</i> − 2)</span>
+      <span class="ch03-formula__line ch03-formula__line--result">= <i>q</i>(<i>n</i> − 1) + 2(<i>n</i> − 1)<sup>2</sup>(<i>n</i> − 2)</span>
+    </div>
+
+    <div class="ch03-copy" data-reveal>
+      <p>The recurrence fills a table of <i>n</i> values in <i>O</i>(<i>n</i>) time. It also simplifies to a closed form, which can be proved by induction and evaluated in <i>O</i>(1) time:</p>
+    </div>
+
+    <div class="ch03-formula ch03-formula--closed" data-reveal>
+      <span class="ch03-formula__line">
+        <i>q</i>(<i>n</i>) =
+        <span class="ch03-frac"><span class="ch03-frac__n"><i>n</i><sup>4</sup></span><span class="ch03-frac__d">2</span></span>
+        − <span class="ch03-frac"><span class="ch03-frac__n">5<i>n</i><sup>3</sup></span><span class="ch03-frac__d">3</span></span>
+        + <span class="ch03-frac"><span class="ch03-frac__n">3<i>n</i><sup>2</sup></span><span class="ch03-frac__d">2</span></span>
+        − <span class="ch03-frac"><span class="ch03-frac__n"><i>n</i></span><span class="ch03-frac__d">3</span></span>
+      </span>
+    </div>
+
+    <div class="ch03-ways" data-reveal>
+      <div class="ch03-way">
+        <span class="ch03-way__c"><i>O</i>(<i>n</i><sup>4</sup>)</span>
+        <div class="ch03-way__body"><strong>Every pair</strong><p>Choose both queens, test every ordered pair of squares.</p></div>
+        <span class="ch03-way__tag">brute force</span>
+      </div>
+      <div class="ch03-way">
+        <span class="ch03-way__c"><i>O</i>(<i>n</i><sup>2</sup>)</span>
+        <div class="ch03-way__body"><strong>Count the attacks</strong><p>For each first queen, compute the number of free squares in <i>O</i>(1).</p></div>
+        <span class="ch03-way__tag">group by queen</span>
+      </div>
+      <div class="ch03-way">
+        <span class="ch03-way__c"><i>O</i>(<i>n</i>)</span>
+        <div class="ch03-way__body"><strong>Use the last row</strong><p>Relate <i>q</i>(<i>n</i>) to <i>q</i>(<i>n</i> − 1), then fill a table in one pass.</p></div>
+        <span class="ch03-way__tag">recurrence</span>
+      </div>
+      <div class="ch03-way ch03-way--closed">
+        <span class="ch03-way__c"><i>O</i>(1)</span>
+        <div class="ch03-way__body"><strong>Evaluate the formula</strong><p>The closed form needs a fixed number of arithmetic operations.</p></div>
+        <span class="ch03-way__tag">closed form</span>
+      </div>
+    </div>
+
+    <div class="ch03-qwrap" data-reveal data-scale="log">
+      <div class="ch03-qhead">
+        <span class="kicker">Table 3.3 · first values of <i>q</i>(<i>n</i>)</span>
+        <div class="ch03-qhead__right">
+          <span class="ch03-qhead__hint">hover or focus a bar</span>
+          <div class="ch03-qscale" role="group" aria-label="Bar height scale">
+            <button class="ch03-qscale__btn is-active" type="button" data-qscale="log" aria-pressed="true">log</button>
+            <button class="ch03-qscale__btn" type="button" data-qscale="linear" aria-pressed="false">linear</button>
+          </div>
+        </div>
+      </div>
+      <div class="ch03-qchart" aria-label="Bar chart of q of n for n from one to ten">
+        <div class="ch03-qbar" tabindex="0" data-tip="q(1) = 0"><span class="ch03-qbar__val">0</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill is-zero" style="--h:0%; --hl:0%"></span></div><span class="ch03-qbar__n">1</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(2) = 0"><span class="ch03-qbar__val">0</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill is-zero" style="--h:0%; --hl:0%"></span></div><span class="ch03-qbar__n">2</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(3) = 8"><span class="ch03-qbar__val">8</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:0.23%; --hl:26.94%"></span></div><span class="ch03-qbar__n">3</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(4) = 44"><span class="ch03-qbar__val">44</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:1.26%; --hl:46.68%"></span></div><span class="ch03-qbar__n">4</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(5) = 140"><span class="ch03-qbar__val">140</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:4.02%; --hl:60.68%"></span></div><span class="ch03-qbar__n">5</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(6) = 340"><span class="ch03-qbar__val">340</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:9.77%; --hl:71.51%"></span></div><span class="ch03-qbar__n">6</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(7) = 700"><span class="ch03-qbar__val">700</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:20.1%; --hl:80.35%"></span></div><span class="ch03-qbar__n">7</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(8) = 1,288"><span class="ch03-qbar__val">1,288</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:37%; --hl:87.82%"></span></div><span class="ch03-qbar__n">8</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(9) = 2,184"><span class="ch03-qbar__val">2,184</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:62.8%; --hl:94.29%"></span></div><span class="ch03-qbar__n">9</span></div>
+        <div class="ch03-qbar" tabindex="0" data-tip="q(10) = 3,480"><span class="ch03-qbar__val">3,480</span><div class="ch03-qbar__track"><span class="ch03-qbar__fill" style="--h:100%; --hl:100%"></span></div><span class="ch03-qbar__n">10</span></div>
+      </div>
+      <p class="ch03-qcap">
+        <span data-qcap="log">Heights are logarithmic, so the early values stay visible; the printed values are exact.</span>
+        <span data-qcap="linear">Heights are proportional to the value. The first five bars nearly disappear, which is the point.</span>
+      </p>
+    </div>
+
+    <p class="ch03-closing-line" data-reveal>The same question falls from <i>O</i>(<i>n</i><sup>4</sup>) to <i>O</i>(1) without changing a single rule of chess. That descent is the chapter in miniature.</p>
+
+    <p class="ch03-endnote" data-reveal>Efficiency is a design constraint, not an afterthought. The next chapter puts the counting tools to work on order: sorting and searching.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 03</span>
+    <h2 id="endTitle">Count before you code.</h2>
+    <p>Efficiency is a design constraint, not an afterthought.</p>
+    <a class="end__next end__next--link" href="ch04.html">
+      <div class="end__next-copy">
+        <span class="kicker">Next · Chapter 04</span>
+        <h3>Sorting and Searching</h3>
+        <p>Sorting as a problem-solving tool, and binary search on arrays and answer ranges.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 03 · Efficiency</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 03 · Efficiency</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s31" data-close-drawer><span>3.1</span>Time Complexity</a>
+            <a href="#s311" data-close-drawer><span>3.1.1</span>Calculation Rules</a>
+            <a href="#s312" data-close-drawer><span>3.1.2</span>Common Time Complexities</a>
+            <a href="#s313" data-close-drawer><span>3.1.3</span>Estimating Efficiency</a>
+            <a href="#s314" data-close-drawer><span>3.1.4</span>Formal Definitions</a>
+            <a href="#s32" data-close-drawer><span>3.2</span>Examples</a>
+            <a href="#s321" data-close-drawer><span>3.2.1</span>Maximum Subarray Sum</a>
+            <a href="#s322" data-close-drawer><span>3.2.2</span>Two Queens Problem</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row" href="ch02.html">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch03.html" aria-current="page">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row" href="ch07.html">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row" href="ch09.html">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch11.html">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch15.html">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch03.js"></script>
+</body>
+</html>

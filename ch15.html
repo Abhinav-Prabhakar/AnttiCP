@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 15 — Additional Topics · Guide to Competitive Programming</title>
+<meta name="description" content="Square-root decomposition, revisited segment trees, treaps, DP optimization, and a grab bag of techniques.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E15%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chapters/ch15.css">
+</head>
+<body data-chapter="15">
+
+<!-- ============ icon sprite ============ -->
+<!-- ============ icon sprite ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 5.5 20 12l-6.5 6.5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v15M5.5 13.5 12 20l6.5-6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5M5.5 10.5 12 4l6.5 6.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path d="M6 5.5v13l9-6.5zM18 5v14" fill="currentColor" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2.4 7.1M4 5v5h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></symbol>
+</svg>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill" id="progressFill"></div></div>
+
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html" aria-label="Guide to Competitive Programming — start of the book">
+      <span class="brand__mark">CP</span>
+      <span class="brand__text">Guide to Competitive Programming</span>
+    </a>
+    <div class="topbar__meta">
+      <span class="topbar__chapter">Chapter 15 <span>— Additional Topics</span></span>
+      <span class="topbar__pct" id="topbarPct">0%</span>
+      <button class="topbar__btn" id="contentsBtn" aria-haspopup="dialog" aria-controls="contentsDrawer">
+        <span>Contents</span>
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="siderail" aria-label="Chapter sections">
+  <a href="#s151" class="siderail__item" data-section="s151"><span class="siderail__num">15.1</span><span class="siderail__label">Square Root Techniques</span></a>
+  <a href="#s152" class="siderail__item" data-section="s152"><span class="siderail__num">15.2</span><span class="siderail__label">Segment Trees Revisited</span></a>
+  <a href="#s153" class="siderail__item" data-section="s153"><span class="siderail__num">15.3</span><span class="siderail__label">Treaps</span></a>
+  <a href="#s154" class="siderail__item" data-section="s154"><span class="siderail__num">15.4</span><span class="siderail__label">Dynamic Programming Optimization</span></a>
+  <a href="#s155" class="siderail__item" data-section="s155"><span class="siderail__num">15.5</span><span class="siderail__label">Miscellaneous</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ hero ============ -->
+<section class="hero ch15-hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="hero__top">
+      <div class="hero__eyebrow" data-reveal>
+        <span class="kicker">Chapter 15</span>
+        <span class="hero__rule"></span>
+        <span class="kicker kicker--muted">Additional Topics</span>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle" class="ch15-hero-title" data-reveal>Additional Topics</h1>
+          <p class="hero__lead" data-reveal style="--d:.08s">A last selection of advanced techniques: square-root decomposition, segment trees with laziness, treaps, dynamic-programming optimisation, and a handful of clever reorganisations.</p>
+          <p class="hero__meta-line" data-reveal style="--d:.14s"><span>5 sections</span><span>30 pages</span><span>≈ 75 min</span></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="hero-map ch15-hero-map" data-reveal style="--d:.2s" aria-label="An array of thirty-two values divided into four blocks; a query highlights two partial blocks and one whole block">
+      <svg viewBox="0 0 1000 250" role="img" aria-hidden="true">
+        <g class="ch15-hero-blocks" id="ch15HeroBlocks"></g>
+        <path class="ch15-hero-bracket" d="M0 0" id="ch15HeroBracket"/>
+        <text class="ch15-hero-query" id="ch15HeroQuery" x="0" y="64" text-anchor="middle">query [5, 21]</text>
+        <text class="ch15-hero-note" x="50" y="222">eight values per block · four blocks</text>
+        <text class="ch15-hero-big" x="952" y="228" text-anchor="end">O(√n)</text>
+      </svg>
+      <figcaption><span class="hero-map__hint">The query reads a partial block at each end and whole blocks in between — the rest of the array is untouched.</span></figcaption>
+    </figure>
+
+    <div class="chapter-index" data-reveal style="--d:.1s">
+      <div class="chapter-index__head"><span class="kicker">In this chapter</span></div>
+      <div class="chapter-index__grid">
+        <a class="idx" href="#s151">
+          <span class="idx__num">15.1</span>
+          <span class="idx__body">
+            <span class="idx__title">Square Root Techniques</span>
+            <span class="idx__desc">Blocks, subalgorithms, integer partitions, Mo’s algorithm</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s152">
+          <span class="idx__num">15.2</span>
+          <span class="idx__body">
+            <span class="idx__title">Segment Trees Revisited</span>
+            <span class="idx__desc">Lazy propagation, sparse and persistent trees, nested structures</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s153">
+          <span class="idx__num">15.3</span>
+          <span class="idx__body">
+            <span class="idx__title">Treaps</span>
+            <span class="idx__desc">Split, merge, and an array that behaves like a tree</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s154">
+          <span class="idx__num">15.4</span>
+          <span class="idx__body">
+            <span class="idx__title">Dynamic Programming Optimization</span>
+            <span class="idx__desc">Convex hull trick, divide and conquer, Knuth’s optimization</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="idx" href="#s155">
+          <span class="idx__num">15.5</span>
+          <span class="idx__body">
+            <span class="idx__title">Miscellaneous</span>
+            <span class="idx__desc">Meet in the middle, subset sums, parallel search, dynamic connectivity</span>
+          </span>
+          <svg class="icon idx__arrow"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15.1 ============ -->
+<section class="section" id="s151" aria-labelledby="h151">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">15.1</span>
+      <div class="section-head__body">
+        <h2 id="h151">Square Root Techniques</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A square root is a poor man’s logarithm: O(√<i>n</i>) is better than O(<i>n</i>) but worse than O(log <i>n</i>).</p>
+
+    <p class="lead" data-reveal>The recurring idea is to divide <i>n</i> elements into O(√<i>n</i>) blocks of O(√<i>n</i>) elements each, and to keep one summary value per block. The structure is simple to implement and fast enough for a surprising range of problems.</p>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.1.1</span>
+        <h3>Data Structures</h3>
+      </div>
+      <p>Suppose we must modify array values and find minimum values in ranges. A segment tree supports both operations in O(log <i>n</i>). The square-root structure takes O(√<i>n</i>) instead, and needs only the array and one minimum per block.</p>
+      <p>To query a range, scan the values in the first and last partial blocks, and read the stored minimum for every whole block between them. Since there are O(√<i>n</i>) single values and O(√<i>n</i>) blocks, the query is O(√<i>n</i>). An update changes one value and rescans only its block.</p>
+    </div>
+
+    <!-- interactive: square-root range minimum -->
+    <div class="ch15-lab" data-lab data-reveal>
+      <div class="ch15-lab__head">
+        <div>
+          <span class="kicker">Interactive · range minimum</span>
+          <h3>Step through a block query</h3>
+        </div>
+        <span class="ch15-lab__hint">16 values · blocks of 4</span>
+      </div>
+
+      <div class="ch15-blocks" data-lab-grid aria-label="Array of sixteen values divided into four blocks"></div>
+
+      <div class="ch15-lab__controls">
+        <div class="ch15-presets" role="group" aria-label="Choose a query range">
+          <button class="ch15-preset is-active" type="button" data-range="2,13" aria-pressed="true">[2, 13]</button>
+          <button class="ch15-preset" type="button" data-range="4,11" aria-pressed="false">[4, 11]</button>
+          <button class="ch15-preset" type="button" data-range="6,9" aria-pressed="false">[6, 9]</button>
+        </div>
+        <div class="ch15-lab__actions">
+          <button class="btn btn--primary" type="button" data-lab-step><svg class="icon"><use href="#i-step"/></svg><span>Step</span></button>
+          <button class="btn" type="button" data-lab-reset><svg class="icon"><use href="#i-reset"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+
+      <div class="ch15-lab__readout">
+        <div class="ch15-lab__stat">
+          <span class="kicker">Inspected</span>
+          <strong data-lab-count>0</strong>
+          <span class="ch15-lab__sub" data-lab-naive>12 cells the naive way</span>
+        </div>
+        <div class="ch15-lab__stat">
+          <span class="kicker">Whole blocks</span>
+          <strong data-lab-blocks>0</strong>
+          <span class="ch15-lab__sub">one block minimum each</span>
+        </div>
+        <div class="ch15-lab__stat">
+          <span class="kicker">Minimum</span>
+          <strong data-lab-answer>—</strong>
+          <span class="ch15-lab__sub">running answer</span>
+        </div>
+      </div>
+
+      <p class="ch15-lab__log" data-lab-log aria-live="polite">Choose a range and press Step. The first partial block is scanned value by value.</p>
+
+      <div class="ch15-lab__foot">
+        <button class="text-btn" type="button" data-lab-update>Change a[10] to 0 <span>rescan one block</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+        <span class="ch15-lab__foot-note">An update touches one block: O(√<i>n</i>).</span>
+      </div>
+    </div>
+
+    <p class="ch15-after" data-reveal>For [2, 13] the scan touches four single values and two block minima — six inspections instead of twelve. The saving is modest here, but it grows with <i>n</i>, and the code stays short enough to write under contest pressure.</p>
+
+    <div class="ch15-timing" data-reveal>
+      <div class="ch15-timing__head">
+        <div>
+          <span class="kicker">Table 15.1 · an experiment</span>
+          <h3>How close is a square root?</h3>
+        </div>
+        <p><i>n</i> random minimum queries on <i>n</i> random <code>int</code> values, in seconds.</p>
+      </div>
+      <div class="ch15-table-wrap">
+        <table class="ch15-table">
+          <thead>
+            <tr><th scope="col"><i>n</i></th><th scope="col">segment tree<br><span>O(log <i>n</i>)</span></th><th scope="col" class="is-sqrt">square root<br><span>O(√<i>n</i>)</span></th><th scope="col">plain array<br><span>O(<i>n</i>)</span></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2<sup>16</sup></td><td>0.02</td><td class="is-sqrt">0.05</td><td>1.50</td></tr>
+            <tr><td>2<sup>17</sup></td><td>0.03</td><td class="is-sqrt">0.16</td><td>6.02</td></tr>
+            <tr><td>2<sup>18</sup></td><td>0.07</td><td class="is-sqrt">0.28</td><td>24.82</td></tr>
+            <tr><td>2<sup>19</sup></td><td>0.14</td><td class="is-sqrt">1.14</td><td class="is-over">&gt; 60</td></tr>
+            <tr><td>2<sup>20</sup></td><td>0.31</td><td class="is-sqrt">2.11</td><td class="is-over">&gt; 60</td></tr>
+            <tr><td>2<sup>21</sup></td><td>0.66</td><td class="is-sqrt">9.27</td><td class="is-over">&gt; 60</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ch15-timing__cap">Up to <i>n</i> = 2<sup>18</sup> the square-root structure is still within a factor of four of the segment tree. After that the logarithm pulls away. The square root earns its place through simplicity, not asymptotics.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.1.2</span>
+        <h3>Subalgorithms</h3>
+      </div>
+      <p>Some problems have two natural algorithms that fail in opposite cases. Instead of choosing one, use both as <em>subalgorithms</em> and decide per case which one to run.</p>
+    </div>
+
+    <div class="split2 ch15-split" data-reveal>
+      <div>
+        <h4 class="ch15-minor">Letter distances</h4>
+        <p>An <i>n</i> × <i>n</i> grid is filled with letters. Find the minimum Manhattan distance between two squares with the same letter. For one letter <i>c</i>, there are two options:</p>
+        <div class="ch15-subalgo">
+          <article class="ch15-subalgo__item">
+            <span class="ch15-subalgo__tag">Algorithm 1</span>
+            <strong>All pairs</strong>
+            <span class="ch15-subalgo__cost">O(<i>k</i><sup>2</sup>)</span>
+            <p>Compare every pair of squares that contain <i>c</i>. Good when <i>k</i> is small; terrible when every square is the same letter.</p>
+          </article>
+          <article class="ch15-subalgo__item">
+            <span class="ch15-subalgo__tag">Algorithm 2</span>
+            <strong>Multi-source BFS</strong>
+            <span class="ch15-subalgo__cost">O(<i>n</i><sup>2</sup>)</span>
+            <p>Start a breadth-first search from all <i>c</i>-squares at once. Good when <i>k</i> is large; wasteful when most letters are rare.</p>
+          </article>
+        </div>
+        <div class="ch15-rule">
+          <div class="ch15-rule__bar" aria-hidden="true">
+            <span class="ch15-rule__small">pairs</span>
+            <span class="ch15-rule__large">BFS</span>
+          </div>
+          <div class="ch15-rule__labels"><span><i>k</i> ≤ <i>x</i></span><span><i>k</i> &gt; <i>x</i></span></div>
+          <p>Choose <i>x</i> = √(<i>n</i><sup>2</sup>) = <i>n</i>. A square handled by Algorithm 1 is compared with at most <i>n</i> others, and at most <i>n</i> letters occur more than <i>n</i> times — so both halves cost O(<i>n</i><sup>3</sup>).</p>
+        </div>
+      </div>
+
+      <figure class="figure ch15-figure-tight">
+        <div class="figure__frame">
+          <svg viewBox="0 0 420 380" role="img" aria-label="A five by five letter grid with two D squares at Manhattan distance two">
+            <g class="ch15-letter-grid" id="ch15LetterGrid"></g>
+            <path class="ch15-letter-path" d="M156 170 L156 197 L183 197" />
+            <circle class="ch15-letter-dot" cx="156" cy="170" r="3.2"/>
+            <circle class="ch15-letter-dot" cx="183" cy="197" r="3.2"/>
+          </svg>
+          <p class="ch15-figure-note">The two <b>D</b> squares are two steps apart: down one, right one.</p>
+        </div>
+        <figcaption class="figure__cap">The letter-distance instance from the book. Algorithm 1 would compare the two D squares directly; BFS would spread out from both at once.</figcaption>
+      </figure>
+    </div>
+
+    <div class="ch15-black" data-reveal>
+      <div class="ch15-black__copy">
+        <span class="kicker">A second example</span>
+        <h4>The black squares game</h4>
+        <p>One square of an <i>n</i> × <i>n</i> grid is black. On each turn a white square is chosen, its distance to the nearest black square is reported, and it becomes black.</p>
+        <p>Process the turns in batches of <i>k</i>. Before a batch, one BFS computes the distance from every square to a black square: O(<i>n</i><sup>2</sup>). During the batch, the answer is the smaller of that precomputed value and the distance to one of the at most <i>k</i> squares painted in this batch. With <i>k</i> = <i>n</i> there are O(<i>n</i>) batches, so the total is O(<i>n</i><sup>3</sup>).</p>
+      </div>
+      <div class="ch15-turn" aria-label="One turn of the black squares game">
+        <div class="ch15-turn__grid" id="ch15BlackGrid"></div>
+        <p class="ch15-turn__cap"><b>X</b> is three steps from the nearest black square. After the report, X becomes black too.</p>
+      </div>
+    </div>
+
+    <div class="ch15-tune" data-reveal>
+      <div class="ch15-tune__head">
+        <div>
+          <span class="kicker">Table 15.2 · tuning</span>
+          <h4>The square root is a starting point</h4>
+        </div>
+        <p>The black-squares algorithm with <i>n</i> = 500, for different batch sizes <i>k</i>.</p>
+      </div>
+      <div class="ch15-tune__rows" id="ch15Tune"></div>
+      <p class="ch15-tune__cap">The exact √<i>n</i> is not a law. Here the best parameter is about <i>k</i> = 2000; the right value depends on the algorithm and the test data.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.1.3</span>
+        <h3>Integer Partitions</h3>
+      </div>
+      <p>Cut a stick of length <i>n</i> into integer parts. How many different lengths can appear? At most O(√<i>n</i>). To get as many as possible, use lengths 1, 2, …, <i>k</i>, whose total is <i>k</i>(<i>k</i> + 1)/2. This cannot exceed <i>n</i>, so <i>k</i> = O(√<i>n</i>).</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch15-partitions">
+        <div class="ch15-sticks" id="ch15Sticks" aria-label="Several partitions of a stick of length seven"></div>
+        <div class="ch15-sticks__foot">
+          <span class="kicker">Distinct lengths</span>
+          <span class="ch15-sticks__note">The greedy 1 + 2 + … + <i>k</i> is the most generous partition. Its total is <i>k</i>(<i>k</i> + 1)/2, so <i>k</i> = O(√<i>n</i>).</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">Four partitions of a stick of length seven. The bottom row uses three distinct lengths, the maximum for this <i>n</i>.</figcaption>
+    </figure>
+
+    <div class="split2 ch15-split" data-reveal>
+      <div>
+        <h4 class="ch15-minor">Knapsack with few distinct weights</h4>
+        <p>A knapsack list has integer weights summing to <i>n</i>. The standard algorithm is O(<i>n</i><i>k</i>), which is O(<i>n</i><sup>2</sup>) when <i>k</i> = O(<i>n</i>). But there are at most O(√<i>n</i>) distinct weights, so process equal weights as a group in O(<i>n</i>) time. The total becomes O(<i>n</i>√<i>n</i>).</p>
+        <p>For the weights [3, 3, 4], process the two 3s together, then the 4. All reachable sums are shown on the right.</p>
+        <div class="ch15-chips-line">
+          <span class="tag tag--mono">O(n√n)</span>
+          <span class="tag">group equal weights</span>
+        </div>
+      </div>
+      <div class="ch15-sums-panel">
+        <span class="kicker">Reachable sums of [3, 3, 4]</span>
+        <div class="ch15-sums" aria-label="Reachable sums are 0, 3, 4, 6, 7 and 10">
+          <span class="is-on">0</span><span>1</span><span>2</span><span class="is-on">3</span><span class="is-on">4</span><span>5</span><span class="is-on">6</span><span class="is-on">7</span><span>8</span><span>9</span><span class="is-on">10</span>
+        </div>
+        <p class="ch15-sums__note">Six of the eleven sums are possible. The empty choice gives 0; all three weights give 10.</p>
+      </div>
+    </div>
+
+    <div class="ch15-string" data-reveal>
+      <div>
+        <h4 class="ch15-minor">String construction</h4>
+        <p>Given a string of length <i>n</i> and a dictionary of total length <i>m</i>, count the ways to build the string from dictionary words. A trie over reversed words gives O(<i>n</i><sup>2</sup> + <i>m</i>). A second approach exploits that there are at most O(√<i>m</i>) distinct word lengths: store the hash of every word, and for each prefix try only lengths that occur. That is O(<i>n</i>√<i>m</i> + <i>m</i>) with a hash set.</p>
+        <p><b>ABAB</b> from {A, B, AB} has four constructions:</p>
+        <div class="ch15-ways">
+          <span>A + B + A + B</span>
+          <span>AB + A + B</span>
+          <span>A + B + AB</span>
+          <span>AB + AB</span>
+        </div>
+      </div>
+      <div class="ch15-string__mark" aria-hidden="true">
+        <span>AB</span><span>AB</span>
+        <span>AB</span><span>A</span><span>B</span>
+        <span>A</span><span>B</span><span>AB</span>
+        <span>A</span><span>B</span><span>A</span><span>B</span>
+      </div>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.1.4</span>
+        <h3>Mo’s Algorithm</h3>
+      </div>
+      <p>Mo’s algorithm handles many range queries on a static array. It keeps one <em>active range</em> and moves its two endpoints one step at a time, updating the answer in O(1) per step. The array never changes, so the queries may be answered in any order — and the trick is to choose a good one.</p>
+      <p>Divide the array into blocks of <i>k</i> = O(√<i>n</i>). Sort the queries by the block of their left endpoint, and within a block by their right endpoint. The left endpoint moves O(<i>n</i>) times within each of O(√<i>n</i>) blocks, and the right endpoint moves O(<i>n</i>) within each block. Both endpoints move O(<i>n</i>√<i>n</i>) steps in total.</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch15-mo">
+        <svg viewBox="0 0 760 270" role="img" aria-label="Two overlapping ranges on an array; moving from the first to the second takes three endpoint steps">
+          <g id="ch15MoRows"></g>
+        </svg>
+        <div class="ch15-mo__legend">
+          <span><i class="ch15-key ch15-key--first"></i>active range</span>
+          <span><i class="ch15-key ch15-key--second"></i>next query</span>
+          <span><i class="ch15-key ch15-key--move"></i>endpoint moves</span>
+        </div>
+      </div>
+      <figcaption class="figure__cap">From range [1, 4] to [2, 6]: the left endpoint steps right once, the right endpoint twice. Three updates to the <code>count</code> array, each O(1).</figcaption>
+    </figure>
+
+    <p class="ch15-after" data-reveal>For distinct values, keep <code>count[x]</code> for the active range and a running total. Adding <i>x</i> increments <code>count[x]</code>, and raises the answer if it became 1; removing <i>x</i> decrements it, and lowers the answer if it became 0. The whole algorithm runs in O(<i>n</i>√<i>n</i>) time.</p>
+
+    <details class="note ch15-note" data-reveal>
+      <summary><span class="note__label">Why the ordering helps</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+      <div class="note__body">
+        <p>Within one left block, all queries are sorted by right endpoint, so the right endpoint only moves forward — O(<i>n</i>) steps per block. The left endpoint can jump back and forth, but it always stays inside a block of size <i>k</i> = O(√<i>n</i>), so moving between consecutive queries costs O(√<i>n</i>). Across O(√<i>n</i>) blocks the total is O(<i>n</i>√<i>n</i>).</p>
+        <p>Mo’s algorithm is named after Mo Tao, a Chinese competitive programmer.<sup class="ref">[5]</sup></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 15.2 ============ -->
+<section class="section" id="s152" aria-labelledby="h152">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">15.2</span>
+      <div class="section-head__body">
+        <h2 id="h152">Segment Trees Revisited</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Until now the segment tree has been walked from the bottom up. The advanced variants are easier to write from the top down.</p>
+
+    <p class="lead" data-reveal>A range query descends from the root, stopping at nodes whose ranges are completely inside the query. This recursive shape is what makes lazy updates, sparse trees and nested trees possible.</p>
+
+    <div class="split2 ch15-split ch15-tree-intro" data-reveal>
+      <div>
+        <p>The familiar function walks upward from two leaves:</p>
+        <div class="ch15-inline-code"><code>a += n; b += n;</code><br><code>while (a &lt;= b) { … a /= 2; b /= 2; }</code></div>
+        <p>The top-down version passes the current tree index <code>k</code> and its range [<i>x</i>, <i>y</i>]. If [<i>x</i>, <i>y</i>] is outside [<i>a</i>, <i>b</i>], return 0. If it is inside, return <code>tree[k]</code>. Otherwise continue into both halves.</p>
+        <p>Only O(log <i>n</i>) nodes are visited, because at each level at most two nodes are partially covered.</p>
+      </div>
+      <div class="code-card" data-code-card id="cardTopDown">
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.2.1</span>
+        <h3>Lazy Propagation</h3>
+      </div>
+      <p>A lazy segment tree supports range updates and range queries, both in O(log <i>n</i>). Each node stores the usual value <i>s</i> and a lazy tag <i>z</i>: “every value in this range should still be increased by <i>z</i>”.</p>
+      <p>To add <i>u</i> to a range, descend as usual. If a node is completely inside the update, add <i>u</i> to its <i>z</i> and stop — its children are not touched. If the node is only partially covered, recurse into the children and then recompute <i>s</i> from them. Before accessing a node, push its tag to both children and clear it.</p>
+    </div>
+
+    <!-- interactive: lazy tree -->
+    <div class="ch15-lazy" data-lazy data-reveal>
+      <div class="ch15-lazy__head">
+        <div>
+          <span class="kicker">Interactive · lazy segment tree</span>
+          <h3>Where the pending tag lives</h3>
+        </div>
+        <div class="seg" role="group" aria-label="Choose a tree operation">
+          <button class="seg__btn is-active" type="button" data-lazy-state="before" aria-pressed="true">Before</button>
+          <button class="seg__btn" type="button" data-lazy-state="update" aria-pressed="false">Add 2 to [4,7]</button>
+          <button class="seg__btn" type="button" data-lazy-state="query" aria-pressed="false">Query [3,6]</button>
+        </div>
+      </div>
+      <div class="ch15-lazy__canvas">
+        <svg id="ch15LazySvg" viewBox="0 0 900 380" role="img" aria-label="Segment tree over eight values showing sums and lazy tags"></svg>
+      </div>
+      <div class="ch15-lazy__readout" aria-live="polite">
+        <p data-lazy-note>Each node shows <b>s / z</b>: the sum of its range and its pending lazy update. No tags are active yet.</p>
+        <span class="ch15-lazy__answer" data-lazy-answer></span>
+      </div>
+      <div class="ch15-lazy__legend">
+        <span><i class="ch15-key ch15-key--tag"></i>pending tag z &gt; 0</span>
+        <span><i class="ch15-key ch15-key--visit"></i>visited by the operation</span>
+        <span><i class="ch15-key ch15-key--pushed"></i>pushed down before use</span>
+      </div>
+    </div>
+
+    <p class="ch15-after" data-reveal>After the update, nodes [4,5] and [6,7] carry <i>z</i> = 2 while their children still hold the old values. The query must pass through those nodes, so it pushes the tags down first. The answer is 3 + 13 + 4 = 20; the leaf values become 4, 9, 4, 8.</p>
+
+    <div class="split2 ch15-split ch15-lazy-code" data-reveal>
+      <div>
+        <h4 class="ch15-minor">One pattern, several updates</h4>
+        <p>The same machinery supports adding a constant and assigning a value. It even supports adding a polynomial: give each node <i>k</i> + 2 values, the sum <i>s</i> and coefficients <i>z</i><sub>0</sub> … <i>z</i><sub><i>k</i></sub>. The lazy update at position <i>i</i> adds <i>p</i>(<i>i</i> − <i>a</i>) for a polynomial <i>p</i> of degree <i>k</i>.</p>
+        <p>When a polynomial tag moves down by <i>h</i> positions, replace <i>p</i>(<i>u</i>) with <i>p</i>(<i>u</i> + <i>h</i>) — still a polynomial of the same degree. Sums of powers give the contribution of each coefficient to a node in O(1).</p>
+        <details class="note">
+          <summary><span class="note__label">The shift, written out</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="note__body">
+            <p>If <i>p</i>(<i>u</i>) = <i>t</i><sub>2</sub><i>u</i><sup>2</sup> + <i>t</i><sub>1</sub><i>u</i> + <i>t</i><sub>0</sub>, then</p>
+            <p><i>p</i>(<i>u</i> + <i>h</i>) = <i>t</i><sub>2</sub><i>u</i><sup>2</sup> + (2<i>h</i><i>t</i><sub>2</sub> + <i>t</i><sub>1</sub>)<i>u</i> + <i>t</i><sub>2</sub><i>h</i><sup>2</sup> + <i>t</i><sub>1</sub><i>h</i> + <i>t</i><sub>0</sub>.</p>
+            <p>For a range of length <i>L</i>, the constant term contributes <i>z</i><sub>0</sub><i>L</i>, and the linear term contributes <i>z</i><sub>1</sub>(0 + 1 + … + <i>L</i> − 1) = <i>z</i><sub>1</sub><i>L</i>(<i>L</i> − 1)/2.</p>
+          </div>
+        </details>
+      </div>
+      <div class="code-card" data-code-card id="cardLazy">
+        <div class="code-card__head">
+          <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+          <div class="code-card__meta">
+            <span class="code-card__file" data-code-file></span>
+            <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+          </div>
+        </div>
+        <pre class="code" data-code-block><code data-code-lines></code></pre>
+        <div class="code-card__foot">
+          <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.2.2</span>
+        <h3>Dynamic Trees</h3>
+      </div>
+      <p>An ordinary segment tree reserves a fixed array. A dynamic tree allocates a node only when it is actually visited. This pays off when the index range is huge but most values stay zero: a sparse tree with <i>k</i> operations uses O(<i>k</i> log <i>n</i>) memory instead of O(<i>n</i>).</p>
+      <p>A node stores its value, its range [<i>x</i>, <i>y</i>], and pointers to its children. The tree starts as a single zero node [0, <i>n</i> − 1]; each update creates at most O(log <i>n</i>) new nodes along one path. If all updated indices are known in advance, index compression is simpler — but not when the indices are generated online.</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 680 380" role="img" aria-label="A sparse segment tree over sixteen positions where only positions three and ten have been modified">
+          <g class="ch15-sparse-edges">
+            <path d="M340 40 190 110M340 40 520 110M190 110 100 190M100 190 190 270M190 270 280 340M520 110 440 190M440 190 530 270M530 270 620 340"/>
+          </g>
+          <g class="ch15-sparse-node" transform="translate(340 40)"><circle r="27"/><text y="4">[0,15]</text></g>
+          <g class="ch15-sparse-node" transform="translate(190 110)"><circle r="27"/><text y="4">[0,7]</text></g>
+          <g class="ch15-sparse-node" transform="translate(520 110)"><circle r="27"/><text y="4">[8,15]</text></g>
+          <g class="ch15-sparse-node" transform="translate(100 190)"><circle r="27"/><text y="4">[0,3]</text></g>
+          <g class="ch15-sparse-node" transform="translate(190 270)"><circle r="27"/><text y="4">[2,3]</text></g>
+          <g class="ch15-sparse-node" transform="translate(280 340)"><circle r="27"/><text y="4">[3,3]</text></g>
+          <g class="ch15-sparse-node" transform="translate(440 190)"><circle r="27"/><text y="4">[8,11]</text></g>
+          <g class="ch15-sparse-node" transform="translate(530 270)"><circle r="27"/><text y="4">[10,11]</text></g>
+          <g class="ch15-sparse-node" transform="translate(620 340)"><circle r="27"/><text y="4">[10,10]</text></g>
+        </svg>
+        <p class="ch15-figure-note">Nine nodes, not thirty-one. The paths an ordinary tree would also store are simply absent.</p>
+      </div>
+      <figcaption class="figure__cap">A sparse segment tree for <i>n</i> = 16 after modifying positions 3 and 10. Each modification walks one root-to-leaf path and creates O(log <i>n</i>) nodes.</figcaption>
+    </figure>
+
+    <p class="ch15-after" data-reveal>A dynamic implementation also gives persistence almost for free. An update copies the O(log <i>n</i>) nodes on its path and leaves the rest shared with the previous version. Each historical tree is then identified by its root pointer, and previous versions can still be queried.</p>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.2.3</span>
+        <h3>Data Structures in Nodes</h3>
+      </div>
+      <p>A node need not store a single number. It can store a whole data structure describing its range. To count occurrences of a value <i>x</i> in [<i>a</i>, <i>b</i>], give every segment-tree node a map from values to frequencies. Query the O(log <i>n</i>) nodes that cover the range and add their answers.</p>
+      <p>Each map operation costs O(log <i>n</i>), so a query is O(log<sup>2</sup> <i>n</i>). The tree uses O(<i>n</i> log <i>n</i>) memory: O(log <i>n</i>) levels, each holding <i>n</i> entries in total.</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch15-maps-figure">
+        <div class="ch15-array-ribbon" aria-label="Array values 3 1 2 3 1 1 1 2">
+          <span>3</span><span>1</span><span>2</span><span>3</span><span>1</span><span>1</span><span>1</span><span>2</span>
+        </div>
+        <div class="ch15-maps">
+          <div class="ch15-map">
+            <span class="ch15-map__range">[0, 7]</span>
+            <div class="ch15-map__rows"><span><b>1</b><i>× 4</i></span><span><b>2</b><i>× 2</i></span><span><b>3</b><i>× 2</i></span></div>
+          </div>
+          <div class="ch15-map ch15-map--child">
+            <span class="ch15-map__range">[0, 3]</span>
+            <div class="ch15-map__rows"><span><b>1</b><i>× 1</i></span><span><b>2</b><i>× 1</i></span><span><b>3</b><i>× 2</i></span></div>
+          </div>
+          <div class="ch15-map ch15-map--child">
+            <span class="ch15-map__range">[4, 7]</span>
+            <div class="ch15-map__rows"><span><b>1</b><i>× 3</i></span><span><b>2</b><i>× 1</i></span></div>
+          </div>
+        </div>
+        <p class="ch15-figure-note">The root’s map says element 1 occurs four times in the whole array; the children split that count into 1 + 3.</p>
+      </div>
+      <figcaption class="figure__cap">A segment tree of maps. The highlighted answer for a range is assembled from the maps of its covering nodes, never from the leaves one by one.</figcaption>
+    </figure>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.2.4</span>
+        <h3>Two-Dimensional Trees</h3>
+      </div>
+      <p>A two-dimensional segment tree processes rectangle queries. Build a segment tree over the columns, and give every column node another segment tree over the rows. A subarray sum touches O(log <i>n</i>) column nodes, and each of those answers in O(log <i>n</i>), so both queries and updates are O(log<sup>2</sup> <i>n</i>).</p>
+      <p>The memory is O(<i>n</i><sup>2</sup>): O(<i>n</i>) column nodes, each with a row tree of O(<i>n</i>) nodes. That is the price of asking two-dimensional questions without scanning a row.</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 560 330" role="img" aria-label="A six by six matrix with a highlighted rectangular subarray; columns are indexed by a segment tree and each column node holds a row tree">
+          <g id="ch15Matrix"></g>
+          <path class="ch15-2d-bracket" d="M240 52 L240 40 L360 40 L360 52"/>
+          <text class="ch15-2d-label" x="300" y="30" text-anchor="middle">O(log n) column nodes</text>
+          <path class="ch15-2d-bracket" d="M148 104 L138 104 L138 224 L148 224"/>
+          <text class="ch15-2d-label" x="122" y="164" text-anchor="middle" transform="rotate(-90 122 164)">row tree in each</text>
+          <text class="ch15-2d-foot" x="280" y="318" text-anchor="middle">answer = sum of O(log² n) cells of trees</text>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">A rectangle query selects a few column nodes; inside each, a row query selects a few nodes. Two logarithmic descents, multiplied.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 15.3 ============ -->
+<section class="section" id="s153" aria-labelledby="h153">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">15.3</span>
+      <div class="section-head__body">
+        <h2 id="h153">Treaps</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>A treap stores an array as a binary tree whose inorder walk is the array and whose weights form a heap.</p>
+
+    <p class="lead" data-reveal>Each node carries a value and a random weight. The weights are smaller toward the root, and the values appear in array order from left to right. Random weights keep the height O(log <i>n</i>) with high probability — and make splitting and merging cheap.</p>
+
+    <div class="ch15-treap-intro" data-reveal>
+      <p>In the example, the root has weight 1 and value D. Its left subtree holds three nodes, so D is the array element at position 3. The weights are not chosen by hand: every new node receives a random weight, and the shape follows.</p>
+    </div>
+
+    <!-- interactive: treap split / merge -->
+    <div class="ch15-treap" data-treap data-reveal>
+      <div class="ch15-treap__head">
+        <div>
+          <span class="kicker">Interactive · split and merge</span>
+          <h3>Cut the array, paste it back</h3>
+        </div>
+        <span class="ch15-treap__legend">value inside · weight below</span>
+      </div>
+      <div class="ch15-treap__controls">
+        <button class="btn btn--primary" type="button" data-treap-split>Split at 5</button>
+        <button class="btn" type="button" data-treap-merge disabled>Merge swapped</button>
+        <button class="btn btn--icon" type="button" data-treap-reset aria-label="Reset the treap"><svg class="icon"><use href="#i-reset"/></svg></button>
+      </div>
+      <div class="ch15-treap__canvas">
+        <svg id="ch15TreapSvg" viewBox="0 0 820 440" role="img" aria-label="A treap over the values S A N D W I C H"></svg>
+      </div>
+      <div class="ch15-treap__ribbons" data-treap-ribbons aria-label="Array order of the current treaps"></div>
+      <p class="ch15-treap__log" data-treap-log aria-live="polite">The array reads S A N D W I C H. Press Split at 5 to cut it after W.</p>
+      <p class="ch15-treap__foot">Each operation follows one root-to-leaf path: O(log <i>n</i>) expected.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.3.1</span>
+        <h3>Splitting and Merging</h3>
+      </div>
+      <p><b>Split</b> creates two treaps containing the first <i>k</i> elements and the rest. Walk down from the root. If the current node belongs to the left result, keep it and its left subtree, and recurse into its right subtree. Otherwise keep it and its right subtree, and recurse into its left subtree. Only one path is visited.</p>
+      <p><b>Merge</b> concatenates two treaps. Compare the weights of their roots; the smaller weight becomes the root of the result, and the other treap is merged into the appropriate subtree. The recursion follows a single root-to-leaf path.</p>
+      <p>In the example, splitting after the fifth element follows D → C → W → I. Merging the two halves in the opposite order turns S A N D W I C H into I C H S A N D W.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.3.2</span>
+        <h3>Implementation</h3>
+      </div>
+      <p>The structure needs one extra field: <code>size</code>, the number of nodes in the subtree. Both operations update it on the way back up. With this field, <code>size(treap-&gt;left) &lt; k</code> tells us whether the split point lies in the left subtree.</p>
+    </div>
+
+    <div class="code-card ch15-code" data-code-card id="cardTreap" data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <p class="ch15-after" data-reveal>The final lines of the example build the array [1, 2, 3, 4], split it into two halves of size two, and merge them in the opposite order. The result is [3, 4, 1, 2] — a rotation of the array in O(log <i>n</i>) expected time.</p>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.3.3</span>
+        <h3>Additional Techniques</h3>
+      </div>
+      <p>A treap can maintain more than size: the sum of a subtree, its minimum, or any value that combines associatively. With split and merge this turns the treap into a fully dynamic sequence — insert, delete, reverse, and move whole blocks.</p>
+      <p>Reversal is the special trick. Swapping the left and right child of every node reverses the array, but doing it eagerly is too slow. Store a “reverse pending” flag and swap lazily, exactly like a lazy segment tree.</p>
+    </div>
+
+    <div class="ch15-reverse" data-reveal>
+      <div class="ch15-reverse__row">
+        <span class="ch15-reverse__label">before</span>
+        <div class="ch15-reverse__cells"><span>S</span><span>A</span><span>N</span><span>D</span><span>W</span><span>I</span><span>C</span><span>H</span></div>
+      </div>
+      <div class="ch15-reverse__arrow" aria-hidden="true"><span></span><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="ch15-reverse__row ch15-reverse__row--after">
+        <span class="ch15-reverse__label">after</span>
+        <div class="ch15-reverse__cells"><span>H</span><span>C</span><span>I</span><span>W</span><span>D</span><span>N</span><span>A</span><span>S</span></div>
+      </div>
+      <p class="ch15-reverse__note">One flag on the root can reverse eight values. The children are swapped only when someone walks into them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15.4 ============ -->
+<section class="section" id="s154" aria-labelledby="h154">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">15.4</span>
+      <div class="section-head__body">
+        <h2 id="h154">Dynamic Programming Optimization</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>The hard part of a dynamic program is often not the state — it is the transition that tries every previous state.</p>
+
+    <p class="lead" data-reveal>Three techniques remove that inner loop when the cost function has the right shape: the convex hull trick for linear functions, divide and conquer optimization for monotone split points, and Knuth’s optimization for interval costs.</p>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.4.1</span>
+        <h3>Convex Hull Trick</h3>
+      </div>
+      <p>Given <i>n</i> lines <i>f</i>(<i>x</i>) = <i>ax</i> + <i>b</i>, we want the minimum value at a query point <i>x</i>. The lower envelope of the lines divides the <i>x</i>-axis into ranges; in each range one line is minimal. A line appears in at most one range, so there are at most <i>n</i> ranges. Binary search over the ranges gives O(log <i>n</i>) per query, or O(1) amortized when the queries arrive in increasing order.</p>
+      <p>The example uses <i>f</i><sub>1</sub>(<i>x</i>) = <i>x</i> + 2, <i>f</i><sub>2</sub>(<i>x</i>) = <i>x</i>/3 + 4, <i>f</i><sub>3</sub>(<i>x</i>) = <i>x</i>/6 + 5 and <i>f</i><sub>4</sub>(<i>x</i>) = −<i>x</i>/4 + 7. At <i>x</i> = 4 the minimum is <i>f</i><sub>2</sub>(4) = 16/3.</p>
+    </div>
+
+    <!-- interactive: convex hull trick -->
+    <div class="ch15-cht" data-cht data-reveal>
+      <div class="ch15-cht__head">
+        <div>
+          <span class="kicker">Interactive · lower envelope</span>
+          <h3>Which line is minimal?</h3>
+        </div>
+        <label class="ch15-cht__field" for="ch15ChtRange">
+          <span><i>x</i> =</span>
+          <output data-cht-x>4.0</output>
+        </label>
+      </div>
+      <div class="ch15-cht__canvas">
+        <svg id="ch15ChtSvg" viewBox="0 0 760 400" role="img" aria-label="Four lines and their lower envelope; a movable vertical line marks the query point"></svg>
+      </div>
+      <div class="ch15-cht__controls">
+        <input class="ch15-range" id="ch15ChtRange" type="range" min="0" max="12" step="0.1" value="4" aria-label="Query point x">
+      </div>
+      <div class="ch15-cht__readout" aria-live="polite">
+        <span class="ch15-cht__fn" data-cht-fn>f₂</span>
+        <span class="ch15-cht__val" data-cht-val>f₂(4.0) = 5.33</span>
+        <span class="ch15-cht__exact" data-cht-exact>16/3</span>
+      </div>
+      <div class="ch15-cht__ranges" data-cht-ranges aria-label="Ranges where each function is minimal">
+        <span class="ch15-cht__seg" data-cht-seg="1" style="flex:3"><b>f₁</b><i>0 – 3</i></span>
+        <span class="ch15-cht__seg" data-cht-seg="2" style="flex:2.142"><b>f₂</b><i>3 – 36/7</i></span>
+        <span class="ch15-cht__seg" data-cht-seg="4" style="flex:6.858"><b>f₄</b><i>36/7 – 12</i></span>
+        <span class="ch15-cht__never">f₃ never wins</span>
+      </div>
+      <p class="ch15-cht__foot">On [0, 3] the winner is <i>f</i><sub>1</sub>; on [3, 36/7] it is <i>f</i><sub>2</sub>; after that <i>f</i><sub>4</sub> wins; <i>f</i><sub>3</sub> is dominated everywhere.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.4.2</span>
+        <h3>Divide and Conquer Optimization</h3>
+      </div>
+      <p>We must divide a sequence <i>s</i><sub>1</sub> … <i>s</i><sub><i>n</i></sub> into <i>k</i> consecutive subsequences. A cost function cost(<i>a</i>, <i>b</i>) prices the block <i>s</i><sub><i>a</i></sub> … <i>s</i><sub><i>b</i></sub>. Let solve(<i>i</i>, <i>j</i>) be the minimum total cost of dividing the first <i>i</i> elements into <i>j</i> blocks. Then</p>
+      <p class="ch15-eq">solve(<i>i</i>, <i>j</i>) = min<sub>1 ≤ <i>p</i> ≤ <i>i</i></sub> [ solve(<i>p</i> − 1, <i>j</i> − 1) + cost(<i>p</i>, <i>i</i>) ].</p>
+      <p>Trying every <i>p</i> gives O(<i>n</i><sup>2</sup><i>k</i>). If cost satisfies the quadrangle inequality</p>
+      <p class="ch15-eq">cost(<i>a</i>, <i>c</i>) + cost(<i>b</i>, <i>d</i>) ≤ cost(<i>a</i>, <i>d</i>) + cost(<i>b</i>, <i>c</i>) &nbsp; for <i>a</i> ≤ <i>b</i> ≤ <i>c</i> ≤ <i>d</i>,</p>
+      <p>then the smallest optimal <i>p</i>, written pos(<i>i</i>, <i>j</i>), is nondecreasing in <i>i</i>. A recursive function can compute the middle row value, then restrict the left half to [<i>x</i>, pos] and the right half to [pos, <i>y</i>]. Each call layer costs O(<i>n</i>), so all values for one <i>j</i> take O(<i>n</i> log <i>n</i>), and the whole DP takes O(<i>n</i><i>k</i> log <i>n</i>).</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame ch15-blocksplit">
+        <div class="ch15-blocksplit__row" aria-label="The sequence 2 3 1 2 2 3 4 1 divided into three blocks">
+          <div class="ch15-blocksplit__group" style="--n:3">
+            <div class="ch15-blocksplit__cells"><span>2</span><span>3</span><span>1</span></div>
+            <b>(2 + 3 + 1)<sup>2</sup> = 36</b>
+          </div>
+          <div class="ch15-blocksplit__group" style="--n:3">
+            <div class="ch15-blocksplit__cells"><span>2</span><span>2</span><span>3</span></div>
+            <b>(2 + 2 + 3)<sup>2</sup> = 49</b>
+          </div>
+          <div class="ch15-blocksplit__group" style="--n:2">
+            <div class="ch15-blocksplit__cells"><span>4</span><span>1</span></div>
+            <b>(4 + 1)<sup>2</sup> = 25</b>
+          </div>
+        </div>
+        <div class="ch15-blocksplit__total">
+          <span class="kicker">Total cost</span>
+          <strong>36 + 49 + 25 = 110</strong>
+        </div>
+        <p class="ch15-blocksplit__note">The optimal split for solve(8, 3) is at <i>p</i> = 7: the last block starts at position 7. The squared-sum cost satisfies the quadrangle inequality because (x + y)<sup>2</sup> + (x + z)<sup>2</sup> ≤ (x + y + z)<sup>2</sup> + x<sup>2</sup> reduces to 0 ≤ 2yz.</p>
+      </div>
+      <figcaption class="figure__cap">Dividing eight values into three blocks. The middle block is dear because its sum is largest; the optimizer is not trying to balance lengths.</figcaption>
+    </figure>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.4.3</span>
+        <h3>Knuth’s Optimization</h3>
+      </div>
+      <p>Knuth’s optimization applies when a sequence is split repeatedly until only single elements remain. Let cost(<i>a</i>, <i>b</i>) be the price of processing <i>s</i><sub><i>a</i></sub> … <i>s</i><sub><i>b</i></sub>, and solve(<i>i</i>, <i>j</i>) the minimum cost of splitting that interval into singletons:</p>
+      <p class="ch15-eq">solve(<i>i</i>, <i>j</i>) = cost(<i>i</i>, <i>j</i>) + min<sub><i>i</i> ≤ <i>p</i> &lt; <i>j</i></sub> [ solve(<i>i</i>, <i>p</i>) + solve(<i>p</i> + 1, <i>j</i>) ].</p>
+      <p>Checking every <i>p</i> is O(<i>n</i><sup>3</sup>). If cost is monotone and satisfies the same quadrangle inequality, then pos(<i>i</i>, <i>j</i> − 1) ≤ pos(<i>i</i>, <i>j</i>) ≤ pos(<i>i</i> + 1, <i>j</i>). Process intervals by increasing length; on round <i>k</i>, every pos is bounded by two values already known, so each interval costs O(1) amortized extra and the total becomes O(<i>n</i><sup>2</sup>).</p>
+    </div>
+
+    <figure class="figure" data-reveal>
+      <div class="figure__frame">
+        <svg viewBox="0 0 700 330" role="img" aria-label="An optimal splitting tree for the sequence 2 7 3 2 5 with costs 19, 9, 10 and 5">
+          <g class="ch15-knuth-edges">
+            <path d="M350 74 350 104M350 104 190 140M350 104 510 140M510 174 510 204M510 204 420 240M510 204 600 240M420 274 420 304M420 304 360 304M420 304 480 304"/>
+          </g>
+          <g class="ch15-knuth-node" transform="translate(350 44)"><rect x="-78" y="-22" width="156" height="44" rx="2"/><text y="-2">2 7 3 2 5</text><text class="ch15-knuth-cost" y="30" text-anchor="middle">cost 19</text></g>
+          <g class="ch15-knuth-node" transform="translate(190 140)"><rect x="-48" y="-20" width="96" height="40" rx="2"/><text y="2">2 7</text><text class="ch15-knuth-cost" y="30" text-anchor="middle">9</text></g>
+          <g class="ch15-knuth-node" transform="translate(510 140)"><rect x="-58" y="-20" width="116" height="40" rx="2"/><text y="2">3 2 5</text><text class="ch15-knuth-cost" y="30" text-anchor="middle">10</text></g>
+          <g class="ch15-knuth-node" transform="translate(420 240)"><rect x="-46" y="-18" width="92" height="36" rx="2"/><text y="1">3 2</text><text class="ch15-knuth-cost" y="28" text-anchor="middle">5</text></g>
+          <g class="ch15-knuth-node ch15-knuth-node--leaf" transform="translate(600 240)"><rect x="-22" y="-18" width="44" height="36" rx="2"/><text y="2">5</text></g>
+          <g class="ch15-knuth-node ch15-knuth-node--leaf" transform="translate(360 304)"><rect x="-22" y="-16" width="44" height="32" rx="2"/><text y="2">3</text></g>
+          <g class="ch15-knuth-node ch15-knuth-node--leaf" transform="translate(480 304)"><rect x="-22" y="-16" width="44" height="32" rx="2"/><text y="2">2</text></g>
+          <text class="ch15-knuth-foot" x="350" y="328" text-anchor="middle">19 + 9 + 10 + 5 = 43</text>
+        </svg>
+      </div>
+      <figcaption class="figure__cap">An optimal way to reduce 2 7 3 2 5 to single elements when cost(<i>a</i>, <i>b</i>) is the sum of the interval. Each internal node pays the sum of its interval.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 15.5 ============ -->
+<section class="section" id="s155" aria-labelledby="h155">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="section-num">15.5</span>
+      <div class="section-head__body">
+        <h2 id="h155">Miscellaneous</h2>
+      </div>
+    </div>
+
+    <p class="statement" data-reveal>Four techniques that do not share a theme, except that each one rearranges a problem until an ordinary tool fits.</p>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.5.1</span>
+        <h3>Meet in the Middle</h3>
+      </div>
+      <p>Meet in the middle splits the search space in half, searches both halves separately, and combines the results. An O(2<sup><i>n</i></sup>) algorithm becomes O(2<sup><i>n</i>/2</sup>) — the square root of the old work. In practice that moves the feasible input from about <i>n</i> = 20 to <i>n</i> = 40.</p>
+      <p>For the subset-sum question, split the set into <i>A</i> and <i>B</i>. Generate every subset sum of each half, store the sums in lists <i>S</i><sub><i>A</i></sub> and <i>S</i><sub><i>B</i></sub>, and look for one value from each list that adds up to <i>x</i>. With sorted lists, two pointers do the combination in O(2<sup><i>n</i>/2</sup>) as well.</p>
+    </div>
+
+    <!-- interactive: meet in the middle -->
+    <div class="ch15-mitm" data-mitm data-reveal>
+      <div class="ch15-mitm__head">
+        <div>
+          <span class="kicker">Interactive · subset sum</span>
+          <h3>Two lists, one target</h3>
+        </div>
+        <div class="ch15-mitm__targets" role="group" aria-label="Choose a target sum">
+          <button class="ch15-preset is-active" type="button" data-target="15" aria-pressed="true">x = 15</button>
+          <button class="ch15-preset" type="button" data-target="13" aria-pressed="false">x = 13</button>
+          <button class="ch15-preset" type="button" data-target="11" aria-pressed="false">x = 11</button>
+          <button class="ch15-preset" type="button" data-target="3" aria-pressed="false">x = 3</button>
+        </div>
+      </div>
+      <svg id="ch15MitmSvg" viewBox="0 0 760 300" role="img" aria-label="Two lists of subset sums for A equals 2, 4 and B equals 5, 9; a target is formed by one value from each list"></svg>
+      <p class="ch15-mitm__note" data-mitm-note aria-live="polite">6 from <i>S</i><sub>A</sub> and 9 from <i>S</i><sub>B</sub> give 15. Only the two half-lists were enumerated.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.5.2</span>
+        <h3>Counting Subsets</h3>
+      </div>
+      <p>Let <i>X</i> = {0 … <i>n</i> − 1}, and give each subset <i>S</i> a value. We want, for every <i>S</i>, the sum of the values of all subsets of <i>S</i>. Define partial(<i>S</i>, <i>k</i>) as that sum with the restriction that only elements 0 … <i>k</i> may be removed. Then partial(<i>S</i>, −1) = value[<i>S</i>], and</p>
+      <p class="ch15-eq">partial(<i>S</i>, <i>k</i>) = partial(<i>S</i>, <i>k</i> − 1), if <i>k</i> ∉ <i>S</i>;<br>partial(<i>S</i>, <i>k</i>) = partial(<i>S</i>, <i>k</i> − 1) + partial(<i>S</i> \ {<i>k</i>}, <i>k</i> − 1), if <i>k</i> ∈ <i>S</i>.</p>
+      <p>Because the answer only depends on the previous <i>k</i>, one array and two nested loops suffice: O(2<sup><i>n</i></sup><i>n</i>) time and O(2<sup><i>n</i></sup>) memory. The inner test <code>s &amp; (1 &lt;&lt; k)</code> decides whether element <i>k</i> may be removed.</p>
+    </div>
+
+    <div class="ch15-lattice-wrap" data-lattice data-reveal>
+      <div class="ch15-lattice__canvas">
+        <svg id="ch15LatticeSvg" viewBox="0 0 720 400" role="img" aria-label="A lattice of the eight subsets of zero, one and two with values and subset sums"></svg>
+      </div>
+      <div class="ch15-lattice__side">
+        <span class="kicker">Hover, tap or focus a subset</span>
+        <h3 data-lattice-title>sum({0, 2})</h3>
+        <p class="ch15-lattice__sum" data-lattice-sum>1 + 1 + 3 + 5 = 10</p>
+        <p class="ch15-lattice__note" data-lattice-note>The four subsets of {0, 2} contribute their values. The recurrence reaches the same total by removing elements one at a time.</p>
+        <div class="ch15-lattice__chips">
+          <span class="tag tag--mono">O(2ⁿ n)</span>
+          <span class="tag">bitmask DP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-card ch15-code" data-code-card id="cardSubsets" data-reveal>
+      <div class="code-card__head">
+        <div class="code-tabs" role="tablist" aria-label="Language" data-code-tabs></div>
+        <div class="code-card__meta">
+          <span class="code-card__file" data-code-file></span>
+          <button class="copy-btn" type="button" data-code-copy aria-label="Copy code"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+      </div>
+      <pre class="code" data-code-block><code data-code-lines></code></pre>
+      <div class="code-card__foot">
+        <p data-code-note></p><span class="code-card__hint" data-code-type></span>
+      </div>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.5.3</span>
+        <h3>Parallel Binary Search</h3>
+      </div>
+      <p>Several binary searches can be cheaper together than apart. In the road-building problem, <i>n</i> cities start disconnected; each day one road is built. For each of <i>k</i> pairs, report the first day its cities are connected. One query is easy with a union-find: add roads until the pair joins.</p>
+      <p>Doing all queries separately costs O(<i>k</i><i>m</i> log <i>n</i>). In parallel binary search, every query keeps an interval [<i>x</i>, <i>y</i>] of possible answer days, initially [1, <i>m</i>]. Repeat log <i>m</i> times: rebuild the road network once, and for each query test the midpoint of its interval. A successful test moves the right end; a failure moves the left end. After log <i>m</i> rounds every interval has one day.</p>
+      <p>Each round adds <i>m</i> roads and checks <i>k</i> pairs, both with union-find, so the total is O((<i>m</i> + <i>k</i>) log <i>n</i> log <i>m</i>).</p>
+    </div>
+
+    <div class="ch15-pbs" data-reveal>
+      <div class="ch15-pbs__head" aria-hidden="true">
+        <span></span><span>round 1</span><span>round 2</span><span>answer</span>
+      </div>
+      <div class="ch15-pbs__row">
+        <span class="ch15-pbs__q">q₁ = (1, 4)</span>
+        <div class="ch15-pbs__cell"><b>[1, 4]</b><i>mid 2</i><em class="is-yes">connected</em></div>
+        <div class="ch15-pbs__cell"><b>[1, 2]</b><i>mid 1</i><em>not yet</em></div>
+        <div class="ch15-pbs__cell ch15-pbs__cell--answer"><b>2</b><i>day</i><em class="is-yes">done</em></div>
+      </div>
+      <div class="ch15-pbs__row">
+        <span class="ch15-pbs__q">q₂ = (2, 3)</span>
+        <div class="ch15-pbs__cell"><b>[1, 4]</b><i>mid 2</i><em>not yet</em></div>
+        <div class="ch15-pbs__cell"><b>[3, 4]</b><i>mid 3</i><em>not yet</em></div>
+        <div class="ch15-pbs__cell ch15-pbs__cell--answer"><b>4</b><i>day</i><em class="is-yes">done</em></div>
+      </div>
+      <p class="ch15-pbs__cap">Four cities, four days, two queries. Each row is one binary search; the network is rebuilt only twice, not once per query.</p>
+    </div>
+
+    <div class="ch15-sub" data-reveal>
+      <div class="ch15-sub__head">
+        <span class="ch15-sub__num">15.5.4</span>
+        <h3>Dynamic Connectivity</h3>
+      </div>
+      <p>Edges are added and removed, and after every operation we must report the number of connected components. Union-find handles additions, but it cannot undo. The offline solution turns time into a segment tree.</p>
+      <p>Each edge is alive on an interval [<i>a</i>, <i>b</i>] of steps. Add that interval to a segment tree over time, then walk the tree. Whenever an interval fully covers the current node, add its edge to a rollback union-find. At a leaf, report the component count. On the way out, undo the unions made at that node. Every edge is added and removed O(log <i>q</i>) times, so the total is O((<i>m</i> + <i>q</i>) log <i>q</i> log <i>n</i>).</p>
+    </div>
+
+    <div class="ch15-dyn" data-reveal>
+      <div class="ch15-dyn__axis" aria-hidden="true">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+      </div>
+      <div class="ch15-dyn__rows">
+        <div class="ch15-dyn__row"><span class="ch15-dyn__edge">1–2</span><div class="ch15-dyn__track"><i style="left:0%;width:100%" data-tip="Edge 1–2 is present from the start to the end."></i></div></div>
+        <div class="ch15-dyn__row"><span class="ch15-dyn__edge">2–5</span><div class="ch15-dyn__track"><i style="left:0%;width:50%" data-tip="Edge 2–5 is removed at step 3."></i></div></div>
+        <div class="ch15-dyn__row"><span class="ch15-dyn__edge">2–4</span><div class="ch15-dyn__track"><i style="left:16.667%;width:66.667%" data-tip="Edge 2–4 is added at step 1 and removed at step 5."></i></div></div>
+        <div class="ch15-dyn__row"><span class="ch15-dyn__edge">4–5</span><div class="ch15-dyn__track"><i style="left:33.333%;width:66.667%" data-tip="Edge 4–5 is added at step 2 and never removed."></i></div></div>
+        <div class="ch15-dyn__row"><span class="ch15-dyn__edge">1–3</span><div class="ch15-dyn__track"><i style="left:66.667%;width:33.333%" data-tip="Edge 1–3 is added at step 4 and never removed."></i></div></div>
+      </div>
+      <div class="ch15-dyn__steps">
+        <div class="ch15-dyn__step"><b>3</b><span>initial</span></div>
+        <div class="ch15-dyn__step"><b>2</b><span>add 2–4</span></div>
+        <div class="ch15-dyn__step"><b>2</b><span>add 4–5</span></div>
+        <div class="ch15-dyn__step"><b>2</b><span>remove 2–5</span></div>
+        <div class="ch15-dyn__step"><b>1</b><span>add 1–3</span></div>
+        <div class="ch15-dyn__step"><b>2</b><span>remove 2–4</span></div>
+      </div>
+      <p class="ch15-dyn__cap">The same five edges as intervals over the timeline. Beneath, the component count after each step, starting from the initial state.</p>
+    </div>
+
+    <p class="closing ch15-closing" data-reveal>Every technique here is a trade: blocks for simplicity, tags for deferred work, random weights for balance, convexity for speed, and a second list whenever one search space is too large. The toolbox is complete; the problems are not.</p>
+  </div>
+</section>
+
+<!-- ============ end ============ -->
+<section class="end" aria-labelledby="endTitle">
+  <div class="wrap">
+    <div class="end__mark" aria-hidden="true">∎</div>
+    <span class="kicker">End of Chapter 15</span>
+    <h2 id="endTitle">The last tricks.</h2>
+    <p>Square roots, treaps, and DP optimizations round out the toolbox.</p>
+    <a class="end__next end__next--link" href="index.html">
+      <div class="end__next-copy">
+        <span class="kicker">Start again</span>
+        <h3>Introduction</h3>
+        <p>Return to the opening chapter and the book’s table of contents.</p>
+      </div>
+      <span class="btn btn--on-dark">Continue <svg class="icon"><use href="#i-arrow"/></svg></span>
+    </a>
+    <div class="end__actions">
+      <a class="btn btn--primary" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>Back to the top</a>
+      <button class="btn" id="endContents">Open contents</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>Guide to Competitive Programming · Antti Laaksonen</span>
+    <span>Chapter 15 · Additional Topics</span>
+    <span>An interactive edition</span>
+  </div>
+</footer>
+
+<div class="drawer" id="contentsDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer__scrim" data-close-drawer></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="kicker" id="drawerTitle">Contents</span>
+      <button class="drawer__close" data-close-drawer aria-label="Close contents"><svg class="icon"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer__body">
+      <div class="drawer__col">
+        <span class="kicker">Chapter 15 · Additional Topics</span>
+        <nav class="drawer__sections" aria-label="Chapter sections">
+            <a href="#s151" data-close-drawer><span>15.1</span>Square Root Techniques</a>
+            <a href="#s152" data-close-drawer><span>15.2</span>Segment Trees Revisited</a>
+            <a href="#s153" data-close-drawer><span>15.3</span>Treaps</a>
+            <a href="#s154" data-close-drawer><span>15.4</span>Dynamic Programming Optimization</a>
+            <a href="#s155" data-close-drawer><span>15.5</span>Miscellaneous</a>
+        </nav>
+      </div>
+      <div class="drawer__col drawer__col--muted">
+        <span class="kicker">The book</span>
+        <div class="drawer__book">
+          <a class="drawer__book-row" href="index.html">
+            <span>01</span><span>Introduction</span>
+          </a>
+          <a class="drawer__book-row" href="ch02.html">
+            <span>02</span><span>Programming Techniques</span>
+          </a>
+          <a class="drawer__book-row" href="ch03.html">
+            <span>03</span><span>Efficiency</span>
+          </a>
+          <a class="drawer__book-row" href="ch04.html">
+            <span>04</span><span>Sorting and Searching</span>
+          </a>
+          <a class="drawer__book-row" href="ch05.html">
+            <span>05</span><span>Data Structures</span>
+          </a>
+          <a class="drawer__book-row" href="ch06.html">
+            <span>06</span><span>Dynamic Programming</span>
+          </a>
+          <a class="drawer__book-row" href="ch07.html">
+            <span>07</span><span>Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch08.html">
+            <span>08</span><span>Algorithm Design Topics</span>
+          </a>
+          <a class="drawer__book-row" href="ch09.html">
+            <span>09</span><span>Range Queries</span>
+          </a>
+          <a class="drawer__book-row" href="ch10.html">
+            <span>10</span><span>Tree Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch11.html">
+            <span>11</span><span>Mathematics</span>
+          </a>
+          <a class="drawer__book-row" href="ch12.html">
+            <span>12</span><span>Advanced Graph Algorithms</span>
+          </a>
+          <a class="drawer__book-row" href="ch13.html">
+            <span>13</span><span>Geometry</span>
+          </a>
+          <a class="drawer__book-row" href="ch14.html">
+            <span>14</span><span>String Algorithms</span>
+          </a>
+          <a class="drawer__book-row is-current" href="ch15.html" aria-current="page">
+            <span>15</span><span>Additional Topics</span>
+          </a>
+        </div>
+        <p class="drawer__note">An interactive edition of all fifteen chapters, rebuilt for the web.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script src="shared.js"></script>
+<script src="chapters/ch15.js"></script>
+</body>
+</html>
