@@ -448,6 +448,7 @@
 .ch13-area.is-pick .ch13-area-dots { opacity: 1; }
 .ch13-area.is-pick .ch13-area-trap { opacity: 0; }
 .ch13-area.is-pick .ch13-area-poly { fill: rgba(248, 248, 244, .12); }
+.ch13-area.is-pick .ch13-fine { display: none; }
 .ch13-area-dots .dot-i { fill: var(--ink); }
 .ch13-area-dots .dot-b { fill: #fff; stroke: var(--ink); stroke-width: 1.3; }
 .ch13-area-dots .dot-g { fill: #deded7; }
