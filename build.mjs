@@ -106,7 +106,7 @@ function render(chapter, idx) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(pageTitle)} · Guide to Competitive Programming</title>
 <meta name="description" content="${escapeHtml(chapter.lead)}">
-<meta name="author" content="Antti Laaksonen">
+<meta name="author" content="Antti Laaksonen; interactive edition by Abhinav Prabhakar">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" id="themeColor" content="#ffffff">
 <link rel="canonical" href="${pageUrl}">
