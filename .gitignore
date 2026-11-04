@@ -3,3 +3,7 @@
 source/pages/
 __pycache__/
 source/
+
+# local QA artefacts
+.qa-*.png
+.qa/
