@@ -13,6 +13,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 const THEME_KEY = 'cp-theme';
 const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
 const themeBtn = $('#themeBtn');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 let savedTheme = null;
 try {
   const value = localStorage.getItem(THEME_KEY);
@@ -29,6 +30,7 @@ function applyTheme(theme, animate) {
   }
   root.dataset.theme = theme;
   root.style.colorScheme = theme;
+  if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#0e0e0d' : '#ffffff');
   if (themeBtn) {
     const next = theme === 'dark' ? 'light' : 'dark';
     themeBtn.setAttribute('aria-label', `Switch to ${next} mode`);

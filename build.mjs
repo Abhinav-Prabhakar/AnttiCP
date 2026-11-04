@@ -20,6 +20,14 @@ const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 
 const iconSprite = readFileSync('chapters/_sprite.html', 'utf8').trim();
 
+const SITE = 'https://abhinav-prabhakar.github.io/AnttiCP/';
+const OG_IMAGES = {
+  ch01: 'hero-ch01.jpg',
+  ch02: 'hero-ch02.jpg',
+  ch07: 'hero-ch07.jpg',
+  ch13: 'hero-ch13.jpg',
+};
+
 function parseSections(body) {
   const out = [];
   const parts = body.split(/(?=<section\b)/);
@@ -65,6 +73,25 @@ function render(chapter, idx) {
   const nextTitle = next.title;
   const nextLead = idx + 1 < book.chapters.length ? next.lead : 'Return to the opening chapter and the book’s table of contents.';
 
+  const pageUrl = chapter.file === 'index.html' ? SITE : SITE + chapter.file;
+  const pageTitle = `Chapter ${chapter.num} — ${chapter.title}`;
+  const ogImage = SITE + 'assets/readme/' + (OG_IMAGES[chapter.slug] || 'hero-ch01.jpg');
+  const schema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Chapter',
+    name: pageTitle,
+    position: idx + 1,
+    url: pageUrl,
+    description: chapter.lead,
+    isPartOf: {
+      '@type': 'Book',
+      name: book.title,
+      author: { '@type': 'Person', name: book.author },
+      bookEdition: 'Interactive web edition',
+      url: SITE,
+    },
+  });
+
   const cssLink = chapter.css && existsSync(chapter.css)
     ? `\n<link rel="stylesheet" href="${chapter.css}">`
     : '';
@@ -77,9 +104,27 @@ function render(chapter, idx) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chapter ${chapter.num} — ${escapeHtml(chapter.title)} · Guide to Competitive Programming</title>
+<title>${escapeHtml(pageTitle)} · Guide to Competitive Programming</title>
 <meta name="description" content="${escapeHtml(chapter.lead)}">
+<meta name="author" content="Antti Laaksonen">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="themeColor" content="#ffffff">
+<link rel="canonical" href="${pageUrl}">
+<meta property="og:site_name" content="Guide to Competitive Programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${escapeHtml(pageTitle)}">
+<meta property="og:description" content="${escapeHtml(chapter.lead)}">
+<meta property="og:url" content="${pageUrl}">
+<meta property="og:image" content="${ogImage}">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="1110">
+<meta property="og:image:alt" content="${escapeHtml(pageTitle)} — an opening spread from the interactive edition">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escapeHtml(pageTitle)}">
+<meta name="twitter:description" content="${escapeHtml(chapter.lead)}">
+<meta name="twitter:image" content="${ogImage}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23171717'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='white' text-anchor='middle'%3E${chapter.num}%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">${schema}</script>
 <script>
 (function () {
   try {
@@ -87,6 +132,8 @@ function render(chapter, idx) {
     var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    var meta = document.getElementById('themeColor');
+    if (meta) meta.setAttribute('content', dark ? '#0e0e0d' : '#ffffff');
   } catch (error) {
     document.documentElement.dataset.theme = 'light';
   }
@@ -97,6 +144,8 @@ function render(chapter, idx) {
 <link rel="stylesheet" href="theme-base.css">
 </head>
 <body data-chapter="${chapter.num}">
+
+<a class="skip-link" href="#top">Skip to content</a>
 
 ${iconSprite}
 
@@ -206,3 +255,14 @@ book.chapters.forEach((chapter, idx) => {
   console.log(`  ✓ ${chapter.file}  (${sections.length} sections)`);
 });
 console.log(`Built ${built} page${built === 1 ? '' : 's'}.`);
+
+if (!only) {
+  const today = new Date().toISOString().slice(0, 10);
+  const urls = book.chapters.map((c) => {
+    const loc = c.file === 'index.html' ? SITE : SITE + c.file;
+    return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${c.file === 'index.html' ? '1.0' : '0.8'}</priority>\n  </url>`;
+  }).join('\n');
+  writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+  writeFileSync('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
+  console.log('  ✓ sitemap.xml, robots.txt');
+}
