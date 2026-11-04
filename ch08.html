@@ -156,7 +156,7 @@
 
     <p class="statement" data-reveal>A register is not so much a number as a row of decisions — and one instruction can act on all of them.</p>
 
-    <p class="lead" data-reveal>Bit-parallel algorithms rewrite a loop over <i>k</i> positions as a single operation on a word. When <i>k</i> fits in 32 or 64 bits, the loop disappears into the hardware.</p>
+    <p class="lead" data-reveal>Bit-parallel algorithms are based on the fact that individual bits of numbers can be manipulated in parallel using bit operations. Thus, a way to design an efficient algorithm is to represent the steps of the algorithm so that they can be efficiently implemented using bit operations.</p>
 
     <figure class="figure ch08-packfig" data-reveal>
       <div class="figure__frame">
@@ -216,9 +216,9 @@
     <div class="split2 ch08-hamming" data-reveal>
       <div>
         <h3>Minimum distance among many strings</h3>
-        <p>Given <i>n</i> bit strings of length <i>k</i>, find the smallest Hamming distance between any two of them. Checking every pair costs <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) — for each pair, a loop over <i>k</i> positions.</p>
-        <p>If <i>k</i> ≤ 32, store each string as an <code>int</code>. Then the distance is <code>__builtin_popcount(a ^ b)</code>: one xor builds the difference mask, one instruction counts its ones. The inner loop over <i>k</i> is gone.</p>
-        <p class="ch08-small">The example set <span class="ch08-mono">[00111, 01101, 11110]</span> has answer 2, from the first two strings.</p>
+        <p>The Hamming distance <span class="ch08-mono">hamming(a, b)</span> between two strings <i>a</i> and <i>b</i> of equal length is the number of positions where the strings differ. For example, <span class="ch08-mono">hamming(01101, 11001) = 2</span>. Consider the following problem: given <i>n</i> bit strings, each of length <i>k</i>, calculate the minimum Hamming distance between two strings.</p>
+        <p>A straightforward way to solve the problem is to go through all pairs of strings and calculate their Hamming distances, which yields an <i>O</i>(<i>n</i><sup>2</sup><i>k</i>) time algorithm. However, since the strings consist of bits, we can optimize the solution by storing the strings as integers and calculating distances using bit operations. In particular, if <i>k</i> ≤ 32, we can just store the strings as <code>int</code> values. Then, the xor operation constructs a string that has one bits in positions where <i>a</i> and <i>b</i> differ, and the number of one bits is calculated using the <code>__builtin_popcount</code> function.</p>
+        <p class="ch08-small">For example, the answer for <span class="ch08-mono">[00111, 01101, 11110]</span> is 2, because <span class="ch08-mono">hamming(00111, 01101) = 2</span>, <span class="ch08-mono">hamming(00111, 11110) = 3</span>, and <span class="ch08-mono">hamming(01101, 11110) = 3</span>.</p>
       </div>
       <div class="statline ch08-statline">
         <div><span class="statline__value">≈20×</span><span class="statline__label">faster at k = 30</span></div>
@@ -232,9 +232,9 @@
       <h3>Counting Subgrids</h3>
     </div>
 
-    <p class="lead ch08-lead" data-reveal>In an <i>n</i> × <i>n</i> grid of black and white squares, count the subgrids whose four corners are black. Choose the first and last row; the columns that are black in both rows decide the rest.</p>
+    <p class="lead ch08-lead" data-reveal>As another example, consider the following problem: given an <i>n</i> × <i>n</i> grid whose each square is either black (1) or white (0), calculate the number of subgrids whose all corners are black.</p>
 
-    <p data-reveal>If <i>k</i> columns are black in both chosen rows, they offer <span class="ch08-mono">k(k − 1)/2</span> pairs of corners. The straightforward solution tests all <i>O</i>(<i>n</i><sup>2</sup>) row pairs and scans <i>n</i> columns: <i>O</i>(<i>n</i><sup>3</sup>). Represent each row as a bitset instead, and the scan becomes one <code>and</code> followed by a count: <span class="ch08-mono">(row[a] &amp; row[b]).count()</span>.</p>
+    <p data-reveal>There is an <i>O</i>(<i>n</i><sup>3</sup>) time algorithm for solving the problem: go through all <i>O</i>(<i>n</i><sup>2</sup>) pairs of rows, and for each pair (<i>a</i>, <i>b</i>) calculate, in <i>O</i>(<i>n</i>) time, the number of columns that contain a black square in both rows <i>a</i> and <i>b</i>. Then, after finding out that there are <i>count</i> columns where both squares are black, we can use the formula <i>count</i>(<i>count</i> − 1)/2 to calculate the number of subgrids whose first row is <i>a</i> and last row is <i>b</i>. To create a bit-parallel algorithm, we represent each row <i>k</i> as an <i>n</i>-bit bitset <span class="ch08-mono">row[k]</span> where one bits denote black squares. Then, we can calculate the number of columns where rows <i>a</i> and <i>b</i> both have black squares using an <code>and</code> operation and counting the number of one bits: <span class="ch08-mono">(row[a] &amp; row[b]).count()</span>.</p>
 
     <div class="ch08-gridlab" data-ch08-gridlab data-reveal>
       <div class="ch08-gridlab__head">
@@ -278,7 +278,7 @@
       <h3>Reachability in Graphs</h3>
     </div>
 
-    <p class="lead ch08-lead" data-reveal>For each node <i>x</i> of a directed acyclic graph, let <span class="ch08-mono">reach(x)</span> be the number of nodes reachable from <i>x</i>. A list of nodes per graph node gives an <i>O</i>(<i>n</i><sup>2</sup>) solution; a bitset per node turns each union into an <code>or</code>.</p>
+    <p class="lead ch08-lead" data-reveal>Given a directed acyclic graph of <i>n</i> nodes, consider the problem of calculating for each node <i>x</i> a value <span class="ch08-mono">reach(x)</span>: the number of nodes that can be reached from node <i>x</i>. The problem can be solved using dynamic programming in <i>O</i>(<i>n</i><sup>2</sup>) time by constructing for each node a list of nodes that can be reached from it. Then, to create a bit-parallel algorithm, we represent each list as a bitset of <i>n</i> bits, which permits us to efficiently calculate the union of two such lists using an <code>or</code> operation.</p>
 
     <div class="split2 ch08-reach">
       <figure class="figure ch08-dagfig" data-reveal>
@@ -325,8 +325,8 @@
           <div class="ch08-bitset"><span class="ch08-bitset__name">4</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i>0</i><i class="is-on">1</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">2</span></div>
           <div class="ch08-bitset"><span class="ch08-bitset__name">5</span><span class="ch08-bitset__cells"><i>0</i><i>0</i><i>0</i><i>0</i><i class="is-on">1</i></span><span class="ch08-bitset__sum">1</span></div>
         </div>
-        <p>Process the nodes in reverse topological order. Start with <span class="ch08-mono">reach[x][x] = 1</span>, then OR in the bitset of every successor. Each union touches <i>n</i> bits at once.</p>
-        <p class="ch08-warn">The speed has a price: <i>n</i> bitsets of <i>n</i> bits use <i>O</i>(<i>n</i><sup>2</sup>) memory. At <i>n</i> = 10<sup>5</sup> the table in the book already needs about 1,250 MB.</p>
+        <p>Assuming that <code>reach</code> is an array of bitset structures and the graph is stored as adjacency lists in <code>adj</code>, the calculation for node <i>x</i> can be done as follows: <span class="ch08-mono">reach[x][x] = 1;</span> <span class="ch08-mono">for (auto u : adj[x]) { reach[x] |= reach[u]; }</span> Each union touches <i>n</i> bits at once.</p>
+        <p class="ch08-warn">Note that the algorithm uses a great amount of memory for large values of <i>n</i>. In many contests, the memory limit may be 512 MB or lower; at <i>n</i> = 10<sup>5</sup> the table already needs 1,250 MB.</p>
       </div>
     </div>
 
@@ -360,11 +360,11 @@
 
     <p class="statement" data-reveal>The worst single operation can be expensive. What matters is what the whole sequence costs.</p>
 
-    <p class="lead" data-reveal>A loop with a nested loop inside it is not automatically quadratic. If the inner loop only moves an element that can move a bounded number of times, the total work is linear. Amortized analysis replaces a worst-case look at one step with an accounting of the entire run.</p>
+    <p class="lead" data-reveal>The structure of an algorithm often directly tells us its time complexity, but sometimes a straightforward analysis does not give a true picture of the efficiency. Amortized analysis can be used to analyze a sequence of operations whose time complexity varies. The idea is to estimate the total time used to all such operations during the algorithm, instead of focusing on individual operations.</p>
 
     <div class="split2 ch08-amort">
       <div data-reveal>
-        <p>The usual time complexity counts how the work grows with <i>n</i>, but it can overstate a structure whose expensive operations are rare. A stack may shrink by many elements in one step; a window pointer may jump; a queue may evict a run of values.</p>
+        <p>Amortized analysis is often used to estimate the number of operations performed on a data structure. The operations may be distributed unevenly so that most operations occur during a certain phase of the algorithm, but the total number of the operations is limited.</p>
         <p>Amortized analysis asks a different question: over <i>n</i> operations, how many times can each element be touched? If the answer is a constant, the occasional expensive step does not change the total.</p>
         <details class="note">
           <summary><span class="note__label">The accounting view</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
@@ -398,7 +398,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Two indices walk through the array, and both only move right. A right pointer can sweep across the whole array, but it can never sweep back — so the total number of pointer moves is <i>O</i>(<i>n</i>), even though one turn may move it many steps.</p>
+    <p class="lead" data-reveal>In the two pointers method, two pointers walk through an array. Both pointers move to one direction only, which ensures that the algorithm works efficiently. As a first example of how to apply the technique, consider a problem where we are given an array of <i>n</i> positive integers and a target sum <i>x</i>, and we want to find a subarray whose sum is <i>x</i> or report that there is no such subarray. The problem can be solved in <i>O</i>(<i>n</i>) time by using the two pointers method. The idea is to maintain pointers that point to the first and last value of a subarray. On each turn, the left pointer moves one step to the right, and the right pointer moves to the right as long as the resulting subarray sum is at most <i>x</i>. If the sum becomes exactly <i>x</i>, a solution has been found.</p>
 
     <div class="ch08-stepper" data-ch08-tp data-reveal>
       <div class="ch08-stepper__head">
@@ -435,8 +435,8 @@
     <div class="split2 ch08-twosum" data-reveal>
       <div>
         <h3>The same idea, sorted</h3>
-        <p>In the 2SUM problem, sort the array and put one pointer at each end. If the sum is too large, move the right pointer left; if it is too small, move the left pointer right. Each pointer crosses the array once.</p>
-        <p>The sort costs <i>O</i>(<i>n</i> log <i>n</i>); the scan costs <i>O</i>(<i>n</i>). The same problem can also be solved with binary search, at the same total complexity.</p>
+        <p>Another problem that can be solved using the two pointers method is the 2SUM problem: given an array of <i>n</i> numbers and a target sum <i>x</i>, find two array values such that their sum is <i>x</i>, or report that no such values exist. To solve the problem, we first sort the array values in increasing order. The left pointer starts at the first value and moves one step to the right on each turn. The right pointer starts at the last value and always moves to the left until the sum of the left and right value is at most <i>x</i>. If the sum is exactly <i>x</i>, a solution has been found.</p>
+        <p>The running time of the algorithm is <i>O</i>(<i>n</i> log <i>n</i>), because it first sorts the array in <i>O</i>(<i>n</i> log <i>n</i>) time, and then both pointers move <i>O</i>(<i>n</i>) steps. Note that it is also possible to solve the problem in another way in <i>O</i>(<i>n</i> log <i>n</i>) time using binary search.</p>
       </div>
       <div class="ch08-twosum__example" aria-label="Sorted array 1, 4, 5, 6, 7, 9, 9, 10 with target 12">
         <span class="kicker">target x = 12</span>
@@ -459,7 +459,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>For each element, find the first smaller element to its left. A stack holds the candidates: pop everything that is not smaller than the current value, report the new top, then push the current value. Elements are pushed once and popped at most once.</p>
+    <p class="lead" data-reveal>As an example, suppose that we want to find for each array element the nearest smaller element, i.e., the first smaller element that precedes the element in the array. It is possible that no such element exists, in which case the algorithm should report this. We go through the array from left to right and maintain a stack of array elements. At each array position, we remove elements from the stack until the top element is smaller than the current element, or the stack is empty. Then, we report that the top element is the nearest smaller element of the current element, or if the stack is empty, there is no such element. Finally, we add the current element to the stack.</p>
 
     <div class="ch08-stacklab" data-ch08-stack data-reveal>
       <div class="ch08-stacklab__head">
@@ -502,7 +502,7 @@
       </div>
     </div>
 
-    <p class="ch08-after" data-reveal>When a large value is buried under smaller ones it may wait, but it is still removed only once. The total number of stack operations is at most 2<i>n</i>, so the whole scan is <i>O</i>(<i>n</i>), not <i>O</i>(<i>n</i><sup>2</sup>).</p>
+    <p class="ch08-after" data-reveal>The efficiency of the algorithm depends on the total number of stack operations. If the current element is larger than the top element in the stack, it is directly added to the stack, which is efficient. However, sometimes the stack can contain several larger elements and it takes time to remove them. Still, each element is added exactly once to the stack and removed at most once from the stack. Thus, each element causes <i>O</i>(1) stack operations, and the algorithm works in <i>O</i>(<i>n</i>) time.</p>
   </div>
 </section>
 
@@ -516,7 +516,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A window of fixed width moves one step at a time. To report its minimum at every position, keep a deque whose values increase from front to back. The front is the current minimum; larger values behind it can never become the minimum before it leaves.</p>
+    <p class="lead" data-reveal>A sliding window is a constant-size subarray that moves from left to right through an array. At each window position, we want to calculate some information about the elements inside the window. Next we will focus on the problem of maintaining the sliding window minimum, which means that we want to report the smallest value inside each window. The sliding window minima can be calculated using a similar idea that we used to calculate the nearest smaller elements. This time we maintain a queue where each element is larger than the previous element, and the first element always corresponds to the minimum element inside the window.</p>
 
     <div class="ch08-windowlab" data-ch08-window data-reveal>
       <div class="ch08-windowlab__head">
@@ -546,7 +546,7 @@
     </div>
 
     <div class="split2 ch08-window-notes" data-reveal>
-      <p>The front element leaves when the window passes its position. The elements behind it are still ordered, so the new minimum is simply the next front. Each element enters and leaves the deque once, which makes the sweep <i>O</i>(<i>n</i>).</p>
+      <p>After each window move, we remove elements from the end of the queue until the last queue element is smaller than the new window element, or the queue becomes empty. We also remove the first queue element if it is not inside the window anymore. Finally, we add the new window element to the queue. Since each array element is added to the queue exactly once and removed from the queue at most once, the algorithm works in <i>O</i>(<i>n</i>) time.</p>
       <p class="ch08-small">This is the same accounting argument as the stack: the deque may grow and shrink dramatically between steps, but no value is pushed or removed twice.</p>
     </div>
   </div>
@@ -564,7 +564,7 @@
 
     <p class="statement" data-reveal>If a function only falls and then rises, its bottom can be cornered without visiting every point.</p>
 
-    <p class="lead" data-reveal>Suppose <i>f</i>(<i>x</i>) first decreases, reaches a minimum, and then increases. Knowing that shape is enough to discard a large part of the domain at every step.</p>
+    <p class="lead" data-reveal>Suppose that there is a function <i>f</i>(<i>x</i>) that first only decreases, then attains its minimum value, and then only increases. If we know that our function has this property, we can efficiently find its minimum value.</p>
 
     <figure class="figure ch08-unimodal" data-reveal>
       <div class="figure__frame">
@@ -596,7 +596,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Split the active range into thirds at <i>a</i> = (2<i>x</i><sub>L</sub> + <i>x</i><sub>R</sub>)/3 and <i>b</i> = (<i>x</i><sub>L</sub> + 2<i>x</i><sub>R</sub>)/3. If <i>f</i>(<i>a</i>) &lt; <i>f</i>(<i>b</i>), the minimum lies in [<i>x</i><sub>L</sub>, <i>b</i>]; otherwise it lies in [<i>a</i>, <i>x</i><sub>R</sub>]. The range shrinks to two thirds each time, so the search is <i>O</i>(log <i>n</i>).</p>
+    <p class="lead" data-reveal>Ternary search provides an efficient way to find the minimum value of a function that first decreases and then increases. Assume that we know that the value of <i>x</i> that minimizes <i>f</i>(<i>x</i>) is in a range [<i>x</i><sub>L</sub>, <i>x</i><sub>R</sub>]. The idea is to divide the range into three equal-size parts [<i>x</i><sub>L</sub>, <i>a</i>], [<i>a</i>, <i>b</i>], and [<i>b</i>, <i>x</i><sub>R</sub>] by choosing <i>a</i> = (2<i>x</i><sub>L</sub> + <i>x</i><sub>R</sub>)/3 and <i>b</i> = (<i>x</i><sub>L</sub> + 2<i>x</i><sub>R</sub>)/3. Then, if <i>f</i>(<i>a</i>) &lt; <i>f</i>(<i>b</i>), we conclude that the minimum must be in range [<i>x</i><sub>L</sub>, <i>b</i>], and otherwise it must be in range [<i>a</i>, <i>x</i><sub>R</sub>]. After this, we recursively continue the search, until the size of the active range is small enough. Since the size of the new range is always 2/3 of the previous range, the algorithm works in <i>O</i>(log <i>n</i>) time, where <i>n</i> is the number of elements in the original range.</p>
 
     <div class="ch08-ternary" data-ch08-ternary data-reveal>
       <div class="ch08-ternary__head">
@@ -626,7 +626,7 @@
       <p class="ch08-foothint">The demo function is the convex curve <span class="ch08-mono">f(x) = (x − 11)<sup>2</sup> + 2</span> over [0, 20].</p>
     </div>
 
-    <p class="ch08-after" data-reveal>With integer parameters, there is a simpler stopping rule: binary search for the first <i>x</i> where <i>f</i>(<i>x</i>) ≤ <i>f</i>(<i>x</i> + 1). That predicate is false before the minimum and true after it.</p>
+    <p class="ch08-after" data-reveal>In practice, we often consider functions whose parameters are integers, and the search is terminated when the range only contains one element. Note that when working with integer parameters, we can also use binary search instead of ternary search, because it suffices to find the first position <i>x</i> for which <i>f</i>(<i>x</i>) ≤ <i>f</i>(<i>x</i> + 1).</p>
   </div>
 </section>
 
@@ -640,7 +640,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>A function is convex when the line segment between any two points on its graph never dips below the graph. Such a function can have a flat bottom, but it cannot hide a second valley — ternary search still applies.</p>
+    <p class="lead" data-reveal>A function is convex if a line segment between any two points on the graph of the function always lies above or on the graph. If we know that the minimum value of a convex function is in range [<i>x</i><sub>L</sub>, <i>x</i><sub>R</sub>], we can use ternary search to find it. However, note that several points of a convex function may have the minimum value. For example, <i>f</i>(<i>x</i>) = 0 is convex and its minimum value is 0.</p>
 
     <div class="ch08-convex-grid">
       <figure class="figure ch08-convex" data-reveal>
@@ -678,7 +678,7 @@
       </figure>
     </div>
 
-    <p data-reveal>That closure property is the practical payoff: if every term is convex, a sum of terms is convex, and a minimum can be found without proving the shape from scratch. If several points share the minimum — as with the constant function <i>f</i>(<i>x</i>) = 0 — ternary search still narrows to one of them.</p>
+    <p data-reveal>Convex functions have some useful properties: if <i>f</i>(<i>x</i>) and <i>g</i>(<i>x</i>) are convex functions, then also <i>f</i>(<i>x</i>) + <i>g</i>(<i>x</i>) and max(<i>f</i>(<i>x</i>), <i>g</i>(<i>x</i>)) are convex functions. For example, if we have <i>n</i> convex functions <i>f</i><sub>1</sub>, <i>f</i><sub>2</sub>, …, <i>f</i><sub><i>n</i></sub>, we immediately know that also the function <i>f</i><sub>1</sub> + <i>f</i><sub>2</sub> + … + <i>f</i><sub><i>n</i></sub> has to be convex and we can use ternary search to find its minimum value.</p>
   </div>
 </section>
 
@@ -692,7 +692,7 @@
       </div>
     </div>
 
-    <p class="lead" data-reveal>Choose <i>x</i> to minimize the sum of distances from <i>x</i> to a set of numbers. Each distance function is convex, so the sum is convex — but there are closed forms that skip the search entirely.</p>
+    <p class="lead" data-reveal>Given <i>n</i> numbers <i>a</i><sub>1</sub>, <i>a</i><sub>2</sub>, …, <i>a</i><sub><i>n</i></sub>, consider the problem of finding a value of <i>x</i> that minimizes the sum |<i>a</i><sub>1</sub> − <i>x</i>| + |<i>a</i><sub>2</sub> − <i>x</i>| + ⋯ + |<i>a</i><sub><i>n</i></sub> − <i>x</i>|. Since each function |<i>a</i><sub><i>k</i></sub> − <i>x</i>| is convex, the sum is also convex, so we could use ternary search to find the optimal value of <i>x</i>. However, there is also an easier solution.</p>
 
     <div class="ch08-sums" data-reveal>
       <div class="ch08-sums__numbers" aria-label="The numbers 1, 2, 2, 6, 9 on a number line, with median 2 and mean 4 marked">
@@ -738,7 +738,7 @@
       </div>
     </div>
 
-    <p class="ch08-after" data-reveal>For absolute distances the optimum is the median: moving <i>x</i> toward the median lowers the total, and moving past it raises the total. For squared distances it is the average. If <i>n</i> is even, both middle values — and every value between them — are optimal for the absolute sum.</p>
+    <p class="ch08-after" data-reveal>It turns out that the optimal choice for <i>x</i> is always the median of the numbers, i.e., the middle element after sorting. The median is always optimal, because if <i>x</i> is smaller than the median, the sum becomes smaller by increasing <i>x</i>, and if <i>x</i> is larger than the median, the sum becomes smaller by decreasing <i>x</i>. If <i>n</i> is even and there are two medians, both medians and all values between them are optimal choices. For squared distances there is also a simple solution: the optimal choice for <i>x</i> is the average of the numbers.</p>
 
     <details class="note ch08-note" data-reveal>
       <summary><span class="note__label">Why the average minimizes squares</span><svg class="icon"><use href="#i-chevron"/></svg></summary>

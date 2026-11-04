@@ -210,10 +210,10 @@
 
     <p class="statement" data-reveal>A vector is an array that keeps its promises at the end.</p>
 
-    <p class="lead" data-reveal>An ordinary C++ array has a fixed size. A dynamic array can grow and shrink while the program runs. The standard library’s <span class="ch05-mono">vector</span> is the one to know: it adds and removes at the end in constant time on average, and it is almost as fast as an ordinary array.</p>
+    <p class="lead" data-reveal>In C++, ordinary arrays are fixed-size structures, and it is not possible to change the size of an array after creating it. A dynamic array is an array whose size can be changed during the execution of the program. The C++ standard library provides several dynamic arrays, most useful of them being the <span class="ch05-mono">vector</span> structure.</p>
 
     <h3 class="ch05-h3" data-reveal>Vectors: size, capacity, and the cost of growing</h3>
-    <p data-reveal><span class="ch05-mono">push_back</span> appends an element, <span class="ch05-mono">back</span> reads the last one, <span class="ch05-mono">size</span> returns how many there are, and <span class="ch05-mono">pop_back</span> removes the last. Elements are indexed like an ordinary array. The implementation keeps a capacity larger than the size; when the vector is full, it allocates a bigger block and copies the old elements across.</p>
+    <p data-reveal>A <span class="ch05-mono">vector</span> is a dynamic array that allows us to efficiently add and remove elements at the end of the structure. The function <span class="ch05-mono">push_back</span> adds an element to the vector, the function <span class="ch05-mono">size</span> returns the number of elements in the vector, the function <span class="ch05-mono">back</span> returns the last element of a vector, and the function <span class="ch05-mono">pop_back</span> removes the last element. Then, the elements can be accessed like in an ordinary array. Vectors are implemented so that the <span class="ch05-mono">push_back</span> and <span class="ch05-mono">pop_back</span> operations work in <i>O</i>(1) time on average. In practice, using a vector is almost as fast as using an ordinary array.</p>
 
     <figure class="figure ch05-figure" data-reveal>
       <div class="figure__frame">
@@ -247,7 +247,7 @@
     </figure>
 
     <h3 class="ch05-h3" data-reveal>Iterators and ranges: begin, end, and one past the last</h3>
-    <p data-reveal>An iterator points to an element of a structure. <span class="ch05-mono">begin()</span> points to the first element; <span class="ch05-mono">end()</span> points to the position <em>after</em> the last one. That asymmetry is deliberate: the pair <span class="ch05-mono">[begin, end)</span> names the whole structure, and an empty range has <span class="ch05-mono">begin() == end()</span>. Library functions such as <span class="ch05-mono">sort</span>, <span class="ch05-mono">reverse</span>, and <span class="ch05-mono">lower_bound</span> take ranges, not containers.</p>
+    <p data-reveal>An iterator is a variable that points to an element of a data structure. The iterator <span class="ch05-mono">begin</span> points to the first element of a data structure, and the iterator <span class="ch05-mono">end</span> points to the position after the last element. Note the asymmetry in the iterators: <span class="ch05-mono">begin()</span> points to an element in the data structure, while <span class="ch05-mono">end()</span> points outside the data structure. A range is a sequence of consecutive elements in a data structure. The usual way to specify a range is to give iterators to its first element and the position after its last element. In particular, the iterators <span class="ch05-mono">begin()</span> and <span class="ch05-mono">end()</span> define a range that contains all elements in a data structure. The C++ standard library functions typically operate with ranges.</p>
 
     <figure class="figure ch05-figure" data-reveal>
       <div class="figure__frame">
@@ -284,7 +284,7 @@
     </figure>
 
     <h3 class="ch05-h3" data-reveal>Deques, stacks, and queues</h3>
-    <p data-reveal>A <span class="ch05-mono">deque</span> can grow at both ends: it adds <span class="ch05-mono">push_front</span> and <span class="ch05-mono">pop_front</span> to the vector interface, at the cost of larger constant factors. A <span class="ch05-mono">stack</span> exposes only the most recently inserted element; a <span class="ch05-mono">queue</span> inserts at the back and removes from the front. Both are usually built on a deque.</p>
+    <p data-reveal>A <span class="ch05-mono">deque</span> is a dynamic array that can be efficiently manipulated at both ends of the structure. Like a vector, a deque provides the functions <span class="ch05-mono">push_back</span> and <span class="ch05-mono">pop_back</span>, but it also provides the functions <span class="ch05-mono">push_front</span> and <span class="ch05-mono">pop_front</span> which are not available in a vector. The operations of a deque also work in <i>O</i>(1) average time. However, deques have larger constant factors than vectors, so deques should be used only if there is a need to manipulate both ends of the array. C++ also provides two specialized data structures that are, by default, based on a deque. A <span class="ch05-mono">stack</span> has the functions <span class="ch05-mono">push</span> and <span class="ch05-mono">pop</span> for inserting and removing elements at the end of the structure and the function <span class="ch05-mono">top</span> that retrieves the last element. Then, in a <span class="ch05-mono">queue</span>, elements are inserted at the end of the structure and removed from the front of the structure. Both the functions <span class="ch05-mono">front</span> and <span class="ch05-mono">back</span> are provided for accessing the first and last element.</p>
 
     <div class="ch05-ends" data-reveal>
       <article class="ch05-end">
@@ -326,10 +326,10 @@
 
     <p class="statement" data-reveal>A set trades order for speed — or speed for order. Know which one you are buying.</p>
 
-    <p class="lead" data-reveal>A set stores a collection of elements and supports insertion, search, and removal. The C++ library offers two flavours: <span class="ch05-mono">set</span>, a balanced binary search tree with <i>O</i>(log <i>n</i>) operations and sorted iteration; and <span class="ch05-mono">unordered_set</span>, a hash table with <i>O</i>(1) average operations and no useful order.</p>
+    <p class="lead" data-reveal>A set is a data structure that maintains a collection of elements. The basic operations of sets are element insertion, search, and removal. The C++ standard library contains two set structures: <span class="ch05-mono">set</span> is based on a balanced binary search tree and its operations work in <i>O</i>(log <i>n</i>) time, while <span class="ch05-mono">unordered_set</span> is based on a hash table and its operations work, on average, in <i>O</i>(1) time.</p>
 
     <h3 class="ch05-h3" data-reveal>Sets and multisets</h3>
-    <p data-reveal>All elements of a <span class="ch05-mono">set</span> are distinct. <span class="ch05-mono">insert</span> adds a value, <span class="ch05-mono">count</span> returns 0 or 1, <span class="ch05-mono">erase</span> removes it, and <span class="ch05-mono">find</span> returns an iterator or <span class="ch05-mono">end()</span>. Because the tree is ordered, iteration is sorted, and <span class="ch05-mono">lower_bound</span> and <span class="ch05-mono">upper_bound</span> are available. A <span class="ch05-mono">multiset</span> allows duplicates; <span class="ch05-mono">erase(value)</span> removes all copies, while <span class="ch05-mono">erase(find(value))</span> removes one.</p>
+    <p data-reveal>The function <span class="ch05-mono">insert</span> adds an element to the set, the function <span class="ch05-mono">count</span> returns the number of occurrences of an element in the set, and the function <span class="ch05-mono">erase</span> removes an element from the set. An important property of sets is that all their elements are distinct. Thus, the function <span class="ch05-mono">count</span> always returns either 0 (the element is not in the set) or 1 (the element is in the set), and the function <span class="ch05-mono">insert</span> never adds an element to the set if it is already there. The function <span class="ch05-mono">find(x)</span> returns an iterator that points to an element whose value is <i>x</i>. However, if the set does not contain <i>x</i>, the iterator will be <span class="ch05-mono">end()</span>. Since the elements are sorted, we can find the smallest and largest value. The set structure also provides the functions <span class="ch05-mono">lower_bound(x)</span> and <span class="ch05-mono">upper_bound(x)</span> that return an iterator to the smallest element in a set whose value is at least or larger than <i>x</i>, respectively. A <span class="ch05-mono">multiset</span> is a set that can have several copies of the same value. The function <span class="ch05-mono">erase</span> removes all copies of a value from a multiset; often, only one value should be removed, which can be done with <span class="ch05-mono">s.erase(s.find(5))</span>.</p>
 
     <div class="split2 ch05-set-split">
       <figure class="figure ch05-figure" data-reveal>
@@ -351,7 +351,7 @@
         <figcaption class="figure__cap">The shape of the tree is not the order; the in-order traversal is. <span class="ch05-mono">set</span> keeps it balanced.</figcaption>
       </figure>
       <div>
-        <p data-reveal>An <span class="ch05-mono">unordered_set</span> uses hashing. It does not know which element is smallest, but it can usually answer “is <i>x</i> present?” without walking a path. The average cost is <i>O</i>(1); the worst case is <i>O</i>(<i>n</i>), though that is unlikely with a reasonable hash function.</p>
+        <p data-reveal>The main difference between the two C++ set structures is that <span class="ch05-mono">set</span> is ordered, while <span class="ch05-mono">unordered_set</span> is not. Thus, if we want to maintain the order of the elements, we have to use the <span class="ch05-mono">set</span> structure. The worst-case time complexity of the operations is <i>O</i>(<i>n</i>), but this is very unlikely to occur.</p>
         <div class="chips" data-reveal>
           <span class="chip chip--static">set · O(log n)</span>
           <span class="chip chip--static">unordered_set · O(1) average</span>
@@ -360,7 +360,7 @@
         <details class="note ch05-note" data-reveal>
           <summary><span class="note__label">Which one should you use?</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
           <div class="note__body">
-            <p>Use <span class="ch05-mono">set</span> when you need the smallest element, a lower bound, or sorted iteration. Use <span class="ch05-mono">unordered_set</span> when you only need membership and the constant factor matters. The two are used in the same way; the difference is the promise, not the syntax.</p>
+            <p>Both structures are efficient, and often either of them can be used. Since they are used in the same way, the choice depends on whether we want to maintain the order of the elements: if we do, we have to use the <span class="ch05-mono">set</span> structure.</p>
           </div>
         </details>
       </div>
@@ -386,12 +386,12 @@
     </figure>
 
     <h3 class="ch05-h3" data-reveal>Maps: keys that are not indices</h3>
-    <p data-reveal>A map is a set of key–value pairs. An ordinary array is a map whose keys are <span class="ch05-mono">0, 1, …, n − 1</span>; a <span class="ch05-mono">map</span> allows any ordered key, and <span class="ch05-mono">unordered_map</span> allows any hashable key. Access with <span class="ch05-mono">m[key]</span> returns the value — and if the key is missing, it inserts it with a default value. Use <span class="ch05-mono">count</span> when you only want to test whether the key exists.</p>
+    <p data-reveal>A <span class="ch05-mono">map</span> is a set that consists of key–value pairs. A map can also be seen as a generalized array. While the keys in an ordinary array are always consecutive integers 0, 1, …, <i>n</i> − 1, where <i>n</i> is the size of the array, the keys in a map can be of any data type and they do not have to be consecutive values. The C++ standard library contains two map structures that correspond to the set structures: <span class="ch05-mono">map</span> is based on a balanced binary search tree and accessing elements takes <i>O</i>(log <i>n</i>) time, while <span class="ch05-mono">unordered_map</span> uses hashing and accessing elements takes <i>O</i>(1) time on average.</p>
 
     <div class="split2 ch05-map-split">
       <div>
-        <p data-reveal>The default insertion is convenient and dangerous. Reading <span class="ch05-mono">m["aybabtu"]</span> creates the key with value 0; a later loop over the map will see it. In a contest, that can turn a lookup into a silent update.</p>
-        <p data-reveal><span class="ch05-mono">map</span> is a balanced tree, so keys iterate in order and access costs <i>O</i>(log <i>n</i>). <span class="ch05-mono">unordered_map</span> uses hashing and averages <i>O</i>(1), but loses the order.</p>
+        <p data-reveal>If the value of a key is requested but the map does not contain it, the key is automatically added to the map with a default value. For example, the key “aybabtu” with value 0 is added to the map. In a contest, that can turn a lookup into a silent update.</p>
+        <p data-reveal>The function <span class="ch05-mono">count</span> checks if a key exists in a map. Then, we can print all keys and values in a map.</p>
       </div>
       <div class="ch05-map" data-reveal aria-label="A map from strings to integers">
         <div class="ch05-map-row"><code>monkey</code><b>4</b></div>
@@ -402,7 +402,7 @@
     </div>
 
     <h3 class="ch05-h3" data-reveal>Priority queues: only the top matters</h3>
-    <p data-reveal>A priority queue is a multiset that supports insertion and removal of the largest element (or the smallest, with a comparator). Retrieval is <i>O</i>(1), insertion and removal are <i>O</i>(log <i>n</i>). It is usually a heap, and its smaller constant factor is the reason to use it instead of a multiset when you only need the extreme value.</p>
+    <p data-reveal>A priority queue is a multiset that supports element insertion and, depending on the type of the queue, retrieval and removal of either the minimum or maximum element. Insertion and removal take <i>O</i>(log <i>n</i>) time, and retrieval takes <i>O</i>(1) time. A priority queue is usually based on a heap structure, which is a special binary tree. While a multiset provides all the operations of a priority queue and more, the benefit of using a priority queue is that it has smaller constant factors. Thus, if we only need to efficiently find minimum or maximum elements, it is a good idea to use a priority queue instead of a set or multiset.</p>
 
     <figure class="figure ch05-figure" data-reveal>
       <div class="figure__frame">
@@ -430,7 +430,7 @@
     </figure>
 
     <h3 class="ch05-h3" data-reveal>Policy-based sets</h3>
-    <p data-reveal>The g++ compiler adds structures outside the C++ standard. An <span class="ch05-mono">indexed_set</span> behaves like a set but also supports order statistics: <span class="ch05-mono">find_by_order(k)</span> returns an iterator to the element at position <i>k</i>, and <span class="ch05-mono">order_of_key(x)</span> returns the position <i>x</i> would have. Both are logarithmic. They are a g++ extension, not portable standard C++.</p>
+    <p data-reveal>The g++ compiler also provides some data structures that are not part of the C++ standard library. Such structures are called policy-based structures. An <span class="ch05-mono">indexed_set</span> is like <span class="ch05-mono">set</span> but can be indexed like an array: we have access to the indices that the elements would have in a sorted array. The function <span class="ch05-mono">find_by_order</span> returns an iterator to the element at a given position, and the function <span class="ch05-mono">order_of_key</span> returns the position of a given element. If the element does not appear in the set, we get the position that the element would have in the set. Both the functions work in logarithmic time.</p>
 
     <div class="ch05-policy" data-reveal>
       <span class="ch05-policy-title">indexed_set s = {2, 3, 7, 9}</span>
@@ -469,7 +469,7 @@
 
     <p class="statement" data-reveal>Two <i>O</i>(<i>n</i> log <i>n</i>) algorithms can differ by a factor of ten.</p>
 
-    <p class="lead" data-reveal>Time complexity is a shape, not a stopwatch. The book measured the same tasks with different containers. The results are a useful correction to the idea that the fastest-growing term is the whole story: constant factors decide which structure wins in practice.</p>
+    <p class="lead" data-reveal>In this section, we present some results concerning the practical efficiency of the data structures presented in this chapter. While time complexities are a great tool, they do not always tell the whole truth about the efficiency, so it is worthwhile to also do experiments with real implementations and data sets.</p>
 
     <div class="ch05-exp" id="ch05Exp" data-reveal>
       <div class="ch05-exp-head">
@@ -489,8 +489,9 @@
     </div>
 
     <h3 class="ch05-h3" data-reveal>What the measurements say</h3>
-    <p data-reveal>Sorting was more than ten times faster than <span class="ch05-mono">set</span> for counting unique elements, even though both take <i>O</i>(<i>n</i> log <i>n</i>) time. The tree inside <span class="ch05-mono">set</span> is a complex structure; sorting is a tight loop over contiguous memory. The same pattern appears with maps: an ordinary array was almost a hundred times faster than <span class="ch05-mono">map</span> for counting frequencies, and <span class="ch05-mono">unordered_map</span> was about three times faster than <span class="ch05-mono">map</span>.</p>
-    <p data-reveal>For repeated removal of the smallest element, a <span class="ch05-mono">priority_queue</span> was about five times faster than a <span class="ch05-mono">multiset</span>. The lesson is not that asymptotics are wrong. It is that a structure with a simpler job has less work to do per operation.</p>
+    <p data-reveal>It turns out that the <span class="ch05-mono">unordered_set</span> algorithm is about two times faster than the <span class="ch05-mono">set</span> algorithm, and the sorting algorithm is more than ten times faster than the <span class="ch05-mono">set</span> algorithm. Note that both the <span class="ch05-mono">set</span> algorithm and the sorting algorithm work in <i>O</i>(<i>n</i> log <i>n</i>) time; still the latter is much faster. The reason for this is that sorting is a simple operation, while the balanced binary search tree used in <span class="ch05-mono">set</span> is a complex data structure.</p>
+    <p data-reveal>While <span class="ch05-mono">unordered_map</span> is about three times faster than <span class="ch05-mono">map</span>, an array is almost a hundred times faster. Thus, arrays should be used whenever possible instead of maps. Especially, note that while <span class="ch05-mono">unordered_map</span> provides <i>O</i>(1) time operations, there are large constant factors hidden in the data structure.</p>
+    <p data-reveal>Are priority queues really faster than multisets? It turns out that in this problem a <span class="ch05-mono">priority_queue</span> is about five times faster than a <span class="ch05-mono">multiset</span>.</p>
 
     <h3 class="ch05-h3" data-reveal>Choose by the operation you need</h3>
     <div class="ch05-table-wrap" data-reveal>
@@ -507,7 +508,7 @@
         </tbody>
       </table>
     </div>
-    <p class="ch05-table-foot" data-reveal>Average costs for <span class="ch05-mono">unordered_*</span>; the worst case can degrade to <i>O</i>(<i>n</i>). A vector’s insert and erase in the middle cost <i>O</i>(<i>n</i>) because the elements shift.</p>
+    <p class="ch05-table-foot" data-reveal>Average costs are shown for <span class="ch05-mono">unordered_*</span>. The worst-case time complexity of the operations is <i>O</i>(<i>n</i>), but this is very unlikely to occur. A vector’s insert and erase in the middle cost <i>O</i>(<i>n</i>) because the elements shift.</p>
 
     <p class="closing" data-reveal>The best data structure is the one whose promises match the question. A vector gives you a sequence; a set gives you order; a hash table gives you speed; a priority queue gives you the top. Choose the promise, then the container.</p>
   </div>
