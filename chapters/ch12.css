@@ -2,9 +2,9 @@
 
 /* ---------- hero ---------- */
 .ch12-hero h1 {
-  font-size: clamp(54px, 8.4vw, 112px);
-  line-height: .9;
-  letter-spacing: -.045em;
+  font-size: clamp(42px, 6.9vw, 92px);
+  line-height: .94;
+  letter-spacing: -.048em;
 }
 .ch12-hero-map { margin-top: 48px; }
 .ch12-hero-stage { width: 100%; }
