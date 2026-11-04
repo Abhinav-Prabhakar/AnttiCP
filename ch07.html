@@ -145,7 +145,7 @@
     </div>
 
     <p class="statement" data-reveal>A graph is a set of nodes, a set of edges, and a question about how they connect.</p>
-    <p class="lead" data-reveal>The same picture can be a road network, a dependency list, a state machine, or a set of friendships. What changes is the question: what is reachable, what is the shortest route, and which edges hold everything together.</p>
+    <p class="lead" data-reveal>Many programming problems can be solved by considering the situation as a graph and using an appropriate graph algorithm. In this section, we first go through terminology which is used when discussing graphs and their properties. After this, we focus on data structures that can be used to represent graphs in algorithm programming.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.1</span><span>Graph Terminology</span></h3>
 
@@ -187,27 +187,27 @@
     </figure>
 
     <div class="ch07-defs" data-reveal>
-      <div class="ch07-def"><span class="ch07-def__term">Path</span><p>A sequence of edges from one node to another. Length is the number of edges.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Cycle</span><p>A path whose first and last node are the same.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Connected</span><p>There is a path between every pair of nodes. The connected parts are the components.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Tree</span><p>A connected graph with no cycle. On <i>c</i> nodes it has exactly <i>c</i> − 1 edges.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Directed</span><p>Every edge can be traversed one way only. A node has an indegree and an outdegree.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Weighted</span><p>Every edge carries a weight. The length of a path is the sum of its weights.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Neighbours</span><p>Two nodes are adjacent if an edge joins them. The degree counts the neighbours.</p></div>
-      <div class="ch07-def"><span class="ch07-def__term">Bipartite</span><p>The nodes can be split into two sides so that every edge crosses. Equivalently, there is no odd cycle.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Path</span><p>A path leads from a node to another node through the edges of the graph. The length of a path is the number of edges in it.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Cycle</span><p>A cycle is a path where the first and last node is the same.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Connected</span><p>A graph is connected if there is a path between any two nodes. The connected parts of a graph are called its components.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Tree</span><p>A tree is a connected graph that does not contain cycles.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Directed</span><p>In a directed graph, the edges can be traversed in one direction only. A node has an indegree and an outdegree.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Weighted</span><p>In a weighted graph, each edge is assigned a weight. The length of a path is the sum of its edge weights.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Neighbours</span><p>Two nodes are neighbors or adjacent if there is an edge between them. The degree of a node is the number of its neighbors.</p></div>
+      <div class="ch07-def"><span class="ch07-def__term">Bipartite</span><p>A graph is bipartite if it is possible to color its nodes using two colors so that no adjacent nodes have the same color. It is bipartite exactly when it does not have a cycle with an odd number of edges.</p></div>
     </div>
 
     <details class="note ch07-note" data-reveal>
       <summary><span class="note__label">Two facts worth keeping</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>The degrees of a graph always sum to 2<i>m</i>: every edge raises the degree of both endpoints by one. So the sum is even, and the number of odd-degree nodes is even too.</p>
-        <p>A graph is <em>regular</em> if every node has the same degree <i>d</i>, and <em>complete</em> if every node is adjacent to every other, so every degree is <i>n</i> − 1. In a directed graph, the indegree counts edges arriving and the outdegree counts edges leaving; their totals are both <i>m</i>.</p>
+        <p>The sum of degrees in a graph is always 2<i>m</i>, where <i>m</i> is the number of edges, because each edge increases the degree of exactly two nodes by one. For this reason, the sum of degrees is always even.</p>
+        <p>A graph is <em>regular</em> if the degree of every node is a constant <i>d</i>. A graph is <em>complete</em> if the degree of every node is <i>n</i> − 1, i.e., the graph contains all possible edges between the nodes. In a directed graph, the indegree of a node is the number of edges that end at the node, and the outdegree of a node is the number of edges that start at the node.</p>
       </div>
     </details>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.1.2</span><span>Graph Representation</span></h3>
 
-    <p data-reveal>An algorithm never sees the drawing — it sees a data structure. The three standard representations trade memory for the speed of different questions.</p>
+    <p data-reveal>There are several ways to represent graphs in algorithms. The choice of a data structure depends on the size of the graph and the way the algorithm processes it. Next we will go through three popular representations.</p>
 
     <div class="ch07-rep" id="ch07-rep" data-reveal>
       <div class="ch07-rep__head">
@@ -266,12 +266,12 @@
     </div>
 
     <div class="ch07-rep__costs" data-reveal>
-      <div class="ch07-cost"><span class="kicker">Adjacency list</span><strong><i>O</i>(<i>n</i> + <i>m</i>)</strong><p>Memory. Walk the neighbours of a node directly — the default for most graph algorithms.</p></div>
-      <div class="ch07-cost"><span class="kicker">Adjacency matrix</span><strong><i>O</i>(<i>n</i><sup>2</sup>)</strong><p>Memory, but an edge check is <i>O</i>(1). Practical only for small or dense graphs.</p></div>
-      <div class="ch07-cost"><span class="kicker">Edge list</span><strong><i>O</i>(<i>m</i>)</strong><p>Memory. No neighbour queries, but ideal when an algorithm sweeps every edge once.</p></div>
+      <div class="ch07-cost"><span class="kicker">Adjacency list</span><strong><i>O</i>(<i>n</i> + <i>m</i>)</strong><p>Each node is assigned a list of the nodes to which there is an edge from it. Adjacency lists are the most popular way to represent graphs.</p></div>
+      <div class="ch07-cost"><span class="kicker">Adjacency matrix</span><strong><i>O</i>(<i>n</i><sup>2</sup>)</strong><p>We can efficiently check if there is an edge between two nodes, but the matrix contains <i>n</i><sup>2</sup> elements, and usually most of them are zero.</p></div>
+      <div class="ch07-cost"><span class="kicker">Edge list</span><strong><i>O</i>(<i>m</i>)</strong><p>An edge list contains all edges of a graph in some order. It is convenient if the algorithm processes all its edges.</p></div>
     </div>
 
-    <p data-reveal class="ch07-after">Adjacency lists are the workhorse: <code>vector&lt;int&gt; adj[N]</code> for unweighted graphs and <code>vector&lt;pair&lt;int,int&gt;&gt; adj[N]</code> when each edge also carries a weight. An adjacency matrix answers “is there an edge?” instantly, but its <i>n</i><sup>2</sup> cells are mostly zero. An edge list — <code>vector&lt;tuple&lt;int,int,int&gt;&gt;</code> — is the natural input for Bellman–Ford and Kruskal, which never ask who a node’s neighbours are.</p>
+    <p data-reveal class="ch07-after">Adjacency lists are the most popular way to represent graphs, and most algorithms can be efficiently implemented using them. A convenient way to store the adjacency lists is to declare an array of vectors, <code>vector&lt;int&gt; adj[N]</code>; for a weighted graph, the structure can be extended to <code>vector&lt;pair&lt;int,int&gt;&gt; adj[N]</code>. We can efficiently check from an adjacency matrix if there is an edge between two nodes, but an adjacency matrix contains <i>n</i><sup>2</sup> elements, and usually most of them are zero. An edge list contains all edges of a graph in some order. This is a convenient way to represent a graph if the algorithm processes all its edges, and it is not needed to find edges that start at a given node.</p>
   </div>
 </section>
 
@@ -284,11 +284,11 @@
     </div>
 
     <p class="statement" data-reveal>Both traversals visit everything reachable. The difference is the order — and the order is the algorithm.</p>
-    <p class="lead" data-reveal>Depth-first search commits to a path; breadth-first search expands in rings. Both run in <i>O</i>(<i>n</i> + <i>m</i>) time and both are built on the same three ingredients: adjacency lists, a visited array, and a way to remember what comes next.</p>
+    <p class="lead" data-reveal>This section discusses two fundamental graph algorithms: depth-first search and breadth-first search. Both algorithms are given a starting node in the graph, and they visit all nodes that can be reached from the starting node. The difference in the algorithms is the order in which they visit the nodes.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.1</span><span>Depth-First Search</span></h3>
 
-    <p data-reveal>Depth-first search follows a single path as long as it keeps finding new nodes. At each node it picks an unvisited neighbour and recurses; when there is nothing left to explore, it returns to the previous node and tries the next branch. The visited array guarantees that every node and every edge is processed once, so the running time is <i>O</i>(<i>n</i> + <i>m</i>).</p>
+    <p data-reveal>Depth-first search (DFS) is a straightforward graph traversal technique. The algorithm begins at a starting node and proceeds to all other nodes that are reachable from the starting node using the edges of the graph. Depth-first search always follows a single path in the graph as long as it finds new nodes. After this, it returns to previous nodes and begins to explore other parts of the graph. The algorithm keeps track of visited nodes, so that it processes each node only once. The time complexity of depth-first search is <i>O</i>(<i>n</i> + <i>m</i>), because the algorithm processes each node and edge once.</p>
 
     <div class="code-card" data-code-card id="ch07-code">
       <div class="code-card__head">
@@ -304,7 +304,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.2.2</span><span>Breadth-First Search</span></h3>
 
-    <p data-reveal>Breadth-first search moves in layers: first the start node, then every node at distance 1, then distance 2, and so on. A FIFO queue holds the frontier. When a node is taken from the front, each unvisited neighbour is marked and pushed to the back with distance one greater. The first time a node is reached is therefore along a shortest path — in an unweighted graph, where every edge costs the same.</p>
+    <p data-reveal>Breadth-first search (BFS) visits the nodes of a graph in increasing order of their distance from the starting node. Thus, we can calculate the distance from the starting node to all other nodes using breadth-first search. However, breadth-first search is more difficult to implement than depth-first search. Breadth-first search goes through the nodes one level after another. First the search explores the nodes whose distance from the starting node is 1, then the nodes whose distance is 2, and so on. This process continues until all nodes have been visited. A typical implementation is based on a queue that contains nodes; at each step, the next node in the queue will be processed.</p>
 
     <figure class="figure ch07-figure ch07-figure--wide" data-reveal>
       <div class="figure__frame">
@@ -408,17 +408,17 @@
       <article class="ch07-app">
         <span class="ch07-app__num">01</span>
         <h4>Connectivity</h4>
-        <p>Run a traversal from any node. If every node is reached, the graph is connected. Otherwise restart at each unvisited node: every restart discovers one new component.</p>
+        <p>A graph is connected if there is a path between any two nodes of the graph. Thus, we can check if a graph is connected by starting at an arbitrary node and finding out if we can reach all other nodes. In a similar way, we can find all connected components by always starting a new depth-first search if the current node does not belong to any component yet.</p>
       </article>
       <article class="ch07-app">
         <span class="ch07-app__num">02</span>
         <h4>Cycle detection</h4>
-        <p>During a traversal, an edge to an already visited node that is not the node we came from closes a cycle. Equivalently, a component with <i>c</i> nodes and at least <i>c</i> edges must contain a cycle.</p>
+        <p>A graph contains a cycle if during a graph traversal, we find a node whose neighbor (other than the previous node in the current path) has already been visited. If a component contains <i>c</i> nodes and no cycle, it must contain exactly <i>c</i> − 1 edges; if there are <i>c</i> or more edges, the component surely contains a cycle.</p>
       </article>
       <article class="ch07-app">
         <span class="ch07-app__num">03</span>
         <h4>Bipartiteness</h4>
-        <p>Colour the start node X, its neighbours Y, their neighbours X, and so on. If two adjacent nodes ever get the same colour, the graph is not bipartite.</p>
+        <p>The idea is to pick two colors X and Y, color the starting node X, all its neighbors Y, all their neighbors X, and so on. If at some point of the search we notice that two adjacent nodes have the same color, this means that the graph is not bipartite. Otherwise the graph is bipartite and one coloring has been found.</p>
       </article>
     </div>
 
@@ -457,8 +457,8 @@
     <details class="note ch07-note" data-reveal>
       <summary><span class="note__label">Why two colours are easy and three are not</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Once the first node of a component is coloured, the colour of every other node in that component is forced: each edge flips it. There is no choice left to make, which is why the traversal decides bipartiteness in linear time.</p>
-        <p>With three colours the problem changes character. Deciding whether a graph can be coloured with <i>k</i> colours is NP-hard already for <i>k</i> = 3; no traversal-style algorithm is known.</p>
+        <p>This algorithm always works, because when there are only two colors available, the color of the starting node in a component determines the colors of all other nodes in the component. It does not make any difference what the colors are.</p>
+        <p>Note that in the general case it is difficult to find out if the nodes in a graph can be colored using <i>k</i> colors so that no adjacent nodes have the same color. The problem is NP-hard already for <i>k</i> = 3.</p>
       </div>
     </details>
   </div>
@@ -473,11 +473,11 @@
     </div>
 
     <p class="statement" data-reveal>Weights turn a graph into a cost model. The shortest path is the cheapest way through, not necessarily the one with the fewest edges.</p>
-    <p class="lead" data-reveal>In an unweighted graph, BFS already finds shortest paths. With weights, the problem needs more care: a light edge can be a detour, and a heavy edge can be the only way forward.</p>
+    <p class="lead" data-reveal>Finding a shortest path between two nodes of a graph is an important problem that has many practical applications. For example, a natural problem related to a road network is to calculate the shortest possible length of a route between two cities, given the lengths of the roads. In an unweighted graph, the length of a path equals the number of its edges, and we can simply use breadth-first search to find a shortest path. However, in this section we focus on weighted graphs where more sophisticated algorithms are needed for finding shortest paths.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.1</span><span>Bellman–Ford Algorithm</span></h3>
 
-    <p data-reveal>Bellman–Ford is the patient version. It keeps a distance array — 0 at the source, infinity everywhere else — and sweeps the entire edge list <i>n</i> − 1 times. On each sweep, every edge (<i>a</i>, <i>b</i>, <i>w</i>) offers the candidate <i>distance</i>[<i>a</i>] + <i>w</i> to <i>b</i>. A shortest path can contain at most <i>n</i> − 1 edges, so after <i>n</i> − 1 sweeps every distance is final. The cost is <i>O</i>(<i>nm</i>).</p>
+    <p data-reveal>The Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of the graph. The algorithm can process all kinds of graphs, provided that the graph does not contain a cycle with negative length. If the graph contains a negative cycle, the algorithm can detect this. The algorithm keeps track of distances from the starting node to all nodes of the graph. Initially, the distance to the starting node is 0 and the distance to any other node is infinite. The algorithm then reduces the distances by finding edges that shorten the paths until it is not possible to reduce any distance. The algorithm consists of <i>n</i> − 1 rounds, and on each round the algorithm goes through all edges of the graph and attempts to reduce the distances. The time complexity of the algorithm is <i>O</i>(<i>nm</i>), because the algorithm consists of <i>n</i> − 1 rounds and iterates through all <i>m</i> edges during a round. If there are no negative cycles in the graph, all distances are final after <i>n</i> − 1 rounds, because each shortest path can contain at most <i>n</i> − 1 edges.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -529,11 +529,11 @@
       <figcaption class="figure__cap">Edges are relaxed in the order 4→5, 3→4, 2→5, 1→4, 1→3, 1→2. The third sweep finds 1 + 2 = 3 for node 5; the fourth changes nothing, so the algorithm stops early. The negative edge 3→4 is safe here because the graph has no negative cycle.</figcaption>
     </figure>
 
-    <p data-reveal>One more sweep is a negative-cycle test. If any distance still improves after <i>n</i> − 1 rounds, the graph contains a cycle of negative total weight: walking around it makes the path cheaper forever, so a shortest path does not exist. The test works from any starting node, because a negative cycle eventually affects a reachable distance — or reveals itself in the component it belongs to.</p>
+    <p data-reveal>The Bellman–Ford algorithm can also be used to check if the graph contains a cycle with negative length. In this case, any path that contains the cycle can be shortened infinitely many times, so the concept of a shortest path is not meaningful. A negative cycle can be detected by running the algorithm for <i>n</i> rounds. If the last round reduces any distance, the graph contains a negative cycle. Note that this algorithm can be used to search for a negative cycle in the entire graph regardless of the starting node.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.2</span><span>Dijkstra’s Algorithm</span></h3>
 
-    <p data-reveal>Dijkstra’s algorithm is the greedy version, and it is faster when every edge weight is non-negative. It repeatedly settles the unprocessed node with the smallest known distance, then relaxes every edge leaving that node. A priority queue holds the candidates; in the standard competitive-programming implementation a node is pushed again whenever its distance improves, and stale entries are skipped. Each edge is used once, so the running time is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>).</p>
+    <p data-reveal>Dijkstra’s algorithm finds shortest paths from the starting node to all nodes of the graph, like the Bellman–Ford algorithm. The benefit of Dijkstra’s algorithm is that it is more efficient and can be used for processing large graphs. However, the algorithm requires that there are no negative weight edges in the graph. Like the Bellman–Ford algorithm, Dijkstra’s algorithm maintains distances to the nodes and reduces them during the search. At each step, Dijkstra’s algorithm selects a node that has not been processed yet and whose distance is as small as possible. Then, the algorithm goes through all edges that start at the node and reduces the distances using them. Dijkstra’s algorithm is efficient, because it only processes each edge in the graph once, using the fact that there are no negative edges. An efficient implementation requires that we can efficiently find the minimum-distance node that has not been processed, and a priority queue contains the remaining nodes ordered by their distances. The idea is to add a new instance of a node to the priority queue always when its distance changes. The time complexity of this implementation is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>), because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.</p>
 
     <div class="ch07-why" data-reveal>
       <span class="kicker">Why the greedy step is safe</span>
@@ -543,7 +543,7 @@
 
     <div class="split2 ch07-split" data-reveal>
       <div>
-        <p>Bellman–Ford can afford negative edges because it keeps revising; Dijkstra cannot. In the graph below the shortest route from 1 to 4 is 1 → 3 → 4, of length 1. Dijkstra settles node 2 at distance 2 first, relaxes 2 → 4 to 5, and never reconsiders node 4 after the negative edge becomes available.</p>
+        <p>The efficiency of Dijkstra’s algorithm is based on the fact that the graph does not have negative edges. However, if the graph has a negative edge, the algorithm may give incorrect results. As an example, consider the graph below. The shortest path from node 1 to node 4 is 1 → 3 → 4 and its length is 1. However, Dijkstra’s algorithm incorrectly finds the path 1 → 2 → 4 by greedily following minimum weight edges.</p>
         <p>This is not a bug to patch: it is the assumption that makes the algorithm fast. If negative edges are present, use Bellman–Ford, or reweight the graph when the structure allows it.</p>
       </div>
       <figure class="ch07-mini" aria-label="A graph where Dijkstra fails because of a negative edge">
@@ -579,7 +579,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.3.3</span><span>Floyd–Warshall Algorithm</span></h3>
 
-    <p data-reveal>Floyd–Warshall answers all pairs at once. It starts from the adjacency matrix — 0 on the diagonal, the edge weight where an edge exists, infinity elsewhere — and admits nodes as intermediate stops one at a time. When node <i>k</i> becomes allowed, every pair (<i>i</i>, <i>j</i>) is offered the route <i>i</i> → <i>k</i> → <i>j</i>. After <i>n</i> rounds the matrix holds every shortest distance. Three nested loops give <i>O</i>(<i>n</i><sup>3</sup>), so the method is reserved for graphs small enough to afford it.</p>
+    <p data-reveal>The Floyd–Warshall algorithm provides an alternative way to approach the problem of finding shortest paths. Unlike the other algorithms in this chapter, it finds shortest paths between all node pairs of the graph in a single run. The algorithm maintains a matrix that contains distances between the nodes. The initial matrix is directly constructed based on the adjacency matrix of the graph. Then, the algorithm consists of consecutive rounds, and on each round, it selects a new node that can act as an intermediate node in paths from now on, and reduces distances using this node. The time complexity of the algorithm is <i>O</i>(<i>n</i><sup>3</sup>), because it contains three nested loops that go through the nodes of the graph. Since the implementation of the Floyd–Warshall algorithm is simple, the algorithm can be a good choice even if it is only needed to find a single shortest path in the graph. However, the algorithm can only be used when the graph is so small that a cubic time complexity is fast enough.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -607,13 +607,13 @@
     </div>
 
     <p class="statement" data-reveal>A directed acyclic graph has a direction and no way back. That single restriction makes ordering — and dynamic programming — possible.</p>
-    <p class="lead" data-reveal>Many problems become easier when the dependencies form a DAG: courses before prerequisites, tasks before deadlines, states before transitions. A DAG always has a topological order, and a topological order turns a graph DP into an array DP.</p>
+    <p class="lead" data-reveal>An important class of graphs are directed acyclic graphs, also called DAGs. Such graphs do not contain cycles, and many problems are easier to solve if we may assume that this is the case. In particular, we can always construct a topological sort for the graph and then apply dynamic programming.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.4.1</span><span>Topological Sorting</span></h3>
 
-    <p data-reveal>A topological sort lists the nodes so that every edge points forward: if there is a path from <i>a</i> to <i>b</i>, then <i>a</i> appears before <i>b</i>. Such an order exists exactly when the graph is acyclic. If a cycle exists, no node of the cycle can come before the others, and no order can satisfy every edge.</p>
+    <p data-reveal>A topological sort is an ordering of the nodes of a directed graph such that if there is a path from node <i>a</i> to node <i>b</i>, then node <i>a</i> appears before node <i>b</i> in the ordering. A directed graph has a topological sort exactly when it is acyclic. If the graph contains a cycle, it is not possible to form a topological sort, because no node of the cycle can appear before the other nodes of the cycle in the ordering.</p>
 
-    <p data-reveal>DFS constructs the order with three states: 0 for unprocessed, 1 for in progress, 2 for finished. A node enters state 1 when the search arrives and state 2 after all its outgoing edges are done. Appending nodes in finish order and reversing the list puts every node before its descendants. An edge to a node still in state 1 closes a cycle, and the graph has no topological sort.</p>
+    <p data-reveal>It turns out that depth-first search can be used to both check if a directed graph contains a cycle and, if it does not, to construct a topological sort. The idea is to go through the nodes of the graph and always begin a depth-first search at the current node if it has not been processed yet. During the searches, the nodes have three possible states: state 0 means that the node has not been processed, state 1 that it is under processing, and state 2 that it has been processed. Initially, the state of each node is 0. When a search reaches a node for the first time, its state becomes 1. Finally, after all edges from the node have been processed, its state becomes 2. If the graph contains a cycle, we will discover this during the search, because sooner or later we will arrive at a node whose state is 1. In this case, it is not possible to construct a topological sort. If the graph does not contain a cycle, we can construct a topological sort by adding each node to a list when its state becomes 2. Finally, we reverse the list and get a topological sort for the graph.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -659,13 +659,13 @@
     <details class="note ch07-note" data-reveal>
       <summary><span class="note__label">Cycle found during the search</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>If a DFS edge leads to a node whose state is 1, the search has returned to a node on its own current path. That closes a cycle, so no topological order exists. This is the cheapest way to test whether a directed graph is acyclic; the same traversal that would build the order reports the failure.</p>
+        <p>If the graph contains a cycle, we will discover this during the search, because sooner or later we will arrive at a node whose state is 1. In this case, it is not possible to construct a topological sort.</p>
       </div>
     </details>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.4.2</span><span>Dynamic Programming</span></h3>
 
-    <p data-reveal>Once the nodes are in topological order, a DP over the graph is just a DP over an array. Let <i>paths</i>(<i>x</i>) be the number of routes from a fixed start <i>a</i> to <i>x</i>. The base case is <i>paths</i>(<i>a</i>) = 1, and every other value is the sum over the nodes with an edge into <i>x</i>. Topological order guarantees those predecessors are already computed.</p>
+    <p data-reveal>Using dynamic programming, we can efficiently answer many questions regarding paths in directed acyclic graphs. As an example, consider the problem of calculating the number of paths from node <i>a</i> to node <i>b</i>. Let <i>paths</i>(<i>x</i>) denote the number of paths from node <i>a</i> to node <i>x</i>. As a base case, <i>paths</i>(<i>a</i>) = 1. Then, to calculate other values of <i>paths</i>(<i>x</i>), we can use the recursive formula <i>paths</i>(<i>x</i>) = <i>paths</i>(<i>s</i><sub>1</sub>) + <i>paths</i>(<i>s</i><sub>2</sub>) + ⋯ + <i>paths</i>(<i>s<sub>k</sub></i>), where <i>s</i><sub>1</sub>, <i>s</i><sub>2</sub>, …, <i>s<sub>k</sub></i> are the nodes from which there is an edge to <i>x</i>. Since the graph is acyclic, the values of <i>paths</i> can be calculated in the order of a topological sort.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -710,7 +710,7 @@
       </div>
     </details>
 
-    <p data-reveal>The same translation works for many problems: shortest and longest paths, the fewest or most edges, and even the coin problem from Chapter 6. There, each node is a sum of money and each edge is a coin; the shortest path from 0 to <i>n</i> uses the fewest coins, and the number of paths counts the solutions. When a graph is not acyclic, Dijkstra can first build the shortest-path graph — keep only the edges that lie on a shortest route — and that graph is a DAG.</p>
+    <p data-reveal>Dynamic programming can also be used to answer questions regarding shortest paths in general (not necessarily acyclic) graphs. Namely, if we know minimum distances from a starting node to other nodes (e.g., after using Dijkstra’s algorithm), we can easily create a directed acyclic shortest paths graph that indicates for each node the possible ways to reach the node using a shortest path from the starting node. In fact, any dynamic programming problem can be represented as a directed acyclic graph where each node corresponds to a dynamic programming state and the edges indicate how the states depend on each other. For example, consider the problem of forming a sum of money <i>n</i> using coins {<i>c</i><sub>1</sub>, <i>c</i><sub>2</sub>, …, <i>c<sub>k</sub></i>}. In this scenario, we can construct a graph where each node corresponds to a sum of money, and the edges show how the coins can be chosen. Using this representation, the shortest path from node 0 to node <i>n</i> corresponds to a solution with the minimum number of coins, and the total number of paths from node 0 to node <i>n</i> equals the total number of solutions.</p>
   </div>
 </section>
 
@@ -723,7 +723,7 @@
     </div>
 
     <p class="statement" data-reveal>A successor graph gives every node exactly one outgoing edge. Each component is a single cycle with paths feeding into it.</p>
-    <p class="lead" data-reveal>Successor graphs — also called functional graphs — are the shape of a function iterated on itself. They appear in simulations, in “follow the pointer” problems, and wherever a state has exactly one next state.</p>
+    <p class="lead" data-reveal>Another special class of directed graphs are successor graphs. In those graphs, the outdegree of each node is 1, i.e., each node has a unique successor. A successor graph consists of one or more components, each of which contains one cycle and some paths that lead to it. Successor graphs are sometimes called functional graphs, because any successor graph corresponds to a function <i>succ</i>(<i>x</i>) that defines the edges of the graph.</p>
 
     <div class="ch07-succ-table" data-reveal>
       <div class="ch07-table-wrap">
@@ -738,7 +738,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.5.1</span><span>Finding Successors</span></h3>
 
-    <p data-reveal>Walking <i>k</i> steps one at a time costs <i>O</i>(<i>k</i>). Binary lifting precomputes the answer for every power of two, using the recurrence <i>succ</i>(<i>x</i>, 2<i>k</i>) = <i>succ</i>(<i>succ</i>(<i>x</i>, <i>k</i>), <i>k</i>). Any step count is a sum of powers of two, so a query becomes <i>O</i>(log <i>k</i>) jumps after <i>O</i>(<i>n</i> log <i>u</i>) preprocessing, where <i>u</i> is the largest number of steps ever requested.</p>
+    <p data-reveal>Since each node of a successor graph has a unique successor, we can also define a function <i>succ</i>(<i>x</i>, <i>k</i>) that gives the node that we will reach if we begin at node <i>x</i> and walk <i>k</i> steps forward. A straightforward way to calculate a value of <i>succ</i>(<i>x</i>, <i>k</i>) is to start at node <i>x</i> and walk <i>k</i> steps forward, which takes <i>O</i>(<i>k</i>) time. However, using preprocessing, any value of <i>succ</i>(<i>x</i>, <i>k</i>) can be calculated in only <i>O</i>(log <i>k</i>) time. Let <i>u</i> denote the maximum number of steps we will ever walk. The idea is to precalculate all values of <i>succ</i>(<i>x</i>, <i>k</i>) where <i>k</i> is a power of two and at most <i>u</i>, because we can use the recurrence <i>succ</i>(<i>x</i>, 2<i>k</i>) = <i>succ</i>(<i>succ</i>(<i>x</i>, <i>k</i>), <i>k</i>). Precalculating these values takes <i>O</i>(<i>n</i> log <i>u</i>) time, because <i>O</i>(log <i>u</i>) values are calculated for each node. After the precalculation, any value of <i>succ</i>(<i>x</i>, <i>k</i>) can be calculated by presenting <i>k</i> as a sum of powers of two.</p>
 
     <figure class="figure ch07-figure" data-reveal>
       <div class="figure__frame">
@@ -803,12 +803,12 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.5.2</span><span>Cycle Detection</span></h3>
 
-    <p data-reveal>A graph that is one path ending in a cycle has two natural questions: which node is the first on the cycle, and how long is the cycle? Walking while remembering every visited node answers both in <i>O</i>(<i>n</i>) time and <i>O</i>(<i>n</i>) memory. Floyd’s algorithm gets the same time with <i>O</i>(1) memory by using two pointers.</p>
+    <p data-reveal>Consider a successor graph that only contains a path that ends in a cycle. We may ask the following questions: if we begin our walk at the starting node, what is the first node in the cycle and how many nodes does the cycle contain? A simple way to detect the cycle is to walk in the graph and keep track of all nodes that have been visited. Once a node is visited for the second time, we can conclude that the node is the first node in the cycle. This method works in <i>O</i>(<i>n</i>) time and also uses <i>O</i>(<i>n</i>) memory. However, there are better algorithms for cycle detection. The time complexity of such algorithms is still <i>O</i>(<i>n</i>), but they only use <i>O</i>(1) memory.</p>
 
     <div class="split2 ch07-split" data-reveal>
       <div>
-        <p>Start both pointers at the start node. On every turn, <i>a</i> walks one step and <i>b</i> walks two. If the path ends in a cycle they eventually meet. At that moment <i>a</i> has walked <i>k</i> steps and <i>b</i> has walked 2<i>k</i>, so the cycle length divides <i>k</i>.</p>
-        <p>To find the first cycle node, put <i>a</i> back at the start and advance both pointers one step at a time. They meet exactly at the entrance. Then walk <i>b</i> around the cycle until it returns to <i>a</i> to measure the length.</p>
+        <p>One such algorithm is Floyd’s algorithm, which walks in the graph using two pointers <i>a</i> and <i>b</i>. Both pointers begin at the starting node <i>x</i>. Then, on each turn, the pointer <i>a</i> walks one step forward and the pointer <i>b</i> walks two steps forward. The process continues until the pointers meet each other. At this point, the pointer <i>a</i> has walked <i>k</i> steps and the pointer <i>b</i> has walked 2<i>k</i> steps, so the length of the cycle divides <i>k</i>. Thus, the first node that belongs to the cycle can be found by moving the pointer <i>a</i> to node <i>x</i> and advancing the pointers step by step until they meet again.</p>
+        <p>After this, the length of the cycle can be calculated as follows.</p>
         <div class="ch07-steps">
           <span><b>1</b> a ← succ(a), b ← succ(succ(b))</span>
           <span><b>2</b> repeat until a = b</span>
@@ -860,7 +860,7 @@
     </div>
 
     <p class="statement" data-reveal>A spanning tree keeps every node and just enough edges to connect them. The minimum spanning tree is the cheapest such skeleton.</p>
-    <p class="lead" data-reveal>A spanning tree has <i>n</i> − 1 edges, is connected, and has no cycle. Its weight is the sum of its edge weights. A graph may have many spanning trees — and several minimum ones — but every minimum spanning tree has the same weight.</p>
+    <p class="lead" data-reveal>A spanning tree contains all nodes of a graph and some of its edges so that there is a path between any two nodes. Like trees in general, spanning trees are connected and acyclic. The weight of a spanning tree is the sum of its edge weights. A minimum spanning tree is a spanning tree whose weight is as small as possible. In a similar way, a maximum spanning tree is a spanning tree whose weight is as large as possible. Note that a graph may have several minimum and maximum spanning trees, so the trees are not unique.</p>
 
     <div class="ch07-mst" id="ch07-mst" data-reveal>
       <div class="ch07-mst__head">
@@ -886,7 +886,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.1</span><span>Kruskal’s Algorithm</span></h3>
 
-    <p data-reveal>Kruskal sorts the edges by weight and walks the list. An edge is added when its endpoints are in different components; otherwise it would close a cycle and is skipped. After <i>n</i> − 1 additions the tree is complete. The only query the algorithm needs is “are these two nodes in the same component?” — and the structure that answers it is union-find.</p>
+    <p data-reveal>Kruskal’s algorithm builds a minimum spanning tree by greedily adding edges to the graph. The initial spanning tree only contains the nodes of the graph and does not contain any edges. Then the algorithm goes through the edges ordered by their weights and always adds an edge to the graph if it does not create a cycle. The algorithm maintains the components of the graph. Initially, each node of the graph belongs to a separate component. Always when an edge is added to the graph, two components are joined. Finally, all nodes belong to the same component, and a minimum spanning tree has been found.</p>
 
     <div class="ch07-kruskal" id="ch07-kruskal" data-reveal>
       <div class="ch07-kruskal__head">
@@ -918,7 +918,7 @@
     <details class="note ch07-note" data-reveal>
       <summary><span class="note__label">Why the greedy choice is safe</span><svg class="icon"><use href="#i-chevron"/></svg></summary>
       <div class="note__body">
-        <p>Let <i>e</i> be the lightest edge of the graph. If a minimum spanning tree does not contain <i>e</i>, add <i>e</i> to it: this creates a cycle, and some other edge <i>f</i> on that cycle can be removed. Since <i>e</i> is the lightest edge in the graph, <i>f</i> is at least as heavy, so the new tree is no heavier. Repeating the argument for the next edge in weight order shows that Kruskal’s greedy sequence always reaches a minimum spanning tree.</p>
+        <p>Suppose that a minimum spanning tree would not contain the minimum weight edge 5–6. We do not know the exact structure of such a spanning tree, but in any case it has to contain some edges. However, it is not possible that the tree would be a minimum spanning tree, because we can remove an edge from the tree and replace it with the minimum weight edge 5–6. This produces a spanning tree whose weight is smaller. For this reason, it is always optimal to include the minimum weight edge in the tree to produce a minimum spanning tree. Using a similar argument, we can show that it is also optimal to add the next edge in weight order to the tree, and so on. Hence, Kruskal’s algorithm always produces a minimum spanning tree.</p>
       </div>
     </details>
 
@@ -936,7 +936,7 @@
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.2</span><span>Union-Find Structure</span></h3>
 
-    <p data-reveal>A union-find structure keeps disjoint sets. Each set has a representative, and every element has a path to it. <i>find</i>(<i>x</i>) follows the path and returns the representative; <i>unite</i> links the representative of one set to the representative of another. Two elements are in the same set exactly when their representatives are equal.</p>
+    <p data-reveal>A union-find structure maintains a collection of sets. The sets are disjoint, so no element belongs to more than one set. Two <i>O</i>(log <i>n</i>) time operations are supported: the <i>unite</i> operation joins two sets, and the <i>find</i> operation finds the representative of the set that contains a given element. In a union-find structure, one element in each set is the representative of the set, and there is a path from any other element of the set to the representative. Two elements belong to the same set exactly when their representatives are the same.</p>
 
     <div class="ch07-uf" data-reveal>
       <div class="ch07-uf__sets">
@@ -947,22 +947,22 @@
       <div class="ch07-uf__walk">
         <span class="kicker">find(6)</span>
         <div class="ch07-uf__chain"><span>6</span><i>→</i><span>3</span><i>→</i><span class="is-rep">2</span></div>
-        <p>Two more links would reach 2. Keeping the tree shallow — always attach the smaller set to the larger — makes every path <i>O</i>(log <i>n</i>).</p>
+        <p>Always connect the representative of the smaller set to the representative of the larger set. Using this strategy, the length of any path will be <i>O</i>(log <i>n</i>), so we can find the representative of any element efficiently by following the corresponding path.</p>
       </div>
     </div>
 
-    <p data-reveal>Union by size is enough to keep the operations logarithmic. Path compression is the second optimisation: after <i>find</i>(<i>x</i>), point every node on the path directly at the representative. The amortised cost becomes <i>O</i>(α(<i>n</i>)), where α is the inverse Ackermann function — effectively a constant. Path compression is not always allowed: some applications, such as dynamic connectivity, depend on the structure of the links.</p>
+    <p data-reveal>Path compression is an alternative way to implement the <i>find</i> operation. Each element in the path will directly point to its representative after the operation. It can be shown that using this function, the union-find operations work in amortized <i>O</i>(α(<i>n</i>)) time, where α(<i>n</i>) is the inverse Ackermann function, which grows very slowly (it is almost a constant). However, path compression cannot be used in some applications of the union-find structure, such as in the dynamic connectivity algorithm.</p>
 
     <h3 class="ch07-h3" data-reveal><span class="ch07-h3__num">7.6.3</span><span>Prim’s Algorithm</span></h3>
 
-    <p data-reveal>Prim grows a single tree instead of a forest. Start at an arbitrary node; then repeatedly add the lightest edge that connects the current tree to a node outside it. A priority queue holds the frontier edges, ordered by weight. Like Kruskal, the result is a minimum spanning tree, and the running time is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>) — the same as Dijkstra’s.</p>
+    <p data-reveal>Prim’s algorithm is an alternative method for constructing minimum spanning trees. The algorithm first adds an arbitrary node to the tree, and then always chooses a minimum weight edge that adds a new node to the tree. Finally, all nodes have been added and a minimum spanning tree has been found. Prim’s algorithm resembles Dijkstra’s algorithm. The difference is that Dijkstra’s algorithm always selects a node whose distance from the starting node is minimum, but Prim’s algorithm simply selects a node that can be added to the tree using a minimum weight edge. Like Dijkstra’s algorithm, Prim’s algorithm can be efficiently implemented using a priority queue. The priority queue should contain all nodes that can be connected to the current component using a single edge, in increasing order of the weights of the corresponding edges. The time complexity of Prim’s algorithm is <i>O</i>(<i>n</i> + <i>m</i> log <i>m</i>), which equals the time complexity of Dijkstra’s algorithm.</p>
 
     <div class="ch07-compare" data-reveal>
       <div><span class="kicker">Dijkstra</span><p>The key of a node is the distance <em>from the source</em> to that node.</p></div>
       <div><span class="kicker">Prim</span><p>The key of a node is the weight of <em>one edge</em> joining it to the growing tree.</p></div>
     </div>
 
-    <p data-reveal class="ch07-after">In practice both Kruskal and Prim are efficient, and the choice is mostly a matter of taste. Kruskal needs an edge list and a union-find structure; Prim needs adjacency lists and a priority queue. Most competitive programmers reach for Kruskal, because the code is short and the union-find structure is useful elsewhere.</p>
+    <p data-reveal class="ch07-after">In practice, Prim’s and Kruskal’s algorithms are both efficient, and the choice of the algorithm is a matter of taste. Still, most competitive programmers use Kruskal’s algorithm.</p>
 
     <p class="closing ch07-closing" data-reveal>A graph is a compact way to write down what connects to what. Traversal tells you what is reachable, shortest paths tell you what it costs, topological order tells you what must come first, and a spanning tree tells you what is essential. The next chapter turns to algorithm design techniques that make these tools sharper.</p>
   </div>
